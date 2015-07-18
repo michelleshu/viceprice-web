@@ -96,7 +96,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 # Parse database configuration from $DATABASE_URL
 DATABASES['default'] =  dj_database_url.config()
 
@@ -130,4 +129,4 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 #)
 
 #FACEBOOK_APP_ID = '702187366580330'
-#FACEBOOK_API_SECRET = '41d0ba09f81f599a9acba71bfe2504b6'
+FACEBOOK_API_SECRET = '41d0ba09f81f599a9acba71bfe2504b6'
