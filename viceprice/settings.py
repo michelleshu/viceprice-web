@@ -1,5 +1,5 @@
 """
-Django settings for gettingstarted project, on Heroku. Fore more info, see:
+Django settings for viceprice-web project, on Heroku. Fore more info, see:
 https://github.com/heroku/heroku-django-template
 
 For more information on this file, see
@@ -28,6 +28,10 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+ADMINS = (
+    ('Michelle Shu', 'shu.michelle.w@gmail.com'), ('Justin Hinh', 'justintsn10@gmail.com')
+)
+
 
 # Application definition
 
@@ -38,7 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hello'
+    'vp'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,7 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'gettingstarted.urls'
+ROOT_URLCONF = 'viceprice.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gettingstarted.wsgi.application'
+WSGI_APPLICATION = 'viceprice.wsgi.application'
 
 
 # Database
@@ -120,3 +124,10 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+# Authentication
+#AUTHENTICATION_BACKENDS = (
+#    'social_auth.backends.facebook.FacebookBackend',
+#)
+
+#FACEBOOK_APP_ID = '702187366580330'
+#FACEBOOK_API_SECRET = '41d0ba09f81f599a9acba71bfe2504b6'
