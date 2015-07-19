@@ -1,1 +1,1 @@
-web: gunicorn -b viceprice.wsgi --log-file -
+web: gunicorn viceprice.wsgi --log-file -
