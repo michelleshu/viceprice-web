@@ -21,9 +21,16 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     </head>
     <body>
-    <div class="header-bar">
+    <div class="header-bar clearfix">
         <div class="header-script">viceprice</div>
+
+        {% if user.is_authenticated %}
+            <div class="header-right">
+                Hey there, {{ user.get_username }}! | <a href="/logout/">Logout</a>
+            </div>
+        {% endif %}
     </div>
-        {% block content %}{% endblock %}
+
+    {% block content %}{% endblock %}
     </body>
 </html>

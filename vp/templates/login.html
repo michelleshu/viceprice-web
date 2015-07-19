@@ -4,18 +4,18 @@
     <div class="brown-background">
         <div class="container centered-container">
             <h2>Sign In</h2>
-            <form>
+            <form method="POST" action="/authenticate_user/">
                 {% csrf_token %}
                 <div class="row">
                     <i class="fa fa-user fa-2x input-prepend"></i>
                     <div class="prepended-input">
-                        <input class="u-full-width" type="text" id="usernameInput" placeholder="Username">
+                        <input class="u-full-width" type="text" name="username" id="usernameInput" placeholder="Username">
                     </div>
                 </div>
                 <div class="row">
                     <i class="fa fa-unlock-alt fa-2x input-prepend"></i>
                     <div class="prepended-input">
-                        <input class="u-full-width" type="password" id="passwordInput" placeholder="Password">
+                        <input class="u-full-width" type="password" name="password" id="passwordInput" placeholder="Password">
                     </div>
                 </div>
                 <input class="button-primary vp-primary-button u-full-width" type="submit" value="Submit">

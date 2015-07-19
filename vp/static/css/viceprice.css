@@ -9,6 +9,17 @@ body, html {
     height: 100%;
 }
 
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+	}
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
 .header-bar {
     background-color: black;
     width: 100%;
@@ -18,6 +29,14 @@ body, html {
     font-size: 36px;
     color: #F3EADC;
     padding-left: 50px;
+    float: left;
+}
+
+.header-right {
+    color: #F3EADC;
+    padding-right: 50px;
+    float: right;
+    margin-top: 20px;
 }
 
 .input-prepend {

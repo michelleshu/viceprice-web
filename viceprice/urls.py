@@ -14,7 +14,9 @@ urlpatterns = patterns('',
 
     # Authentication
     url(r'^login/$', vp.views.login_view, name='login'),
+    url(r'^logout/$', vp.views.logout_user, name='logout'),
     url(r'^register/$', vp.views.register_view, name='register'),
+    url(r'^authenticate_user/$', vp.views.authenticate_user, name='authenticate_user'),
 
     # Admin
     url(r'^db', vp.views.db, name='db'),
