@@ -13,8 +13,8 @@ urlpatterns = patterns('',
     url(r'^$', vp.views.index, name='index'),
 
     # Authentication
-    url(r'^login/', vp.views.login_view, name='login'),
-    url(r'^register/', vp.views.register_view, name='register'),
+    url(r'^login/$', vp.views.login_view, name='login'),
+    url(r'^register/$', vp.views.register_view, name='register'),
 
     # Admin
     url(r'^db', vp.views.db, name='db'),

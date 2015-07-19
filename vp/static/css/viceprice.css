@@ -1,0 +1,71 @@
+/* dark brown #1A0405 */
+/* medium brown #462A25 */
+/* light brown #7A4840 */
+/* red #F50000 */
+/* dark red #A80000 */
+/* cream #F3EADC */
+
+body, html {
+    height: 100%;
+}
+
+.header-bar {
+    background-color: black;
+    width: 100%;
+}
+.header-script {
+    font-family: 'Playball', cursive;
+    font-size: 36px;
+    color: #F3EADC;
+    padding-left: 50px;
+}
+
+.input-prepend {
+    float: left;
+    width: 24px;
+    height: 24px;
+    padding:3px 10px;
+}
+
+.prepended-input {
+    overflow: hidden;
+}
+
+.brown-background {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: auto;
+    background: -webkit-linear-gradient(left top, #7A4840, #1A0405); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #7A4840, #1A0405); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #7A4840, #1A0405); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #7A4840, #1A0405); /* Standard syntax */
+}
+
+.centered-container {
+    background-color: #F3EADC;
+    max-width: 600px;
+    margin-left: auto;
+    margin-top: 150px;
+    padding: 30px 50px 10px 50px;
+}
+
+input.button-primary.vp-primary-button {
+    background-color: #A80000;
+    border-color: #A80000;
+    -webkit-box-shadow: 3px 4px 0px #462A25;
+    -moz-box-shadow: 3px 4px 0px #462A25;
+    box-shadow: 3px 4px 0px #462A25;
+}
+
+input.button-primary.vp-primary-button:hover,
+input.button-primary.vp-primary-button.hover,
+input.button-primary.vp-primary-button:active,
+input.button-primary.vp-primary-button.active {
+    background-color: #F50000;
+    border-color: #F50000;
+    transform: translate(3px, 4px);
+    -webkit-box-shadow: 0px 0px 0px;
+    -moz-box-shadow: 0px 0px 0px;
+    box-shadow: 0px 0px 0px;
+}

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% load staticfiles %}
         <meta charset="utf-8">
         <title>Vice Price</title>
         <meta name="description" content>
@@ -11,12 +12,18 @@
 
         <!-- Font -->
         <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Playball" rel="stylesheet" type="text/css">
 
         <!-- CSS -->
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/skeleton.css">
+        <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+        <link rel="stylesheet" href="{% static 'css/viceprice.css' %}">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     </head>
     <body>
+    <div class="header-bar">
+        <div class="header-script">viceprice</div>
+    </div>
         {% block content %}{% endblock %}
     </body>
 </html>
