@@ -44,23 +44,6 @@ DAYS_OF_WEEK = (
     ('SUNDAY', 'Sunday')
 )
 
-# Information about a location
-class Location(models.Model):
-    name = models.CharField(max_length=256)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    address = models.OneToOneField(Address)
-    phone_number = models.CharField(max_length=30, null=True)
-    website = models.CharField(max_length=256, null=True)
-    location_types = models.ManyToManyField(LocationType)
-    product_categories = models.ManyToManyField(ProductCategory)
-    business_hours = models.ManyToManyField(BusinessHour, null=True)
-    date_created = models.DateTimeField(auto_now_add=True)
-    created_by = models.OneToOneField(User)
-    date_approved = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
-    approved_by = models.OneToOneField(User)
-
 # The type of location (e.g. store, bar)
 class LocationType(models.Model):
     name = models.CharField(max_length=256, choices=LOCATION_TYPE)
@@ -84,3 +67,20 @@ class Address(models.Model):
     state = models.CharField(max_length=30)
     postal_code = models.CharField(max_length=30)
     display_address = models.charField(max_length=512)
+
+# Information about a location
+class Location(models.Model):
+    name = models.CharField(max_length=256)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    address = models.OneToOneField(Address)
+    phone_number = models.CharField(max_length=30, null=True)
+    website = models.CharField(max_length=256, null=True)
+    location_types = models.ManyToManyField(LocationType)
+    product_categories = models.ManyToManyField(ProductCategory)
+    business_hours = models.ManyToManyField(BusinessHour, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    created_by = models.OneToOneField(User)
+    date_approved = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+    approved_by = models.OneToOneField(User)
