@@ -77,7 +77,7 @@ class BusinessHour(models.Model):
     closing_time = models.TimeField()
 
 # Physical address components
-class Address(modpels.Model):
+class Address(models.Model):
     house_number = models.IntField()
     street = models.CharField(max_length=256)
     city = models.CharField(max_length=100)
