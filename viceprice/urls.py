@@ -18,7 +18,10 @@ urlpatterns = patterns('',
     url(r'^register/$', vp.views.register_view, name='register'),
     url(r'^authenticate_user/$', vp.views.authenticate_user, name='authenticate_user'),
 
+    # Location entry map
+    url(r'^mapview/$', vp.views.map_view, name='map_view'),
+
     # Admin
     url(r'^db', vp.views.db, name='db'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls))
 )

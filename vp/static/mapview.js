@@ -4,112 +4,125 @@ var COPY_TYPE = {
     Weekend: 3
 };
 
+// Global variables to store map objects
+var arlington = new google.maps.LatLng(38.8803, -77.1083);
+var mapOptions = {
+    center: arlington,
+    zoom: 13
+};
+var infowindow = new google.maps.InfoWindow({
+    content: ""
+});
+var map, searchBox, markers, bounds;
+
+// Initialize map and event listeners on page load
 function initialize() {
-    var markers = [];
-    var arlington = new google.maps.LatLng(38.8803, -77.1083);
+    markers = [];
 
-    var mapOptions = {
-        center: arlington,
-        zoom: 13
-    };
-
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     // Create the search box and link it to the UI element
-    var input = document.getElementById('pac-input');
+    var input = document.getElementById('search-input');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    var searchBox = new google.maps.places.SearchBox(input);
+    searchBox = new google.maps.places.SearchBox(input);
 
     // Listen for the event fired when the user selects an item from the pick list.
     // Retrieve the matching places for that item.
     google.maps.event.addListener(searchBox, 'places_changed', function() {
-        var places = searchBox.getPlaces();
-
-        if (places.length == 0) {
-            return;
-        }
-        for (var i = 0, marker; marker = markers[i]; i++) {
-            marker.setMap(null);
-        }
-
-        // For each place, get the icon, place name and location
-        markers = [];
-        var bounds = new google.maps.LatLngBounds();
-        for (var i = 0, place; place = places[i]; i++) {
-            var image = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            };
-
-            // Create a marker for each place
-            var marker = new google.maps.Marker({
-                map: map,
-                icon: image,
-                title: place.place_id,
-                position: place.geometry.location
-            });
-            markers.push(marker);
-
-            // Create an info window for each marker
-            var contentString = getInfoWindowContentString(place);
-
-            var infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
-
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map, marker);
-                activateInfoWindow(marker.title);
-            });
-
-            bounds.extend(place.geometry.location);
-        }
-
-        map.fitBounds(bounds);
+        placesChangedCallback();
     });
 
     // Bias the search results towards places that are within the bounds of the current map's viewport
     google.maps.event.addListener(map, 'bounds_changed', function() {
-        var bounds = map.getBounds();
+        bounds = map.getBounds();
         searchBox.setBounds(bounds);
     });
 }
 
+function placesChangedCallback() {
+    var places = searchBox.getPlaces();
+
+    if (places.length === 0) {
+        return;
+    }
+
+    for (var i = 0, marker; marker = markers[i]; i++) {
+        marker.setMap(null);
+    }
+
+     // For each place, get the icon, place name and location
+    markers = [];
+    bounds = new google.maps.LatLngBounds();
+    for (var i = 0, place; place = places[i]; i++) {
+        var image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+        };
+
+        // Create a marker for each place
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: image,
+            position: place.geometry.location
+        });
+        marker.place = place;
+        markers.push(marker);
+
+        // Add event listener for marker click
+        google.maps.event.addListener(marker, 'click', function() {
+            var contentString = getInfoWindowContentString(marker.place);
+            infowindow.setContent(contentString);
+            infowindow.open(map, this);
+        });
+
+        // Extend bounds to incorporate place
+        bounds.extend(place.geometry.location);
+    }
+    map.fitBounds(bounds);
+}
+
 function getInfoWindowContentString(place) {
     var contentString = "<form method='POST' class='infowindow-form' id='place-info-form'>" +
-        "<div class='info-window-line'><span id='place-name-" + place.place_id + "'>" + place.name + "</span></div>" +
-        "<div class='info-window-line'><span id='info-window-title'>Address:</span>" +
-            "<span class='place-address-" + place.place_id + "'>" + place.formatted_address + "</span></div>" +
+        "<div class='info-window-line'>" +
+            "<label class='place-name-label'>" + place.name + "</label><i class='edit fa-pencil'></i>" +
+            "<input type='text' value='" + place.name + "' />" +
+        "</div>" +
+        "<div class='info-window-line'>" +
+            "<span class='info-window-title'>Address: " +
+            "<label class='place-address-label'>" + place.name + "</label><i class='edit fa-pencil'></i>" +
+            "<input type='text' value='" + place.name + "' />" +
+        "</div>" +
+        "<div class='info-window-line'><span class='info-window-title'>Address: " + place.formatted_address + "</span></div>" +
         "<div class='info-window-line'><span class='info-window-title'>Phone Number:</span>" +
-            "<span class='place-phone-number-" + place.place_id + "'>" + place.formatted_phone_number + "</span></div>" +
+            "<span class='place-phone-number'>" + place.formatted_phone_number + "</span></div>" +
         "<div class='info-window-line'><span class='info-window-title'>Website:</span>" +
-            "<a href='" + place.website + "' id='place-website-" + place.place_id + " target='_blank'>" + place.website + "</a></div>" +
+            "<a href='" + place.website + "' id='place-website' target='_blank'>" + place.website + "</a></div>" +
         "<div class='info-window-line'><span class='info-window-title'>Business Hours:</span>" +
-            "<a href='#' id='copy-business-hours-all-link-" + place.place_id + "'>Copy All </a>" +
-            "<a href='#' id='copy-business-hours-weekdays-link-" + place.place_id + "'>Weekdays </a>" +
-            "<a href='#' id='copy-business-hours-weekend-link-" + place.place_id + "'>Weekend </a>" +
-            "<a href='#' id='clear-business-hours-link-" + place.place_id + "'>Clear</a>" +
+            "<a href='#' id='copy-business-hours-all-link'>Copy All </a>" +
+            "<a href='#' id='copy-business-hours-weekdays-link'>Weekdays </a>" +
+            "<a href='#' id='copy-business-hours-weekend-link'>Weekend </a>" +
+            "<a href='#' id='clear-business-hours-link'>Clear</a>" +
             "<table class='business-hour-table'>" +
-                "<tr><td>Monday</td><td><input class='time-input' type='time' autocomplete='on' id='monday-opening-" + place.place_id + "'></input> to " +
-                    "<input class='time-input' type='time' autocomplete='on' id='monday-closing-" + place.place_id + "'></input></td></tr>" +
-                "<tr><td>Tuesday</td><td><input class='time-input' type='time' autocomplete='on' id='tuesday-opening-" + place.place_id + "'></input> to " +
-                    "<input class='time-input' type='time' autocomplete='on' id='tuesday-closing-" + place.place_id + "'></input></td></tr>" +
-                "<tr><td>Wednesday</td><td><input class='time-input' type='time' autocomplete='on' id='wednesday-opening-" + place.place_id + "'></input> to " +
-                    "<input class='time-input' type='time' autocomplete='on' id='wednesday-closing-" + place.place_id + "'></input></td></tr>" +
-                "<tr><td>Thursday</td><td><input class='time-input' type='time' autocomplete='on' id='thursday-opening-" + place.place_id + "'></input> to " +
-                    "<input class='time-input' type='time' autocomplete='on' id='thursday-closing-" + place.place_id + "'></input></td></tr>" +
-                "<tr><td>Friday</td><td><input class='time-input' type='time' autocomplete='on' id='friday-opening-" + place.place_id + "'></input> to " +
-                    "<input class='time-input' type='time' autocomplete='on' id='friday-closing-" + place.place_id + "'></input></td></tr>" +
-                "<tr><td>Saturday</td><td><input class='time-input' type='time' autocomplete='on' id='saturday-opening-" + place.place_id + "'></input> to " +
-                    "<input class='time-input' type='time' autocomxplete='on' id='saturday-closing-" + place.place_id + "'></input></td></tr>" +
-                "<tr><td>Sunday</td><td><input class='time-input' type='time' autocomplete='on' id='sunday-opening-" + place.place_id + "'></input> to " +
-                    "<input class='time-input' type='time' autocomplete='on' id='sunday-closing-" + place.place_id + "'></input></td></tr>" +
+                "<tr><td>Monday</td><td><input class='time-input' type='time' autocomplete='on' id='monday-opening'></input> to " +
+                    "<input class='time-input' type='time' autocomplete='on' id='monday-closing'></input></td></tr>" +
+                "<tr><td>Tuesday</td><td><input class='time-input' type='time' autocomplete='on' id='tuesday-opening'></input> to " +
+                    "<input class='time-input' type='time' autocomplete='on' id='tuesday-closing'></input></td></tr>" +
+                "<tr><td>Wednesday</td><td><input class='time-input' type='time' autocomplete='on' id='wednesday-opening'></input> to " +
+                    "<input class='time-input' type='time' autocomplete='on' id='wednesday-closing'></input></td></tr>" +
+                "<tr><td>Thursday</td><td><input class='time-input' type='time' autocomplete='on' id='thursday-opening'></input> to " +
+                    "<input class='time-input' type='time' autocomplete='on' id='thursday-closing'></input></td></tr>" +
+                "<tr><td>Friday</td><td><input class='time-input' type='time' autocomplete='on' id='friday-opening'></input> to " +
+                    "<input class='time-input' type='time' autocomplete='on' id='friday-closing'></input></td></tr>" +
+                "<tr><td>Saturday</td><td><input class='time-input' type='time' autocomplete='on' id='saturday-opening'></input> to " +
+                    "<input class='time-input' type='time' autocomxplete='on' id='saturday-closing'></input></td></tr>" +
+                "<tr><td>Sunday</td><td><input class='time-input' type='time' autocomplete='on' id='sunday-opening'></input> to " +
+                    "<input class='time-input' type='time' autocomplete='on' id='sunday-closing'></input></td></tr>" +
             "</table></div>" +
         "<div class='info-window-line'><span class='info-window-title'>Product Categories:</span>" +
-            "<select class='product-categories-selector' id='product-categories-selector-" + place.place_id + "' multiple='multiple'>" +
+            "<select class='product-categories-selector' id='product-categories-selector" + "' multiple='multiple'>" +
                 "<option value='1'>Cigarettes</option>" +
                 "<option value='2'>Cigars</option>" +
                 "<option value='3'>Beer</option>" +
@@ -118,23 +131,22 @@ function getInfoWindowContentString(place) {
                 "<option value='6'>Marijuana</option>" +
             "</select></div>" +
         "<input type='submit'></input>" +
-        "<div class='place-latitude hidden' id='place-latitude-" + place.place_id + "'>" + place.geometry.location.A + "</div><div class='place-longitude hidden' id='place-longitude-" + place.place_id + "'>" + place.geometry.location.F + "</div><div class='place-google-id hidden'>" + place.place_id + "</div>" +
+        "<div class='place-latitude hidden' id='place-latitude'>" + place.geometry.location.lat() + "</div><div class='place-longitude hidden' id='place-longitude'>" + place.geometry.location.lng() + "</div><div class='place-google-id hidden'>" + place.place_id + "</div>" +
         "</form>";
 
     return contentString;
 }
 
-function activateInfoWindow(place_id) {
+function activateInfoWindow() {
     // Set copy business hours links
-    $('#copy-business-hours-all-link-' + place_id).click(
+    $('#copy-business-hours-all-link').click(
         {
-            place_id: place_id,
             copy_type: COPY_TYPE.AllDays
         },
         copyBusinessHours
     );
 
-    $('#copy-business-hours-weekdays-link-' + place_id).click(
+    $('#copy-business-hours-weekdays-link').click(
         {
             place_id: place_id,
             copy_type: COPY_TYPE.Weekdays

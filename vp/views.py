@@ -29,7 +29,7 @@ def db(request):
 def login_view(request):
     c = {}
     c.update(csrf(request))
-    return render_to_response('login.html', c)
+    return render_to_response('mapview.html', c)
 
 def register_view(request):
     c = {}
@@ -68,3 +68,9 @@ def user_exists(username):
     if user_count == 0:
         return False
     return True
+
+# Location entry map
+def map_view(request):
+    c = {}
+    c.update(csrf(request))
+    return render_to_response('mapview.html', c)
