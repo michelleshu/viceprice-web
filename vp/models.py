@@ -61,12 +61,12 @@ class BusinessHour(models.Model):
 
 # Physical address components
 class Address(models.Model):
-    house_number = models.IntField()
+    house_number = models.CharField(max_length=10)
     street = models.CharField(max_length=256)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=30)
     postal_code = models.CharField(max_length=30)
-    display_address = models.charField(max_length=512)
+    display_address = models.CharField(max_length=512)
 
 # Information about a location
 class Location(models.Model):
