@@ -21,6 +21,5 @@ urlpatterns = patterns('',
     url(r'^mapview/$', vp.views.map_view, name='map_view'),
 
     # Admin
-    url(r'^db', vp.views.db, name='db'),
     url(r'^admin/', include(admin.site.urls))
 )
