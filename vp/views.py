@@ -3,10 +3,6 @@ from django.shortcuts import render, render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-import requests
-
-from vp.models import Greeting
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -15,15 +11,6 @@ def index(request):
         c = { 'user': request.user }
         c.update(csrf(request));
         return render_to_response('index.html', c)
-
-def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, 'db.html', {'greetings': greetings})
 
 # Authentication
 def login_view(request):
