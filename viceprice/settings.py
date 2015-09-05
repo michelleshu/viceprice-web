@@ -123,11 +123,6 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# Fixtures
-FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, 'vp', 'fixtures'),
-)
-
 # Authentication
 #AUTHENTICATION_BACKENDS = (
 #    'social_auth.backends.facebook.FacebookBackend',
