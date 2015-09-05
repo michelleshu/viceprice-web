@@ -111,17 +111,22 @@ ALLOWED_HOSTS = ['*']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'vp', 'static'),
 )
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# Fixtures
+FIXTURE_DIRS = (
+    os.path.join(BASE_DIR, 'vp', 'fixtures'),
+)
 
 # Authentication
 #AUTHENTICATION_BACKENDS = (

@@ -61,16 +61,16 @@ class BusinessHour(models.Model):
 
 # Physical address components
 class Address(models.Model):
-    house_number = models.CharField(max_length=10)
-    street = models.CharField(max_length=256)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=30)
-    postal_code = models.CharField(max_length=30)
-    display_address = models.CharField(max_length=512)
+    house_number = models.CharField(max_length=10, null=True)
+    street = models.CharField(max_length=256, null=True)
+    city = models.CharField(max_length=100, null=True)
+    state = models.CharField(max_length=30, null=True)
+    postal_code = models.CharField(max_length=30, null=True)
+    display_address = models.CharField(max_length=512, null=True)
 
 # Information about a location
 class Location(models.Model):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
     address = models.OneToOneField(Address)
@@ -84,3 +84,5 @@ class Location(models.Model):
     date_approved = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
     approved_by = models.ForeignKey(User, unique=False, related_name='approved_by')
+    open_street_map_id = models.IntegerField(null = True)
+    google_places_id = models.IntegerField(null = True)
