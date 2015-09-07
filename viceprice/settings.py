@@ -76,17 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'viceprice.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -96,11 +85,14 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Parse database configuration from $DATABASE_URL
-DATABASES['default'] =  dj_database_url.config()
+# if 'DATABASE_URL' does not exist, it's a local machine
+if not os.environ.has_key('DATABASE_URL'):
+    os.environ['DATABASE_URL'] = 'postgres://michelle:w00we!13@localhost:5432/viceprice_development'
+
+DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
 
 # Enable Connection Pooling (if desired)
-DATABASES['default']['ENGINE'] = 'django_postgrespool'
+#DATABASES['default']['ENGINE'] = 'django_postgrespool'
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -122,11 +114,3 @@ STATICFILES_DIRS = (
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-# Authentication
-#AUTHENTICATION_BACKENDS = (
-#    'social_auth.backends.facebook.FacebookBackend',
-#)
-
-#FACEBOOK_APP_ID = '702187366580330'
-FACEBOOK_API_SECRET = '41d0ba09f81f599a9acba71bfe2504b6'

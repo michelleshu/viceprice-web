@@ -1,1 +1,1432 @@
-{"pk": 1075, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": "Slaters Ln", "postal_code": null}}{"pk": 1075, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 1728370922, "name": "Russian Gourmet", "product_categories": [3], "address": 1075, "latitude": 38.8215503, "created_by": 1, "location_types": [1], "longitude": -77.0478141}}{"pk": 1076, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1076, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2134518606, "name": "Rustico", "product_categories": [], "address": 1076, "latitude": 38.8216026, "created_by": 1, "location_types": [3], "longitude": -77.0472475}}{"pk": 1077, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1556", "state": null, "street": "Potomac Greens Drive", "postal_code": null}}{"pk": 1077, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2516550382, "name": "Tropical Smoothie Cafe", "product_categories": [], "address": 1077, "latitude": 38.8217953, "created_by": 1, "location_types": [3], "longitude": -77.0476607}}{"pk": 1078, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1078, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2365236909, "name": "Indigo Landing", "product_categories": [], "address": 1078, "latitude": 38.8332218, "created_by": 1, "location_types": [3], "longitude": -77.0419446}}{"pk": 1079, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1079, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 566738184, "name": "Shopper's", "product_categories": [2], "address": 1079, "latitude": 38.8391861, "created_by": 1, "location_types": [1], "longitude": -77.0500888}}{"pk": 1080, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2250 A", "state": null, "street": "Crystal Drive", "postal_code": null}}{"pk": 1080, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 568721908, "name": "Jaleo", "product_categories": [], "address": 1080, "latitude": 38.8535673, "created_by": 1, "location_types": [3], "longitude": -77.0497661}}{"pk": 1081, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1081, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 568721910, "name": "Kora", "product_categories": [], "address": 1081, "latitude": 38.8537771, "created_by": 1, "location_types": [3], "longitude": -77.0497484}}{"pk": 1082, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1082, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 568721907, "name": "Ruths Chris Steak House", "product_categories": [], "address": 1082, "latitude": 38.853524, "created_by": 1, "location_types": [3], "longitude": -77.0483794}}{"pk": 1083, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1083, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 929738395, "name": "Cibo Bistro & Wine Bar", "product_categories": [], "address": 1083, "latitude": 38.8526121, "created_by": 1, "location_types": [3], "longitude": -77.0427035}}{"pk": 1084, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1084, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 993828992, "name": "Gordon Biersch", "product_categories": [], "address": 1084, "latitude": 38.856024, "created_by": 1, "location_types": [2], "longitude": -77.042774}}{"pk": 1085, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1085, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 1666480068, "name": "Noodles & Company", "product_categories": [], "address": 1085, "latitude": 38.8556691, "created_by": 1, "location_types": [3], "longitude": -77.0491401}}{"pk": 1086, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1086, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 1666478919, "name": "Cosi", "product_categories": [], "address": 1086, "latitude": 38.8554591, "created_by": 1, "location_types": [3], "longitude": -77.0491346}}{"pk": 1087, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1087, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2684592329, "name": "Ted's Montana Grill", "product_categories": [], "address": 1087, "latitude": 38.8541363, "created_by": 1, "location_types": [3], "longitude": -77.0497094}}{"pk": 1088, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1088, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2684592330, "name": "Cold Stone Creamery", "product_categories": [], "address": 1088, "latitude": 38.8542825, "created_by": 1, "location_types": [3], "longitude": -77.0497067}}{"pk": 1089, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1089, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2684592333, "name": "Chipotle", "product_categories": [], "address": 1089, "latitude": 38.853988, "created_by": 1, "location_types": [3], "longitude": -77.0491863}}{"pk": 1090, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1090, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2684592337, "name": "Au Bon Pain", "product_categories": [], "address": 1090, "latitude": 38.855448, "created_by": 1, "location_types": [3], "longitude": -77.050396}}{"pk": 1091, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1091, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2684592326, "name": "Buffalo Wild Wings", "product_categories": [], "address": 1091, "latitude": 38.8530249, "created_by": 1, "location_types": [3], "longitude": -77.0500684}}{"pk": 1092, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1092, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2684592335, "name": "Manna", "product_categories": [], "address": 1092, "latitude": 38.8531144, "created_by": 1, "location_types": [3], "longitude": -77.0485786}}{"pk": 1093, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1093, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2684592327, "name": "California Tortilla Kitchen", "product_categories": [], "address": 1093, "latitude": 38.8527906, "created_by": 1, "location_types": [3], "longitude": -77.050077}}{"pk": 1094, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1094, "model": "vp.location", "fields": {"phone_number": null, "website": "http://www.bensvhilibowl.com", "open_street_map_id": 2793770667, "name": "Ben's Chili Bowl", "product_categories": [], "address": 1094, "latitude": 38.8535473, "created_by": 1, "location_types": [3], "longitude": -77.0428149}}{"pk": 1095, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1095, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2793770703, "name": "Matsutake Sushi", "product_categories": [], "address": 1095, "latitude": 38.8536707, "created_by": 1, "location_types": [3], "longitude": -77.0428377}}{"pk": 1096, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1096, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2793770820, "name": "Legal Sea Foods", "product_categories": [], "address": 1096, "latitude": 38.8540121, "created_by": 1, "location_types": [3], "longitude": -77.0430102}}{"pk": 1097, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1097, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 1834343069, "name": "Jet Rock", "product_categories": [], "address": 1097, "latitude": 38.8539885, "created_by": 1, "location_types": [3], "longitude": -77.0416444}}{"pk": 1098, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1098, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 734259644, "name": "Avenue Grill", "product_categories": [], "address": 1098, "latitude": 38.896322, "created_by": 1, "location_types": [3], "longitude": -77.031052}}{"pk": 1099, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1099, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 734267231, "name": "Round Robin Bar", "product_categories": [], "address": 1099, "latitude": 38.89646, "created_by": 1, "location_types": [2], "longitude": -77.032238}}{"pk": 1100, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1100, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 734269606, "name": "The Willard Room", "product_categories": [], "address": 1100, "latitude": 38.896577, "created_by": 1, "location_types": [3], "longitude": -77.032421}}{"pk": 1101, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1101, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 662332472, "name": "7-Eleven", "product_categories": [3], "address": 1101, "latitude": 38.8964845, "created_by": 1, "location_types": [1], "longitude": -77.043734}}{"pk": 1102, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1341", "state": null, "street": "G Street Northwest", "postal_code": null}}{"pk": 1102, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194988, "name": "Ceiba Restaurant & Lounge", "product_categories": [], "address": 1102, "latitude": 38.8985435, "created_by": 1, "location_types": [3], "longitude": -77.0316162}}{"pk": 1103, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1331", "state": null, "street": "F Street Northwest", "postal_code": null}}{"pk": 1103, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738212154, "name": "Shelly's Back Room", "product_categories": [], "address": 1103, "latitude": 38.8975437, "created_by": 1, "location_types": [3], "longitude": -77.0311023}}{"pk": 1104, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1475", "state": null, "street": "Pennsylvania Avenue Northwest", "postal_code": null}}{"pk": 1104, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150350, "name": "The Occidental", "product_categories": [], "address": 1104, "latitude": 38.8968259, "created_by": 1, "location_types": [3], "longitude": -77.0328124}}{"pk": 1105, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "527", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1105, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150304, "name": "Press Liquors", "product_categories": [1], "address": 1105, "latitude": 38.8966108, "created_by": 1, "location_types": [1], "longitude": -77.0316848}}{"pk": 1106, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1750", "state": null, "street": "New York Avenue Northwest", "postal_code": null}}{"pk": 1106, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528060, "name": "Negotiations Restaurant", "product_categories": [], "address": 1106, "latitude": 38.8956146, "created_by": 1, "location_types": [3], "longitude": -77.0411045}}{"pk": 1107, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1776", "state": null, "street": "G Street Northwest", "postal_code": null}}{"pk": 1107, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528098, "name": "McReynold's Liquors", "product_categories": [1], "address": 1107, "latitude": 38.8981466, "created_by": 1, "location_types": [1], "longitude": -77.0411948}}{"pk": 1108, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "675", "state": null, "street": "15th Street Northwest", "postal_code": null}}{"pk": 1108, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150364, "name": "Old Ebbitt Grill", "product_categories": [], "address": 1108, "latitude": 38.898056, "created_by": 1, "location_types": [3], "longitude": -77.0333288}}{"pk": 1109, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1959", "state": null, "street": "E Street Northwest", "postal_code": null}}{"pk": 1109, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804598117, "name": "Gallery News & More", "product_categories": [3], "address": 1109, "latitude": 38.8962313, "created_by": 1, "location_types": [1], "longitude": -77.0445273}}{"pk": 1110, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2123", "state": null, "street": "E Street Northwest", "postal_code": null}}{"pk": 1110, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804598730, "name": "Riverside Liquors", "product_categories": [1], "address": 1110, "latitude": 38.896179, "created_by": 1, "location_types": [1], "longitude": -77.0476965}}{"pk": 1111, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "528", "state": null, "street": "23rd Street Northwest", "postal_code": null}}{"pk": 1111, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804628568, "name": "Magic Gourd Restaurant", "product_categories": [], "address": 1111, "latitude": 38.896792, "created_by": 1, "location_types": [3], "longitude": -77.050678}}{"pk": 1112, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1112, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 920243207, "name": null, "product_categories": [], "address": 1112, "latitude": 38.89419, "created_by": 1, "location_types": [2], "longitude": -77.044383}}{"pk": 1113, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1113, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2390695860, "name": "Potbelly", "product_categories": [], "address": 1113, "latitude": 38.8981513, "created_by": 1, "location_types": [3], "longitude": -77.0505954}}{"pk": 1114, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1114, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2806227486, "name": "Today's News", "product_categories": [3], "address": 1114, "latitude": 38.8971402, "created_by": 1, "location_types": [1], "longitude": -77.0310058}}{"pk": 1115, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "2036", "state": null, "street": "G Street Northwest", "postal_code": "20006"}}{"pk": 1115, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2921257880, "name": "Tonic", "product_categories": [], "address": 1115, "latitude": 38.8982069, "created_by": 1, "location_types": [2], "longitude": -77.0464963}}{"pk": 1116, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1116, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2999880408, "name": "FoBoGro", "product_categories": [2], "address": 1116, "latitude": 38.8971728, "created_by": 1, "location_types": [1], "longitude": -77.0481146}}{"pk": 1117, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1117, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2999903042, "name": "The Magic Gourd", "product_categories": [], "address": 1117, "latitude": 38.8964782, "created_by": 1, "location_types": [3], "longitude": -77.0507992}}{"pk": 1118, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1118, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3654556228, "name": "An Uncommon Cafe", "product_categories": [], "address": 1118, "latitude": 38.893341, "created_by": 1, "location_types": [3], "longitude": -77.032702}}{"pk": 1119, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1119, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 633027364, "name": "West End Bistro", "product_categories": [], "address": 1119, "latitude": 38.9049863, "created_by": 1, "location_types": [3], "longitude": -77.0489572}}{"pk": 1120, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1120, "model": "vp.location", "fields": {"phone_number": null, "website": "http://enjoyyourround.com", "open_street_map_id": 690888131, "name": "19th Bar", "product_categories": [], "address": 1120, "latitude": 38.901159, "created_by": 1, "location_types": [2], "longitude": -77.0437681}}{"pk": 1121, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1121, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 690828484, "name": "Naan & Beyond", "product_categories": [], "address": 1121, "latitude": 38.903563, "created_by": 1, "location_types": [3], "longitude": -77.0390419}}{"pk": 1122, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1122, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 721037852, "name": "Johnny Rockets", "product_categories": [], "address": 1122, "latitude": 38.9005083, "created_by": 1, "location_types": [3], "longitude": -77.0451461}}{"pk": 1123, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1123, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 730829805, "name": "Marvelous Market", "product_categories": [3], "address": 1123, "latitude": 38.90196, "created_by": 1, "location_types": [1], "longitude": -77.041992}}{"pk": 1124, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1124, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 734374075, "name": "New York Convenience", "product_categories": [3], "address": 1124, "latitude": 38.8993189, "created_by": 1, "location_types": [1], "longitude": -77.0328651}}{"pk": 1125, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1125, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 712742111, "name": "Bar Rouge", "product_categories": [], "address": 1125, "latitude": 38.9081519, "created_by": 1, "location_types": [2], "longitude": -77.0361265}}{"pk": 1126, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1126, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 721050296, "name": "Boloco", "product_categories": [], "address": 1126, "latitude": 38.9034473, "created_by": 1, "location_types": [3], "longitude": -77.043644}}{"pk": 1127, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1127, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 721669814, "name": "7-Eleven", "product_categories": [3], "address": 1127, "latitude": 38.9053489, "created_by": 1, "location_types": [1], "longitude": -77.0432258}}{"pk": 1128, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1128, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 734442884, "name": "Hamilton", "product_categories": [], "address": 1128, "latitude": 38.902805, "created_by": 1, "location_types": [3], "longitude": -77.031655}}{"pk": 1129, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1129, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 734444230, "name": "Lima", "product_categories": [], "address": 1129, "latitude": 38.9027854, "created_by": 1, "location_types": [3], "longitude": -77.0324092}}{"pk": 1130, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1130, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 734466377, "name": "Stan's", "product_categories": [], "address": 1130, "latitude": 38.903501, "created_by": 1, "location_types": [3], "longitude": -77.032857}}{"pk": 1131, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1050", "state": null, "street": "17th Street Northwest", "postal_code": null}}{"pk": 1131, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194999, "name": "Imperial Liquors", "product_categories": [1], "address": 1131, "latitude": 38.9033629, "created_by": 1, "location_types": [1], "longitude": -77.0388264}}{"pk": 1132, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1401", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1132, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194961, "name": "DC Coast", "product_categories": [], "address": 1132, "latitude": 38.9027938, "created_by": 1, "location_types": [3], "longitude": -77.0321826}}{"pk": 1133, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1131", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1133, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195009, "name": "CulinAerie", "product_categories": [], "address": 1133, "latitude": 38.9047008, "created_by": 1, "location_types": [3], "longitude": -77.031677}}{"pk": 1134, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1155", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1134, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195024, "name": "Zentan", "product_categories": [], "address": 1134, "latitude": 38.905158, "created_by": 1, "location_types": [3], "longitude": -77.0315025}}{"pk": 1135, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1110", "state": null, "street": "Vermont Avenue Northwest", "postal_code": null}}{"pk": 1135, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194985, "name": "II Mulino New York", "product_categories": [], "address": 1135, "latitude": 38.9043025, "created_by": 1, "location_types": [3], "longitude": -77.0331275}}{"pk": 1136, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1411", "state": "DC", "street": "K Street Northwest", "postal_code": null}}{"pk": 1136, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195006, "name": "Bangkok One/China Cafe", "product_categories": [], "address": 1136, "latitude": 38.9029011, "created_by": 1, "location_types": [3], "longitude": -77.0325633}}{"pk": 1137, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1420", "state": "DC", "street": "K Street Northwest", "postal_code": null}}{"pk": 1137, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195027, "name": "A-1 Wine & Liquors", "product_categories": [1], "address": 1137, "latitude": 38.9021418, "created_by": 1, "location_types": [1], "longitude": -77.0328111}}{"pk": 1138, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1620", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1138, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194940, "name": "Blackfinn", "product_categories": [], "address": 1138, "latitude": 38.9010784, "created_by": 1, "location_types": [3], "longitude": -77.0374991}}{"pk": 1139, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "805", "state": null, "street": "15th Street Northwest", "postal_code": null}}{"pk": 1139, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195000, "name": "Bobby Van's Steakhouse", "product_categories": [], "address": 1139, "latitude": 38.9005747, "created_by": 1, "location_types": [3], "longitude": -77.0333887}}{"pk": 1140, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1522", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1140, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195003, "name": "Downtown Spirits and Deli", "product_categories": [1], "address": 1140, "latitude": 38.9021509, "created_by": 1, "location_types": [1], "longitude": -77.0356592}}{"pk": 1141, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "818", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1141, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195017, "name": "Equinox", "product_categories": [], "address": 1141, "latitude": 38.900896, "created_by": 1, "location_types": [3], "longitude": -77.03881}}{"pk": 1142, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1110", "state": null, "street": "Vermont Avenue Northwest", "postal_code": null}}{"pk": 1142, "model": "vp.location", "fields": {"phone_number": null, "website": "http://www.miorestaurant.com/", "open_street_map_id": 738212190, "name": "Mio", "product_categories": [], "address": 1142, "latitude": 38.904104, "created_by": 1, "location_types": [3], "longitude": -77.0331998}}{"pk": 1143, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1029", "state": null, "street": "Vermont Avenue Northwest", "postal_code": null}}{"pk": 1143, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738212138, "name": "Stan's Restaurant", "product_categories": [], "address": 1143, "latitude": 38.9035473, "created_by": 1, "location_types": [3], "longitude": -77.0328443}}{"pk": 1144, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "800", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1144, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738212223, "name": "The Oval Room", "product_categories": [], "address": 1144, "latitude": 38.9004249, "created_by": 1, "location_types": [3], "longitude": -77.0384293}}{"pk": 1145, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1652", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1145, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150376, "name": "Mccormick & Schmick", "product_categories": [], "address": 1145, "latitude": 38.9021969, "created_by": 1, "location_types": [3], "longitude": -77.0377002}}{"pk": 1146, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1725", "state": null, "street": "Desales Street Northwest", "postal_code": "20036"}}{"pk": 1146, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150325, "name": "Panache", "product_categories": [], "address": 1146, "latitude": 38.9049785, "created_by": 1, "location_types": [3], "longitude": -77.0397383}}{"pk": 1147, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1350", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1147, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150354, "name": "Tuscana West", "product_categories": [], "address": 1147, "latitude": 38.9010276, "created_by": 1, "location_types": [3], "longitude": -77.0312977}}{"pk": 1148, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "920", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1148, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150373, "name": "The Park Place at 14th", "product_categories": [], "address": 1148, "latitude": 38.9019088, "created_by": 1, "location_types": [3], "longitude": -77.0322401}}{"pk": 1149, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1100", "state": null, "street": "17th Street Northwest", "postal_code": null}}{"pk": 1149, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150362, "name": "The Meeting Place", "product_categories": [], "address": 1149, "latitude": 38.9039471, "created_by": 1, "location_types": [3], "longitude": -77.0388311}}{"pk": 1150, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1625", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1150, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739263115, "name": "BLT Steak", "product_categories": [], "address": 1150, "latitude": 38.9017153, "created_by": 1, "location_types": [3], "longitude": -77.0376021}}{"pk": 1151, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2030", "state": null, "street": "M Street Northwest", "postal_code": null}}{"pk": 1151, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339927, "name": "Hudson", "product_categories": [], "address": 1151, "latitude": 38.9054618, "created_by": 1, "location_types": [3], "longitude": -77.0463588}}{"pk": 1152, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1813", "state": "DC", "street": "M Street Northwest", "postal_code": null}}{"pk": 1152, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339938, "name": "Ozio Martini & Cigar Lounge", "product_categories": [], "address": 1152, "latitude": 38.9058284, "created_by": 1, "location_types": [2], "longitude": -77.04237}}{"pk": 1153, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1333", "state": null, "street": "New Hampshire Avenue Northwest", "postal_code": null}}{"pk": 1153, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339957, "name": "Front Page", "product_categories": [], "address": 1153, "latitude": 38.9085663, "created_by": 1, "location_types": [2], "longitude": -77.0437034}}{"pk": 1154, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1221", "state": "DC", "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1154, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339921, "name": "Lucky Bar", "product_categories": [], "address": 1154, "latitude": 38.9065709, "created_by": 1, "location_types": [2], "longitude": -77.0413645}}{"pk": 1155, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1823", "state": null, "street": "Jefferson Place Northwest", "postal_code": null}}{"pk": 1155, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339925, "name": "Trattu Restaurant", "product_categories": [], "address": 1155, "latitude": 38.9065916, "created_by": 1, "location_types": [3], "longitude": -77.0426462}}{"pk": 1156, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1200", "state": null, "street": "New Hampshire Avenue Northwest", "postal_code": null}}{"pk": 1156, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339898, "name": "Meiwah", "product_categories": [], "address": 1156, "latitude": 38.9058058, "created_by": 1, "location_types": [3], "longitude": -77.047649}}{"pk": 1157, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2115", "state": null, "street": "M Street Northwest", "postal_code": null}}{"pk": 1157, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339980, "name": "The Wine Specialist", "product_categories": [1], "address": 1157, "latitude": 38.9054502, "created_by": 1, "location_types": [1], "longitude": -77.0479155}}{"pk": 1158, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2020", "state": null, "street": "O Street Northwest", "postal_code": null}}{"pk": 1158, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339967, "name": "The Mansion on O Street", "product_categories": [], "address": 1158, "latitude": 38.9083832, "created_by": 1, "location_types": [3], "longitude": -77.0459252}}{"pk": 1159, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1734", "state": null, "street": "N Street Northwest", "postal_code": null}}{"pk": 1159, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339997, "name": "Iron Gate Inn Restaurant", "product_categories": [], "address": 1159, "latitude": 38.9070318, "created_by": 1, "location_types": [3], "longitude": -77.0398398}}{"pk": 1160, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1825", "state": "DC", "street": "M Street Northwest", "postal_code": null}}{"pk": 1160, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340055, "name": "Sign Of The Whale", "product_categories": [], "address": 1160, "latitude": 38.9058402, "created_by": 1, "location_types": [2], "longitude": -77.0427803}}{"pk": 1161, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1912", "state": null, "street": "L Street Northwest", "postal_code": null}}{"pk": 1161, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528150, "name": "Barmy Wine and Liquors", "product_categories": [1], "address": 1161, "latitude": 38.9035833, "created_by": 1, "location_types": [1], "longitude": -77.0441167}}{"pk": 1162, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2275", "state": null, "street": "L Street Northwest", "postal_code": null}}{"pk": 1162, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528194, "name": "Ris", "product_categories": [], "address": 1162, "latitude": 38.9039558, "created_by": 1, "location_types": [3], "longitude": -77.0497946}}{"pk": 1163, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1050", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1163, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528184, "name": "Morton's of Chicago", "product_categories": [], "address": 1163, "latitude": 38.9034565, "created_by": 1, "location_types": [3], "longitude": -77.0401538}}{"pk": 1164, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1336", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1164, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 741013078, "name": "Ghana Cafe", "product_categories": [], "address": 1164, "latitude": 38.9084239, "created_by": 1, "location_types": [3], "longitude": -77.0321907}}{"pk": 1165, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "950", "state": null, "street": "15th Street Northwest", "postal_code": null}}{"pk": 1165, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739262812, "name": "Georgia Brown's", "product_categories": [], "address": 1165, "latitude": 38.9021054, "created_by": 1, "location_types": [3], "longitude": -77.0348677}}{"pk": 1166, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1926", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1166, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528141, "name": "Pan Mar Liquors", "product_categories": [1], "address": 1166, "latitude": 38.9011544, "created_by": 1, "location_types": [1], "longitude": -77.0446379}}{"pk": 1167, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1919", "state": null, "street": "Pennsylvania Avenue Northwest", "postal_code": null}}{"pk": 1167, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528159, "name": "Skye", "product_categories": [], "address": 1167, "latitude": 38.9009131, "created_by": 1, "location_types": [3], "longitude": -77.044308}}{"pk": 1168, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1215", "state": null, "street": "23rd Street Northwest", "postal_code": null}}{"pk": 1168, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528118, "name": "Federal Market", "product_categories": [3], "address": 1168, "latitude": 38.9059619, "created_by": 1, "location_types": [1], "longitude": -77.0497934}}{"pk": 1169, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1337", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1169, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 741013060, "name": "Churchkey", "product_categories": [], "address": 1169, "latitude": 38.9084824, "created_by": 1, "location_types": [2], "longitude": -77.0316071}}{"pk": 1170, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1922", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1170, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528104, "name": "El Chalan", "product_categories": [], "address": 1170, "latitude": 38.9011566, "created_by": 1, "location_types": [3], "longitude": -77.0445063}}{"pk": 1171, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1341", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1171, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 741013053, "name": "Barrel House Liquors", "product_categories": [1], "address": 1171, "latitude": 38.9086079, "created_by": 1, "location_types": [1], "longitude": -77.0315667}}{"pk": 1172, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1317", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1172, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 741013032, "name": "La Villa Restaurant", "product_categories": [], "address": 1172, "latitude": 38.9078616, "created_by": 1, "location_types": [3], "longitude": -77.0315646}}{"pk": 1173, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1800", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1173, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528096, "name": "S & R Liquors", "product_categories": [1], "address": 1173, "latitude": 38.901142, "created_by": 1, "location_types": [1], "longitude": -77.041955}}{"pk": 1174, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1776", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1174, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528182, "name": "Taberna Del Alabardero", "product_categories": [], "address": 1174, "latitude": 38.9010904, "created_by": 1, "location_types": [3], "longitude": -77.0413629}}{"pk": 1175, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1716", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1175, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528139, "name": "The Bottom Line", "product_categories": [], "address": 1175, "latitude": 38.9009945, "created_by": 1, "location_types": [2], "longitude": -77.0401739}}{"pk": 1176, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1919", "state": null, "street": "L Street Northwest", "postal_code": null}}{"pk": 1176, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528093, "name": "Black Rooster Pub", "product_categories": [], "address": 1176, "latitude": 38.903945, "created_by": 1, "location_types": [2], "longitude": -77.0443508}}{"pk": 1177, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2131", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1177, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528191, "name": "Shadow Room", "product_categories": [], "address": 1177, "latitude": 38.9028918, "created_by": 1, "location_types": [3], "longitude": -77.0476656}}{"pk": 1178, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1909", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1178, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528058, "name": "Teatro Goldoni", "product_categories": [], "address": 1178, "latitude": 38.9028097, "created_by": 1, "location_types": [3], "longitude": -77.044084}}{"pk": 1179, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "900", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1179, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528176, "name": "Elephant & Castle Pub Restaurant", "product_categories": [], "address": 1179, "latitude": 38.9016218, "created_by": 1, "location_types": [2], "longitude": -77.0437588}}{"pk": 1180, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2100", "state": null, "street": "Pennsylvania Avenue Northwest", "postal_code": null}}{"pk": 1180, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528052, "name": "TGI Friday", "product_categories": [], "address": 1180, "latitude": 38.9009168, "created_by": 1, "location_types": [3], "longitude": -77.0468687}}{"pk": 1181, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1823", "state": null, "street": "L Street Northwest", "postal_code": null}}{"pk": 1181, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528133, "name": "Recessions II", "product_categories": [], "address": 1181, "latitude": 38.9039324, "created_by": 1, "location_types": [3], "longitude": -77.0427133}}{"pk": 1182, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1182, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 748928240, "name": "Nage", "product_categories": [], "address": 1182, "latitude": 38.906697, "created_by": 1, "location_types": [3], "longitude": -77.037027}}{"pk": 1183, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1325", "state": null, "street": null, "postal_code": null}}{"pk": 1183, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 753525052, "name": "Dupont Fine Wines & Spirits", "product_categories": [1], "address": 1183, "latitude": 38.9079452, "created_by": 1, "location_types": [1], "longitude": -77.0421466}}{"pk": 1184, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1184, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 753551835, "name": "Madhatter", "product_categories": [], "address": 1184, "latitude": 38.9078618, "created_by": 1, "location_types": [2], "longitude": -77.042093}}{"pk": 1185, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1330", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1185, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 767487195, "name": "Buffalo Billiards", "product_categories": [], "address": 1185, "latitude": 38.9084369, "created_by": 1, "location_types": [2], "longitude": -77.0437034}}{"pk": 1186, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1186, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 767556990, "name": "J.R. Cigars", "product_categories": [3], "address": 1186, "latitude": 38.9035317, "created_by": 1, "location_types": [1], "longitude": -77.0405401}}{"pk": 1187, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "815", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1187, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150366, "name": "The Bombay Club", "product_categories": [], "address": 1187, "latitude": 38.9010453, "created_by": 1, "location_types": [3], "longitude": -77.0381019}}{"pk": 1188, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1326", "state": null, "street": "14th Street Northwest", "postal_code": null}}{"pk": 1188, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 741013089, "name": "Thai Tanic Restaurant", "product_categories": [], "address": 1188, "latitude": 38.908144, "created_by": 1, "location_types": [3], "longitude": -77.0323644}}{"pk": 1189, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1919", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1189, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528137, "name": "Aroma Indian Restaurant", "product_categories": [], "address": 1189, "latitude": 38.9014721, "created_by": 1, "location_types": [3], "longitude": -77.0444041}}{"pk": 1190, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1200", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1190, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340022, "name": "Mai Thai", "product_categories": [], "address": 1190, "latitude": 38.9061457, "created_by": 1, "location_types": [3], "longitude": -77.0437218}}{"pk": 1191, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2311", "state": null, "street": "M Street Northwest", "postal_code": null}}{"pk": 1191, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528178, "name": "Thai Kitchen Restaurant", "product_categories": [], "address": 1191, "latitude": 38.9055198, "created_by": 1, "location_types": [3], "longitude": -77.0507201}}{"pk": 1192, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2021", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1192, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528123, "name": "Thai Kingdom Restaurant", "product_categories": [], "address": 1192, "latitude": 38.9028924, "created_by": 1, "location_types": [3], "longitude": -77.045776}}{"pk": 1193, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1823", "state": null, "street": "L Street Northwest", "postal_code": null}}{"pk": 1193, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528210, "name": "Mackey's", "product_categories": [], "address": 1193, "latitude": 38.9039282, "created_by": 1, "location_types": [2], "longitude": -77.0426221}}{"pk": 1194, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1800", "state": "DC", "street": "M Street Northwest", "postal_code": null}}{"pk": 1194, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528167, "name": "Vapiano", "product_categories": [], "address": 1194, "latitude": 38.9052182, "created_by": 1, "location_types": [3], "longitude": -77.041914}}{"pk": 1195, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1210", "state": null, "street": "18th Street Northwest", "postal_code": null}}{"pk": 1195, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340052, "name": "Nando's Peri-Peri", "product_categories": [], "address": 1195, "latitude": 38.906147, "created_by": 1, "location_types": [3], "longitude": -77.0419462}}{"pk": 1196, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1196, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 767511846, "name": "Daily Grill", "product_categories": [], "address": 1196, "latitude": 38.905907, "created_by": 1, "location_types": [3], "longitude": -77.0419649}}{"pk": 1197, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1900", "state": null, "street": "Pennsylvania Avenue Northwest", "postal_code": null}}{"pk": 1197, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528187, "name": "Founding Farmers", "product_categories": [], "address": 1197, "latitude": 38.9002586, "created_by": 1, "location_types": [3], "longitude": -77.0445601}}{"pk": 1198, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1100", "state": null, "street": "Vermont Avenue Northwest", "postal_code": null}}{"pk": 1198, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194933, "name": "Continental Wine & Liquor", "product_categories": [1], "address": 1198, "latitude": 38.9039393, "created_by": 1, "location_types": [1], "longitude": -77.0333403}}{"pk": 1199, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1500", "state": null, "street": "Massachusetts Avenue Northwest", "postal_code": null}}{"pk": 1199, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194986, "name": "1500 Market", "product_categories": [3], "address": 1199, "latitude": 38.9064403, "created_by": 1, "location_types": [1], "longitude": -77.0356465}}{"pk": 1200, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1219", "state": "DC", "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1200, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339932, "name": "Pasara Thai DC", "product_categories": [], "address": 1200, "latitude": 38.9064624, "created_by": 1, "location_types": [3], "longitude": -77.0413162}}{"pk": 1201, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1014", "state": null, "street": "Vermont Avenue Northwest", "postal_code": null}}{"pk": 1201, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738194995, "name": "Casa Blanca Restaurant", "product_categories": [], "address": 1201, "latitude": 38.9031665, "created_by": 1, "location_types": [3], "longitude": -77.0337687}}{"pk": 1202, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1426", "state": null, "street": "H Street Northwest", "postal_code": null}}{"pk": 1202, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150319, "name": "Potenza Wine Store", "product_categories": [1], "address": 1202, "latitude": 38.9000082, "created_by": 1, "location_types": [1], "longitude": -77.0330811}}{"pk": 1203, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2000", "state": null, "street": "Pennsylvania Avenue Northwest", "postal_code": null}}{"pk": 1203, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528200, "name": "Bertucci's Brick Oven Pizzeria", "product_categories": [], "address": 1203, "latitude": 38.900511, "created_by": 1, "location_types": [3], "longitude": -77.0460941}}{"pk": 1204, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1422", "state": null, "street": "M Street Northwest", "postal_code": null}}{"pk": 1204, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150345, "name": "Post Pub", "product_categories": [], "address": 1204, "latitude": 38.9035782, "created_by": 1, "location_types": [2], "longitude": -77.0340264}}{"pk": 1205, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1426", "state": null, "street": "M Street Northwest", "postal_code": null}}{"pk": 1205, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150363, "name": "The Reserve", "product_categories": [], "address": 1205, "latitude": 38.9035767, "created_by": 1, "location_types": [3], "longitude": -77.0340927}}{"pk": 1206, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1018", "state": null, "street": "Vermont Avenue Northwest", "postal_code": null}}{"pk": 1206, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738195012, "name": "Hunan Palace", "product_categories": [], "address": 1206, "latitude": 38.9032495, "created_by": 1, "location_types": [3], "longitude": -77.0338179}}{"pk": 1207, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1915", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1207, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528078, "name": "Kaz Sushi Bistro", "product_categories": [], "address": 1207, "latitude": 38.90147, "created_by": 1, "location_types": [3], "longitude": -77.044253}}{"pk": 1208, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1413", "state": "DC", "street": "K Street Northwest", "postal_code": null}}{"pk": 1208, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738212133, "name": "Tattoo", "product_categories": [], "address": 1208, "latitude": 38.9027823, "created_by": 1, "location_types": [3], "longitude": -77.0327096}}{"pk": 1209, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1337", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1209, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 753480578, "name": "Heritage India", "product_categories": [], "address": 1209, "latitude": 38.9082291, "created_by": 1, "location_types": [3], "longitude": -77.0423156}}{"pk": 1210, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1351", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1210, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340048, "name": "Kababji Grill", "product_categories": [], "address": 1210, "latitude": 38.9086069, "created_by": 1, "location_types": [3], "longitude": -77.0425168}}{"pk": 1211, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1320", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1211, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340080, "name": "Levante's", "product_categories": [], "address": 1211, "latitude": 38.9080904, "created_by": 1, "location_types": [3], "longitude": -77.0436927}}{"pk": 1212, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1140", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1212, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528172, "name": "Mezza Luna", "product_categories": [], "address": 1212, "latitude": 38.9049544, "created_by": 1, "location_types": [3], "longitude": -77.043881}}{"pk": 1213, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1301", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1213, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339941, "name": "Luna Grill", "product_categories": [], "address": 1213, "latitude": 38.9076614, "created_by": 1, "location_types": [3], "longitude": -77.0419911}}{"pk": 1214, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1220", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1214, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340001, "name": "I Ricchi", "product_categories": [], "address": 1214, "latitude": 38.9066592, "created_by": 1, "location_types": [3], "longitude": -77.0437916}}{"pk": 1215, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1120", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1215, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528114, "name": "Nooshi", "product_categories": [], "address": 1215, "latitude": 38.9043998, "created_by": 1, "location_types": [3], "longitude": -77.0436867}}{"pk": 1216, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1200", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1216, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339869, "name": "Sam And Harry's", "product_categories": [], "address": 1216, "latitude": 38.9060121, "created_by": 1, "location_types": [2], "longitude": -77.0437111}}{"pk": 1217, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1136", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1217, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528143, "name": "Science Club", "product_categories": [], "address": 1217, "latitude": 38.904857, "created_by": 1, "location_types": [2], "longitude": -77.0436716}}{"pk": 1218, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1134", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1218, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528088, "name": "Singapore Bistro", "product_categories": [], "address": 1218, "latitude": 38.904809, "created_by": 1, "location_types": [3], "longitude": -77.043671}}{"pk": 1219, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1112", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1219, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528154, "name": "Smith & Wollensky", "product_categories": [], "address": 1219, "latitude": 38.9043055, "created_by": 1, "location_types": [3], "longitude": -77.0437005}}{"pk": 1220, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1337", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1220, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339989, "name": "Steve's Bar Room", "product_categories": [], "address": 1220, "latitude": 38.9082896, "created_by": 1, "location_types": [2], "longitude": -77.0422539}}{"pk": 1221, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1140", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1221, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528094, "name": "The Improvisation", "product_categories": [], "address": 1221, "latitude": 38.9049877, "created_by": 1, "location_types": [3], "longitude": -77.0411418}}{"pk": 1222, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1345", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1222, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339862, "name": "The Big Hunt", "product_categories": [], "address": 1222, "latitude": 38.9084106, "created_by": 1, "location_types": [2], "longitude": -77.0424176}}{"pk": 1223, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1220", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1223, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340049, "name": "The Melting Pot", "product_categories": [], "address": 1223, "latitude": 38.9065465, "created_by": 1, "location_types": [3], "longitude": -77.0437916}}{"pk": 1224, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1900", "state": null, "street": "M Street Northwest", "postal_code": null}}{"pk": 1224, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339951, "name": "Rumors", "product_categories": [], "address": 1224, "latitude": 38.9053627, "created_by": 1, "location_types": [2], "longitude": -77.0435758}}{"pk": 1225, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1155", "state": null, "street": "21st Street Northwest", "postal_code": null}}{"pk": 1225, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528062, "name": "Port Of Piraeus II", "product_categories": [], "address": 1225, "latitude": 38.9048706, "created_by": 1, "location_types": [3], "longitude": -77.0460851}}{"pk": 1226, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1315", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1226, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 738212174, "name": "The Sphinx Club", "product_categories": [], "address": 1226, "latitude": 38.9029204, "created_by": 1, "location_types": [3], "longitude": -77.0313165}}{"pk": 1227, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1720", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1227, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528148, "name": "Cafe Asia", "product_categories": [], "address": 1227, "latitude": 38.9010256, "created_by": 1, "location_types": [3], "longitude": -77.0404721}}{"pk": 1228, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1716", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1228, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528064, "name": "Eye Bar", "product_categories": [], "address": 1228, "latitude": 38.9008791, "created_by": 1, "location_types": [2], "longitude": -77.0402319}}{"pk": 1229, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1700", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1229, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528072, "name": "Kellari Taverna", "product_categories": [], "address": 1229, "latitude": 38.9021757, "created_by": 1, "location_types": [3], "longitude": -77.0398332}}{"pk": 1230, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "727", "state": null, "street": "15th Street Northwest", "postal_code": null}}{"pk": 1230, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150358, "name": "Recess Bar", "product_categories": [], "address": 1230, "latitude": 38.8996053, "created_by": 1, "location_types": [2], "longitude": -77.033411}}{"pk": 1231, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "915", "state": null, "street": "15th Street Northwest", "postal_code": null}}{"pk": 1231, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150334, "name": "Siroc", "product_categories": [], "address": 1231, "latitude": 38.9018419, "created_by": 1, "location_types": [3], "longitude": -77.033303}}{"pk": 1232, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1426", "state": null, "street": "H Street Northwest", "postal_code": null}}{"pk": 1232, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739150331, "name": "Woodward Table", "product_categories": [], "address": 1232, "latitude": 38.9000302, "created_by": 1, "location_types": [3], "longitude": -77.0332729}}{"pk": 1233, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "839", "state": null, "street": "17th Street Northwest", "postal_code": null}}{"pk": 1233, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528038, "name": "Cafe Soleil", "product_categories": [], "address": 1233, "latitude": 38.9010659, "created_by": 1, "location_types": [3], "longitude": -77.0392284}}{"pk": 1234, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1912", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1234, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528050, "name": "Charlie Chiang's Restaurant & Lounge", "product_categories": [], "address": 1234, "latitude": 38.9011784, "created_by": 1, "location_types": [3], "longitude": -77.044055}}{"pk": 1235, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2013", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1235, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528117, "name": "Primi Piatti", "product_categories": [], "address": 1235, "latitude": 38.9014693, "created_by": 1, "location_types": [3], "longitude": -77.045544}}{"pk": 1236, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2020", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1236, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739528169, "name": "The Prime Rib", "product_categories": [], "address": 1236, "latitude": 38.9022971, "created_by": 1, "location_types": [3], "longitude": -77.0458538}}{"pk": 1237, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1827", "state": null, "street": "Jefferson Place Northwest", "postal_code": null}}{"pk": 1237, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339950, "name": "St. Arnolds on Jefferson", "product_categories": [], "address": 1237, "latitude": 38.9065895, "created_by": 1, "location_types": [2], "longitude": -77.042783}}{"pk": 1238, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1329", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1238, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739340095, "name": "Otello", "product_categories": [], "address": 1238, "latitude": 38.9080976, "created_by": 1, "location_types": [3], "longitude": -77.0422378}}{"pk": 1239, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1343", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1239, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 753461153, "name": "Cafe Citron", "product_categories": [], "address": 1239, "latitude": 38.9083502, "created_by": 1, "location_types": [3], "longitude": -77.0423666}}{"pk": 1240, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1225", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1240, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339984, "name": "Palm Restaurant", "product_categories": [], "address": 1240, "latitude": 38.9066041, "created_by": 1, "location_types": [3], "longitude": -77.0432122}}{"pk": 1241, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1327", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1241, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 739339982, "name": "Taj Mahal Restaurant", "product_categories": [], "address": 1241, "latitude": 38.9080225, "created_by": 1, "location_types": [3], "longitude": -77.0421895}}{"pk": 1242, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2040", "state": null, "street": "I Street Northwest", "postal_code": null}}{"pk": 1242, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804598256, "name": "Lindy's Red Lion", "product_categories": [], "address": 1242, "latitude": 38.9005287, "created_by": 1, "location_types": [2], "longitude": -77.0464225}}{"pk": 1243, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1214", "state": "DC", "street": "18th Street Northwest", "postal_code": null}}{"pk": 1243, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804649814, "name": "Lupe", "product_categories": [], "address": 1243, "latitude": 38.9062961, "created_by": 1, "location_types": [3], "longitude": -77.0419699}}{"pk": 1244, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1300", "state": null, "street": "Connecticut Avenue Northwest", "postal_code": null}}{"pk": 1244, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804649956, "name": "Rogue States", "product_categories": [], "address": 1244, "latitude": 38.9075266, "created_by": 1, "location_types": [3], "longitude": -77.0426248}}{"pk": 1245, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1827", "state": "DC", "street": "M Street Northwest", "postal_code": null}}{"pk": 1245, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804650055, "name": "Malaysia Kopitiam", "product_categories": [], "address": 1245, "latitude": 38.9058368, "created_by": 1, "location_types": [3], "longitude": -77.0428473}}{"pk": 1246, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1814", "state": null, "street": "K Street Northwest", "postal_code": null}}{"pk": 1246, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804650192, "name": "Sichuan Pavilion", "product_categories": [], "address": 1246, "latitude": 38.902224, "created_by": 1, "location_types": [3], "longitude": -77.0425739}}{"pk": 1247, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1214", "state": null, "street": "18th Street Northwest", "postal_code": null}}{"pk": 1247, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804650907, "name": "Public Bar", "product_categories": [], "address": 1247, "latitude": 38.9062616, "created_by": 1, "location_types": [2], "longitude": -77.0419687}}{"pk": 1248, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1747", "state": null, "street": "Pennsylvania Avenue Northwest", "postal_code": null}}{"pk": 1248, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 804650654, "name": "Roti", "product_categories": [], "address": 1248, "latitude": 38.8996189, "created_by": 1, "location_types": [3], "longitude": -77.0408167}}{"pk": 1249, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1253", "state": null, "street": "20th Street Northwest", "postal_code": null}}{"pk": 1249, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 806533693, "name": "Eli's Kosher Deli", "product_categories": [], "address": 1249, "latitude": 38.9070798, "created_by": 1, "location_types": [3], "longitude": -77.0446938}}{"pk": 1250, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1990", "state": null, "street": "M Street Northwest", "postal_code": null}}{"pk": 1250, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 806539314, "name": "Vidalia", "product_categories": [], "address": 1250, "latitude": 38.9054817, "created_by": 1, "location_types": [3], "longitude": -77.0445142}}{"pk": 1251, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1251, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 837122887, "name": "M Street Bar & Grill", "product_categories": [], "address": 1251, "latitude": 38.9058113, "created_by": 1, "location_types": [3], "longitude": -77.0462953}}{"pk": 1252, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1252, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 1784358378, "name": "Birch & Barley", "product_categories": [], "address": 1252, "latitude": 38.9084833, "created_by": 1, "location_types": [3], "longitude": -77.0316996}}{"pk": 1253, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1216", "state": "DC", "street": "18th Street Northwest", "postal_code": null}}{"pk": 1253, "model": "vp.location", "fields": {"phone_number": null, "website": "http://www.shakeshack.com/location/dupont-circle/", "open_street_map_id": 2246967238, "name": "Shake Shack", "product_categories": [], "address": 1253, "latitude": 38.906367, "created_by": 1, "location_types": [3], "longitude": -77.041848}}{"pk": 1254, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1254, "model": "vp.location", "fields": {"phone_number": "202-349-3030", "website": "http://www.inndc.com/dining.php", "open_street_map_id": 1866785526, "name": "Avenue Cafe & Lounge", "product_categories": [], "address": 1254, "latitude": 38.9079859, "created_by": 1, "location_types": [3], "longitude": -77.035003}}{"pk": 1255, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1255, "model": "vp.location", "fields": {"phone_number": "202-349-3030", "website": "http://www.inndc.com/dining.php", "open_street_map_id": 1866786162, "name": "Avenue Cafe Lounge", "product_categories": [], "address": 1255, "latitude": 38.9080178, "created_by": 1, "location_types": [2], "longitude": -77.0349053}}{"pk": 1256, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1256, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2316453086, "name": "Eye Street Grill", "product_categories": [], "address": 1256, "latitude": 38.901517, "created_by": 1, "location_types": [3], "longitude": -77.035562}}{"pk": 1257, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1257, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2316462825, "name": "The Brown Bag", "product_categories": [], "address": 1257, "latitude": 38.901556, "created_by": 1, "location_types": [3], "longitude": -77.037743}}{"pk": 1258, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1258, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2316619704, "name": "Boveda", "product_categories": [], "address": 1258, "latitude": 38.905123, "created_by": 1, "location_types": [2], "longitude": -77.050767}}{"pk": 1259, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1121", "state": null, "street": "14th Street Northwest", "postal_code": "20005"}}{"pk": 1259, "model": "vp.location", "fields": {"phone_number": null, "website": "http://www.chixdc.com/", "open_street_map_id": 2390745875, "name": "Chix", "product_categories": [], "address": 1259, "latitude": 38.904443, "created_by": 1, "location_types": [3], "longitude": -77.03167}}{"pk": 1260, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1203", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1260, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2432474414, "name": "Chipotle", "product_categories": [], "address": 1260, "latitude": 38.9057981, "created_by": 1, "location_types": [3], "longitude": -77.0432392}}{"pk": 1261, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1207", "state": null, "street": "19th Street Northwest", "postal_code": "20036"}}{"pk": 1261, "model": "vp.location", "fields": {"phone_number": null, "website": "www.irishwhiskeydc.com", "open_street_map_id": 1912289298, "name": "Irish Whiskey Public House", "product_categories": [], "address": 1261, "latitude": 38.9060401, "created_by": 1, "location_types": [2], "longitude": -77.0431868}}{"pk": 1262, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "1203", "state": null, "street": "19th Street Northwest", "postal_code": null}}{"pk": 1262, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2432474415, "name": "Boquer\u00eda", "product_categories": [], "address": 1262, "latitude": 38.905909, "created_by": 1, "location_types": [3], "longitude": -77.0432378}}{"pk": 1263, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1263, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2778688818, "name": "Circa at Foggy Bottom", "product_categories": [], "address": 1263, "latitude": 38.9009468, "created_by": 1, "location_types": [3], "longitude": -77.0499757}}{"pk": 1264, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1264, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2792745937, "name": "Lincoln", "product_categories": [], "address": 1264, "latitude": 38.9043709, "created_by": 1, "location_types": [3], "longitude": -77.0330232}}{"pk": 1265, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1265, "model": "vp.location", "fields": {"phone_number": null, "website": "http://www.joes.net", "open_street_map_id": 2792878028, "name": "Joe's Seafood Prime Steak & Stone Crab", "product_categories": [], "address": 1265, "latitude": 38.8999964, "created_by": 1, "location_types": [3], "longitude": -77.0338962}}{"pk": 1266, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1515", "state": null, "street": "Rhode Island Avenue Northwest", "postal_code": "20005"}}{"pk": 1266, "model": "vp.location", "fields": {"phone_number": "+12025217101", "website": null, "open_street_map_id": 2932211168, "name": "15ria", "product_categories": [], "address": 1266, "latitude": 38.9078854, "created_by": 1, "location_types": [3], "longitude": -77.0353539}}{"pk": 1267, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1267, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2998040300, "name": "Colonial Bistro", "product_categories": [], "address": 1267, "latitude": 38.9000461, "created_by": 1, "location_types": [3], "longitude": -77.0503862}}{"pk": 1268, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1268, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2998046640, "name": "Custom Fuel Pizza", "product_categories": [], "address": 1268, "latitude": 38.8995897, "created_by": 1, "location_types": [3], "longitude": -77.0409756}}{"pk": 1269, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1269, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2999912041, "name": "Roti Mediterranean Grill", "product_categories": [], "address": 1269, "latitude": 38.9009628, "created_by": 1, "location_types": [3], "longitude": -77.0496223}}{"pk": 1270, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1270, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000621453, "name": "Chalin's Restaurant", "product_categories": [], "address": 1270, "latitude": 38.9011885, "created_by": 1, "location_types": [3], "longitude": -77.0439751}}{"pk": 1271, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1271, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000232251, "name": "Bobby's Burger Palace", "product_categories": [], "address": 1271, "latitude": 38.9027672, "created_by": 1, "location_types": [3], "longitude": -77.047121}}{"pk": 1272, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1272, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000684156, "name": "Froggy Bottom Pub", "product_categories": [], "address": 1272, "latitude": 38.9027776, "created_by": 1, "location_types": [2], "longitude": -77.0457902}}{"pk": 1273, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1273, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000673779, "name": "Domino's Pizza", "product_categories": [], "address": 1273, "latitude": 38.9027848, "created_by": 1, "location_types": [3], "longitude": -77.0459799}}{"pk": 1274, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1274, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000705703, "name": "Jetties", "product_categories": [], "address": 1274, "latitude": 38.9014712, "created_by": 1, "location_types": [3], "longitude": -77.0443487}}{"pk": 1275, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1275, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000714257, "name": "Newton's Noodles", "product_categories": [], "address": 1275, "latitude": 38.9046242, "created_by": 1, "location_types": [3], "longitude": -77.0446612}}{"pk": 1276, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1276, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000242358, "name": "Bonmi", "product_categories": [], "address": 1276, "latitude": 38.9014725, "created_by": 1, "location_types": [3], "longitude": -77.0441534}}{"pk": 1277, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1277, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000739360, "name": "Rasoi Indian Kitchen", "product_categories": [], "address": 1277, "latitude": 38.9022508, "created_by": 1, "location_types": [3], "longitude": -77.042374}}{"pk": 1278, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1278, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 2998003606, "name": "Burger, Tap & Shake", "product_categories": [], "address": 1278, "latitude": 38.901815, "created_by": 1, "location_types": [3], "longitude": -77.0498671}}{"pk": 1279, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1100", "state": "DC", "street": "Vermont Avenue Northwest", "postal_code": null}}{"pk": 1279, "model": "vp.location", "fields": {"phone_number": "202-296-1301", "website": null, "open_street_map_id": 2792745938, "name": "7-Eleven", "product_categories": [3], "address": 1279, "latitude": 38.9039072, "created_by": 1, "location_types": [1], "longitude": -77.0332901}}{"pk": 1280, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1280, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000023676, "name": "Sweet Green", "product_categories": [], "address": 1280, "latitude": 38.9009587, "created_by": 1, "location_types": [3], "longitude": -77.0497296}}{"pk": 1281, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1281, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3000700981, "name": "Crepeaway", "product_categories": [], "address": 1281, "latitude": 38.903907, "created_by": 1, "location_types": [3], "longitude": -77.0452702}}{"pk": 1282, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "800", "state": "DC", "street": "22nd Street Northwest", "postal_code": "20052"}}{"pk": 1282, "model": "vp.location", "fields": {"phone_number": null, "website": "beefsteakveggies.com", "open_street_map_id": 3372389883, "name": "Beefsteak", "product_categories": [], "address": 1282, "latitude": 38.9005294, "created_by": 1, "location_types": [3], "longitude": -77.049058}}{"pk": 1283, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "2101", "state": null, "street": "L Street Northwest", "postal_code": null}}{"pk": 1283, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3072858192, "name": "Soi 38", "product_categories": [], "address": 1283, "latitude": 38.904163, "created_by": 1, "location_types": [3], "longitude": -77.0468374}}{"pk": 1284, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1284, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3099875496, "name": "Sweet Green", "product_categories": [], "address": 1284, "latitude": 38.9051079, "created_by": 1, "location_types": [3], "longitude": -77.0495276}}{"pk": 1285, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1285, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3243678951, "name": "The Front Page", "product_categories": [], "address": 1285, "latitude": 38.9085002, "created_by": 1, "location_types": [3], "longitude": -77.0441392}}{"pk": 1286, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": "919", "state": null, "street": null, "postal_code": null}}{"pk": 1286, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3379174183, "name": "Cities", "product_categories": [], "address": 1286, "latitude": 38.9020075, "created_by": 1, "location_types": [2], "longitude": -77.0431824}}{"pk": 1287, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1287, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3443898230, "name": "District Commons", "product_categories": [], "address": 1287, "latitude": 38.9019442, "created_by": 1, "location_types": [3], "longitude": -77.0494823}}{"pk": 1288, "model": "vp.address", "fields": {"city": "Washington", "display_address": null, "house_number": "1140", "state": "DC", "street": "19th Street Northwest", "postal_code": "20036"}}{"pk": 1288, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3611080594, "name": "Noodles and Co.", "product_categories": [], "address": 1288, "latitude": 38.9051101, "created_by": 1, "location_types": [3], "longitude": -77.0437511}}{"pk": 1289, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1289, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3615494961, "name": "DC Pizza", "product_categories": [], "address": 1289, "latitude": 38.9041127, "created_by": 1, "location_types": [3], "longitude": -77.0432763}}{"pk": 1290, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1290, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3668818453, "name": "grk", "product_categories": [], "address": 1290, "latitude": 38.9050032, "created_by": 1, "location_types": [3], "longitude": -77.0437905}}{"pk": 1291, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1291, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3670647626, "name": "Grillfish", "product_categories": [], "address": 1291, "latitude": 38.9056221, "created_by": 1, "location_types": [3], "longitude": -77.0475993}}{"pk": 1292, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1292, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3670687425, "name": "Golden Brown Delicious", "product_categories": [], "address": 1292, "latitude": 38.9079211, "created_by": 1, "location_types": [3], "longitude": -77.0421436}}{"pk": 1293, "model": "vp.address", "fields": {"city": null, "display_address": null, "house_number": null, "state": null, "street": null, "postal_code": null}}{"pk": 1293, "model": "vp.location", "fields": {"phone_number": null, "website": null, "open_street_map_id": 3670693625, "name": "DGS Delicatessen", "product_categories": [], "address": 1293, "latitude": 38.9078251, "created_by": 1, "location_types": [3], "longitude": -77.0420846}}
+[{
+        "pk": 2243,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "50",
+            "state": null,
+            "street": "Florida Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2243,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737130012,
+            "location_types": [1],
+            "longitude": -77.0072189,
+            "product_categories": [1],
+            "address": 2243,
+            "name": "Keg City",
+            "created_by": 1,
+            "latitude": 38.9105335,
+            "date_created": "2015-09-06 19:14:53.543237"
+        }
+    }, {
+        "pk": 2244,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "1633",
+            "state": null,
+            "street": "North Capitol Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2244,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129870,
+            "location_types": [1],
+            "longitude": -77.0087571,
+            "product_categories": [1],
+            "address": 2244,
+            "name": "Super Liquors",
+            "created_by": 1,
+            "latitude": 38.9124488,
+            "date_created": "2015-09-06 19:14:53.543428"
+        }
+    }, {
+        "pk": 2245,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "1822",
+            "state": null,
+            "street": "North Capitol Street Northwest",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2245,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 740376914,
+            "location_types": [1],
+            "longitude": -77.0094258,
+            "product_categories": [3],
+            "address": 2245,
+            "name": "Seaton Market",
+            "created_by": 1,
+            "latitude": 38.914692,
+            "date_created": "2015-09-06 19:14:53.543670"
+        }
+    }, {
+        "pk": 2246,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "1542",
+            "state": null,
+            "street": "North Capitol Street Northwest",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2246,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 745905475,
+            "location_types": [1],
+            "longitude": -77.0094148,
+            "product_categories": [1],
+            "address": 2246,
+            "name": "Walter Johnson's Liquor Store",
+            "created_by": 1,
+            "latitude": 38.9106982,
+            "date_created": "2015-09-06 19:14:53.543815"
+        }
+    }, {
+        "pk": 2247,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "175",
+            "state": null,
+            "street": "R Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2247,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129890,
+            "location_types": [1],
+            "longitude": -77.0042952,
+            "product_categories": [1],
+            "address": 2247,
+            "name": "Speakeasy Spirits",
+            "created_by": 1,
+            "latitude": 38.9123022,
+            "date_created": "2015-09-06 19:14:53.552142"
+        }
+    }, {
+        "pk": 2248,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "1325",
+            "state": null,
+            "street": "5th Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2248,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737130011,
+            "location_types": [1],
+            "longitude": -76.997075,
+            "product_categories": [1],
+            "address": 2248,
+            "name": "Roanoke Valley DC",
+            "created_by": 1,
+            "latitude": 38.9090211,
+            "date_created": "2015-09-06 19:14:53.552291"
+        }
+    }, {
+        "pk": 2249,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "175",
+            "state": null,
+            "street": "R Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2249,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129965,
+            "location_types": [1],
+            "longitude": -77.0043428,
+            "product_categories": [1],
+            "address": 2249,
+            "name": "Ansonia Wines",
+            "created_by": 1,
+            "latitude": 38.9124874,
+            "date_created": "2015-09-06 19:14:53.552422"
+        }
+    }, {
+        "pk": 2250,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "321",
+            "state": null,
+            "street": "T Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2250,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129900,
+            "location_types": [1],
+            "longitude": -77.000995,
+            "product_categories": [3],
+            "address": 2250,
+            "name": "McKinley Market",
+            "created_by": 1,
+            "latitude": 38.9153018,
+            "date_created": "2015-09-06 19:14:53.552975"
+        }
+    }, {
+        "pk": 2251,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "411",
+            "state": null,
+            "street": "New York Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2251,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129878,
+            "location_types": [1],
+            "longitude": -76.9974962,
+            "product_categories": [1],
+            "address": 2251,
+            "name": "Warehouse/Loft",
+            "created_by": 1,
+            "latitude": 38.9110213,
+            "date_created": "2015-09-06 19:14:53.553302"
+        }
+    }, {
+        "pk": 2252,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "301",
+            "state": null,
+            "street": "New York Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2252,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129845,
+            "location_types": [1],
+            "longitude": -76.9998017,
+            "product_categories": [1],
+            "address": 2252,
+            "name": "Costa Rica Trading",
+            "created_by": 1,
+            "latitude": 38.9101828,
+            "date_created": "2015-09-06 19:14:53.553565"
+        }
+    }, {
+        "pk": 2253,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "175",
+            "state": null,
+            "street": "R Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2253,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129969,
+            "location_types": [1],
+            "longitude": -77.0041405,
+            "product_categories": [1],
+            "address": 2253,
+            "name": "Tradewinds Specialty Imports",
+            "created_by": 1,
+            "latitude": 38.9123763,
+            "date_created": "2015-09-06 19:14:53.554622"
+        }
+    }, {
+        "pk": 2254,
+        "model": "vp.address",
+        "fields": {
+            "city": "Washington",
+            "display_address": null,
+            "house_number": "1626",
+            "state": "DC",
+            "street": "North Capitol Street NW",
+            "postal_code": "20001"
+        }
+    }, {
+        "pk": 2254,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 3665045357,
+            "location_types": [3],
+            "longitude": -77.0093093,
+            "product_categories": [],
+            "address": 2254,
+            "name": "Old Engine 12 Restaurant",
+            "created_by": 1,
+            "latitude": 38.9120196,
+            "date_created": "2015-09-06 19:14:54.142342"
+        }
+    }, {
+        "pk": 2255,
+        "model": "vp.address",
+        "fields": {
+            "city": "Washington",
+            "display_address": null,
+            "house_number": "1648",
+            "state": "DC",
+            "street": "North Capitol Street",
+            "postal_code": "20001"
+        }
+    }, {
+        "pk": 2255,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 3665047537,
+            "location_types": [3],
+            "longitude": -77.009312,
+            "product_categories": [],
+            "address": 2255,
+            "name": "Pub and the People",
+            "created_by": 1,
+            "latitude": 38.9124266,
+            "date_created": "2015-09-06 19:14:54.142778"
+        }
+    }, {
+        "pk": 2256,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "2205",
+            "state": null,
+            "street": "4th Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2256,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129876,
+            "location_types": [1],
+            "longitude": -77.0003155,
+            "product_categories": [2],
+            "address": 2256,
+            "name": "New Star Supermarket",
+            "created_by": 1,
+            "latitude": 38.9194256,
+            "date_created": "2015-09-06 19:14:55.220293"
+        }
+    }, {
+        "pk": 2257,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "2324",
+            "state": null,
+            "street": "North Capitol Street NW",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2257,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 740376924,
+            "location_types": [1],
+            "longitude": -77.0093752,
+            "product_categories": [3],
+            "address": 2257,
+            "name": "Sunbeam Market",
+            "created_by": 1,
+            "latitude": 38.9211478,
+            "date_created": "2015-09-06 19:14:55.220615"
+        }
+    }, {
+        "pk": 2258,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "2501",
+            "state": null,
+            "street": "North Capitol Street NE",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2258,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129832,
+            "location_types": [1],
+            "longitude": -77.0087296,
+            "product_categories": [3],
+            "address": 2258,
+            "name": "Fairway Market",
+            "created_by": 1,
+            "latitude": 38.9225243,
+            "date_created": "2015-09-06 19:14:55.220876"
+        }
+    }, {
+        "pk": 2259,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "2215",
+            "state": null,
+            "street": "5th Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2259,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129970,
+            "location_types": [1],
+            "longitude": -76.9991514,
+            "product_categories": [1],
+            "address": 2259,
+            "name": "Calypso Organic Selections",
+            "created_by": 1,
+            "latitude": 38.9195124,
+            "date_created": "2015-09-06 19:14:55.221221"
+        }
+    }, {
+        "pk": 2260,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "2723",
+            "state": null,
+            "street": "7th Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2260,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129877,
+            "location_types": [1],
+            "longitude": -76.9959258,
+            "product_categories": [3],
+            "address": 2260,
+            "name": "Franklin Market",
+            "created_by": 1,
+            "latitude": 38.9254107,
+            "date_created": "2015-09-06 19:14:55.221401"
+        }
+    }, {
+        "pk": 2261,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "1050",
+            "state": null,
+            "street": "Brentwood Rd NE",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2261,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": "2022813900",
+            "website": null,
+            "open_street_map_id": 735126491,
+            "location_types": [1],
+            "longitude": -76.9924287,
+            "product_categories": [2],
+            "address": 2261,
+            "name": "Giant",
+            "created_by": 1,
+            "latitude": 38.919222,
+            "date_created": "2015-09-06 19:14:55.221572"
+        }
+    }, {
+        "pk": 2262,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "401",
+            "state": null,
+            "street": "Rhode Island Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2262,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129984,
+            "location_types": [1],
+            "longitude": -77.0003692,
+            "product_categories": [1],
+            "address": 2262,
+            "name": "Mac's Wine & Liquors",
+            "created_by": 1,
+            "latitude": 38.9195915,
+            "date_created": "2015-09-06 19:14:55.221814"
+        }
+    }, {
+        "pk": 2263,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "914",
+            "state": null,
+            "street": "Rhode Island Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2263,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129883,
+            "location_types": [1],
+            "longitude": -76.9933435,
+            "product_categories": [1],
+            "address": 2263,
+            "name": "Rhode Island Liquor",
+            "created_by": 1,
+            "latitude": 38.9223678,
+            "date_created": "2015-09-06 19:14:55.222004"
+        }
+    }, {
+        "pk": 2264,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "2815",
+            "state": null,
+            "street": "7th Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2264,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737145416,
+            "location_types": [1],
+            "longitude": -76.9958684,
+            "product_categories": [3],
+            "address": 2264,
+            "name": "Brookland Supermarket & Deli",
+            "created_by": 1,
+            "latitude": 38.926123,
+            "date_created": "2015-09-06 19:14:55.222179"
+        }
+    }, {
+        "pk": 2265,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "415",
+            "state": null,
+            "street": "Rhode Island Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2265,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129953,
+            "location_types": [1],
+            "longitude": -76.9997757,
+            "product_categories": [3],
+            "address": 2265,
+            "name": "Sun Market",
+            "created_by": 1,
+            "latitude": 38.9196188,
+            "date_created": "2015-09-06 19:14:55.222440"
+        }
+    }, {
+        "pk": 2266,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "2303",
+            "state": null,
+            "street": "4th Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2266,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737129987,
+            "location_types": [1],
+            "longitude": -77.0003235,
+            "product_categories": [1],
+            "address": 2266,
+            "name": "Edgewood Liquors",
+            "created_by": 1,
+            "latitude": 38.9203462,
+            "date_created": "2015-09-06 19:14:55.222607"
+        }
+    }, {
+        "pk": 2267,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "200",
+            "state": null,
+            "street": "Michigan Avenue NE",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2267,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737145438,
+            "location_types": [1],
+            "longitude": -77.0040949,
+            "product_categories": [3],
+            "address": 2267,
+            "name": "Trinity Deli & Food Market",
+            "created_by": 1,
+            "latitude": 38.9296005,
+            "date_created": "2015-09-06 19:14:56.462039"
+        }
+    }, {
+        "pk": 2268,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "3514",
+            "state": null,
+            "street": "12th Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2268,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737145402,
+            "location_types": [2],
+            "longitude": -76.9912027,
+            "product_categories": [],
+            "address": 2268,
+            "name": "The Library Saloon",
+            "created_by": 1,
+            "latitude": 38.9329882,
+            "date_created": "2015-09-06 19:14:56.462250"
+        }
+    }, {
+        "pk": 2269,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2269,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": "www.potbelly.com",
+            "open_street_map_id": 3243783226,
+            "location_types": [3],
+            "longitude": -76.9965122,
+            "product_categories": [],
+            "address": 2269,
+            "name": "Potbelly",
+            "created_by": 1,
+            "latitude": 38.9325867,
+            "date_created": "2015-09-06 19:14:56.750781"
+        }
+    }, {
+        "pk": 2270,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "333",
+            "state": null,
+            "street": "Hawaii Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2270,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737145417,
+            "location_types": [1],
+            "longitude": -77.0008644,
+            "product_categories": [1],
+            "address": 2270,
+            "name": "University Wine & Liquors",
+            "created_by": 1,
+            "latitude": 38.9412879,
+            "date_created": "2015-09-06 19:14:57.120838"
+        }
+    }, {
+        "pk": 2271,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "500",
+            "state": null,
+            "street": "Emerson Street NE",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2271,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737145444,
+            "location_types": [1],
+            "longitude": -76.9988455,
+            "product_categories": [1],
+            "address": 2271,
+            "name": "Capitol Beverage Group",
+            "created_by": 1,
+            "latitude": 38.9504714,
+            "date_created": "2015-09-06 19:14:57.947557"
+        }
+    }, {
+        "pk": 2272,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "500",
+            "state": null,
+            "street": "Emerson Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2272,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 737145404,
+            "location_types": [1],
+            "longitude": -76.9988217,
+            "product_categories": [1],
+            "address": 2272,
+            "name": "Winebow",
+            "created_by": 1,
+            "latitude": 38.9503232,
+            "date_created": "2015-09-06 19:14:57.947785"
+        }
+    }, {
+        "pk": 2273,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "5510",
+            "state": null,
+            "street": "3rd Street Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2273,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 739653558,
+            "location_types": [1],
+            "longitude": -77.0030943,
+            "product_categories": [1],
+            "address": 2273,
+            "name": "Dakota Liquors",
+            "created_by": 1,
+            "latitude": 38.9570628,
+            "date_created": "2015-09-06 19:14:57.983101"
+        }
+    }, {
+        "pk": 2274,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "5766",
+            "state": null,
+            "street": "2nd Street Northeast",
+            "postal_code": "20011"
+        }
+    }, {
+        "pk": 2274,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 739653579,
+            "location_types": [1],
+            "longitude": -77.0045606,
+            "product_categories": [1],
+            "address": 2274,
+            "name": "Vini",
+            "created_by": 1,
+            "latitude": 38.9586892,
+            "date_created": "2015-09-06 19:14:57.983397"
+        }
+    }, {
+        "pk": 2275,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "5581",
+            "state": null,
+            "street": "South Dakota Avenue Northeast",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2275,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 739653593,
+            "location_types": [1],
+            "longitude": -77.0010423,
+            "product_categories": [1],
+            "address": 2275,
+            "name": "Rigg's Liquors",
+            "created_by": 1,
+            "latitude": 38.9581475,
+            "date_created": "2015-09-06 19:14:57.983719"
+        }
+    }, {
+        "pk": 2276,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "5018",
+            "state": null,
+            "street": "Rock Creek Church Road Northeast",
+            "postal_code": "20011"
+        }
+    }, {
+        "pk": 2276,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 3014213932,
+            "location_types": [1],
+            "longitude": -77.0082994,
+            "product_categories": [2],
+            "address": 2276,
+            "name": "Price's Grocery",
+            "created_by": 1,
+            "latitude": 38.9515737,
+            "date_created": "2015-09-06 19:14:58.583399"
+        }
+    }, {
+        "pk": 2277,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "6011",
+            "state": null,
+            "street": "Blair Road Northwest",
+            "postal_code": null
+        }
+    }, {
+        "pk": 2277,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 739653599,
+            "location_types": [1],
+            "longitude": -77.0109486,
+            "product_categories": [1],
+            "address": 2277,
+            "name": "Ticsa Imports",
+            "created_by": 1,
+            "latitude": 38.9632081,
+            "date_created": "2015-09-06 19:14:59.183340"
+        }
+    }, {
+        "pk": 2278,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2278,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 1809556030,
+            "location_types": [1],
+            "longitude": -77.0107419,
+            "product_categories": [3],
+            "address": 2278,
+            "name": "7-11",
+            "created_by": 1,
+            "latitude": 38.9627925,
+            "date_created": "2015-09-06 19:14:59.288619"
+        }
+    }, {
+        "pk": 2279,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2279,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 3355394991,
+            "location_types": [1],
+            "longitude": -76.9951356,
+            "product_categories": [2],
+            "address": 2279,
+            "name": "Giant Riggs Plaza",
+            "created_by": 1,
+            "latitude": 38.9615124,
+            "date_created": "2015-09-06 19:14:59.567016"
+        }
+    }, {
+        "pk": 2280,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2280,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 2580285587,
+            "location_types": [3],
+            "longitude": -77.010517,
+            "product_categories": [],
+            "address": 2280,
+            "name": "Subway",
+            "created_by": 1,
+            "latitude": 38.9752476,
+            "date_created": "2015-09-06 19:14:59.903344"
+        }
+    }, {
+        "pk": 2281,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2281,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 3483253465,
+            "location_types": [1],
+            "longitude": -77.0059371,
+            "product_categories": [2],
+            "address": 2281,
+            "name": "Takoma Park/Silver Spring Food Co-op",
+            "created_by": 1,
+            "latitude": 38.9777275,
+            "date_created": "2015-09-06 19:14:59.921207"
+        }
+    }, {
+        "pk": 2282,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2282,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 2708072099,
+            "location_types": [1],
+            "longitude": -76.9922145,
+            "product_categories": [2],
+            "address": 2282,
+            "name": null,
+            "created_by": 1,
+            "latitude": 38.9928633,
+            "date_created": "2015-09-06 19:15:00.246909"
+        }
+    }, {
+        "pk": 2283,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "949",
+            "state": "MD",
+            "street": "University Boulevard East",
+            "postal_code": "20903"
+        }
+    }, {
+        "pk": 2283,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 2708072094,
+            "location_types": [3],
+            "longitude": -76.9920938,
+            "product_categories": [],
+            "address": 2283,
+            "name": "Tijuana Mexican Cafe",
+            "created_by": 1,
+            "latitude": 38.9927321,
+            "date_created": "2015-09-06 19:15:00.247166"
+        }
+    }, {
+        "pk": 2284,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2284,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 2708082701,
+            "location_types": [1],
+            "longitude": -76.9925605,
+            "product_categories": [3],
+            "address": 2284,
+            "name": "7-Eleven",
+            "created_by": 1,
+            "latitude": 38.9926946,
+            "date_created": "2015-09-06 19:15:00.248255"
+        }
+    }, {
+        "pk": 2285,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2285,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 512951175,
+            "location_types": [3],
+            "longitude": -77.0041011,
+            "product_categories": [],
+            "address": 2285,
+            "name": "California Tortilla",
+            "created_by": 1,
+            "latitude": 39.0309871,
+            "date_created": "2015-09-06 19:15:00.861876"
+        }
+    }, {
+        "pk": 2286,
+        "model": "vp.address",
+        "fields": {
+            "city": "Silver Spring",
+            "display_address": null,
+            "house_number": "10741",
+            "state": null,
+            "street": "Columbia Pike",
+            "postal_code": "20901"
+        }
+    }, {
+        "pk": 2286,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": "www.traderjoes.com",
+            "open_street_map_id": 512951847,
+            "location_types": [1],
+            "longitude": -77.0036075,
+            "product_categories": [2],
+            "address": 2286,
+            "name": "Trader Joe's",
+            "created_by": 1,
+            "latitude": 39.031441,
+            "date_created": "2015-09-06 19:15:00.886670"
+        }
+    }, {
+        "pk": 2287,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2287,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 1025882540,
+            "location_types": [3],
+            "longitude": -77.0013258,
+            "product_categories": [],
+            "address": 2287,
+            "name": "Dominic's",
+            "created_by": 1,
+            "latitude": 39.0662289,
+            "date_created": "2015-09-06 19:15:01.329777"
+        }
+    }, {
+        "pk": 2288,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "13444",
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2288,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 840921595,
+            "location_types": [3],
+            "longitude": -77.0025054,
+            "product_categories": [],
+            "address": 2288,
+            "name": "Ledo Pizza",
+            "created_by": 1,
+            "latitude": 39.0772695,
+            "date_created": "2015-09-06 19:15:01.408794"
+        }
+    }, {
+        "pk": 2289,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2289,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 840921618,
+            "location_types": [1],
+            "longitude": -77.0032014,
+            "product_categories": [1],
+            "address": 2289,
+            "name": "Colesville Beer & Wine",
+            "created_by": 1,
+            "latitude": 39.077365,
+            "date_created": "2015-09-06 19:15:01.409242"
+        }
+    }, {
+        "pk": 2290,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2290,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 840921627,
+            "location_types": [1],
+            "longitude": -77.0036993,
+            "product_categories": [2],
+            "address": 2290,
+            "name": "Giant",
+            "created_by": 1,
+            "latitude": 39.0770533,
+            "date_created": "2015-09-06 19:15:01.409447"
+        }
+    }, {
+        "pk": 2291,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2291,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 840921650,
+            "location_types": [3],
+            "longitude": -77.0033299,
+            "product_categories": [],
+            "address": 2291,
+            "name": "Greek Village Restaurant",
+            "created_by": 1,
+            "latitude": 39.0772861,
+            "date_created": "2015-09-06 19:15:01.410589"
+        }
+    }, {
+        "pk": 2292,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2292,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 840921584,
+            "location_types": [1],
+            "longitude": -77.0013643,
+            "product_categories": [3],
+            "address": 2292,
+            "name": "7-Eleven",
+            "created_by": 1,
+            "latitude": 39.0760484,
+            "date_created": "2015-09-06 19:15:01.423219"
+        }
+    }, {
+        "pk": 2293,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "13436",
+            "state": null,
+            "street": "New Hampshire Ave.",
+            "postal_code": "20904"
+        }
+    }, {
+        "pk": 2293,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": "http://order.ehungry.com/pollomex/?form=home",
+            "open_street_map_id": 2687857309,
+            "location_types": [3],
+            "longitude": -77.0025906,
+            "product_categories": [],
+            "address": 2293,
+            "name": "POLLO-MEX",
+            "created_by": 1,
+            "latitude": 39.0767948,
+            "date_created": "2015-09-06 19:15:01.445376"
+        }
+    }, {
+        "pk": 2294,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": "15521",
+            "state": null,
+            "street": "New Hampshire Avenue",
+            "postal_code": "20905"
+        }
+    }, {
+        "pk": 2294,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": "kabobnkarahi.com",
+            "open_street_map_id": 1717080857,
+            "location_types": [3],
+            "longitude": -76.9954618,
+            "product_categories": [],
+            "address": 2294,
+            "name": "Kabob N Karahi",
+            "created_by": 1,
+            "latitude": 39.110524,
+            "date_created": "2015-09-06 19:15:01.735088"
+        }
+    }, {
+        "pk": 2295,
+        "model": "vp.address",
+        "fields": {
+            "city": null,
+            "display_address": null,
+            "house_number": null,
+            "state": null,
+            "street": null,
+            "postal_code": null
+        }
+    }, {
+        "pk": 2295,
+        "model": "vp.location",
+        "fields": {
+            "phone_number": null,
+            "website": null,
+            "open_street_map_id": 3674058662,
+            "location_types": [1],
+            "longitude": -76.994714,
+            "product_categories": [3],
+            "address": 2295,
+            "name": "7-Eleven",
+            "created_by": 1,
+            "latitude": 39.1110911,
+            "date_created": "2015-09-06 19:15:01.736461"
+        }
+    }]
