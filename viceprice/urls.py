@@ -19,6 +19,7 @@ urlpatterns = patterns('',
 
     # Location entry map
     url(r'^mapview/$', vp.views.map_view, name='map_view'),
+    url(r'^edit_location/(?P<location_id>[0-9]+)/$', vp.views.location_editor_view, name='location_editor'),
 
     # Admin
     url(r'^admin/', include(admin.site.urls))
