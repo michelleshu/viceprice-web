@@ -1,118 +1,125 @@
-<div class="location-editor-container">
-    <form method="POST" class="infowindow-form" id="place-info-form">
-        <div class="info-window-line">
-            <label class="place-name-label">{{ place.name }}</label>
-            <i class="edit fa-pencil"></i>
-            <input type="text" value="{{ place.name }}" />
-        </div>
-        <div class="info-window-line">
-            <span class="info-window-title">Address:</span>
-            <label class="place-address-label">{{ place.address }}</label>
-            <i class="edit fa-pencil"></i>
-            <input type="text" value="{{ place.address }}" />
-        </div>
-        <div class="info-window-line">
-            <span class="info-window-title">Phone Number:</span>
-            <label class="place-phone-number">{{ place.phone_number }}</label>
-            <i class="edit fa-pencil"></i>
-            <input type="text" value="{{ place.phone_number }}" />
-        </div>
-        <div class="info-window-line">
-            <span class='info-window-title'>Website:</span>
-            <a href="{{ place.website }}" class="place-website" target='_blank'>{{ place.website }}</a>
-            <i class="edit fa-pencil"></i>
-            <input type="text" value="{{ place.website }}" />
-        </div>
-        <div class="info-window-line">
-            <span class="info-window-title">Business Hours:</span>
-            <a href="#" class="business-hours-link copy-business-hours-all-link">Copy All</a>
-            <a href="#" class="business-hours-link copy-business-hours-weekdays-link">Weekdays</a>
-            <a href="#" class="business-hours-link copy-business-hours-weekend-link">Weekend</a>
-            <a href="#" class="business-hours-link clear-business-hours-link">Clear</a>
-            <table class="business-hour-table">
-                <tr>
-                    <td>
-                        Monday
-                    </td>
-                    <td>
-                        <input class="time-input" type="time" autocomplete="on" class="monday-opening" />
-                        <span class="to">to</span>
-                        <input class="time-input" type="time" autocomplete="on" class="monday-closing" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Tuesday
-                    </td>
-                    <td>
-                        <input class="time-input" type="time" autocomplete="on" class="tuesday-opening" />
-                        <span class="to">to</span>
-                        <input class="time-input" type="time" autocomplete="on" class="tuesday-closing" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Wednesday
-                    </td>
-                    <td>
-                        <input class="time-input" type="time" autocomplete="on" class="wednesday-opening" />
-                        <span class="to">to</span>
-                        <input class="time-input" type="time" autocomplete="on" class="wednesday-closing" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Thursday
-                    </td>
-                    <td>
-                        <input class="time-input" type="time" autocomplete="on" class="thursday-opening" />
-                        <span class="to">to</span>
-                        <input class="time-input" type="time" autocomplete="on" class="thursday-closing" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Friday
-                    </td>
-                    <td>
-                        <input class="time-input" type="time" autocomplete="on" class="friday-opening" />
-                        <span class="to">to</span>
-                        <input class="time-input" type="time" autocomplete="on" class="friday-closing" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Saturday
-                    </td>
-                    <td>
-                        <input class="time-input" type="time" autocomplete="on" class="saturday-opening" />
-                        <span class="to">to</span>
-                        <input class="time-input" type="time" autocomplete="on" class="saturday-closing" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Sunday
-                    </td>
-                    <td>
-                        <input class="time-input" type="time" autocomplete="on" class="sunday-opening" />
-                        <span class="to">to</span>
-                        <input class="time-input" type="time" autocomplete="on" class="sunday-closing" />
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="info-window-line">
-            <span class="info-window-title">Location Types:</span>
-            <select class="multi-selector location-type-selector" multiple="multiple"></select>
-        </div>
-        <div class="info-window-line">
-            <span class="info-window-title">Product Categories:</span>
-            <select class="multi-selector product-categories-selector" multiple="multiple"></select>
-        </div>
-        <input type="submit" />
-        <div class="place-latitude hidden">{{ place.latitude }}</div>
-        <div class="place-longitude hidden">{{ place.longitude }}</div>
-        <div class="place-google-id hidden">{{ place.google_id }}</div>
-    </form>
-</div>
+<html>
+<head>
+    {%  load staticfiles %}
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/viceprice-location-editor.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk9dKIAjtgG63VtfarGXmjCT6cTruOF6c&libraries=places"></script>
+    <script type="text/javascript" src="{% static 'js/viceprice-location-editor.js' %}"></script>
+</head>
+<body>
+    <div class="location-editor-container">
+        <form method="POST" class="location-editor-form">
+            <div class="location-editor-line">
+                <span contenteditable="true" class="editable-text place-name">{{ place.name }}</span>
+            </div>
+            <div class="location-editor-line">
+                <span class="location-editor-title">Address:</span>
+                <span contenteditable="true" class="editable-text place-address">{{ place.address }}</span>
+            </div>
+            <div class="location-editor-line">
+                <span class="location-editor-title">Phone Number:</span>
+                <span contenteditable="true" class="editable-text place-phone-number">{{ place.phone_number }}</span>
+            </div>
+            <div class="location-editor-line">
+                <span class='location-editor-title'>Website:</span>
+                <span contenteditable="true" class="editable-text place-website">{{ place.website }}</span>
+            </div>
+            <div class="location-editor-line">
+                <span class="location-editor-title">Business Hours:</span>
+                <a href="#" class="business-hours-link copy-business-hours-all-link">Copy All</a>
+                <a href="#" class="business-hours-link copy-business-hours-weekdays-link">Weekdays</a>
+                <a href="#" class="business-hours-link copy-business-hours-weekend-link">Weekend</a>
+                <a href="#" class="business-hours-link clear-business-hours-link">Clear</a>
+                <table class="business-hour-table">
+                    <tr>
+                        <td>
+                            Monday
+                        </td>
+                        <td>
+                            <input class="time-input" type="time" autocomplete="on" class="monday-opening" />
+                            <span class="to">to</span>
+                            <input class="time-input" type="time" autocomplete="on" class="monday-closing" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tuesday
+                        </td>
+                        <td>
+                            <input class="time-input" type="time" autocomplete="on" class="tuesday-opening" />
+                            <span class="to">to</span>
+                            <input class="time-input" type="time" autocomplete="on" class="tuesday-closing" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Wednesday
+                        </td>
+                        <td>
+                            <input class="time-input" type="time" autocomplete="on" class="wednesday-opening" />
+                            <span class="to">to</span>
+                            <input class="time-input" type="time" autocomplete="on" class="wednesday-closing" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Thursday
+                        </td>
+                        <td>
+                            <input class="time-input" type="time" autocomplete="on" class="thursday-opening" />
+                            <span class="to">to</span>
+                            <input class="time-input" type="time" autocomplete="on" class="thursday-closing" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Friday
+                        </td>
+                        <td>
+                            <input class="time-input" type="time" autocomplete="on" class="friday-opening" />
+                            <span class="to">to</span>
+                            <input class="time-input" type="time" autocomplete="on" class="friday-closing" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Saturday
+                        </td>
+                        <td>
+                            <input class="time-input" type="time" autocomplete="on" class="saturday-opening" />
+                            <span class="to">to</span>
+                            <input class="time-input" type="time" autocomplete="on" class="saturday-closing" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Sunday
+                        </td>
+                        <td>
+                            <input class="time-input" type="time" autocomplete="on" class="sunday-opening" />
+                            <span class="to">to</span>
+                            <input class="time-input" type="time" autocomplete="on" class="sunday-closing" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="location-editor-line">
+                <span class="location-editor-title">Location Types:</span>
+                <select class="multi-selector location-type-selector" multiple="multiple"></select>
+            </div>
+            <div class="location-editor-line">
+                <span class="location-editor-title">Product Categories:</span>
+                <select class="multi-selector product-categories-selector" multiple="multiple"></select>
+            </div>
+            <input type="submit" />
+            <div class="location-id hidden">{{ location_id }}</div>
+            <div class="place-latitude hidden">{{ place.latitude }}</div>
+            <div class="place-longitude hidden">{{ place.longitude }}</div>
+            <div class="place-google-id hidden">{{ place.google_id }}</div>
+        </form>
+    </div>
+</body>
