@@ -12,13 +12,13 @@ def index(request):
     if request.user.is_authenticated():
         context = { 'user': request.user }
         context.update(csrf(request));
-        return render_to_response('index.html', context)
+        return render_to_response('map.html', context)
 
 # Authentication
 def login_view(request):
     context = {}
     context.update(csrf(request))
-    return render_to_response('mapview.html', context)
+    return render_to_response('login.html', context)
 
 def register_view(request):
     context = {}
@@ -62,7 +62,23 @@ def user_exists(username):
 def map_view(request):
     context = {}
     context.update(csrf(request))
-    return render_to_response('mapview.html', context)
+    return render_to_response('map.html', context)
+
+# Request locations within map viewport
+def get_locations_within_bounds(request):
+    if request.is_ajax():
+        min_lat = request.POST['min_lat']
+        max_lat = request.POST['max_lat']
+        min_lng = request.POST['min_lng']
+        max_lng = request.POST['max_lng']
+
+        locations = Location.objects.select_related('address').filter(latitude__range = [min_lat, max_lat],
+            longitude__range = [min_lng, max_lng])[:100]
+
+        l = list(locations)
+
+        return HttpResponse(list(locations))
+
 
 # Location editor popup
 def get_location_editor_html(request, location_id):

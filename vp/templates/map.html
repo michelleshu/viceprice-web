@@ -2,12 +2,14 @@
 {% load staticfiles %}
 
 {% block resources %}
-    <link rel="stylesheet" type="text/css" href="{% static 'mapview.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/viceprice-map.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/viceprice-location-editor.css' %}" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk9dKIAjtgG63VtfarGXmjCT6cTruOF6c&libraries=places"></script>
-    <script type="text/javascript" src="{% static 'mapview.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/viceprice-map.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/viceprice-location-editor.js' %}"></script>
 {% endblock %}
 
 {% block content %}

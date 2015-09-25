@@ -13,7 +13,37 @@ var mapOptions = {
 var infowindow = new google.maps.InfoWindow({
     content: ""
 });
+
 var map, searchBox, markers, bounds;
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+function sameOrigin(url) {
+    // test that a given url is a same-origin URL
+    // url could be relative or scheme relative or absolute
+    var host = document.location.host; // host + port
+    var protocol = document.location.protocol;
+    var sr_origin = '//' + host;
+    var origin = protocol + sr_origin;
+    // Allow absolute or scheme relative URLs to same origin
+    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+        // or any other URL that isn't scheme relative or absolute i.e relative.
+        !(/^(\/\/|http:|https:).*/.test(url));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+            // Send the token to same-origin, relative URLs only.
+            // Send the token only if the method warrants CSRF protection
+            // Using the CSRFToken value acquired earlier
+            xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
+        }
+    }
+});
 
 // Initialize map and event listeners on page load
 function initialize() {
@@ -36,7 +66,29 @@ function initialize() {
     google.maps.event.addListener(map, 'bounds_changed', function() {
         bounds = map.getBounds();
         searchBox.setBounds(bounds);
+        getLocationsWithinBounds(map.getBounds());
     });
+}
+
+function getLocationsWithinBounds(bounds) {
+    var north_east = bounds.getNorthEast();
+    var south_west = bounds.getSouthWest();
+    var lat_north = north_east.lat();
+    var lat_south = south_west.lat();
+    var lng_east = north_east.lng();
+    var lng_west = south_west.lng();
+
+    $.ajax({
+        url: "get_locations_within_bounds/",
+        type: "POST",
+        data: {
+            min_lat: Math.min(lat_north, lat_south),
+            max_lat: Math.max(lat_north, lat_south),
+            min_lng: Math.min(lng_east, lng_west),
+            max_lng: Math.max(lng_east, lng_west)
+        }
+    });
+
 }
 
 function placesChangedCallback() {
