@@ -63,10 +63,10 @@ function initialize() {
     });
 
     // Bias the search results towards places that are within the bounds of the current map's viewport
-    google.maps.event.addListener(map, 'bounds_changed', function() {
+    google.maps.event.addListener(map, 'idle', function() {
         bounds = map.getBounds();
         searchBox.setBounds(bounds);
-        getLocationsWithinBounds(map.getBounds());
+        getLocationsWithinBounds(bounds);
     });
 }
 
@@ -82,13 +82,34 @@ function getLocationsWithinBounds(bounds) {
         url: "get_locations_within_bounds/",
         type: "POST",
         data: {
-            min_lat: Math.min(lat_north, lat_south),
-            max_lat: Math.max(lat_north, lat_south),
-            min_lng: Math.min(lng_east, lng_west),
-            max_lng: Math.max(lng_east, lng_west)
+            min_lat: lat_south,
+            max_lat: lat_north,
+            min_lng: lng_west,
+            max_lng: lng_east
+        },
+        success: function(locations) {
+            createMarkers(locations);
         }
     });
+}
 
+// Display markers for locations provided on map
+function createMarkers(locations) {
+    // Clear out current markers
+    for (var i = 0, marker; marker = markers[i]; i++) {
+        marker.setMap(null);
+    }
+    markers = [];
+
+    // For each location provided, make a new marker
+    for (var i = 0, location; location = locations[i]; i++) {
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(location.latitude, location.longitude),
+            map: map,
+            title: location.name
+        });
+        markers.push(marker);
+    }
 }
 
 function placesChangedCallback() {

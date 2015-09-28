@@ -3,9 +3,11 @@ from django.shortcuts import render, render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.forms.models import model_to_dict
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from models import Location, Address
+import json
 
 @login_required(login_url='/login/')
 def index(request):
@@ -72,13 +74,31 @@ def get_locations_within_bounds(request):
         min_lng = request.POST['min_lng']
         max_lng = request.POST['max_lng']
 
-        locations = Location.objects.select_related('address').filter(latitude__range = [min_lat, max_lat],
-            longitude__range = [min_lng, max_lng])[:100]
+        locations = list(
+            Location.objects
+                .select_related('address')
+                .filter(latitude__range = [min_lat, max_lat], longitude__range = [min_lng, max_lng])
+                .order_by('pk')[:50]
+            )
 
-        l = list(locations)
+        locations = [ location_info_to_dict(l) for l in locations ]
 
-        return HttpResponse(list(locations))
+        return HttpResponse(json.dumps(locations), content_type="application/json")
 
+# Custom mapping from Location and Address objects to JSON-serializable view info
+def location_info_to_dict(location):
+    return {
+        'name': location.name,
+        'latitude': location.latitude,
+        'longitude': location.longitude,
+        'address': model_to_dict(location.address),
+        'phone_number': location.phone_number,
+        'website': location.website,
+        'location_types': [ model_to_dict(lt) for lt in list(location.location_types.all()) ],
+        'product_categories': [ model_to_dict(pc) for pc in list(location.product_categories.all()) ],
+        'business_hours': [ model_to_dict(bh) for bh in list(location.product_categories.all()) ],
+        'approved': location.approved
+    }
 
 # Location editor popup
 def get_location_editor_html(request, location_id):
