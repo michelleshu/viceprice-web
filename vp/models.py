@@ -86,3 +86,4 @@ class Location(models.Model):
     approved_by = models.ForeignKey(User, unique=False, related_name='approved_by', null=True)
     open_street_map_id = models.BigIntegerField(null = True)
     google_places_id = models.BigIntegerField(null = True)
+    foursquare_id = models.BigIntegerField(null = True)
