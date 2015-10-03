@@ -13,7 +13,7 @@ DAY_OF_WEEK = {
 
 class LocationCategory(models.Model):
     name = models.CharField(max_length=256, null=False)
-    super_category = models.ForeignKey('self')
+    super_category = models.ForeignKey('self', null=True)
 
 class BusinessHour(models.Model):
     day_of_week = models.IntegerField(null=True)

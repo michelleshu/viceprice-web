@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.template.loader import render_to_string
 from django.http import HttpResponse
-from models import Location, Address
+from models import Location
 import json
 
 @login_required(login_url='/login/')
@@ -60,12 +60,6 @@ def user_exists(username):
         return False
     return True
 
-# Location entry map
-def map_view(request):
-    context = {}
-    context.update(csrf(request))
-    return render_to_response('map.html', context)
-
 # Request locations within map viewport
 def get_locations_within_bounds(request):
     if request.is_ajax():
@@ -94,65 +88,6 @@ def location_info_to_dict(location):
         'address': model_to_dict(location.address),
         'phone_number': location.phone_number,
         'website': location.website,
-        'location_types': [ model_to_dict(lt) for lt in list(location.location_types.all()) ],
-        'product_categories': [ model_to_dict(pc) for pc in list(location.product_categories.all()) ],
         'business_hours': [ model_to_dict(bh) for bh in list(location.product_categories.all()) ],
         'approved': location.approved
     }
-
-# Location editor popup
-def get_location_editor_html(request, location_id):
-    if request.is_ajax():
-        location = Location.objects.get(pk = location_id)
-        address = Address.object.get(pk = location.address_id)
-
-        # Update display address if doesn't already exist
-        if (address.display_address == None):
-            address.display_address = empty_if_none(address.house_number) + " " + empty_if_none(address.street) + "\n" + \
-                empty_if_none(address.city) + ", " + empty_if_none(address.state) + " " + empty_if_none(address.postal_code)
-            address.save()
-
-        context = {
-            'place': {
-                'name': location.name,
-                'address': address.display_address,
-                'phone_number': location.phone_number,
-                'website': location.website,
-                'latitude': location.latitude,
-                'longitude': location.longitude,
-                'google-id': location.google_places_id
-            }
-        }
-
-        html = render_to_string('location_editor.html', context)
-        return HttpResponse(html)
-
-def location_editor_view(request, location_id):
-    location = Location.objects.get(pk = location_id)
-    address = Address.objects.get(pk = location.address_id)
-
-    # Update display address if doesn't already exist
-    if (address.display_address == None):
-        address.display_address = empty_if_none(address.house_number) + " " + empty_if_none(address.street) + "\n" + \
-            empty_if_none(address.city) + ", " + empty_if_none(address.state) + " " + empty_if_none(address.postal_code)
-        address.save()
-
-    context = {
-        'place': {
-            'name': location.name,
-            'address': address.display_address,
-            'phone_number': location.phone_number,
-            'website': location.website,
-            'latitude': location.latitude,
-            'longitude': location.longitude,
-            'google-id': location.google_places_id
-        }
-    }
-
-    return render_to_response('location_editor.html', context)
-
-# Return an empty string if the string is null. Otherwise, return the string.
-def empty_if_none(string):
-    if string is None:
-        return ''
-    return string
