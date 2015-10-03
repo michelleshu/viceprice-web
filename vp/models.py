@@ -31,5 +31,6 @@ class Location(models.Model):
     formatted_phone_number = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
     description = models.CharField(max_length=1000, null=True)
+    rating = models.FloatField(null=True)
     date_last_updated = models.DateTimeField(auto_now_add=True, null=True)
     foursquare_id = models.BigIntegerField(null = True)
