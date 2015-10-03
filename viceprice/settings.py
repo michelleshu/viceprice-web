@@ -114,3 +114,7 @@ STATICFILES_DIRS = (
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# Foursquare API Credentials
+FOURSQUARE_CLIENT_ID = 'Y0MSL55CTYJFNA3DZCGJ53VVFDOFZKCNOLWYC50KW0S12W3R'
+FOURSQUARE_CLIENT_SECRET = 'L25O3GR00MAXZ2YS2R5E3GFQC1AUWES33YNVNNA3GT5K0KY4'
