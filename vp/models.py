@@ -23,8 +23,8 @@ class BusinessHour(models.Model):
 # Information about a location
 class Location(models.Model):
     name = models.CharField(max_length=256, null=True)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
     location_categories = models.ManyToManyField(LocationCategory)
     business_hours = models.ManyToManyField(BusinessHour)
     formatted_address = models.CharField(max_length=512, null=True)
@@ -33,4 +33,4 @@ class Location(models.Model):
     description = models.CharField(max_length=1000, null=True)
     rating = models.FloatField(null=True)
     date_last_updated = models.DateTimeField(auto_now_add=True, null=True)
-    foursquare_id = models.BigIntegerField(null = True)
+    foursquare_id = models.CharField(max_length=50, null = True)
