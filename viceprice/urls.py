@@ -17,12 +17,11 @@ urlpatterns = patterns('',
     url(r'^register/$', vp.views.register_view, name='register'),
     url(r'^authenticate_user/$', vp.views.authenticate_user, name='authenticate_user'),
 
-    # Map
-    url(r'^map/$', vp.views.map_view, name='map'),
-    url(r'^get_locations_within_bounds/$', vp.views.get_locations_within_bounds, name='get_locations_within_bounds'),
+    # Data
+    url(r'^update_locations/$', vp.views.update_locations, name='update_locations'),
 
-    # Location editor
-    url(r'^edit_location/(?P<location_id>[0-9]+)/$', vp.views.location_editor_view, name='location_editor'),
+    # Map
+    url(r'^get_locations_within_bounds/$', vp.views.get_locations_within_bounds, name='get_locations_within_bounds'),
 
     # Admin
     url(r'^admin/', include(admin.site.urls))
