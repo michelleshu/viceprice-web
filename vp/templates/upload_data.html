@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block resources %}
+    <link rel="stylesheet" href="{% static 'css/upload-data.css' %}">
+{% endblock resources %}
+
+{% block content %}
+    <form method="POST" action="/submit_locations_to_upload/" id="location-data-form">
+        {% csrf_token %}
+        <label for="location-foursquare-ids">Foursquare Ids: </label>
+        <textarea id="location-foursquare-ids" name="location-foursquare-ids" form="location-data-form" type="text" rows="30" cols="100"></textarea>
+        <label for="location-category">Category: </label>
+        <select id="location-category" name="location-category">
+            {% for category in location_categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+{% endblock content %}

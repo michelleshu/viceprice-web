@@ -3,12 +3,14 @@ from django.shortcuts import render, render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.conf import settings
 from django.utils import timezone
-from models import Location, BusinessHour, TimeFrame, DayOfWeek
+from datetime import timedelta
+from models import Location, LocationCategory, BusinessHour
 import json
 import requests
 
@@ -17,7 +19,7 @@ def index(request):
     if request.user.is_authenticated():
         context = { 'user': request.user }
         context.update(csrf(request));
-        return render_to_response('map.html', context)
+        return upload_data_view(request)
 
 # Authentication
 def login_view(request):
@@ -65,7 +67,13 @@ def user_exists(username):
 
 # Update all location data that needs to be updated
 def update_locations(request):
-    foursquare_locations = Location.objects.all()
+    earliest_unexpired_date = timezone.now() - timedelta(days=30)
+
+    # Get all locations that have either just been added or expired
+    foursquare_locations = Location.objects.filter(Q(name__isnull=True) | Q(dateLastUpdated__lt=earliest_unexpired_date))
+
+    response = HttpResponse()
+    response.write("<h3>Updated locations:</h3>")
 
     for location in foursquare_locations:
         data = (requests.get("https://api.foursquare.com/v2/venues/" + location.foursquareId,
@@ -75,7 +83,7 @@ def update_locations(request):
                 'v': '20151003',
                 'm': 'foursquare'
             })
-            .json())['response']['venue'];
+            .json())['response']['venue']
 
         location.name = data.get('name')
         location.latitude = data['location'].get('lat')
@@ -93,7 +101,9 @@ def update_locations(request):
 
         update_business_hours(location)
 
-    return HttpResponse('')
+        response.write("<p>" + location.name + " updated</p>")
+
+    return response
 
 def update_business_hours(location):
     business_hours = location.businessHours.all()
@@ -152,3 +162,26 @@ def location_info_to_dict(location):
         'business_hours': [ model_to_dict(bh) for bh in list(location.product_categories.all()) ],
         'approved': location.approved
     }
+
+# Utility to add foursquare ids to our database and pull initial data
+def upload_data_view(request):
+    location_categories = LocationCategory.objects.all()
+    context = { 'location_categories': list(location_categories) }
+    context.update(csrf(request))
+
+    return render_to_response('upload_data.html', context)
+
+def submit_locations_to_upload(request):
+    data = request.POST
+
+    # For every Foursquare ID entered in the form, insert into database if it doesn't already exist
+    location_foursquare_ids = data.get('location-foursquare-ids').splitlines()
+    location_category = int(data.get('location-category'))
+
+    for foursquare_id in location_foursquare_ids:
+        location, created = Location.objects.get_or_create(foursquareId = foursquare_id.strip())
+        location.category_id = location_category
+        location.save()
+
+    return update_locations(request)
+

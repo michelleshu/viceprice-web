@@ -1,0 +1,9 @@
+form#location-data-form {
+    margin-left: 5em;
+    margin-top: 2em;
+}
+
+textarea#location-foursquare-ids {
+    width: 500px;
+    height: 500px;
+}

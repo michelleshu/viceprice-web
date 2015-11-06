@@ -64,4 +64,4 @@ class Location(models.Model):
     website = models.CharField(max_length=256, null=True)
     rating = models.FloatField(null=True)
     dateLastUpdated = models.DateTimeField(auto_now_add=True, null=True)
-    foursquareId = models.CharField(max_length=50, null = True)
+    foursquareId = models.CharField(max_length=50, null=True, unique=True)
