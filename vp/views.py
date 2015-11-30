@@ -105,11 +105,12 @@ def submit_locations_to_upload(request):
 
     # For every Foursquare ID entered in the form, insert into database if it doesn't already exist
     location_foursquare_ids = data.get('location-foursquare-ids').splitlines()
-    location_category = int(data.get('location-category'))
+    location_category_id = int(data.get('location-category'))
 
     for foursquare_id in location_foursquare_ids:
         location, created = Location.objects.get_or_create(foursquareId = foursquare_id.strip())
-        location.category_id = location_category
+        location_category = LocationCategory.objects.get(id = location_category_id)
+        location.locationCategories.add(location_category)
         location.save()
 
     return HttpResponse("Success")
