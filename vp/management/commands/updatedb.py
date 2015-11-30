@@ -109,7 +109,7 @@ class Command(BaseCommand):
 
         for mturk_location in updated_locations:
             location, created = Location.objects.get_or_create(foursquareId = mturk_location.foursquare_id)
-            location.dateLastUpdated = datetime.now()
+            location.mturkDateLastUpdated = datetime.now()
             location.name = mturk_location.name
             location.formattedAddress = mturk_location.address
             location.latitude = float(mturk_location.latitude)
