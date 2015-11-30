@@ -19,7 +19,6 @@ urlpatterns = patterns('',
 
     # Data
     url(r'^upload_data/$', vp.views.upload_data_view, name='upload_data'),
-    url(r'^update_locations/$', vp.views.update_locations, name='update_locations'),
     url(r'^submit_locations_to_upload/$', vp.views.submit_locations_to_upload, name='submit_locations_to_upload'),
 
     # Map
