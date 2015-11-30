@@ -4,14 +4,22 @@ from datetime import datetime
 from pytz import timezone
 import pytz
 
+MONDAY = 'Monday'
+TUESDAY = 'Tuesday'
+WEDNESDAY = 'Wednesday'
+THURSDAY = 'Thursday'
+FRIDAY = 'Friday'
+SATURDAY = 'Saturday'
+SUNDAY = 'Sunday'
+
 DAY_OF_WEEK = {
-    'Monday': 1,
-    'Tuesday': 2,
-    'Wednesday': 3,
-    'Thursday': 4,
-    'Friday': 5,
-    'Saturday': 6,
-    'Sunday': 7
+    MONDAY: 1,
+    TUESDAY: 2,
+    WEDNESDAY: 3,
+    THURSDAY: 4,
+    FRIDAY: 5,
+    SATURDAY: 6,
+    SUNDAY: 7
 }
 
 EASTERN_TIMEZONE = timezone('US/Eastern')
@@ -52,6 +60,11 @@ class TimeFrame(models.Model):
     endTime = models.TimeField()
     businessHour = models.ForeignKey(BusinessHour, related_name='time_frames', null=True)
 
+# Information about a deal at a location
+class Deal(models.Model):
+    dealHour = models.OneToOneField(BusinessHour)
+    description = models.CharField(max_length=512)
+
 # Information about a location
 class Location(models.Model):
     name = models.CharField(max_length=256, null=True)
@@ -63,5 +76,8 @@ class Location(models.Model):
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
     rating = models.FloatField(null=True)
+    check_ins = models.IntegerField(null=True)
     dateLastUpdated = models.DateTimeField(auto_now_add=True, null=True)
     foursquareId = models.CharField(max_length=50, null=True, unique=True)
+    deals = models.ManyToManyField(Deal)
+    comments = models.CharField(max_length=1000, null=True)

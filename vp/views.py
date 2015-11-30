@@ -11,6 +11,8 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
 from models import Location, LocationCategory, BusinessHour
+from mturk import common_constants
+from mturk import mturk_utilities
 import json
 import requests
 
@@ -159,7 +161,7 @@ def location_info_to_dict(location):
         'address': model_to_dict(location.address),
         'phone_number': location.phone_number,
         'website': location.website,
-        'business_hours': [ model_to_dict(bh) for bh in list(location.product_categories.all()) ],
+        'business_hours': [ model_to_dict(bh) for bh in list(location.business_hours.all()) ],
         'approved': location.approved
     }
 

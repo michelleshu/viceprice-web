@@ -1,0 +1,112 @@
+<!-- JQuery 1.11.2 --><script src="//code.jquery.com/jquery-1.11.2.min.js"></script><script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script><!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" property="stylesheet" rel="stylesheet" />
+<style type="text/css">a.expand-collapse-link {
+		margin-left: 15px;
+		color: white;
+	}
+    .example-image {
+        padding: 20px;
+    }
+</style>
+<section class="container" id="Survey" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333; font-size:0.9em;"><!-- Instructions -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Instructions</strong> <span><a class="expand-collapse-link expanded">[Hide]</a></span></div>
+
+<div class="collapsible">
+<ul class="collapsible" style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;">
+	<li style="line-height: 20.8px;">You will be given a website for the business ${name}. Try and find where Happy Hour info is located.</li>
+	<li style="line-height: 20.8px;">Happy Hours are<strong>&nbsp;&quot;the time in a day when alcoholic drinks are sold at lower prices in a bar or restaurant.&quot; </strong></li>
+	<li style="line-height: 20.8px;">Use the examples below for help. Thanks!</li>
+</ul>
+<img class="example-image" src="https://i.imgur.com/lRJQsz1.jpg" width="800" /> <img class="example-image" src="http://i.imgur.com/XbzuwCM.jpg" width="800" /></div>
+</div>
+
+<section>
+<fieldset class="find-deals-url">
+<p>First click <a href="https://www.google.com/?q=site:${url}+happy+hour" target="_blank">HERE</a> to do a web search for happy hours at ${name}. This will do a search for Happy Hours for pages only at&nbsp;${url}.</p>
+
+<p>If you cannot find anything with the web search, go to <a href="${url}" target="_blank">${url} </a>itself&nbsp;and search for where happy hour information is.</p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><span style="font-size: 11.7px; line-height: 20.8px;">It is normally&nbsp;located in&nbsp;</span> <strong> &quot;Beverages&quot;, &quot;Menus&quot;, &quot;Specials&quot;, &quot;Drinks&quot;, or &quot;Deals&quot; </strong></p>
+
+<p><span style="line-height: 18.72px;"><b>Did you find where&nbsp;HAPPY HOUR information was?</b></span></p>
+
+<div class="radio"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label><input name="find-deals-url" type="radio" value="1" />Yes</label> </span></div>
+
+<div class="show-if-found-deals-url"><span style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; font-weight: bold; line-height: 20.8px; background-color: rgb(251, 251, 251);">Post the URL with HAPPY HOUR information [PDF&#39;s are okay!]</span> <input class="form-control" id="URL" name="deals-url-websitefield" placeholder="Example: http://www.thegreeneturtle.com/happy-hour" style="line-height: 1.42857; width: 710px;" type="text" /></div>
+
+<div class="radio"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label><input name="find-deals-url" type="radio" value="2" />Could not find Happy Hour information</label> </span></div>
+</fieldset>
+
+<fieldset class="biggest-object"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label>What is the biggest object here?</label> </span></fieldset>
+
+<fieldset class="comments">
+<div><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><b>Anything we should know about?</b><br />
+<input class="form-control" id="other" name="comments" placeholder="" type="text" /> </span></div>
+</fieldset>
+</section>
+<span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><!-- End Survey Body --> <!-- close container -->
+<style type="text/css">fieldset {
+                    padding: 10px;
+                    background: #fbfbfb;
+                    border-radius: 5px;
+                    margin-bottom: 5px;
+                }
+</style>
+<script type="text/javascript">
+                // Expand and collapse instructions
+                $(".expand-collapse-link").click(function() {
+                    if ($(this).hasClass("expanded")) {
+                        $(this).text("[Show]");
+                        $(this).removeClass("expanded");
+                        $(".collapsible").hide();
+                    } else {
+                        $(this).text("[Hide]");
+                        $(this).addClass("expanded");
+                        $(".collapsible").show();
+                    }
+                });
+
+                // Expand text box only when found a URL that was missing
+                $(".show-if-found-deals-url").hide();
+                $("input[name='find-deals-url']").change(function() {
+                    if ($(this).val() == "1") {
+                        $(".show-if-found-deals-url").show();
+                    } else {
+                        $(".show-if-found-deals-url").hide();
+                    }
+                });
+
+                var shuffleArray = function(array) {
+                    var currentIndex = array.length,
+                        temporaryValue, randomIndex;
+
+                    // While there remain elements to shuffle...
+                    while (0 !== currentIndex) {
+
+                        // Pick a remaining element...
+                        randomIndex = Math.floor(Math.random() * currentIndex);
+                        currentIndex -= 1;
+
+                        // And swap it with the current element.
+                        temporaryValue = array[currentIndex];
+                        array[currentIndex] = array[randomIndex];
+                        array[randomIndex] = temporaryValue;
+                    }
+
+                    return array;
+                };
+
+                // Randomize the ordering of options for biggest object question
+                var objectOptions = [
+                    "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Book</label></span></div>",
+                    "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Phone</label></span></div>",
+                    "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Shoe</label></span></div>",
+                    "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='correct' />A Car</label></span></div>"
+                ];
+                objectOptions = shuffleArray(objectOptions);
+
+                objectOptions.forEach(function(o) {
+                    $("fieldset.biggest-object").append(o);
+                });
+            </script> </span></section>

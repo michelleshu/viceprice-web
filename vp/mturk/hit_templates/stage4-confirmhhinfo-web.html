@@ -1,0 +1,418 @@
+<!-- JQuery 1.11.2 --><script src="//code.jquery.com/jquery-1.11.2.min.js"></script><script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script><!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" property="stylesheet" rel="stylesheet" />
+<style type="text/css">a.expand-collapse-link {
+		margin-left: 15px;
+		color: white;
+	}
+
+    .hh-info-example-table {
+        width: 800px;
+        padding: 20px;
+        font-family: Verdana, Geneva, sans-serif; 
+        font-size: 11.7px;
+        color: grey;
+    }
+
+    .hh-info-example-table td {
+        border: 1px solid grey;
+        text-align: left;
+        vertical-align: top;
+        padding: 10px;
+    }
+
+    .hh-info-table {
+        width: 800px;
+        padding: 20px;
+        font-family: Verdana, Geneva, sans-serif; 
+        font-size: 11.7px;
+    }
+
+    .hh-info-table td {
+        border: 1px solid black;
+        height: 100px;
+        text-align: left;
+        vertical-align: top;
+        padding: 10px;
+    }
+
+    .narrow-column {
+        width: 120px;
+    }
+
+    .wide-column {
+        width: 440px;
+    }
+    
+    textarea{
+        resize:none;
+        overflow:hidden;
+        width: 420px;
+        min-height: 80px;
+        max-height:1000px;
+     }
+
+     .uneditable-input {
+         border: none;
+         background-color: transparent;
+         overflow: auto;
+         outline: none;
+
+         -webkit-box-shadow: none;
+         -moz-box-shadow: none;
+         box-shadow: none;
+     }
+</style>
+<section class="container" id="Survey" style="margin-bottom: 15px; padding: 10px;">
+<div class="row col-xs-12 col-md-12"><!-- Instructions -->
+<div class="panel panel-primary">
+<div class="panel-heading" style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 0.9em;"><span style="color:#FFFFFF;"><strong>Instructions</strong> </span><span><a class="expand-collapse-link expanded">[Hide]</a></span></div>
+
+<ul class="collapsible">
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">You will be given a website with happy hour information.</li>
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><strong>Happy Hours are when alcoholic drinks are sold&nbsp;at a lower price in a bar or restaurant. </strong></li>
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">Your job will be to confirm that the information in the grid below matches&nbsp;the information on the website.</li>
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">For each day of the week, please either confirm that the information is correct or edit the information to make it correct.</li>
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">Use the example&nbsp;below for help. Thanks!<img src="http://i.imgur.com/OVMfH8W.png" width="800px" /></li>
+</ul>
+</div>
+</div>
+&nbsp;
+
+<section style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 0.9em;">&nbsp;
+<p>&nbsp;</p>
+
+<fieldset class="happy-hour-info">
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><strong><span style="font-size: 11.7px; line-height: 18.72px; background-color: rgb(251, 251, 251);">Go to <a href="${deals_url}" target="_blank">${deals_url}</a>. Find the Happy Hour&nbsp;specials for ${name} and confirm that the information below matches by clicking &quot;Correct&quot; or &quot;Incorrect&quot; for each day. If the information does not match, please provide the information from the website.</span></strong></p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><span style="font-size: 11.7px; line-height: 18.72px; background-color: rgb(251, 251, 251);">If&nbsp;info for that day is&nbsp;correct, click &quot;Correct&quot;.</span></p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><span style="line-height: 18.72px; font-size: 11.7px;">If a day&nbsp;needs to be updated with website info, click &quot;Incorrect&quot; and update the data.&nbsp;</span></p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><span style="line-height: 18.72px;">If the website has no data for a day&nbsp;but you see info listed, click &quot;Incorrect&quot; and make the entire row empty.</span></p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><span style="font-size: 11.7px; line-height: 18.72px; background-color: rgb(251, 251, 251);">If a Happy Hour is on multiple days, copy the same&nbsp;Happy Hour description to each of those days.</span></p>
+
+<div>&nbsp;</div>
+
+<div>
+<table class="hh-info-table">
+	<tbody>
+		<tr>
+			<td class="narrow-column"><strong>Day</strong></td>
+			<td class="narrow-column"><strong>Starting Time</strong></td>
+			<td class="narrow-column"><strong>Ending Time</strong></td>
+			<td class="wide-column"><strong>Happy Hour Description</strong></td>
+			<td class="narrow-column"><strong>Information Correct?</strong></td>
+		</tr>
+		<tr>
+			<td>Monday</td>
+			<td><input class="monday-provided-info uneditable-input monday-provided-start-time" readonly="readonly" type="time" value="${monday_start_time}" /> <input class="hidden monday-update-info" name="monday-start-time" type="time" value="${monday_start_time}" /></td>
+			<td><input class="monday-provided-info uneditable-input monday-provided-end-time" readonly="readonly" type="time" value="${monday_end_time}" /> <input class="hidden monday-update-info" name="monday-end-time" type="time" value="${monday_end_time}" /></td>
+			<td><textarea class="monday-provided-info uneditable-input monday-provided-description" onkeyup="auto_grow(this)" readonly="readonly">${monday_description}</textarea>
+			<p class="hidden monday-prompt monday-update-info">Please enter the correct times and description for Monday.</p>
+			<textarea class="hidden monday-update-info" name="monday-description" onkeyup="auto_grow(this)">${monday_description}</textarea><button class="monday-submit hidden monday-update-info">Submit</button></td>
+			<td><a class="monday-correct-link">Correct</a><br />
+			<a class="monday-incorrect-link">Incorrect</a></td>
+		</tr>
+		<tr>
+			<td>Tuesday</td>
+			<td><input class="tuesday-provided-info uneditable-input tuesday-provided-start-time" readonly="readonly" type="time" value="${tuesday_start_time}" /> <input class="hidden tuesday-update-info" name="tuesday-start-time" type="time" value="${tuesday_start_time}" /></td>
+			<td><input class="tuesday-provided-info uneditable-input tuesday-provided-end-time" readonly="readonly" type="time" value="${tuesday_end_time}" /> <input class="hidden tuesday-update-info" name="tuesday-end-time" type="time" value="${tuesday_end_time}" /></td>
+			<td><textarea class="tuesday-provided-info uneditable-input tuesday-provided-description" onkeyup="auto_grow(this)" readonly="readonly">${tuesday_description}</textarea>
+			<p class="hidden tuesday-prompt tuesday-update-info">Please enter the correct times and description for Tuesday.</p>
+			<textarea class="hidden tuesday-update-info" name="tuesday-description" onkeyup="auto_grow(this)">${tuesday_description}</textarea><button class="tuesday-submit hidden tuesday-update-info">Submit</button></td>
+			<td><a class="tuesday-correct-link">Correct</a><br />
+			<a class="tuesday-incorrect-link">Incorrect</a></td>
+		</tr>
+		<tr>
+			<td>Wednesday</td>
+			<td><input class="wednesday-provided-info uneditable-input wednesday-provided-start-time" readonly="readonly" type="time" value="${wednesday_start_time}" /> <input class="hidden wednesday-update-info" name="wednesday-start-time" type="time" value="${wednesday_start_time}" /></td>
+			<td><input class="wednesday-provided-info uneditable-input wednesday-provided-end-time" readonly="readonly" type="time" value="${wednesday_end_time}" /> <input class="hidden wednesday-update-info" name="wednesday-end-time" type="time" value="${wednesday_end_time}" /></td>
+			<td><textarea class="wednesday-provided-info wednesday-provided-description uneditable-input" onkeyup="auto_grow(this)" readonly="readonly">${wednesday_description}</textarea>
+			<p class="hidden wednesday-prompt wednesday-update-info">Please enter the correct times and description for Wednesday.</p>
+			<textarea class="hidden wednesday-update-info" name="wednesday-description" onkeyup="auto_grow(this)">${wednesday_description}</textarea><button class="wednesday-submit hidden wednesday-update-info">Submit</button></td>
+			<td><a class="wednesday-correct-link">Correct</a><br />
+			<a class="wednesday-incorrect-link">Incorrect</a></td>
+		</tr>
+		<tr>
+			<td>Thursday</td>
+			<td><input class="thursday-provided-info uneditable-input thursday-provided-start-time" readonly="readonly" type="time" value="${thursday_start_time}" /> <input class="hidden thursday-update-info" name="thursday-start-time" type="time" value="${thursday_start_time}" /></td>
+			<td><input class="thursday-provided-info uneditable-input thursday-provided-end-time" readonly="readonly" type="time" value="${thursday_end_time}" /> <input class="hidden thursday-update-info" name="thursday-end-time" type="time" value="${thursday_end_time}" /></td>
+			<td><textarea class="thursday-provided-info uneditable-input thursday-provided-description" onkeyup="auto_grow(this)" readonly="readonly">${thursday_description}</textarea>
+			<p class="hidden thursday-prompt thursday-update-info">Please enter the correct times and description for Thursday.</p>
+			<textarea class="hidden thursday-update-info" name="thursday-description" onkeyup="auto_grow(this)">${thursday_description}</textarea><button class="thursday-submit hidden thursday-update-info">Submit</button></td>
+			<td><a class="thursday-correct-link">Correct</a><br />
+			<a class="thursday-incorrect-link">Incorrect</a></td>
+		</tr>
+		<tr>
+			<td>Friday</td>
+			<td><input class="friday-provided-info uneditable-input friday-provided-start-time" readonly="readonly" type="time" value="${friday_start_time}" /> <input class="hidden friday-update-info" name="friday-start-time" type="time" value="${friday_start_time}" /></td>
+			<td><input class="friday-provided-info uneditable-input friday-provided-end-time" readonly="readonly" type="time" value="${friday_end_time}" /> <input class="hidden friday-update-info" name="friday-end-time" type="time" value="${friday_end_time}" /></td>
+			<td><textarea class="friday-provided-info uneditable-input friday-provided-description" onkeyup="auto_grow(this)" readonly="readonly">${friday_description}</textarea>
+			<p class="hidden friday-prompt friday-update-info">Please enter the correct times and description for Friday.</p>
+			<textarea class="hidden friday-update-info" name="friday-description" onkeyup="auto_grow(this)">${friday_description}</textarea><button class="friday-submit hidden friday-update-info">Submit</button></td>
+			<td><a class="friday-correct-link">Correct</a><br />
+			<a class="friday-incorrect-link">Incorrect</a></td>
+		</tr>
+		<tr>
+			<td>Saturday</td>
+			<td><input class="saturday-provided-info uneditable-input saturday-provided-start-time" readonly="readonly" type="time" value="${saturday_start_time}" /> <input class="hidden saturday-update-info" name="saturday-start-time" type="time" value="${saturday_start_time}" /></td>
+			<td><input class="saturday-provided-info uneditable-input saturday-provided-end-time" readonly="readonly" type="time" value="${saturday_end_time}" /> <input class="hidden saturday-update-info" name="saturday-end-time" type="time" value="${saturday_end_time}" /></td>
+			<td><textarea class="saturday-provided-info saturday-provided-description uneditable-input" onkeyup="auto_grow(this)" readonly="readonly">${saturday_description}</textarea>
+			<p class="hidden saturday-prompt saturday-update-info">Please enter the correct times and description for Saturday.</p>
+			<textarea class="hidden saturday-update-info" name="saturday-description" onkeyup="auto_grow(this)">${saturday_description}</textarea><button class="saturday-submit hidden saturday-update-info">Submit</button></td>
+			<td><a class="saturday-correct-link">Correct</a><br />
+			<a class="saturday-incorrect-link">Incorrect</a></td>
+		</tr>
+		<tr>
+			<td>Sunday</td>
+			<td><input class="sunday-provided-info uneditable-input sunday-provided-start-time" readonly="readonly" type="time" value="${sunday_start_time}" /> <input class="hidden sunday-update-info" name="sunday-start-time" type="time" value="${sunday_start_time}" /></td>
+			<td><input class="sunday-provided-info uneditable-input sunday-provided-end-time" readonly="readonly" type="time" value="${sunday_end_time}" /> <input class="hidden sunday-update-info" name="sunday-end-time" type="time" value="${sunday_end_time}" /></td>
+			<td><textarea class="sunday-provided-info sunday-provided-description uneditable-input" onkeyup="auto_grow(this)" readonly="readonly">${sunday_description}</textarea>
+			<p class="hidden sunday-prompt sunday-update-info">Please enter the correct times and description for Sunday.</p>
+			<textarea class="hidden sunday-update-info" name="sunday-description" onkeyup="auto_grow(this)">${sunday_description}</textarea><button class="sunday-submit hidden sunday-update-info">Submit</button></td>
+			<td><a class="sunday-correct-link">Correct</a><br />
+			<a class="sunday-incorrect-link">Incorrect</a></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</fieldset>
+
+<fieldset class="biggest-object"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label>What is the biggest object here?</label> </span></fieldset>
+
+<fieldset class="comments">
+<div><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><b>Anything we should know about?</b><br />
+<input class="form-control" id="other" name="comments" placeholder="" type="text" /> </span></div>
+</fieldset>
+</section>
+<span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><!-- End Survey Body --> <!-- close container -->
+<style type="text/css">fieldset {
+				padding: 10px;
+				background: #fbfbfb;
+				border-radius: 5px;
+				margin-bottom: 5px;
+			}
+</style>
+<script type="text/javascript">
+			// Expand and collapse instructions
+			$(".expand-collapse-link").click(function() {
+				if ($(this).hasClass("expanded")) {
+					$(this).text("[Show]");
+					$(this).removeClass("expanded");
+					$(".collapsible").hide();
+				} else {
+					$(this).text("[Hide]");
+					$(this).addClass("expanded");
+					$(".collapsible").show();
+				}
+			});
+
+            // Provide text for null happy hours
+            if ($(".monday-provided-description").text() == "") {
+                $(".monday-provided-description").text("No happy hours on Monday");
+            }
+            if ($(".tuesday-provided-description").text() == "") {
+                $(".tuesday-provided-description").text("No happy hours on Tuesday");
+            }
+            if ($(".wednesday-provided-description").text() == "") {
+                $(".wednesday-provided-description").text("No happy hours on Wednesday");
+            }
+            if ($(".thursday-provided-description").text() == "") {
+                $(".thursday-provided-description").text("No happy hours on Thursday");
+            }
+            if ($(".friday-provided-description").text() == "") {
+                $(".friday-provided-description").text("No happy hours on Friday");
+            }
+            if ($(".saturday-provided-description").text() == "") {
+                $(".saturday-provided-description").text("No happy hours on Saturday");
+            }
+            if ($(".sunday-provided-description").text() == "") {
+                $(".sunday-provided-description").text("No happy hours on Sunday");
+            }
+
+            // Set behavior for clicking to confirm information is correct
+            $(".monday-correct-link").click(function() {
+                $(".monday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".monday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".monday-update-info").addClass("hidden");
+                $(".monday-provided-info").removeClass("hidden");
+            });
+            $(".tuesday-correct-link").click(function() {
+                $(".tuesday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".tuesday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".tuesday-update-info").addClass("hidden");
+                $(".tuesday-provided-info").removeClass("hidden");
+            });
+            $(".wednesday-correct-link").click(function() {
+                $(".wednesday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".wednesday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".wednesday-update-info").addClass("hidden");
+                $(".wednesday-provided-info").removeClass("hidden");
+            });
+            $(".thursday-correct-link").click(function() {
+                $(".thursday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".thursday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".thursday-update-info").addClass("hidden");
+                $(".thursday-provided-info").removeClass("hidden");
+            });
+            $(".friday-correct-link").click(function() {
+                $(".friday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".friday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".friday-update-info").addClass("hidden");
+                $(".friday-provided-info").removeClass("hidden");
+            });
+            $(".saturday-correct-link").click(function() {
+                $(".saturday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".saturday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".saturday-update-info").addClass("hidden");
+                $(".saturday-provided-info").removeClass("hidden");
+            });
+            $(".sunday-correct-link").click(function() {
+                $(".sunday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".sunday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".sunday-update-info").addClass("hidden");
+                $(".sunday-provided-info").removeClass("hidden");
+            });
+
+            // Set behavior for clicking to edit incorrect information
+            $(".monday-incorrect-link").click(function() {
+                $(".monday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".monday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".monday-update-info").removeClass("hidden");
+                $(".monday-update-info").removeClass("uneditable-input");
+                $(".monday-submit").removeClass("hidden");
+                $(".monday-provided-info").addClass("hidden");
+            });
+            $(".tuesday-incorrect-link").click(function() {
+                $(".tuesday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".tuesday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".tuesday-update-info").removeClass("hidden");
+                $(".tuesday-update-info").removeClass("uneditable-input");
+                $(".tuesday-submit").removeClass("hidden");
+                $(".tuesday-provided-info").addClass("hidden");
+            });
+            $(".wednesday-incorrect-link").click(function() {
+                $(".wednesday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".wednesday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".wednesday-update-info").removeClass("hidden");
+                $(".wednesday-update-info").removeClass("uneditable-input");
+                $(".wednesday-submit").removeClass("hidden");
+                $(".wednesday-provided-info").addClass("hidden");
+            });
+            $(".thursday-incorrect-link").click(function() {
+                $(".thursday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".thursday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".thursday-update-info").removeClass("hidden");
+                $(".thursday-update-info").removeClass("uneditable-input");
+                $(".thursday-submit").removeClass("hidden");
+                $(".thursday-provided-info").addClass("hidden");
+            });
+            $(".friday-incorrect-link").click(function() {
+                $(".friday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".friday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".friday-update-info").removeClass("hidden");
+                $(".friday-update-info").removeClass("uneditable-input");
+                $(".friday-submit").removeClass("hidden");
+                $(".friday-provided-info").addClass("hidden");
+            });
+            $(".saturday-incorrect-link").click(function() {
+                $(".saturday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".saturday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".saturday-update-info").removeClass("hidden");
+                $(".saturday-update-info").removeClass("uneditable-input");
+                $(".saturday-submit").removeClass("hidden");
+                $(".saturday-provided-info").addClass("hidden");
+            });
+            $(".sunday-incorrect-link").click(function() {
+                $(".sunday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+                $(".sunday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+                $(".sunday-update-info").removeClass("hidden");
+                $(".sunday-update-info").removeClass("uneditable-input");
+                $(".sunday-submit").removeClass("hidden");
+                $(".sunday-provided-info").addClass("hidden");
+            });
+
+            // On submit, make input boxes uneditable
+            $(".monday-submit").click(function(e) {
+                e.preventDefault();
+                $(".monday-update-info").addClass("uneditable-input");
+                $(".monday-submit").addClass("hidden");
+                $(".monday-prompt").addClass("hidden");
+            });
+            $(".tuesday-submit").click(function(e) {
+                e.preventDefault();
+                $(".tuesday-update-info").addClass("uneditable-input");
+                $(".tuesday-submit").addClass("hidden");
+                $(".tuesday-prompt").addClass("hidden");
+            });
+            $(".wednesday-submit").click(function(e) {
+                e.preventDefault();
+                $(".wednesday-update-info").addClass("uneditable-input");
+                $(".wednesday-submit").addClass("hidden");
+                $(".wednesday-prompt").addClass("hidden");
+            });
+            $(".thursday-submit").click(function(e) {
+                e.preventDefault();
+                $(".thursday-update-info").addClass("uneditable-input");
+                $(".thursday-submit").addClass("hidden");
+                $(".thursday-prompt").addClass("hidden");
+            });
+            $(".friday-submit").click(function(e) {
+                e.preventDefault();
+                $(".friday-update-info").addClass("uneditable-input");
+                $(".friday-submit").addClass("hidden");
+                $(".friday-prompt").addClass("hidden");
+            });
+            $(".saturday-submit").click(function(e) {
+                e.preventDefault();
+                $(".saturday-update-info").addClass("uneditable-input");
+                $(".saturday-submit").addClass("hidden");
+                $(".saturday-prompt").addClass("hidden");
+            });
+            $(".sunday-submit").click(function(e) {
+                e.preventDefault();
+                $(".sunday-update-info").addClass("uneditable-input");
+                $(".sunday-submit").addClass("hidden");
+                $(".sunday-prompt").addClass("hidden");
+            });
+
+			var shuffleArray = function(array) {
+				var currentIndex = array.length,
+					temporaryValue, randomIndex;
+
+				// While there remain elements to shuffle...
+				while (0 !== currentIndex) {
+
+					// Pick a remaining element...
+					randomIndex = Math.floor(Math.random() * currentIndex);
+					currentIndex -= 1;
+
+					// And swap it with the current element.
+					temporaryValue = array[currentIndex];
+					array[currentIndex] = array[randomIndex];
+					array[randomIndex] = temporaryValue;
+				}
+
+				return array;
+			};
+
+			// Randomize the ordering of options for biggest object question
+			var objectOptions = [
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Book</label></span></div>",
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Phone</label></span></div>",
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Shoe</label></span></div>",
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='correct' />A Car</label></span></div>"
+			];
+			objectOptions = shuffleArray(objectOptions);
+
+			objectOptions.forEach(function(o) {
+				$("fieldset.biggest-object").append(o);
+			});
+
+            // Auto-grow textareas on front end
+            var auto_grow = function(element) {
+                element.style.height = "5px";
+                element.style.height = (element.scrollHeight)+"px";
+            }
+		</script> </span></section>

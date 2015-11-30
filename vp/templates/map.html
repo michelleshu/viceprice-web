@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block resources %}
+    <link rel="stylesheet" href="{% static 'css/upload-data.css' %}">
+{% endblock resources %}
+
+{% block content %}
+<div id="map"></div>
+<script>
+L.mapbox.accessToken = 'pk.eyJ1IjoibWljaGVsbGV3c2h1IiwiYSI6ImNpZ216M2ppejAwNnlua2tvZjRocW9nMHcifQ.VTSNlTOPGYeq7WJvdph6Mw';
+var map = L.mapbox.map('map', 'mapbox.streets')
+    .setView([40, -74.50], 9);
+</script>
+{% endblock content %}

@@ -1,0 +1,256 @@
+<!-- JQuery 1.11.2 --><script src="//code.jquery.com/jquery-1.11.2.min.js"></script><script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script><!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" property="stylesheet" rel="stylesheet" />
+<style type="text/css">a.expand-collapse-link {
+		margin-left: 15px;
+		color: white;
+	}
+
+	.hh-info-example-table {
+		width: 800px;
+		padding: 20px;
+		font-family: Verdana, Geneva, sans-serif;
+		font-size: 11.7px;
+		color: grey;
+	}
+
+	.hh-info-example-table td {
+		border: 1px solid grey;
+		text-align: left;
+		vertical-align: top;
+		padding: 10px;
+	}
+
+	.hh-info-table {
+		width: 800px;
+		padding: 20px;
+		font-family: Verdana, Geneva, sans-serif;
+		font-size: 11.7px;
+	}
+
+	.hh-info-table td {
+		border: 1px solid black;
+		text-align: left;
+		vertical-align: top;
+		padding: 10px;
+	}
+
+	.narrow-column {
+		width: 120px;
+	}
+
+	.wide-column {
+		width: 440px;
+	}
+
+	textarea {
+		resize: none;
+		overflow: hidden;
+		width: 420px;
+		max-height: 1000px;
+	}
+</style>
+<section class="container" id="Survey" style="margin-bottom: 15px; padding: 10px;">
+<div class="row col-xs-12 col-md-12"><!-- Instructions -->
+<div class="panel panel-primary">
+<div class="panel-heading" style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 0.9em;"><span style="color:#FFFFFF;"><strong>Instructions</strong> </span> <span><a class="expand-collapse-link expanded">[Hide]</a></span></div>
+
+<ul class="collapsible">
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">You will call a business named <strong>${name}</strong> and gather information on Happy Hours from them.</li>
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><strong>Happy Hours are when alcoholic drinks are sold&nbsp;at a lower price in a bar or restaurant.<strong>​</strong></strong></li>
+	<li style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">Find Happy Hour info for each&nbsp;day, time and a description of the deal (We have included an example below)</li>
+	<li style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><strong>Please read the all the instructions below BEFORE you make your phone call.</strong></li>
+</ul>
+</div>
+</div>
+&nbsp;
+
+<section style="color: rgb(51, 51, 51); font-family: Verdana, Geneva, sans-serif; font-size: 0.9em;">&nbsp;
+<p>&nbsp;</p>
+
+<fieldset class="reachable">
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;"><strong><span style="font-size: 11.7px; line-height: 18.72px; background-color: rgb(251, 251, 251);">Call *67 ${phone_number} [*67 hides your phone&#39;s number]&nbsp;and ask the caller if this is the right number for&nbsp;${name}.</span></strong></p>
+Were you able to reach someone at ${name} over the phone?
+
+<div class="radio"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label><input name="was-reachable" type="radio" value="1" />Yes&nbsp; </label> </span></div>
+
+<div class="radio"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label><input name="was-reachable" type="radio" value="2" />Nobody picked up</label></span></div>
+
+<div class="radio"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label><input name="was-reachable" type="radio" value="3" />It was an incorrect phone number&nbsp;</label></span></div>
+</fieldset>
+
+<fieldset class="happy-hour-info">
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;">If you had the correct number for ${name}, ask politely for their Happy Hour information.</p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;">Here is an example script:</p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;">&quot;Hi! I&#39;m working to update a&nbsp;Happy Hour list. Can you tell me what Happy Hour specials you guys have?&quot;</p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;"><strong style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px; background-color: rgb(251, 251, 251);"><span style="font-size: 11.7px; line-height: 18.72px;">For each day&nbsp;write down the time and description of the Happy Hour deal.</span></strong></p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;"><span style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 18.72px; background-color: rgb(251, 251, 251);">If a Happy Hour is the same for&nbsp;multiple days, copy the SAME info to each day.</span></p>
+
+<p style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;"><span style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 18.72px; background-color: rgb(251, 251, 251);">If a day does not have a Happy Hour, leave that row blank/empty.</span></p>
+
+<div>Example:</div>
+
+<div>
+<table class="hh-info-example-table">
+	<tbody>
+		<tr>
+			<td class="narrow-column"><strong>Day</strong></td>
+			<td class="narrow-column"><strong>Starting Time</strong></td>
+			<td class="narrow-column"><strong>Ending Time</strong></td>
+			<td class="wide-column"><strong>Happy Hour Description</strong></td>
+		</tr>
+		<tr>
+			<td>Monday</td>
+			<td>03:00 PM</td>
+			<td>07:00 PM</td>
+			<td>$3 Drafts of Stoney&rsquo;s Amber, Shocktop<br />
+			$3 Narragansett Tallboys<br />
+			$4 Goose Island IPA<br />
+			$5 Specialty Cocktail (ask server or bartender)<br />
+			$4 Rail&nbsp;cocktails<br />
+			$4 House Red or White Wine</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<div>&nbsp;</div>
+
+<div>&nbsp;</div>
+
+<div>
+<table class="hh-info-table">
+	<tbody>
+		<tr>
+			<td class="narrow-column"><strong>Day</strong></td>
+			<td class="narrow-column"><strong>Starting Time</strong></td>
+			<td class="narrow-column"><strong>Ending Time</strong></td>
+			<td class="wide-column"><strong>Happy Hour Description</strong></td>
+		</tr>
+		<tr>
+			<td>Monday</td>
+			<td><input name="monday-start-time" type="time" /></td>
+			<td><input name="monday-end-time" type="time" /></td>
+			<td><textarea name="monday-description" onkeyup="auto_grow(this)"></textarea></td>
+		</tr>
+		<tr>
+			<td>Tuesday</td>
+			<td><input name="tuesday-start-time" type="time" /></td>
+			<td><input name="tuesday-end-time" type="time" /></td>
+			<td><textarea name="tuesday-description" onkeyup="auto_grow(this)"></textarea></td>
+		</tr>
+		<tr>
+			<td>Wednesday</td>
+			<td><input name="wednesday-start-time" type="time" /></td>
+			<td><input name="wednesday-end-time" type="time" /></td>
+			<td><textarea name="wednesday-description" onkeyup="auto_grow(this)"></textarea></td>
+		</tr>
+		<tr>
+			<td>Thursday</td>
+			<td><input name="thursday-start-time" type="time" /></td>
+			<td><input name="thursday-end-time" type="time" /></td>
+			<td><textarea name="thursday-description" onkeyup="auto_grow(this)"></textarea></td>
+		</tr>
+		<tr>
+			<td>Friday</td>
+			<td><input name="friday-start-time" type="time" /></td>
+			<td><input name="friday-end-time" type="time" /></td>
+			<td><textarea name="friday-description" onkeyup="auto_grow(this)"></textarea></td>
+		</tr>
+		<tr>
+			<td>Saturday</td>
+			<td><input name="saturday-start-time" type="time" /></td>
+			<td><input name="saturday-end-time" type="time" /></td>
+			<td><textarea name="saturday-description" onkeyup="auto_grow(this)"></textarea></td>
+		</tr>
+		<tr>
+			<td>Sunday</td>
+			<td><input name="sunday-start-time" type="time" /></td>
+			<td><input name="sunday-end-time" type="time" /></td>
+			<td><textarea name="sunday-description" onkeyup="auto_grow(this)"></textarea>​</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</fieldset>
+
+<fieldset class="biggest-object"><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><label>What is the biggest object here?</label> </span></fieldset>
+
+<fieldset class="comments">
+<div><span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><b>Anything we should know about?</b><br />
+<input class="form-control" id="other" name="comments" placeholder="" type="text" /> </span></div>
+</fieldset>
+</section>
+<span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><!-- End Survey Body --> <!-- close container -->
+<style type="text/css">fieldset {
+				padding: 10px;
+				background: #fbfbfb;
+				border-radius: 5px;
+				margin-bottom: 5px;
+			}
+</style>
+<script type="text/javascript">
+			// Expand and collapse instructions
+			$(".expand-collapse-link").click(function() {
+				if ($(this).hasClass("expanded")) {
+					$(this).text("[Show]");
+					$(this).removeClass("expanded");
+					$(".collapsible").hide();
+				} else {
+					$(this).text("[Hide]");
+					$(this).addClass("expanded");
+					$(".collapsible").show();
+				}
+			});
+
+			// Hide happy hour grid when no response or wrong phone number
+			$("input[name='was-reachable']").change(function() {
+				if ($(this).val() == "2" || $(this).val() == "3") {
+					$(".happy-hour-info").hide();
+				} else {
+					$(".happy-hour-info").show();
+				}
+			});
+
+			var shuffleArray = function(array) {
+				var currentIndex = array.length,
+					temporaryValue, randomIndex;
+
+				// While there remain elements to shuffle...
+				while (0 !== currentIndex) {
+
+					// Pick a remaining element...
+					randomIndex = Math.floor(Math.random() * currentIndex);
+					currentIndex -= 1;
+
+					// And swap it with the current element.
+					temporaryValue = array[currentIndex];
+					array[currentIndex] = array[randomIndex];
+					array[randomIndex] = temporaryValue;
+				}
+
+				return array;
+			};
+
+			// Randomize the ordering of options for biggest object question
+			var objectOptions = [
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Book</label></span></div>",
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Phone</label></span></div>",
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Shoe</label></span></div>",
+				"<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='correct' />A Car</label></span></div>"
+			];
+			objectOptions = shuffleArray(objectOptions);
+
+			objectOptions.forEach(function(o) {
+				$("fieldset.biggest-object").append(o);
+			});
+
+			// Auto-grow textareas on front end
+			var auto_grow = function(element) {
+				element.style.height = "5px";
+				element.style.height = (element.scrollHeight) + "px";
+			}
+		</script> </span></section>
