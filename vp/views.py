@@ -72,7 +72,7 @@ def update_locations(request):
     earliest_unexpired_date = timezone.now() - timedelta(days=30)
 
     # Get all locations that have either just been added or expired
-    foursquare_locations = Location.objects.filter(Q(name__isnull=True) | Q(dateLastUpdated__lt=earliest_unexpired_date))
+    foursquare_locations = Location.objects.filter(Q(name__isnull=True) | Q(foursquareDateLastUpdated__lt=earliest_unexpired_date))
 
     response = HttpResponse()
     response.write("<h3>Updated locations:</h3>")
@@ -97,7 +97,7 @@ def update_locations(request):
         location.formattedPhoneNumber = data['contact'].get('formattedPhone')
         location.website = data.get('url')
         location.rating = data.get('rating')
-        location.dateLastUpdated = timezone.now()
+        location.foursquareDateLastUpdated = timezone.now()
 
         location.save()
 
