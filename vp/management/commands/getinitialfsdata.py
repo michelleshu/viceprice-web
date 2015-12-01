@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from models import Location, BusinessHour
+from vp.models import Location, BusinessHour
 from viceprice import settings
 import requests
 
