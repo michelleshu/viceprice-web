@@ -38,30 +38,32 @@ class Command(BaseCommand):
         foursquare_locations = Location.objects.filter(name__isnull=True)
 
         for location in foursquare_locations:
-            data = (requests.get("https://api.foursquare.com/v2/venues/" + location.foursquareId,
+            response = (requests.get("https://api.foursquare.com/v2/venues/" + location.foursquareId,
                 params = {
                     'client_id': settings.FOURSQUARE_CLIENT_ID,
                     'client_secret': settings.FOURSQUARE_CLIENT_SECRET,
                     'v': '20151003',
                     'm': 'foursquare'
                 })
-                .json())['response']['venue']
+                .json())['response']
 
-            location.name = data.get('name')
-            location.latitude = data['location'].get('lat')
-            location.longitude = data['location'].get('lng')
+            data = response.get('venue')
+            if data != None:
+                location.name = data.get('name')
+                location.latitude = data['location'].get('lat')
+                location.longitude = data['location'].get('lng')
 
-            if (data['location'].get('formattedAddress') != None):
-                location.formattedAddress = "\n".join(data['location']['formattedAddress'])
+                if (data['location'].get('formattedAddress') != None):
+                    location.formattedAddress = "\n".join(data['location']['formattedAddress'])
 
-            location.formattedPhoneNumber = data['contact'].get('formattedPhone')
-            location.website = data.get('url')
-            location.rating = data.get('rating')
-            location.foursquareDateLastUpdated = timezone.now()
+                location.formattedPhoneNumber = data['contact'].get('formattedPhone')
+                location.website = data.get('url')
+                location.rating = data.get('rating')
+                location.foursquareDateLastUpdated = timezone.now()
 
-            location.save()
+                location.save()
 
-            self.update_business_hours(location)
+                self.update_business_hours(location)
 
     def handle(self, *args, **options):
         self.update_locations()
