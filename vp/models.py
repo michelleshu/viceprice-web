@@ -22,6 +22,16 @@ DAY_OF_WEEK = {
     SUNDAY: 7
 }
 
+MTURK_WEBSITE = 'MTurk Website'
+MTURK_PHONE = 'MTurk Phone'
+SOURCE_NOT_FOUND = "Source Not Found"
+
+DEAL_DATA_SOURCE = {
+    MTURK_WEBSITE: 1,
+    MTURK_PHONE: 2,
+    SOURCE_NOT_FOUND: 3
+}
+
 EASTERN_TIMEZONE = timezone('US/Eastern')
 
 class LocationCategory(models.Model):
@@ -65,6 +75,10 @@ class Deal(models.Model):
     dealHour = models.OneToOneField(BusinessHour)
     description = models.CharField(max_length=512)
 
+# Data source for deals for a location
+class DealDataSource(models.Model):
+    source = models.CharField(max_length=100)
+
 # Information about a location
 class Location(models.Model):
     name = models.CharField(max_length=256, null=True)
@@ -79,6 +93,7 @@ class Location(models.Model):
     check_ins = models.IntegerField(null=True)
     foursquareDateLastUpdated = models.DateTimeField(null=True)
     mturkDateLastUpdated = models.DateTimeField(null=True)
+    dealDataSource = models.OneToOneField(DealDataSource, null = True)
     foursquareId = models.CharField(max_length=50, null=True, unique=True)
     deals = models.ManyToManyField(Deal)
     comments = models.CharField(max_length=1000, null=True)

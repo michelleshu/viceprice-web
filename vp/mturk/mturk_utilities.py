@@ -734,13 +734,17 @@ def get_all_updated_locations():
 
     for location in website_locations:
         if int(location.stage) == MTURK_STAGE[COMPLETE]:
-            updated_locations.append(location)
+            updated_locations.append((location, 'web'))
+        elif int(location.stage) == MTURK_STAGE[NO_HH_FOUND]:
+            updated_locations.append((location, 'not_found'))
         else:
             website_locations_in_progress.append(location)
 
     for location in phone_locations:
         if int(location.stage) == MTURK_STAGE[COMPLETE]:
-            updated_locations.append(location)
+            updated_locations.append((location, 'phone'))
+        elif int(location.stage) == MTURK_STAGE[NO_HH_FOUND]:
+            updated_locations.append((location, 'not_found'))
         else:
             phone_locations_in_progress.append(location)
 

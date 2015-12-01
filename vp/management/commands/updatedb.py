@@ -107,7 +107,17 @@ class Command(BaseCommand):
     def write_mturk_deals_to_db(self):
         updated_locations = mturk_utilities.get_all_updated_locations()
 
-        for mturk_location in updated_locations:
+        for updated_location in updated_locations:
+            mturk_location = updated_location[0]
+
+            data_source_id = None
+            if (updated_location[1] == 'web'):
+                data_source_id = DEAL_DATA_SOURCE[MTURK_WEBSITE]
+            elif (updated_location[1] == 'phone'):
+                data_source_id = DEAL_DATA_SOURCE[MTURK_PHONE]
+            elif (updated_location[1] == 'not_found'):
+                data_source_id = DEAL_DATA_SOURCE[SOURCE_NOT_FOUND]
+
             location, created = Location.objects.get_or_create(foursquareId = mturk_location.foursquare_id)
             location.mturkDateLastUpdated = datetime.now()
             location.name = mturk_location.name
@@ -128,6 +138,10 @@ class Command(BaseCommand):
 
             for deal in self.get_deals_for_location(mturk_location):
                 location.deals.add(deal)
+
+            if data_source_id != None:
+                data_source = DealDataSource.objects.get(id = data_source_id)
+                location.dealDataSource = data_source
 
             location.save()
 
