@@ -3,6 +3,7 @@ from django.utils import timezone
 from vp.models import Location, BusinessHour
 from viceprice import settings
 import requests
+import time
 
 class Command(BaseCommand):
     help = 'Kicks off Foursquare and Mechanical Turk website tasks for all locations that require updates'
@@ -38,6 +39,7 @@ class Command(BaseCommand):
         foursquare_locations = Location.objects.filter(name__isnull=True)
 
         for location in foursquare_locations:
+            self.stdout.write('Retrieving data for "%s"' % location.foursquareId)
             response = (requests.get("https://api.foursquare.com/v2/venues/" + location.foursquareId,
                 params = {
                     'client_id': settings.FOURSQUARE_CLIENT_ID,
@@ -59,11 +61,17 @@ class Command(BaseCommand):
                 location.formattedPhoneNumber = data['contact'].get('formattedPhone')
                 location.website = data.get('url')
                 location.rating = data.get('rating')
+
+                if data.get('stats'):
+                    location.check_ins = data['stats'].get('checkinsCount')
                 location.foursquareDateLastUpdated = timezone.now()
 
                 location.save()
 
                 self.update_business_hours(location)
+
+                self.stdout.write('Updated "%s"' % location.name)
+                time.sleep(0.5)
 
     def handle(self, *args, **options):
         self.update_locations()
