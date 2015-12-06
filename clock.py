@@ -8,7 +8,7 @@ eastern_timezone = pytz.timezone('US/Eastern')
 def queue_mturk_website_update():
     print('MTurk website update queued')
 
-@sched.scheduled_job('cron', minute='0.30', second='0', timezone=eastern_timezone)
+@sched.scheduled_job('cron', minute='*/30', second='0', timezone=eastern_timezone)
 def queue_mturk_phone_update():
     print('MTurk phone update queued')
 
