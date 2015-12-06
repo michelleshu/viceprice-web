@@ -1,5 +1,5 @@
 def printUpdate(isWebsite):
     if isWebsite:
-        print("Website update started")
+        print("Website update started.")
     else:
-        print("Phone update started")
+        print("Phone update started.")
