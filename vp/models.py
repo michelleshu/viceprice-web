@@ -90,7 +90,7 @@ class Location(models.Model):
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
     rating = models.FloatField(null=True)
-    check_ins = models.IntegerField(null=True)
+    checkIns = models.IntegerField(null=True)
     foursquareDateLastUpdated = models.DateTimeField(null=True)
     mturkLastUpdateStarted = models.DateTimeField(null=True)
     mturkLastUpdateCompleted = models.DateTimeField(null=True)

@@ -24,10 +24,9 @@ def get_mturk_locations_to_update():
         mturk_locations.append(MTurkLocation(
             foursquare_id = location.foursquareId,
             name = location.name,
-            address = location.address,
-            url_provided = location.website,
-            phone_number = location.phone_number,
-            check_ins = location.check_ins,
+            address = location.formattedAddress,
+            phone_number = location.formattedPhoneNumber,
+            check_ins = location.checkIns,
             rating = location.rating
         ))
 
