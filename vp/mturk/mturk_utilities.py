@@ -320,7 +320,9 @@ def create_hit(conn, location, hit_type):
     layout_parameters = []
     for parameter_name in layout_parameter_names:
         parameter_value = getattr(location, parameter_name)
-        layout_parameters.append(LayoutParameter(parameter_name, parameter_value.replace("<", "&lt;")))
+        if parameter_value != None:
+            parameter_value = parameter_value.replace("<", "&lt;")
+        layout_parameters.append(LayoutParameter(parameter_name, parameter_value))
 
     hit = conn.create_hit(
         hit_type=hit_type[HIT_TYPE_ID],
