@@ -1,7 +1,5 @@
 __author__ = 'michelleshu'
 
-from common_constants import *
-
 class MTurkLocation:
 
     def __init__(
@@ -9,10 +7,7 @@ class MTurkLocation:
         foursquare_id = None,
         name = None,
         address = None,
-        latitude = None,
-        longitude = None,
         url = None,
-        category = None,
         phone_number = None,
         check_ins = None,
         rating = None,
@@ -23,7 +18,9 @@ class MTurkLocation:
         deals_confirmations = 0,
         stage = 1,
         hit_id = None,
-        date_completed = None,
+        update_started = None,
+        update_completed = None,
+        update_cost = 0.0,
         monday_start_time = None,
         monday_end_time = None,
         monday_description = None,
@@ -50,10 +47,7 @@ class MTurkLocation:
         self.foursquare_id = foursquare_id
         self.name = name
         self.address = address
-        self.latitude = latitude
-        self.longitude = longitude
         self.url = url
-        self.category = category
         self.phone_number = phone_number
         self.check_ins = check_ins
         self.rating = rating
@@ -64,7 +58,9 @@ class MTurkLocation:
         self.deals_confirmations = deals_confirmations
         self.stage = stage
         self.hit_id = hit_id
-        self.date_completed = date_completed
+        self.update_started = update_started
+        self.update_completed = update_completed
+        self.update_cost = update_cost
         self.monday_start_time = monday_start_time
         self.monday_end_time = monday_end_time
         self.monday_description = monday_description

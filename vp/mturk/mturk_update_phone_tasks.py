@@ -1,13 +1,11 @@
 __author__ = 'michelleshu'
 
-from common_constants import *
 from mturk_utilities import *
 from boto.mturk import connection
 import os
-import time
 
 # Check for HIT completion for all in-progress phone tasks and update as necessary
-def update_phone_tasks():
+def update():
     conn = connection.MTurkConnection(aws_access_key_id=ACCESS_ID, aws_secret_access_key=SECRET_KEY, host=HOST)
     register_hit_types(conn)
 
@@ -92,23 +90,11 @@ def update_phone_tasks():
 
     return [str(stage_5_count), str(stage_6_count), str(complete_count), str(completion_percentage)]
 
-def poll_for_phone_updates():
-    completion_percentage = 0
-
+def update_phone_tasks():
+    status = update()
+    status.insert(0, str(datetime.datetime.now()))
+    print("Status: " + str(status))
     with open("temp/phone_stats.csv", 'ab') as stats_file:
         filewriter = csv.writer(stats_file)
-        filewriter.writerow(["Call for HH", "Call to Confirm HH", "Complete", "Percent Complete"])
+        filewriter.writerow(status)
         stats_file.close()
-
-    while float(completion_percentage) < 1.0:
-        status = update_phone_tasks()
-        completion_percentage = status[-1]
-        status.insert(0, str(datetime.datetime.now()))
-        print("Status: " + str(status))
-        with open("temp/phone_stats.csv", 'ab') as stats_file:
-            filewriter = csv.writer(stats_file)
-            filewriter.writerow(status)
-            stats_file.close()
-        time.sleep(PHONE_UPDATE_FREQUENCY)
-
-poll_for_phone_updates()

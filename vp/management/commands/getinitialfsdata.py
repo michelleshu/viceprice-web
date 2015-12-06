@@ -6,7 +6,7 @@ import requests
 import time
 
 class Command(BaseCommand):
-    help = 'Kicks off Foursquare and Mechanical Turk website tasks for all locations that require updates'
+    help = 'Gets Foursquare data for all locations that require updates'
 
     def update_business_hours(self, location):
         business_hours = location.businessHours.all()

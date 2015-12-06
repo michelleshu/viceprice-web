@@ -4,7 +4,6 @@ from boto.mturk import price
 from boto.mturk.layoutparam import *
 from boto.mturk.qualification import *
 import unicodecsv as csv
-import sys
 import os.path
 from mturk_location import *
 from common_constants import *
@@ -21,10 +20,7 @@ LOCATION_PROPERTIES = [
     "foursquare_id",
     "name",
     "address",
-    "latitude",
-    "longitude",
     "url",
-    "category",
     "phone_number",
     "check_ins",
     "rating",
@@ -35,7 +31,9 @@ LOCATION_PROPERTIES = [
     "deals_confirmations",
     "stage",
     "hit_id",
-    "date_completed",
+    "update_started",
+    "update_completed",
+    "update_cost",
     "monday_start_time",
     "monday_end_time",
     "monday_description",
@@ -100,9 +98,9 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to find or confirm a website for a business. You will be given the name, address, and URL.',
         ANNOTATION: 'Find or verify website',
         LAYOUT_PARAMETER_NAMES: ['name', 'address', 'url_provided'],
-        LAYOUT_ID: '3SAA3CEC4PWWWPUZ8Z52YHM1RW7XDB',
+        LAYOUT_ID: '3247MKAWG4CGGI9FPC20JYMRJ184TL',
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.03,
+        PRICE: 0.03, #0.01,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -112,9 +110,9 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to copy happy hours information from a website.',
         ANNOTATION: 'Copy happy hour information from a website',
         LAYOUT_PARAMETER_NAMES: ['name', 'url'],
-        LAYOUT_ID: '3I13DBCGHXFMGBFZZUL9PWSKIAHZ6H',
+        LAYOUT_ID: '3TFBXQQ2O9UVMLVFYRL6W725544ABC',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.08,
+        PRICE: 0.10, #0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -148,9 +146,9 @@ HIT_TYPES = {
             'wednesday_end_time',
             'wednesday_start_time'
         ],
-        LAYOUT_ID: '33AOFPVFFQ6LYSMW5VU5N98UOULFSW',
+        LAYOUT_ID: '3XFRS2SHGGDVGVO4PHSAOU8T2FF4UC',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.08,
+        PRICE: 0.10, #0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -160,9 +158,9 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to call a bar or restaurant and find out what happy hours they have.',
         ANNOTATION: 'Call for happy hour info',
         LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
-        LAYOUT_ID: '3T0AOYUBMU584RP21RCCA69ZLIPJJN',
+        LAYOUT_ID: '3XAF2SZQT2A3G09XWQVI56R0JUQ7F0',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.50,
+        PRICE: 0.40, #0.20,
         DURATION: 7200,
         US_LOCALE_REQUIRED: True
     },
@@ -196,9 +194,9 @@ HIT_TYPES = {
             'wednesday_end_time',
             'wednesday_start_time'
         ],
-        LAYOUT_ID: '3UF1487ESTUCW9B7T7BT37G0Q47092',
+        LAYOUT_ID: '31UQTP6TGX7AP8JLJK4IMMMER8SQRB',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.50,
+        PRICE: 0.40, #0.20,
         DURATION: 7200,
         US_LOCALE_REQUIRED: True
     }
@@ -344,6 +342,7 @@ def create_hit(conn, location, hit_type):
     )
 
     location.hit_id = hit[0].HITId
+    location.update_cost = location.update_cost + hit_type[PRICE]
 
 
 # Retrieve answer field value in list of QuestionFormAnswers for HIT to the question with matching questionId tag

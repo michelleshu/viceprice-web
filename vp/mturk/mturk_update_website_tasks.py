@@ -1,26 +1,22 @@
 __author__ = 'michelleshu'
 
-from common_constants import *
 from mturk_utilities import *
 from boto.mturk import connection
-import time
 import datetime
+from django.utils import timezone
 
 
 # Initialize tasks starting from Stage 1 for new locations to be added
-def initialize_tasks(filename):
+def initialize_tasks(locations):
     conn = connection.MTurkConnection(aws_access_key_id=ACCESS_ID, aws_secret_access_key=SECRET_KEY, host=HOST)
     register_hit_types(conn)
 
-    location_objects = get_location_objects_from_csv(filename)
-
-    for location in location_objects:
+    for location in locations:
+        location.update_started = timezone.now()
         create_hit(conn, location, HIT_TYPES[VERIFY_WEBSITE])
 
-    write_location_objects_to_csv(location_objects, UPDATED_WEBSITE_DATA_FILE, append=False)
-
 # Check for HIT completion for all in-progress website tasks and update as necessary
-def update_website_tasks():
+def update():
     conn = connection.MTurkConnection(aws_access_key_id=ACCESS_ID, aws_secret_access_key=SECRET_KEY, host=HOST)
     register_hit_types(conn)
 
@@ -35,6 +31,7 @@ def update_website_tasks():
     complete_count = 0
 
     for location in locations_to_update:
+
         if (int(location.stage) == MTURK_STAGE[COMPLETE] or int(location.stage) == MTURK_STAGE[NO_HH_FOUND]):
             complete_count = complete_count + 1
             continue
@@ -42,13 +39,6 @@ def update_website_tasks():
         if (int(location.stage) == MTURK_STAGE[FIND_PHONE_HH] or int(location.stage) == MTURK_STAGE[CONFIRM_PHONE_HH]):
             phone_task_count = phone_task_count + 1
             continue
-
-        if (int(location.stage) == 1):
-            stage_1_count = stage_1_count + 1
-        elif(int(location.stage) == 3):
-            stage_3_count = stage_3_count + 1
-        elif(int(location.stage) == 4):
-            stage_4_count = stage_4_count + 1
 
         # Evaluate the corresponding HIT assignments for this location if all assignments are complete
         hit = conn.get_hit(location.hit_id)[0]
@@ -88,6 +78,7 @@ def update_website_tasks():
                             phone_locations_to_add.append(location)
                         else:
                             location.stage = MTURK_STAGE[NO_HH_FOUND]
+                            location.update_completed = timezone.now()
 
                     else:
                         location.url_found = True
@@ -126,6 +117,7 @@ def update_website_tasks():
                 else:
                     if (confirmed and location.deals_confirmations >= MIN_CONFIRMATIONS):
                         location.stage = MTURK_STAGE[COMPLETE]
+                        location.update_completed = timezone.now()
                     else:
                         create_hit(conn, location, HIT_TYPES[CONFIRM_WEBSITE_HH_B])
 
@@ -141,37 +133,26 @@ def update_website_tasks():
     # Write updated website objects
     write_location_objects_to_csv(locations_to_update, UPDATED_WEBSITE_DATA_FILE, append=False)
 
+    if (int(location.stage) == 1):
+        stage_1_count = stage_1_count + 1
+    elif(int(location.stage) == 3):
+        stage_3_count = stage_3_count + 1
+    elif(int(location.stage) == 4):
+        stage_4_count = stage_4_count + 1
+
     return [str(stage_1_count), str(stage_3_count), str(stage_4_count), str(complete_count),
             str((float(complete_count) + float(phone_task_count)) / len(locations_to_update))]
 
 
-def poll_for_website_updates():
-    completion_percentage = 0
+def update_website_tasks(new_locations):
+    initialize_tasks(new_locations)
 
+    status = update()
+    status.insert(0, str(datetime.datetime.now()))
+
+    # TODO Delete status file after initialization
+    print("Status: " + str(status))
     with open("temp/website_stats.csv", 'ab') as stats_file:
         filewriter = csv.writer(stats_file)
-        filewriter.writerow(["Verify Website", "Find Website HH", "Confirm Website HH", "Complete", "Percent Complete"])
+        filewriter.writerow(status)
         stats_file.close()
-
-    while float(completion_percentage) < 1.0:
-        status = update_website_tasks()
-        completion_percentage = status[-1]
-        status.insert(0, str(datetime.datetime.now()))
-        print("Status: " + str(status))
-        with open("temp/website_stats.csv", 'ab') as stats_file:
-            filewriter = csv.writer(stats_file)
-            filewriter.writerow(status)
-            stats_file.close()
-        time.sleep(WEBSITE_UPDATE_FREQUENCY)
-
-
-
-conn = connection.MTurkConnection(aws_access_key_id=ACCESS_ID, aws_secret_access_key=SECRET_KEY, host=HOST)
-hits = list(conn.get_all_hits())
-for hit in hits:
-    conn.disable_hit(hit.HITId)
-
-
-initialize_tasks('data/initial_test_small.csv')
-
-poll_for_website_updates()
