@@ -156,7 +156,7 @@ def update_website_tasks(new_locations):
 
     # TODO Delete status file after initialization
     print("Status: " + str(status))
-    with open("temp/website_stats.csv", 'ab') as stats_file:
+    with open(WEBSITE_STATS_FILE, 'ab') as stats_file:
         filewriter = csv.writer(stats_file)
         filewriter.writerow(status)
         stats_file.close()

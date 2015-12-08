@@ -94,7 +94,7 @@ def update_phone_tasks():
     status = update()
     status.insert(0, str(datetime.datetime.now()))
     print("Status: " + str(status))
-    with open("temp/phone_stats.csv", 'ab') as stats_file:
+    with open(PHONE_STATS_FILE, 'ab') as stats_file:
         filewriter = csv.writer(stats_file)
         filewriter.writerow(status)
         stats_file.close()

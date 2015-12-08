@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/updatemturkweb.py" afterPath="$PROJECT_DIR$/vp/management/commands/updatemturkweb.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vp/mturk/temp/new_phone_data_backup.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vp/mturk/temp/phone_data_backup.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vp/mturk/temp/website_data_backup.csv" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/common_constants.py" afterPath="$PROJECT_DIR$/vp/mturk/common_constants.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/temp/phone_data.csv" afterPath="$PROJECT_DIR$/vp/mturk/temp/phone_data.csv" />
     </list>
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,24 +38,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="updatemturkweb.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="updatemturkweb.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/updatemturkweb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4772118">
+            <state vertical-scroll-proportion="0.0">
               <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="updatemturkphone.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vp/management/commands/updatemturkphone.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -71,7 +66,7 @@
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="89" selection-start-line="65" selection-start-column="89" selection-end-line="65" selection-end-column="89" />
+              <caret line="96" column="30" selection-start-line="96" selection-start-column="30" selection-end-line="96" selection-end-column="30" />
               <folding>
                 <element signature="e#28#57#0" expanded="true" />
               </folding>
@@ -83,31 +78,9 @@
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="147" column="37" selection-start-line="147" selection-start-column="37" selection-end-line="147" selection-end-column="37" />
+              <caret line="158" column="32" selection-start-line="158" selection-start-column="32" selection-end-line="158" selection-end-column="32" />
               <folding>
                 <element signature="e#28#57#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mturk_location.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_location.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="33" selection-start-line="23" selection-start-column="33" selection-end-line="23" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="updatedb.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vp/management/commands/updatedb.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.0">
-              <caret line="18" column="9" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -116,11 +89,41 @@
       <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.3333333">
-              <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+            <state vertical-scroll-proportion="-6.6666665">
+              <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
               <folding>
                 <element signature="e#28#56#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="phone_data.csv" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vp/mturk/temp/phone_data.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="601" selection-start-line="0" selection-start-column="601" selection-end-line="0" selection-end-column="601" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="phone_stats.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vp/mturk/temp/phone_stats.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="website_data.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vp/mturk/temp/website_data.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -129,20 +132,8 @@
         <entry file="file://$PROJECT_DIR$/vp/mturk/common_constants.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="clock.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clock.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#61#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -196,7 +187,6 @@
         <option value="$PROJECT_DIR$/vp/management/commands/update_db.py" />
         <option value="$PROJECT_DIR$/viceprice/settings.py" />
         <option value="$PROJECT_DIR$/vp/mturk/temp/website_data.csv" />
-        <option value="$PROJECT_DIR$/vp/mturk/temp/phone_data.csv" />
         <option value="$PROJECT_DIR$/viceprice/urls.py" />
         <option value="$PROJECT_DIR$/vp/views.py" />
         <option value="$PROJECT_DIR$/vp/mturk/data/foursquare_dataset.csv" />
@@ -216,10 +206,11 @@
         <option value="$PROJECT_DIR$/clock.py" />
         <option value="$PROJECT_DIR$/vp/models.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
-        <option value="$PROJECT_DIR$/vp/mturk/common_constants.py" />
-        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
-        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
         <option value="$PROJECT_DIR$/vp/management/commands/updatemturkweb.py" />
+        <option value="$PROJECT_DIR$/vp/mturk/common_constants.py" />
+        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
+        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
+        <option value="$PROJECT_DIR$/vp/mturk/temp/phone_data.csv" />
       </list>
     </option>
   </component>
@@ -905,13 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/phone_data_backup.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/conf/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -961,31 +945,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/website_data_backup.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="394" selection-start-line="3" selection-start-column="389" selection-end-line="3" selection-end-column="394" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/django/core/management/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="392" column="0" selection-start-line="392" selection-start-column="0" selection-end-line="392" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/website_data.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/phone_data.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.827586">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1061,14 +1024,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/phone_stats.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.031120332">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vp/management/commands/disablehits.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1121,6 +1076,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/updatemturkweb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vp/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1131,51 +1096,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.3333333">
-          <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
-          <folding>
-            <element signature="e#28#56#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/common_constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="89" selection-start-line="65" selection-start-column="89" selection-end-line="65" selection-end-column="89" />
-          <folding>
-            <element signature="e#28#57#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="147" column="37" selection-start-line="147" selection-start-column="37" selection-end-line="147" selection-end-column="37" />
+          <caret line="158" column="32" selection-start-line="158" selection-start-column="32" selection-end-line="158" selection-end-column="32" />
           <folding>
             <element signature="e#28#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/updatemturkweb.py">
+    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4772118">
-          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="30" selection-start-line="96" selection-start-column="30" selection-end-line="96" selection-end-column="30" />
           <folding>
-            <element signature="e#0#51#0" expanded="true" />
+            <element signature="e#28#57#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.6666665">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding>
+            <element signature="e#28#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/phone_stats.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/website_data.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/mturk/temp/phone_data.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="601" selection-start-line="0" selection-start-column="601" selection-end-line="0" selection-end-column="601" />
+          <folding />
         </state>
       </provider>
     </entry>

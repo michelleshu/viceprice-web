@@ -50,6 +50,8 @@ MIN_HITS_COMPLETED = 100
 UPDATED_WEBSITE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/website_data.csv"
 NEW_PHONE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/new_phone_data.csv"
 UPDATED_PHONE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/phone_data.csv"
+WEBSITE_STATS_FILE = settings.BASE_DIR + "/vp/mturk/temp/website_stats.csv"
+PHONE_STATS_FILE = settings.BASE_DIR + "/vp/mturk/temp/phone_stats.csv"
 
 WEBSITE_UPDATE_FREQUENCY = 600 # in seconds
 PHONE_UPDATE_FREQUENCY = 1800
