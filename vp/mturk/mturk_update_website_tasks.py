@@ -140,8 +140,12 @@ def update():
     # Write updated website objects
     write_location_objects_to_csv(locations_to_update, UPDATED_WEBSITE_DATA_FILE, append=False)
 
+    completion_percentage = 0.0
+    if (len(locations_to_update) > 0):
+        completion_percentage = (float(complete_count) + float(phone_task_count)) / len(locations_to_update)
+
     return [str(stage_1_count), str(stage_3_count), str(stage_4_count), str(complete_count),
-            str((float(complete_count) + float(phone_task_count)) / len(locations_to_update))]
+            str(completion_percentage)]
 
 
 def update_website_tasks(new_locations):
