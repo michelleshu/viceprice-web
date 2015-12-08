@@ -4,8 +4,8 @@ import datetime
 from viceprice import settings
 
 # Connection constants
-ACCESS_ID = 'AKIAJOQBWIPORZU55R4Q'
-SECRET_KEY = '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'
+ACCESS_ID = 'AKIAJUOZ7FVQMBTEZPQA'
+SECRET_KEY = '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'
 HOST = 'mechanicalturk.amazonaws.com'
 
 # HIT Type parameters
