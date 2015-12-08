@@ -31,6 +31,8 @@ def update():
     complete_count = 0
 
     for location in locations_to_update:
+        print(location)
+        print(location.stage)
 
         if (int(location.stage) == MTURK_STAGE[COMPLETE] or int(location.stage) == MTURK_STAGE[NO_HH_FOUND]):
             complete_count = complete_count + 1

@@ -224,6 +224,10 @@ def get_location_objects_from_csv(filename):
                 setattr(location, headers[i], row[i].replace("amp;", "").replace("&#10;", "\r\n").replace("&", "&amp;").replace("\r\n", "&#10;"))
                 i = i + 1
 
+            print("Location from CSV")
+            print(location)
+            print(location.stage)
+
             location_objects.append(location)
 
         input_file.close()
