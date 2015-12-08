@@ -123,6 +123,13 @@ def update():
 
                     approve_and_dispose(conn, hit)
 
+        if (int(location.stage) == 1):
+            stage_1_count = stage_1_count + 1
+        elif(int(location.stage) == 3):
+            stage_3_count = stage_3_count + 1
+        elif(int(location.stage) == 4):
+            stage_4_count = stage_4_count + 1
+
     # Write phone locations to add to phone CSV
     write_location_objects_to_csv(phone_locations_to_add, NEW_PHONE_DATA_FILE, append=True)
 
@@ -132,13 +139,6 @@ def update():
 
     # Write updated website objects
     write_location_objects_to_csv(locations_to_update, UPDATED_WEBSITE_DATA_FILE, append=False)
-
-    if (int(location.stage) == 1):
-        stage_1_count = stage_1_count + 1
-    elif(int(location.stage) == 3):
-        stage_3_count = stage_3_count + 1
-    elif(int(location.stage) == 4):
-        stage_4_count = stage_4_count + 1
 
     return [str(stage_1_count), str(stage_3_count), str(stage_4_count), str(complete_count),
             str((float(complete_count) + float(phone_task_count)) / len(locations_to_update))]

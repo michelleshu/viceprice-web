@@ -35,11 +35,6 @@ def update():
             complete_count = complete_count + 1
             continue
 
-        if (int(location.stage) == 5):
-            stage_5_count = stage_5_count + 1
-        elif(int(location.stage) == 6):
-            stage_6_count = stage_6_count + 1
-
         # Evaluate the corresponding HIT assignments for this location if all assignments are complete
         hit = conn.get_hit(location.hit_id)[0]
         if (hit.HITStatus == REVIEWABLE):
@@ -76,6 +71,11 @@ def update():
                         create_hit(conn, location, HIT_TYPES[CONFIRM_PHONE_HH])
 
                     approve_and_dispose(conn, hit)
+
+        if (int(location.stage) == 5):
+            stage_5_count = stage_5_count + 1
+        elif(int(location.stage) == 6):
+            stage_6_count = stage_6_count + 1
 
     # Add new phone locations to locations to update
     for new_location in locations_to_add:
