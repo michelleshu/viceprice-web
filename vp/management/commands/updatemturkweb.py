@@ -51,3 +51,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         run_website_update()
 
+run_website_update();
+

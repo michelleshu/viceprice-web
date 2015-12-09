@@ -257,13 +257,17 @@ def write_location_objects_to_csv(locations, filename, append = False):
         for location in locations:
             row = []
             for property in LOCATION_PROPERTIES:
+                print(property)
 
                 value = getattr(location, property)
+                print(value)
+
                 if value is not None and type(value) is str:
                     value = value.encode("utf-8")
 
                 row.append(value)
             filewriter.writerow(row)
+            print(row)
 
         output_file.close()
 
