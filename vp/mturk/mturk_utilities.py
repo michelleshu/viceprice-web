@@ -773,7 +773,7 @@ def get_all_updated_locations():
     write_location_objects_to_csv(website_locations_in_progress, UPDATED_WEBSITE_DATA_FILE)
     write_location_objects_to_csv(phone_locations_in_progress, UPDATED_PHONE_DATA_FILE)
 
-    if len(updated_locations > 0):
+    if len(updated_locations) > 0:
         write_location_objects_to_csv(updated_locations, backup_file_name)
 
     return updated_locations
