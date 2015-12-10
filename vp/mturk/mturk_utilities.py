@@ -746,8 +746,13 @@ def get_all_updated_locations():
     website_locations_in_progress = []
     phone_locations_in_progress = []
 
-    website_locations = get_location_objects_from_csv(UPDATED_WEBSITE_DATA_FILE)
-    phone_locations = get_location_objects_from_csv(UPDATED_PHONE_DATA_FILE)
+    website_locations = []
+    if os.path.isFile(UPDATED_WEBSITE_DATA_FILE):
+        website_locations = get_location_objects_from_csv(UPDATED_WEBSITE_DATA_FILE)
+
+    phone_locations = []
+    if os.path.isFile(UPDATED_PHONE_DATA_FILE):
+        phone_locations = get_location_objects_from_csv(UPDATED_PHONE_DATA_FILE)
 
     for location in website_locations:
         if int(location.stage) == MTURK_STAGE[COMPLETE]:
@@ -767,6 +772,8 @@ def get_all_updated_locations():
 
     write_location_objects_to_csv(website_locations_in_progress, UPDATED_WEBSITE_DATA_FILE)
     write_location_objects_to_csv(phone_locations_in_progress, UPDATED_PHONE_DATA_FILE)
-    write_location_objects_to_csv(updated_locations, backup_file_name)
+
+    if len(updated_locations > 0):
+        write_location_objects_to_csv(updated_locations, backup_file_name)
 
     return updated_locations
