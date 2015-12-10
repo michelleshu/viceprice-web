@@ -224,10 +224,6 @@ def get_location_objects_from_csv(filename):
                 setattr(location, headers[i], row[i].replace("amp;", "").replace("&#10;", "\r\n").replace("&", "&amp;").replace("\r\n", "&#10;"))
                 i = i + 1
 
-            print("Location from CSV")
-            print(location)
-            print(location.stage)
-
             location_objects.append(location)
 
         input_file.close()
@@ -255,7 +251,6 @@ def write_location_objects_to_csv(locations, filename, append = False):
             filewriter.writerow(LOCATION_PROPERTIES)
 
         for location in locations:
-            print(location.name)
             row = []
             for property in LOCATION_PROPERTIES:
 
@@ -268,6 +263,21 @@ def write_location_objects_to_csv(locations, filename, append = False):
             filewriter.writerow(row)
 
         output_file.close()
+
+
+def print_csv(filename):
+    with open(filename, 'rb') as input_file:
+        filereader = csv.reader(input_file, encoding='utf-8')
+
+        headers = next(filereader)
+
+        print("Headers: " + headers)
+
+        for row in filereader:
+            print(row)
+
+        input_file.close()
+
 
 #endregion
 
