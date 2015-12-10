@@ -271,7 +271,8 @@ def print_csv(filename):
 
         headers = next(filereader)
 
-        print("Headers: " + headers)
+        print("Headers: ")
+        print(headers)
 
         for row in filereader:
             print(row)
