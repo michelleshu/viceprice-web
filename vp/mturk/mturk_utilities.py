@@ -216,6 +216,9 @@ def get_location_objects_from_csv(filename):
         headers = next(filereader)
 
         for row in filereader:
+            if len(row) < len(headers):
+                continue
+                
             location = MTurkLocation()
 
             i = 0
@@ -252,8 +255,6 @@ def write_location_objects_to_csv(locations, filename, append = False):
         for location in locations:
             row = []
             for property in LOCATION_PROPERTIES:
-                if property == 'hit_id':
-                    print(getattr(location, property))
 
                 value = getattr(location, property)
 
@@ -262,7 +263,7 @@ def write_location_objects_to_csv(locations, filename, append = False):
 
                 row.append(value)
             filewriter.writerow(row)
-            print("Row written: ")
+            print("Row written to " + filename + ": ")
             print(row)
 
         output_file.close()
