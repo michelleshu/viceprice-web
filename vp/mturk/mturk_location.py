@@ -9,7 +9,6 @@ class MTurkLocation:
         address = None,
         url = None,
         phone_number = None,
-        check_ins = None,
         rating = None,
         url_provided = None,
         url_provided_verified = False,
@@ -49,7 +48,6 @@ class MTurkLocation:
         self.address = address
         self.url = url
         self.phone_number = phone_number
-        self.check_ins = check_ins
         self.rating = rating
         self.url_provided = url_provided
         self.url_provided_verified = url_provided_verified

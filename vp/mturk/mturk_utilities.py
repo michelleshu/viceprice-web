@@ -22,7 +22,6 @@ LOCATION_PROPERTIES = [
     "address",
     "url",
     "phone_number",
-    "check_ins",
     "rating",
     "url_provided",
     "url_provided_verified",

@@ -26,7 +26,6 @@ def get_mturk_locations_to_update():
             name = location.name,
             address = location.formattedAddress,
             phone_number = location.formattedPhoneNumber,
-            check_ins = location.checkIns,
             rating = location.rating
         ))
 
@@ -40,11 +39,7 @@ def get_mturk_locations_to_update():
 def run_website_update():
     locations_to_update = get_mturk_locations_to_update()
     write_location_objects_to_csv(locations_to_update, UPDATED_WEBSITE_DATA_FILE, append=True)
-    print("Locations to update")
-    print_csv(UPDATED_WEBSITE_DATA_FILE)
     update_website_tasks(locations_to_update)
-    print("After update")
-    print_csv(UPDATED_WEBSITE_DATA_FILE)
     updatedb.write_mturk_deals_to_db()
 
 
