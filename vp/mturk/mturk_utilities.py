@@ -255,6 +255,11 @@ def write_location_objects_to_csv(locations, filename, append = False):
 
                 value = getattr(location, property)
 
+                print("Property")
+                print(property)
+                print("Value")
+                print(value)
+
                 if value is not None and type(value) is str:
                     value = value.encode("utf-8")
 

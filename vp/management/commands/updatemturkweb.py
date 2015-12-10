@@ -38,7 +38,6 @@ def get_mturk_locations_to_update():
 
 def run_website_update():
     locations_to_update = get_mturk_locations_to_update()
-    write_location_objects_to_csv(locations_to_update, UPDATED_WEBSITE_DATA_FILE, append=True)
     update_website_tasks(locations_to_update)
     updatedb.write_mturk_deals_to_db()
 

@@ -15,6 +15,8 @@ def initialize_tasks(locations):
         location.update_started = timezone.now()
         create_hit(conn, location, HIT_TYPES[VERIFY_WEBSITE])
 
+    return locations
+
 # Check for HIT completion for all in-progress website tasks and update as necessary
 def update():
     conn = connection.MTurkConnection(aws_access_key_id=ACCESS_ID, aws_secret_access_key=SECRET_KEY, host=HOST)
@@ -31,7 +33,6 @@ def update():
     complete_count = 0
 
     for location in locations_to_update:
-        print("Location to update: " + location.name)
 
         if (int(location.stage) == MTURK_STAGE[COMPLETE] or int(location.stage) == MTURK_STAGE[NO_HH_FOUND]):
             complete_count = complete_count + 1
@@ -42,8 +43,6 @@ def update():
             continue
 
         # Evaluate the corresponding HIT assignments for this location if all assignments are complete
-        print(location.hit_id)
-        print(conn.get_hit(location.hit_id))
         hit = conn.get_hit(location.hit_id)[0]
         if (hit.HITStatus == REVIEWABLE):
             assignments = conn.get_assignments(hit.HITId)
@@ -152,8 +151,8 @@ def update():
 
 
 def update_website_tasks(new_locations):
-    initialize_tasks(new_locations)
-    write_location_objects_to_csv(new_locations, UPDATED_WEBSITE_DATA_FILE, append=True)
+    initialized_locations = initialize_tasks(new_locations)
+    write_location_objects_to_csv(initialized_locations, UPDATED_WEBSITE_DATA_FILE, append=True)
 
     status = update()
     status.insert(0, str(datetime.datetime.now()))
