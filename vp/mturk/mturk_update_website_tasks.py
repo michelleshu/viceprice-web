@@ -150,8 +150,14 @@ def update():
 
 
 def update_website_tasks(new_locations):
+    print("New locations")
+    print(new_locations)
     initialize_tasks(new_locations)
+    print("Initialized")
+    print(new_locations[0])
+    print(new_locations[0].hit_id)
     write_location_objects_to_csv(new_locations, UPDATED_WEBSITE_DATA_FILE, append=True)
+    print_csv(UPDATED_WEBSITE_DATA_FILE)
 
     status = update()
     status.insert(0, str(datetime.datetime.now()))
