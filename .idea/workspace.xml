@@ -69,8 +69,8 @@
       <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.601023">
-              <caret line="259" column="78" selection-start-line="259" selection-start-column="78" selection-end-line="259" selection-end-column="78" />
+            <state vertical-scroll-proportion="0.14066496">
+              <caret line="251" column="34" selection-start-line="251" selection-start-column="34" selection-end-line="251" selection-end-column="34" />
               <folding>
                 <element signature="e#28#56#0" expanded="true" />
               </folding>
@@ -1135,8 +1135,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.601023">
-          <caret line="259" column="78" selection-start-line="259" selection-start-column="78" selection-end-line="259" selection-end-column="78" />
+        <state vertical-scroll-proportion="0.14066496">
+          <caret line="251" column="34" selection-start-line="251" selection-start-column="34" selection-end-line="251" selection-end-column="34" />
           <folding>
             <element signature="e#28#56#0" expanded="true" />
           </folding>

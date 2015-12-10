@@ -250,20 +250,20 @@ def write_location_objects_to_csv(locations, filename, append = False):
             filewriter.writerow(LOCATION_PROPERTIES)
 
         for location in locations:
-            print("Location: " + location.name)
-            print("HITId: " + location.hit_id)
             row = []
             for property in LOCATION_PROPERTIES:
+                if property == 'hit_id':
+                    print(getattr(location, property))
 
                 value = getattr(location, property)
-
-                print("Property: " + str(property) + ", Value: " + str(value))
 
                 if value is not None and type(value) is str:
                     value = value.encode("utf-8")
 
                 row.append(value)
             filewriter.writerow(row)
+            print("Row written: ")
+            print(row)
 
         output_file.close()
 
