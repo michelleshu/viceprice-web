@@ -151,6 +151,7 @@ def update():
 
 def update_website_tasks(new_locations):
     initialize_tasks(new_locations)
+    write_location_objects_to_csv(new_locations, UPDATED_WEBSITE_DATA_FILE, append=True)
 
     status = update()
     status.insert(0, str(datetime.datetime.now()))
