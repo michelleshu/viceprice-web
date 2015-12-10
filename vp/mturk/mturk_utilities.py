@@ -747,11 +747,11 @@ def get_all_updated_locations():
     phone_locations_in_progress = []
 
     website_locations = []
-    if os.path.isFile(UPDATED_WEBSITE_DATA_FILE):
+    if os.path.isfile(UPDATED_WEBSITE_DATA_FILE):
         website_locations = get_location_objects_from_csv(UPDATED_WEBSITE_DATA_FILE)
 
     phone_locations = []
-    if os.path.isFile(UPDATED_PHONE_DATA_FILE):
+    if os.path.isfile(UPDATED_PHONE_DATA_FILE):
         phone_locations = get_location_objects_from_csv(UPDATED_PHONE_DATA_FILE)
 
     for location in website_locations:
