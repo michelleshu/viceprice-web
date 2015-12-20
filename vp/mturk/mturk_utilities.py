@@ -3,10 +3,10 @@ __author__ = 'michelleshu'
 from boto.mturk import price
 from boto.mturk.layoutparam import *
 from boto.mturk.qualification import *
-import unicodecsv as csv
-import os.path
-from mturk_location import *
-from common_constants import *
+import datetime
+from django.db.models import Q
+from django.utils import timezone
+from vp.models import Location, MTurkLocationInfo
 from viceprice import settings
 
 '''
@@ -15,6 +15,112 @@ This file contains the main utility functions for adding tasks and retrieving up
 '''
 
 #region Constants
+
+# Maximum number of locations to update at any given time
+MAX_LOCATIONS_TO_UPDATE = 10
+
+# Days it takes for data to expire
+EXPIRATION_PERIOD = 30
+
+# Connection constants
+ACCESS_ID = 'AKIAJW4QXLMJAD23QYKA' #'AKIAJUOZ7FVQMBTEZPQA'
+SECRET_KEY = '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' #'FoD/726y4rnU8PW/tM8U0i4sMUaIKVzZj/kWQyPu'
+HOST = 'mechanicalturk.sandbox.amazonaws.com'
+
+# HIT Type parameters
+HIT_TYPE_ID = 'HIT_TYPE_ID'
+TITLE = 'TITLE'
+DESCRIPTION = 'DESCRIPTION'
+ANNOTATION = 'ANNOTATION'
+LAYOUT_PARAMETER_NAMES = 'LAYOUT_PARAMETER_NAMES'
+LAYOUT_ID = 'LAYOUT_ID'
+MAX_ASSIGNMENTS = 'MAX_ASSIGNMENTS'
+PRICE = 'PRICE'
+DURATION = 'DURATION'
+US_LOCALE_REQUIRED = 'US_LOCALE_REQUIRED'
+
+# HIT Type names
+VERIFY_WEBSITE = 'VERIFY_WEBSITE'
+FIND_WEBSITE_HH = 'FIND_WEBSITE_HH'
+CONFIRM_WEBSITE_HH = 'CONFIRM_WEBSITE_HH'
+FIND_PHONE_HH = 'FIND_PHONE_HH'
+CONFIRM_PHONE_HH = 'CONFIRM_PHONE_HH'
+CATEGORIZE = 'CATEGORIZE'
+COMPLETE = 'COMPLETE'
+NO_HH_FOUND = 'NO_HH_FOUND'
+
+# Parameters common across HIT Types
+HIT_KEYWORDS = ['data collection', 'listing', 'web search', 'data', 'verify']
+HIT_APPROVAL_DELAY = datetime.timedelta(days=2)
+MIN_AGREEMENT_PERCENTAGE = 70
+MAX_GET_HH_ATTEMPTS = 3
+MIN_CONFIRMATIONS = 2
+
+MAX_ASSIGNMENTS_TO_PUBLISH = 4
+
+# Number of times we continue to request data if location is unreachable by phone
+PHONE_UNREACHABLE_LIMIT = 3
+
+# Qualifications required of users
+MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 1
+MIN_HITS_COMPLETED = 1
+
+# Files to pull and record data
+UPDATED_WEBSITE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/website_data.csv"
+NEW_PHONE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/new_phone_data.csv"
+UPDATED_PHONE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/phone_data.csv"
+WEBSITE_STATS_FILE = settings.BASE_DIR + "/vp/mturk/temp/website_stats.csv"
+PHONE_STATS_FILE = settings.BASE_DIR + "/vp/mturk/temp/phone_stats.csv"
+
+WEBSITE_UPDATE_FREQUENCY = 600 # in seconds
+PHONE_UPDATE_FREQUENCY = 1800
+
+# HIT Status
+REVIEWABLE = 'Reviewable'
+
+# Assignment Status
+SUBMITTED = 'Submitted'
+REJECTED = 'Rejected'
+
+# Days of Week
+MONDAY = 'MONDAY'
+TUESDAY = 'TUESDAY'
+WEDNESDAY = 'WEDNESDAY'
+THURSDAY = 'THURSDAY'
+FRIDAY = 'FRIDAY'
+SATURDAY = 'SATURDAY'
+SUNDAY = 'SUNDAY'
+
+DAYS_OF_WEEK = {
+    MONDAY: 1,
+    TUESDAY: 2,
+    WEDNESDAY: 3,
+    THURSDAY: 4,
+    FRIDAY: 5,
+    SATURDAY: 6,
+    SUNDAY: 7
+}
+
+# Enum for stage on MTurk
+MTURK_STAGE = {
+    VERIFY_WEBSITE: 1,
+    FIND_WEBSITE_HH: 2,
+    CONFIRM_WEBSITE_HH: 3,
+    FIND_PHONE_HH: 4,
+    CONFIRM_PHONE_HH: 5,
+    CATEGORIZE: 6,
+    COMPLETE: 7,
+    NO_HH_FOUND: 8
+}
+
+# Data Sources
+WEBSITE = 'WEBSITE'
+PHONE = 'PHONE'
+
+DATA_SOURCE = {
+    WEBSITE: 1,
+    PHONE: 2
+}
 
 LOCATION_PROPERTIES = [
     "foursquare_id",
@@ -97,26 +203,26 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to find or confirm a website for a business. You will be given the name, address, and URL.',
         ANNOTATION: 'Find or verify website',
         LAYOUT_PARAMETER_NAMES: ['name', 'address', 'url_provided'],
-        LAYOUT_ID: '3247MKAWG4CGGI9FPC20JYMRJ184TL',
+        LAYOUT_ID: '3P7AUOZHN419B8LBOO56YO5Y47L5UJ', #'3247MKAWG4CGGI9FPC20JYMRJ184TL',
         MAX_ASSIGNMENTS: 3,
         PRICE: 0.03, #0.01,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
 
-    FIND_WEBSITE_HH_B: {
+    FIND_WEBSITE_HH: {
         TITLE: 'Copy information from a website',
         DESCRIPTION: 'Your goal is to copy happy hours information from a website.',
         ANNOTATION: 'Copy happy hour information from a website',
         LAYOUT_PARAMETER_NAMES: ['name', 'url'],
-        LAYOUT_ID: '3TFBXQQ2O9UVMLVFYRL6W725544ABC',
+        LAYOUT_ID: '3NEEQM8TU4FGGVP0FP7G6C389JTWWH', #'3TFBXQQ2O9UVMLVFYRL6W725544ABC',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.10, #0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
 
-    CONFIRM_WEBSITE_HH_B: {
+    CONFIRM_WEBSITE_HH: {
         TITLE: 'Confirm information from a website',
         DESCRIPTION: 'Your goal is to verify that information we have matches what is shown on a website.',
         ANNOTATION: 'Confirm happy hour information from Website',
@@ -145,7 +251,7 @@ HIT_TYPES = {
             'wednesday_end_time',
             'wednesday_start_time'
         ],
-        LAYOUT_ID: '3XFRS2SHGGDVGVO4PHSAOU8T2FF4UC',
+        LAYOUT_ID: '3QB0JFJO76HJ9IMXEKBOON6HH0RAWL', #'3XFRS2SHGGDVGVO4PHSAOU8T2FF4UC',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.10, #0.05,
         DURATION: 3600,
@@ -157,7 +263,7 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to call a bar or restaurant and find out what happy hours they have.',
         ANNOTATION: 'Call for happy hour info',
         LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
-        LAYOUT_ID: '3XAF2SZQT2A3G09XWQVI56R0JUQ7F0',
+        LAYOUT_ID: '3GX9C1TBZWK2BMYVKTNAZ7NFNAVL6B', #'3XAF2SZQT2A3G09XWQVI56R0JUQ7F0',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.40, #0.20,
         DURATION: 7200,
@@ -193,7 +299,7 @@ HIT_TYPES = {
             'wednesday_end_time',
             'wednesday_start_time'
         ],
-        LAYOUT_ID: '31UQTP6TGX7AP8JLJK4IMMMER8SQRB',
+        LAYOUT_ID: '3M9WC5AI6LJ98I4P7GUBWOXST1IC6N', #'31UQTP6TGX7AP8JLJK4IMMMER8SQRB',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.40, #0.20,
         DURATION: 7200,
@@ -205,7 +311,7 @@ HIT_TYPES = {
 #endregion
 
 #region CSV Processing
-
+'''
 # Parse CSV data into location objects
 def get_location_objects_from_csv(filename):
     location_objects = []
@@ -283,9 +389,88 @@ def print_csv(filename):
 
         input_file.close()
 
-
+'''
 #endregion
 
+
+#region Read/write MTurkLocationInfo
+
+# Add locations to update process that need to be updated
+def add_mturk_locations_to_update(conn):
+
+    currently_updating = MTurkLocationInfo.objects.filter(~Q(id = MTURK_STAGE[NO_HH_FOUND])).count() # number of updates in progress
+    max_new_locations = MAX_LOCATIONS_TO_UPDATE - currently_updating
+
+    # Get at most max_new_locations locations that have either just been added or expired
+    earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
+    new_foursquare_locations = Location.objects.filter(
+        Q(mturkLastUpdateCompleted__isnull=True) & Q(name__contains='VP Test')
+    )
+    # new_foursquare_locations = Location.objects.filter(
+    #         Q(mturkLastUpdateCompleted__isnull=True) | Q(mturkLastUpdateCompleted__lt=earliest_unexpired_date)
+    #     )[0:max_new_locations]
+
+    # Add new Foursquare locations to MTurkLocationInfo
+    for location in new_foursquare_locations:
+
+        # Create a new location info object
+        mturk_location = MTurkLocationInfo(
+            foursquare_id = location.foursquareId,
+            name = location.name,
+            address = location.formattedAddress,
+            phone_number = location.formattedPhoneNumber,
+            rating = location.rating,
+            url_provided = location.website,
+            get_hh_attempts = 0,
+            deals_confirmations = 0,
+            stage = 1,
+            update_started = timezone.now(),
+            update_cost = 0.0
+        )
+
+        # Initialize first HIT for new location
+        create_hit(conn, mturk_location, HIT_TYPES[VERIFY_WEBSITE])
+
+        # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
+        location.mturkLastUpdateCompleted = timezone.now()
+        location.save()
+
+        mturk_location.save()
+
+
+# Retrieve in progress website updates
+def get_website_update_locations():
+
+    website_stages = [
+        MTURK_STAGE[VERIFY_WEBSITE],
+        MTURK_STAGE[FIND_WEBSITE_HH],
+        MTURK_STAGE[CONFIRM_WEBSITE_HH]
+    ];
+
+    return MTurkLocationInfo.objects.filter(stage__in=website_stages)
+
+
+# Retrieve in progress phone updates
+def get_phone_update_locations():
+
+    phone_stages = [
+        MTURK_STAGE[FIND_PHONE_HH],
+        MTURK_STAGE[CONFIRM_PHONE_HH]
+    ];
+
+    return MTurkLocationInfo.objects.filter(stage__in=phone_stages)
+
+
+# Retrieve completed locations
+def get_complete_locations():
+    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[COMPLETE])
+
+
+# Retrieve info not found locations
+def get_info_not_found_locations():
+    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[NO_HH_FOUND])
+
+#endregion
 
 #region HIT Creation and Updates
 
@@ -318,8 +503,7 @@ def register_hit_types(conn):
             qual_req=qualifications)[0].HITTypeId
 
 
-# Read layout parameters from a CSV source file and create corresponding HITs
-# To deprecate in future and replace with database read
+# Read layout parameters from MTurkLocationInfo object and create a HIT
 def create_hit(conn, location, hit_type):
 
     # Use qualifications: MIN_PERCENTAGE_APPROVED, MIN_HITS_COMPLETED and optionally US_LOCALE_REQUIRED
@@ -477,7 +661,8 @@ def process_verify_website_hit_assignments(conn, location, assignments):
             else:
                 url_responses.append(url_found)
 
-            location.comments = location.comments + comments
+            if (comments != None and comments != ""):
+                location.comments = location.comments + comments
 
     return get_url_agreement_percentage(url_responses)
 
@@ -743,6 +928,7 @@ def approve_and_dispose(conn, hit):
 
 #endregion
 
+'''
 def get_all_updated_locations():
     dt = datetime.datetime.now()
     backup_file_name = settings.BASE_DIR + "/vp/mturk/backups/" + str(dt).replace(" ", "-") + ".csv"
@@ -782,3 +968,5 @@ def get_all_updated_locations():
         write_location_objects_to_csv(updated_locations, backup_file_name)
 
     return updated_locations
+
+'''

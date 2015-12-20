@@ -1,8 +1,7 @@
 import django.utils.timezone
 from vp.mturk import mturk_utilities
 from vp.models import Location, BusinessHour, \
-    Deal, DAY_OF_WEEK, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, \
-    DealDataSource, DEAL_DATA_SOURCE, MTURK_PHONE, MTURK_WEBSITE, SOURCE_NOT_FOUND
+    Deal, DAY_OF_WEEK, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
 
 # Helper functions to update db with MTurk data
 
@@ -104,19 +103,9 @@ def get_deals_for_location(mturk_location):
 
 
 def write_mturk_deals_to_db():
-    updated_locations = mturk_utilities.get_all_updated_locations()
+    complete_locations = mturk_utilities.get_complete_locations()
 
-    for updated_location in updated_locations:
-        mturk_location = updated_location[0]
-
-        data_source_id = None
-        if (updated_location[1] == 'web'):
-            data_source_id = DEAL_DATA_SOURCE[MTURK_WEBSITE]
-        elif (updated_location[1] == 'phone'):
-            data_source_id = DEAL_DATA_SOURCE[MTURK_PHONE]
-        elif (updated_location[1] == 'not_found'):
-            data_source_id = DEAL_DATA_SOURCE[SOURCE_NOT_FOUND]
-
+    for mturk_location in complete_locations:
         location, created = Location.objects.get_or_create(foursquareId = mturk_location.foursquare_id)
         location.mturkLastUpdateStarted = mturk_location.update_started
         location.mturkLastUpdateCompleted = mturk_location.update_completed
@@ -127,9 +116,7 @@ def write_mturk_deals_to_db():
         location.longitude = float(mturk_location.longitude)
         location.formattedPhoneNumber = mturk_location.phone_number
         location.website = mturk_location.url
-
-        if location.check_ins != None:
-            location.check_ins = int(mturk_location.check_ins)
+        location.dealDataSource = mturk_location.data_source
 
         if location.rating != None:
             location.rating = float(mturk_location.rating)
@@ -140,8 +127,5 @@ def write_mturk_deals_to_db():
         for deal in get_deals_for_location(mturk_location):
             location.deals.add(deal)
 
-        if data_source_id != None:
-            data_source = DealDataSource.objects.get(id = data_source_id)
-            location.dealDataSource = data_source
-
         location.save()
+        mturk_location.delete()
