@@ -10,3 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         mturk_update_phone_tasks.update()
         updatedb.write_mturk_deals_to_db()
+
+def run():
+    mturk_update_phone_tasks.update()
+    updatedb.write_mturk_deals_to_db()

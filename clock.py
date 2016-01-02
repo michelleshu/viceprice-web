@@ -13,7 +13,7 @@ q = Queue(connection = conn)
 @sched.scheduled_job('cron', minute='5-55/5', second='0', timezone=eastern_timezone)
 def queue_mturk_website_update():
     print('MTurk website update queued')
-    q.enqueue(updatemturkweb.run_website_update)
+    q.enqueue(updatemturkweb)
 
 @sched.scheduled_job('cron', hour='11-19', minute='2-52/10', second='0', timezone=eastern_timezone)
 def queue_mturk_phone_update():
