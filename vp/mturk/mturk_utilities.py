@@ -476,9 +476,9 @@ def get_answer(answers, question_id):
 # Check to see if domain names of two URLs match (
 def domains_match(a, b):
     # Check for empty string
-    if (a == ""):
-        return b == ""
-    if (b == ""):
+    if (a == "" or a == None):
+        return b == "" or b == None
+    if (b == "" or b == None):
         return False
 
     # Strip backslash from end if it exists
