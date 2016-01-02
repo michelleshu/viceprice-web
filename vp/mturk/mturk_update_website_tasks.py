@@ -53,6 +53,7 @@ def update():
                     elif (agreed_url == ""):
                         location.url_found = False
                         if (location.phone_number != None and location.phone_number != ""):
+                            location.hit_id = None
                             location.stage = MTURK_STAGE[FIND_PHONE_HH]
                         else:
                             location.stage = MTURK_STAGE[NO_HH_FOUND]
@@ -73,6 +74,7 @@ def update():
                     if location.get_hh_attempts < MAX_GET_HH_ATTEMPTS:
                         conn.extend_hit(hit.HITId, assignments_increment=1)
                     else:
+                        location.hit_id = None
                         location.stage = MTURK_STAGE[FIND_PHONE_HH]
                         approve_and_dispose(conn, hit)
                 else:

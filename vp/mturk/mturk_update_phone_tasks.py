@@ -12,6 +12,10 @@ def update():
     locations_to_update = get_phone_update_locations()
 
     for location in locations_to_update:
+        if (location.hit_id == None):
+            create_hit(conn, location, HIT_TYPES[FIND_PHONE_HH])
+            location.save()
+            continue
 
         # Evaluate the corresponding HIT assignments for this location if all assignments are complete
         hit = conn.get_hit(location.hit_id)[0]
@@ -35,7 +39,12 @@ def update():
 
                         if (not correct_number):
                             location.stage = MTURK_STAGE[NO_HH_FOUND]
+                            location.comments = "Incorrect phone number"
                             approve_and_dispose(conn, hit)
+
+                else:
+                    if len(assignments) >= PHONE_UNREACHABLE_LIMIT:
+                        approve_and_dispose(conn, hit)
 
             elif int(location.stage) == MTURK_STAGE[CONFIRM_PHONE_HH]:
                 extended = extend_if_not_reachable(conn, location, assignments)

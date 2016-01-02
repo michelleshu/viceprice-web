@@ -310,88 +310,6 @@ HIT_TYPES = {
 
 #endregion
 
-#region CSV Processing
-'''
-# Parse CSV data into location objects
-def get_location_objects_from_csv(filename):
-    location_objects = []
-
-    with open(filename, 'rb') as input_file:
-        filereader = csv.reader(input_file, encoding='utf-8')
-
-        headers = next(filereader)
-
-        for row in filereader:
-            if len(row) < len(headers):
-                continue
-                
-            location = MTurkLocation()
-
-            i = 0
-            while i < len(row):
-                setattr(location, headers[i], row[i].replace("amp;", "").replace("&#10;", "\r\n").replace("&", "&amp;").replace("\r\n", "&#10;"))
-                i = i + 1
-
-            location_objects.append(location)
-
-        input_file.close()
-
-    return location_objects
-
-
-# Write location objects to a CSV file
-def write_location_objects_to_csv(locations, filename, append = False):
-    mode = 'wb'
-    if append:
-        mode = 'ab'
-
-        # Create file with headers if it does not exist
-        if not os.path.isfile(filename):
-            with open(filename, 'w') as output_file:
-                filewriter = csv.writer(output_file, encoding='utf-8')
-                filewriter.writerow(LOCATION_PROPERTIES)
-                output_file.close()
-
-    with open(filename, mode) as output_file:
-        filewriter = csv.writer(output_file, encoding='utf-8')
-
-        if not append:
-            filewriter.writerow(LOCATION_PROPERTIES)
-
-        for location in locations:
-            row = []
-            for property in LOCATION_PROPERTIES:
-
-                value = getattr(location, property)
-
-                if value is not None and type(value) is str:
-                    value = value.encode("utf-8")
-
-                row.append(value)
-            filewriter.writerow(row)
-            print("Row written to " + filename + ": ")
-            print(row)
-
-        output_file.close()
-
-
-def print_csv(filename):
-    with open(filename, 'rb') as input_file:
-        filereader = csv.reader(input_file, encoding='utf-8')
-
-        headers = next(filereader)
-
-        print("Headers: ")
-        print(headers)
-
-        for row in filereader:
-            print(row)
-
-        input_file.close()
-
-'''
-#endregion
-
 
 #region Read/write MTurkLocationInfo
 
@@ -525,8 +443,12 @@ def create_hit(conn, location, hit_type):
     layout_parameters = []
     for parameter_name in layout_parameter_names:
         parameter_value = getattr(location, parameter_name)
-        if parameter_value != None:
+        if parameter_value != None and isinstance(parameter_value, str):
             parameter_value = parameter_value.replace("<", "&lt;")
+
+        if parameter_name[-4:] == 'time' and parameter_value != None:
+            parameter_value = parameter_value.strftime("%H:%M")
+
         layout_parameters.append(LayoutParameter(parameter_name, parameter_value))
 
     hit = conn.create_hit(
@@ -555,7 +477,7 @@ def create_hit(conn, location, hit_type):
 # Retrieve answer field value in list of QuestionFormAnswers for HIT to the question with matching questionId tag
 def get_answer(answers, question_id):
     for qa in answers:
-        if qa.qid == question_id:
+        if qa.qid == question_id and qa.fields[0] != '' and qa.fields[0] != 'None':
             return qa.fields[0]
     # Return None if not found
     return None
@@ -662,7 +584,10 @@ def process_verify_website_hit_assignments(conn, location, assignments):
                 url_responses.append(url_found)
 
             if (comments != None and comments != ""):
-                location.comments = location.comments + comments
+                if (location.comments == None):
+                    location.comments = ""
+
+                location.comments = location.comments + "\n" + comments
 
     return get_url_agreement_percentage(url_responses)
 
@@ -694,7 +619,11 @@ def process_find_happy_hour_url_assignments(conn, location, assignments):
                     conn.extend_hit(hit_id, assignments_increment=1)
                     return None
 
-            location.comments = location.comments + comments
+            if (comments != None and comments != ""):
+                if (location.comments == None):
+                    location.comments = ""
+
+                location.comments = location.comments + "\n" + comments
 
             deals_url_responses.append(deals_url)
 
@@ -724,28 +653,79 @@ def process_find_happy_hour_info_assignment(conn, location, assignment):
             conn.reject_assignment(assignment.AssignmentId, "Failed attention check question. The car is the biggest object.")
         return None
 
-    location.monday_start_time = get_answer(answers, MONDAY_START_TIME)
-    location.monday_end_time = get_answer(answers, MONDAY_END_TIME)
-    location.monday_description = get_answer(answers, MONDAY_DESCRIPTION).replace("\r\n", "&#10;")
-    location.tuesday_start_time = get_answer(answers, TUESDAY_START_TIME)
-    location.tuesday_end_time = get_answer(answers, TUESDAY_END_TIME)
-    location.tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION).replace("\r\n", "&#10;")
-    location.wednesday_start_time = get_answer(answers, WEDNESDAY_START_TIME)
-    location.wednesday_end_time = get_answer(answers, WEDNESDAY_END_TIME)
-    location.wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION).replace("\r\n", "&#10;")
-    location.thursday_start_time = get_answer(answers, THURSDAY_START_TIME)
-    location.thursday_end_time = get_answer(answers, THURSDAY_END_TIME)
-    location.thursday_description = get_answer(answers, THURSDAY_DESCRIPTION).replace("\r\n", "&#10;")
-    location.friday_start_time = get_answer(answers, FRIDAY_START_TIME)
-    location.friday_end_time = get_answer(answers, FRIDAY_END_TIME)
-    location.friday_description = get_answer(answers, FRIDAY_DESCRIPTION).replace("\r\n", "&#10;")
-    location.saturday_start_time = get_answer(answers, SATURDAY_START_TIME)
-    location.saturday_end_time = get_answer(answers, SATURDAY_END_TIME)
-    location.saturday_description = get_answer(answers, SATURDAY_DESCRIPTION).replace("\r\n", "&#10;")
-    location.sunday_start_time = get_answer(answers, SUNDAY_START_TIME)
-    location.sunday_end_time = get_answer(answers, SUNDAY_END_TIME)
-    location.sunday_description = get_answer(answers, SUNDAY_DESCRIPTION).replace("\r\n", "&#10;")
-    location.comments = location.comments + get_answer(answers, COMMENTS)
+    monday_start_time = get_answer(answers, MONDAY_START_TIME)
+    monday_end_time = get_answer(answers, MONDAY_END_TIME)
+    location.monday_description = get_answer(answers, MONDAY_DESCRIPTION)
+    tuesday_start_time = get_answer(answers, TUESDAY_START_TIME)
+    tuesday_end_time = get_answer(answers, TUESDAY_END_TIME)
+    location.tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION)
+    wednesday_start_time = get_answer(answers, WEDNESDAY_START_TIME)
+    wednesday_end_time = get_answer(answers, WEDNESDAY_END_TIME)
+    location.wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION)
+    thursday_start_time = get_answer(answers, THURSDAY_START_TIME)
+    thursday_end_time = get_answer(answers, THURSDAY_END_TIME)
+    location.thursday_description = get_answer(answers, THURSDAY_DESCRIPTION)
+    friday_start_time = get_answer(answers, FRIDAY_START_TIME)
+    friday_end_time = get_answer(answers, FRIDAY_END_TIME)
+    location.friday_description = get_answer(answers, FRIDAY_DESCRIPTION)
+    saturday_start_time = get_answer(answers, SATURDAY_START_TIME)
+    saturday_end_time = get_answer(answers, SATURDAY_END_TIME)
+    location.saturday_description = get_answer(answers, SATURDAY_DESCRIPTION)
+    sunday_start_time = get_answer(answers, SUNDAY_START_TIME)
+    sunday_end_time = get_answer(answers, SUNDAY_END_TIME)
+    location.sunday_description = get_answer(answers, SUNDAY_DESCRIPTION)
+
+    # Convert strings to times
+    if (monday_start_time != None and monday_start_time != ''):
+        monday_start_time = datetime.datetime.strptime(monday_start_time, "%H:%M").time()
+    if (tuesday_start_time != None and tuesday_start_time != ''):
+        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%H:%M").time()
+    if (wednesday_start_time != None and wednesday_start_time != ''):
+        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%H:%M").time()
+    if (thursday_start_time != None and thursday_start_time != ''):
+        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%H:%M").time()
+    if (friday_start_time != None and friday_start_time != ''):
+        friday_start_time = datetime.datetime.strptime(friday_start_time, "%H:%M").time()
+    if (saturday_start_time != None and saturday_start_time != ''):
+        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%H:%M").time()
+    if (sunday_start_time != None and sunday_start_time != ''):
+        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%H:%M").time()
+
+    if (monday_end_time != None and monday_end_time != ''):
+        monday_end_time = datetime.datetime.strptime(monday_end_time, "%H:%M").time()
+    if (tuesday_end_time != None and tuesday_end_time != ''):
+        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%H:%M").time()
+    if (wednesday_end_time != None and wednesday_end_time != ''):
+        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%H:%M").time()
+    if (thursday_end_time != None and thursday_end_time != ''):
+        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%H:%M").time()
+    if (friday_end_time != None and friday_end_time != ''):
+        friday_end_time = datetime.datetime.strptime(friday_end_time, "%H:%M").time()
+    if (saturday_end_time != None and saturday_end_time != ''):
+        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%H:%M").time()
+    if (sunday_end_time != None and sunday_end_time != ''):
+        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%H:%M").time()
+
+    location.monday_start_time = monday_start_time
+    location.tuesday_start_time = tuesday_start_time
+    location.wednesday_start_time = wednesday_start_time
+    location.thursday_start_time = thursday_start_time
+    location.friday_start_time = friday_start_time
+    location.saturday_start_time = saturday_start_time
+    location.sunday_start_time = sunday_start_time
+
+    location.monday_end_time = monday_end_time
+    location.tuesday_end_time = tuesday_end_time
+    location.wednesday_end_time = wednesday_end_time
+    location.thursday_end_time = thursday_end_time
+    location.friday_end_time = friday_end_time
+    location.saturday_end_time = saturday_end_time
+    location.sunday_end_time = sunday_end_time
+
+    if get_answer(answers, COMMENTS) != None:
+        if location.comments == None:
+            location.comments = ""
+        location.comments = location.comments + "\n" + get_answer(answers, COMMENTS)
 
     return True
 
@@ -765,26 +745,58 @@ def process_confirm_happy_hour_info_assignment(conn, location, assignment):
 
     monday_start_time = get_answer(answers, MONDAY_START_TIME)
     monday_end_time = get_answer(answers, MONDAY_END_TIME)
-    monday_description = get_answer(answers, MONDAY_DESCRIPTION).replace("\r\n", "&#10;")
+    monday_description = get_answer(answers, MONDAY_DESCRIPTION)
     tuesday_start_time = get_answer(answers, TUESDAY_START_TIME)
     tuesday_end_time = get_answer(answers, TUESDAY_END_TIME)
-    tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION).replace("\r\n", "&#10;")
+    tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION)
     wednesday_start_time = get_answer(answers, WEDNESDAY_START_TIME)
     wednesday_end_time = get_answer(answers, WEDNESDAY_END_TIME)
-    wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION).replace("\r\n", "&#10;")
+    wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION)
     thursday_start_time = get_answer(answers, THURSDAY_START_TIME)
     thursday_end_time = get_answer(answers, THURSDAY_END_TIME)
-    thursday_description = get_answer(answers, THURSDAY_DESCRIPTION).replace("\r\n", "&#10;")
+    thursday_description = get_answer(answers, THURSDAY_DESCRIPTION)
     friday_start_time = get_answer(answers, FRIDAY_START_TIME)
     friday_end_time = get_answer(answers, FRIDAY_END_TIME)
-    friday_description = get_answer(answers, FRIDAY_DESCRIPTION).replace("\r\n", "&#10;")
+    friday_description = get_answer(answers, FRIDAY_DESCRIPTION)
     saturday_start_time = get_answer(answers, SATURDAY_START_TIME)
     saturday_end_time = get_answer(answers, SATURDAY_END_TIME)
-    saturday_description = get_answer(answers, SATURDAY_DESCRIPTION).replace("\r\n", "&#10;")
+    saturday_description = get_answer(answers, SATURDAY_DESCRIPTION)
     sunday_start_time = get_answer(answers, SUNDAY_START_TIME)
     sunday_end_time = get_answer(answers, SUNDAY_END_TIME)
-    sunday_description = get_answer(answers, SUNDAY_DESCRIPTION).replace("\r\n", "&#10;")
+    sunday_description = get_answer(answers, SUNDAY_DESCRIPTION)
     comments = get_answer(answers, COMMENTS)
+
+    # Convert strings to times
+    if (monday_start_time != None and monday_start_time != ''):
+        monday_start_time = datetime.datetime.strptime(monday_start_time, "%H:%M").time()
+    if (tuesday_start_time != None and tuesday_start_time != ''):
+        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%H:%M").time()
+    if (wednesday_start_time != None and wednesday_start_time != ''):
+        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%H:%M").time()
+    if (thursday_start_time != None and thursday_start_time != ''):
+        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%H:%M").time()
+    if (friday_start_time != None and friday_start_time != ''):
+        friday_start_time = datetime.datetime.strptime(friday_start_time, "%H:%M").time()
+    if (saturday_start_time != None and saturday_start_time != ''):
+        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%H:%M").time()
+    if (sunday_start_time != None and sunday_start_time != ''):
+        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%H:%M").time()
+
+    if (monday_end_time != None and monday_end_time != ''):
+        monday_end_time = datetime.datetime.strptime(monday_end_time, "%H:%M").time()
+    if (tuesday_end_time != None and tuesday_end_time != ''):
+        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%H:%M").time()
+    if (wednesday_end_time != None and wednesday_end_time != ''):
+        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%H:%M").time()
+    if (thursday_end_time != None and thursday_end_time != ''):
+        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%H:%M").time()
+    if (friday_end_time != None and friday_end_time != ''):
+        friday_end_time = datetime.datetime.strptime(friday_end_time, "%H:%M").time()
+    if (saturday_end_time != None and saturday_end_time != ''):
+        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%H:%M").time()
+    if (sunday_end_time != None and sunday_end_time != ''):
+        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%H:%M").time()
+
 
     if (location.monday_start_time != monday_start_time):
         confirmed = False
@@ -861,7 +873,11 @@ def process_confirm_happy_hour_info_assignment(conn, location, assignment):
     else:
         location.deals_confirmations = 0
 
-    location.comments = location.comments + comments
+    if (comments != None and comments != ""):
+        if (location.comments == None):
+            location.comments = ""
+
+        location.comments = location.comments + "\n" + comments
 
     return confirmed
 
@@ -907,6 +923,7 @@ def extend_if_not_reachable(conn, location, assignments):
 
     if was_reachable == "2":
         if len(assignments) >= PHONE_UNREACHABLE_LIMIT:
+            location.comments = "Unreachable by phone"
             location.stage = MTURK_STAGE[NO_HH_FOUND]
 
         else:
@@ -927,46 +944,3 @@ def approve_and_dispose(conn, hit):
         conn.dispose_hit(hit.HITId)
 
 #endregion
-
-'''
-def get_all_updated_locations():
-    dt = datetime.datetime.now()
-    backup_file_name = settings.BASE_DIR + "/vp/mturk/backups/" + str(dt).replace(" ", "-") + ".csv"
-
-    updated_locations = []
-    website_locations_in_progress = []
-    phone_locations_in_progress = []
-
-    website_locations = []
-    if os.path.isfile(UPDATED_WEBSITE_DATA_FILE):
-        website_locations = get_location_objects_from_csv(UPDATED_WEBSITE_DATA_FILE)
-
-    phone_locations = []
-    if os.path.isfile(UPDATED_PHONE_DATA_FILE):
-        phone_locations = get_location_objects_from_csv(UPDATED_PHONE_DATA_FILE)
-
-    for location in website_locations:
-        if int(location.stage) == MTURK_STAGE[COMPLETE]:
-            updated_locations.append((location, 'web'))
-        elif int(location.stage) == MTURK_STAGE[NO_HH_FOUND]:
-            updated_locations.append((location, 'not_found'))
-        else:
-            website_locations_in_progress.append(location)
-
-    for location in phone_locations:
-        if int(location.stage) == MTURK_STAGE[COMPLETE]:
-            updated_locations.append((location, 'phone'))
-        elif int(location.stage) == MTURK_STAGE[NO_HH_FOUND]:
-            updated_locations.append((location, 'not_found'))
-        else:
-            phone_locations_in_progress.append(location)
-
-    write_location_objects_to_csv(website_locations_in_progress, UPDATED_WEBSITE_DATA_FILE)
-    write_location_objects_to_csv(phone_locations_in_progress, UPDATED_PHONE_DATA_FILE)
-
-    if len(updated_locations) > 0:
-        write_location_objects_to_csv(updated_locations, backup_file_name)
-
-    return updated_locations
-
-'''

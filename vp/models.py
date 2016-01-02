@@ -35,8 +35,8 @@ class BusinessHourManager(models.Manager):
 
         for tf in time_frames_data:
             # Convert times from military time strings to time objects
-            start_time = EASTERN_TIMEZONE.localize(datetime.strptime(tf['start'][-4:], '%H%M'))
-            end_time = EASTERN_TIMEZONE.localize(datetime.strptime(tf['end'][-4:], '%H%M'))
+            start_time = tf['start']
+            end_time = tf['end']
 
             time_frame = TimeFrame(startTime = start_time, endTime = end_time, businessHour = business_hour)
             time_frame.save()
