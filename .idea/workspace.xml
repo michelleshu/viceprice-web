@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
     </list>
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36462882">
-              <caret line="481" column="20" selection-start-line="481" selection-start-column="20" selection-end-line="481" selection-end-column="20" />
+            <state vertical-scroll-proportion="-20.074074">
+              <caret line="482" column="0" selection-start-line="482" selection-start-column="0" selection-end-line="482" selection-end-column="0" />
               <folding>
                 <element signature="e#28#56#0" expanded="true" />
               </folding>
@@ -102,11 +102,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mturk_update_website_tasks.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mturk_update_website_tasks.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.7777777">
-              <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.81877726">
+              <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
               <folding>
                 <element signature="e#28#57#0" expanded="true" />
               </folding>
@@ -193,12 +193,12 @@
         <option value="$PROJECT_DIR$/vp/management/commands/test.py" />
         <option value="$PROJECT_DIR$/vp/models.py" />
         <option value="$PROJECT_DIR$/vp/management/commands/updatedb.py" />
-        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
         <option value="$PROJECT_DIR$/vp/management/commands/updatemturkweb.py" />
         <option value="$PROJECT_DIR$/vp/management/commands/updatemturkphone.py" />
         <option value="$PROJECT_DIR$/clock.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
+        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
       </list>
     </option>
   </component>
@@ -208,8 +208,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="123" />
-    <option name="y" value="283" />
+    <option name="x" value="87" />
+    <option name="y" value="94" />
     <option name="width" value="1330" />
     <option name="height" value="869" />
   </component>
@@ -707,7 +707,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="123" y="283" width="1330" height="869" extended-state="0" />
+    <frame x="87" y="94" width="1330" height="869" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20225564" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1161,22 +1161,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
+    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.7777777">
-          <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
+        <state vertical-scroll-proportion="-20.074074">
+          <caret line="482" column="0" selection-start-line="482" selection-start-column="0" selection-end-line="482" selection-end-column="0" />
           <folding>
-            <element signature="e#28#57#0" expanded="true" />
+            <element signature="e#28#56#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
+    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36462882">
-          <caret line="481" column="20" selection-start-line="481" selection-start-column="20" selection-end-line="481" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.81877726">
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding>
-            <element signature="e#28#56#0" expanded="true" />
+            <element signature="e#28#57#0" expanded="true" />
           </folding>
         </state>
       </provider>

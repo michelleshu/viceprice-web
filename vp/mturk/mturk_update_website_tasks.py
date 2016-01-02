@@ -50,7 +50,7 @@ def update():
                         location.stage = MTURK_STAGE[FIND_WEBSITE_HH]
                         create_hit(conn, location, HIT_TYPES[FIND_WEBSITE_HH])
 
-                    elif (agreed_url == ""):
+                    elif (agreed_url == "" or agreed_url == None):
                         location.url_found = False
                         if (location.phone_number != None and location.phone_number != ""):
                             location.hit_id = None
