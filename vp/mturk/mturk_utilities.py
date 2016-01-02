@@ -17,7 +17,7 @@ This file contains the main utility functions for adding tasks and retrieving up
 #region Constants
 
 # Maximum number of locations to update at any given time
-MAX_LOCATIONS_TO_UPDATE = 10
+MAX_LOCATIONS_TO_UPDATE = 100
 
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30
@@ -56,24 +56,14 @@ MIN_AGREEMENT_PERCENTAGE = 70
 MAX_GET_HH_ATTEMPTS = 3
 MIN_CONFIRMATIONS = 2
 
-MAX_ASSIGNMENTS_TO_PUBLISH = 4
+MAX_ASSIGNMENTS_TO_PUBLISH = 9
 
 # Number of times we continue to request data if location is unreachable by phone
 PHONE_UNREACHABLE_LIMIT = 3
 
 # Qualifications required of users
-MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 1
+MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 70
 MIN_HITS_COMPLETED = 1
-
-# Files to pull and record data
-UPDATED_WEBSITE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/website_data.csv"
-NEW_PHONE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/new_phone_data.csv"
-UPDATED_PHONE_DATA_FILE = settings.BASE_DIR + "/vp/mturk/temp/phone_data.csv"
-WEBSITE_STATS_FILE = settings.BASE_DIR + "/vp/mturk/temp/website_stats.csv"
-PHONE_STATS_FILE = settings.BASE_DIR + "/vp/mturk/temp/phone_stats.csv"
-
-WEBSITE_UPDATE_FREQUENCY = 600 # in seconds
-PHONE_UPDATE_FREQUENCY = 1800
 
 # HIT Status
 REVIEWABLE = 'Reviewable'
@@ -205,7 +195,7 @@ HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'address', 'url_provided'],
         LAYOUT_ID: '3P7AUOZHN419B8LBOO56YO5Y47L5UJ', #'3247MKAWG4CGGI9FPC20JYMRJ184TL',
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.03, #0.01,
+        PRICE: 0.03,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -217,7 +207,7 @@ HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'url'],
         LAYOUT_ID: '3NEEQM8TU4FGGVP0FP7G6C389JTWWH', #'3TFBXQQ2O9UVMLVFYRL6W725544ABC',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.10, #0.05,
+        PRICE: 0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -253,7 +243,7 @@ HIT_TYPES = {
         ],
         LAYOUT_ID: '3QB0JFJO76HJ9IMXEKBOON6HH0RAWL', #'3XFRS2SHGGDVGVO4PHSAOU8T2FF4UC',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.10, #0.05,
+        PRICE: 0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -265,7 +255,7 @@ HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
         LAYOUT_ID: '3GX9C1TBZWK2BMYVKTNAZ7NFNAVL6B', #'3XAF2SZQT2A3G09XWQVI56R0JUQ7F0',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.40, #0.20,
+        PRICE: 0.25,
         DURATION: 7200,
         US_LOCALE_REQUIRED: True
     },
@@ -301,7 +291,7 @@ HIT_TYPES = {
         ],
         LAYOUT_ID: '3M9WC5AI6LJ98I4P7GUBWOXST1IC6N', #'31UQTP6TGX7AP8JLJK4IMMMER8SQRB',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.40, #0.20,
+        PRICE: 0.25,
         DURATION: 7200,
         US_LOCALE_REQUIRED: True
     }
