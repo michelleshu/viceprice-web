@@ -1,0 +1,216 @@
+<!-- JQuery 1.11.2 -->
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" property="stylesheet" rel="stylesheet" />
+<style type="text/css">
+    a.expand-collapse-link {
+        margin-left: 15px;
+        color: white;
+    }
+</style>
+<section class="container" id="Survey" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333; font-size:0.9em;">
+    <div class="row col-xs-12 col-md-12">
+        <!-- Instructions -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Instructions</strong>
+                <span><a class="expand-collapse-link expanded">[Hide]</a></span>
+            </div>
+
+            <ul class="collapsible" style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px;">
+                <li style="line-height: 20.8px;">
+                    <span style="line-height: 18.72px;">Your goal is to find or confirm a website for the business: ${name}&nbsp;</span>
+                </li>
+                <li>
+                    <span style="line-height: 18.72px;">Good luck and thanks!</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- End Instructions -->
+    <!-- Survey Body -->
+    <input id="input-url" type="hidden" value="${url_provided}" />
+    <section>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+                            <label>Business Name:</label>
+                        </span>
+                    </td>
+                    <td>
+                        <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">${name}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+                            <label>Business Address: &nbsp;&nbsp;</label>
+                        </span>
+                    </td>
+                    <td>
+                        <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">${address}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>&nbsp;</p>
+
+        <fieldset class="confirm-url show-if-url-provided">
+            <p>
+                <span style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 18.72px; background-color: rgb(251, 251, 251);">Go to ${url_provided} and check if it is the OFFICIAL business website for ${name}.&nbsp;
+                    <strong>[Facebook, Twitter, Yelp, etc&nbsp;do not count]</strong>
+                </span>
+            </p>
+
+            <p>
+                <span style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; font-weight: bold; line-height: 18.72px; background-color: rgb(251, 251, 251);">Is ${url_provided} the official business website of ${name}?</span>
+            </p>
+
+            <div class="radio">
+                <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+                    <label>
+                        <input name="confirm-url" type="radio" value="1" />Yes</label>
+                </span>
+            </div>
+
+            <div class="radio">
+                <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+                    <label>
+                        <input name="confirm-url" type="radio" value="2" />No</label>
+                </span>
+            </div>
+        </fieldset>
+
+        <fieldset class="find-url show-if-url-not-provided">
+            <p>
+                <span style="line-height: 18.72px;">Do a web search for &quot;${name}&nbsp;Washington D.C.&quot; and see if you can find the OFFICIAL&nbsp;business&nbsp;website. Use the business address provided at the top if that helps.</span>
+            </p>
+
+            <p>
+                <span style="line-height: 18.72px;"><b>Could you find the OFFICIAL website for: ${name}</b></span>
+            </p>
+
+            <div class="radio">
+                <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+                    <label>
+                        <input name="find-url" type="radio" value="1" />Yes&nbsp;</label>
+                </span>
+            </div>
+
+            <div class="show-if-found-missing-url">
+                <span style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; font-weight: bold; line-height: 20.8px; background-color: rgb(251, 251, 251);">Post the URL of the OFFICIAL website you found</span>
+                <input class="form-control" id="URL" name="find-url-websitefield" placeholder="Example: http://www.churchkeydc.com/" style="line-height: 1.42857; width: 710px;" type="text" />
+            </div>
+
+            <div class="radio">
+                <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+                    <label>
+                        <input name="find-url" type="radio" value="2" />Could not find official website</label>
+                </span>
+            </div>
+        </fieldset>
+
+        <fieldset class="biggest-object">
+            <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+                <label>What is the biggest object here?</label>
+            </span>
+        </fieldset>
+
+        <fieldset class="comments">
+            <div>
+                <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your=""><b>Anything we should know about?</b>
+                    <br />
+                    <input class="form-control" id="other" name="comments" placeholder="" type="text" /> </span>
+            </div>
+        </fieldset>
+    </section>
+    <span business:="" confirm="" find="" goal="" is="" of="" or="" span="" style="line-height: 18.72px;" the="" this="" to="" website="" your="">
+        <!-- End Survey Body -->
+        <!-- close container -->
+        <style type="text/css">
+            fieldset {
+                padding: 10px;
+                background: #fbfbfb;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+        </style>
+        <script type="text/javascript">
+            // Expand and collapse instructions
+            $(".expand-collapse-link").click(function() {
+                if ($(this).hasClass("expanded")) {
+                    $(this).text("[Show]");
+                    $(this).removeClass("expanded");
+                    $(".collapsible").hide();
+                } else {
+                    $(this).text("[Hide]");
+                    $(this).addClass("expanded");
+                    $(".collapsible").show();
+                }
+            });
+
+            // Show or hide sections depending on whether or not a URL is provided
+            if ($("#input-url").val() === null || $("#input-url").val() === "" || $("#input-url").val() === "None") {
+                $(".show-if-url-provided").hide();
+            } else {
+                $(".show-if-url-not-provided").hide();
+            }
+
+            // If the URL provided is wrong, show the section for entering the correct URL
+            $("input[name='confirm-url']").change(function() {
+                if ($(this).val() == "2") {
+                    $(".show-if-url-not-provided").show();
+                } else {
+                    $(".show-if-url-not-provided").hide();
+                }
+            });
+
+            // Expand text box only when found a URL that was missing
+            $(".show-if-found-missing-url").hide();
+            $("input[name='find-url']").change(function() {
+                if ($(this).val() == "1") {
+                    $(".show-if-found-missing-url").show();
+                } else {
+                    $(".show-if-found-missing-url").hide();
+                }
+            });
+
+            var shuffleArray = function(array) {
+                var currentIndex = array.length,
+                    temporaryValue, randomIndex;
+
+                // While there remain elements to shuffle...
+                while (0 !== currentIndex) {
+
+                    // Pick a remaining element...
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+
+                    // And swap it with the current element.
+                    temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
+                }
+
+                return array;
+            };
+
+            // Randomize the ordering of options for biggest object question
+            var objectOptions = [
+                "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Book</label></span></div>",
+                "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Phone</label></span></div>",
+                "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Shoe</label></span></div>",
+                "<div class='radio'><label><input name='biggest-object' required='required' type='radio' value='correct' />A Car</label></span></div>"
+            ];
+            objectOptions = shuffleArray(objectOptions);
+
+            objectOptions.forEach(function(o) {
+                $("fieldset.biggest-object").append(o);
+            });
+        </script>
+    </span>
+</section>

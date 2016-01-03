@@ -23,9 +23,9 @@ MAX_LOCATIONS_TO_UPDATE = 100
 EXPIRATION_PERIOD = 30
 
 # Connection constants
-ACCESS_ID = 'AKIAJW4QXLMJAD23QYKA' #'AKIAJUOZ7FVQMBTEZPQA'
-SECRET_KEY = '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' #'FoD/726y4rnU8PW/tM8U0i4sMUaIKVzZj/kWQyPu'
-HOST = 'mechanicalturk.sandbox.amazonaws.com'
+ACCESS_ID = 'AKIAJDPZ5R3VHIQ6LXYA'
+SECRET_KEY = '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'
+HOST = 'mechanicalturk.amazonaws.com'
 
 # HIT Type parameters
 HIT_TYPE_ID = 'HIT_TYPE_ID'
@@ -63,7 +63,7 @@ PHONE_UNREACHABLE_LIMIT = 3
 
 # Qualifications required of users
 MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 70
-MIN_HITS_COMPLETED = 1
+MIN_HITS_COMPLETED = 100
 
 # HIT Status
 REVIEWABLE = 'Reviewable'
@@ -193,7 +193,7 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to find or confirm a website for a business. You will be given the name, address, and URL.',
         ANNOTATION: 'Find or verify website',
         LAYOUT_PARAMETER_NAMES: ['name', 'address', 'url_provided'],
-        LAYOUT_ID: '3P7AUOZHN419B8LBOO56YO5Y47L5UJ', #'3247MKAWG4CGGI9FPC20JYMRJ184TL',
+        LAYOUT_ID: '3HZSWS2KF8728Z8M1YK5R0A49UF2GR',
         MAX_ASSIGNMENTS: 3,
         PRICE: 0.03,
         DURATION: 3600,
@@ -205,7 +205,7 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to copy happy hours information from a website.',
         ANNOTATION: 'Copy happy hour information from a website',
         LAYOUT_PARAMETER_NAMES: ['name', 'url'],
-        LAYOUT_ID: '3NEEQM8TU4FGGVP0FP7G6C389JTWWH', #'3TFBXQQ2O9UVMLVFYRL6W725544ABC',
+        LAYOUT_ID: '3TJZUC06GDLW1YBSZNFIB5IF6FWOLM',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.05,
         DURATION: 3600,
@@ -241,7 +241,7 @@ HIT_TYPES = {
             'wednesday_end_time',
             'wednesday_start_time'
         ],
-        LAYOUT_ID: '3QB0JFJO76HJ9IMXEKBOON6HH0RAWL', #'3XFRS2SHGGDVGVO4PHSAOU8T2FF4UC',
+        LAYOUT_ID: '3HMQ92ECHMPD8JTLM7ZK1NIIFZOG9U',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.05,
         DURATION: 3600,
@@ -253,7 +253,7 @@ HIT_TYPES = {
         DESCRIPTION: 'Your goal is to call a bar or restaurant and find out what happy hours they have.',
         ANNOTATION: 'Call for happy hour info',
         LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
-        LAYOUT_ID: '3GX9C1TBZWK2BMYVKTNAZ7NFNAVL6B', #'3XAF2SZQT2A3G09XWQVI56R0JUQ7F0',
+        LAYOUT_ID: '3773MO9C6K1J30KC6GNVDFYIWBOZRP',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.25,
         DURATION: 7200,
@@ -289,7 +289,7 @@ HIT_TYPES = {
             'wednesday_end_time',
             'wednesday_start_time'
         ],
-        LAYOUT_ID: '3M9WC5AI6LJ98I4P7GUBWOXST1IC6N', #'31UQTP6TGX7AP8JLJK4IMMMER8SQRB',
+        LAYOUT_ID: '3Q91EFBMZH25X1K39E120B6G21PDLE',
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.25,
         DURATION: 7200,
@@ -312,7 +312,7 @@ def add_mturk_locations_to_update(conn):
     # Get at most max_new_locations locations that have either just been added or expired
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
     new_foursquare_locations = Location.objects.filter(
-        Q(mturkLastUpdateCompleted__isnull=True) & Q(name__contains='VP Test')
+        Q(mturkLastUpdateCompleted__isnull=True) & Q(rating__gt=9.0)
     )
     # new_foursquare_locations = Location.objects.filter(
     #         Q(mturkLastUpdateCompleted__isnull=True) | Q(mturkLastUpdateCompleted__lt=earliest_unexpired_date)
