@@ -1,7 +1,10 @@
+import django
 import django.utils.timezone
 from vp.mturk import mturk_utilities
 from vp.models import Location, BusinessHour, \
     Deal, DAY_OF_WEEK, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+
+django.setup()
 
 # Helper functions to update db with MTurk data
 
