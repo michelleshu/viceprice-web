@@ -636,6 +636,7 @@ def was_website_hh_found(conn, location, assignment):
 # Set columns on location object according to happy hour info provided
 # Return true on success, false if no happy hours found, None if failed attention check question
 def process_find_happy_hour_info_assignment(conn, location, assignment):
+    print(location.hit_id)
     answers = assignment.answers[0]
 
     if get_answer(answers, BIGGEST_OBJECT) != "correct":
