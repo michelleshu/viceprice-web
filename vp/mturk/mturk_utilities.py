@@ -683,6 +683,7 @@ def process_find_happy_hour_info_assignment(conn, location, assignment):
 
     if (monday_end_time != None and monday_end_time != ''):
         monday_end_time = datetime.datetime.strptime(monday_end_time, "%H:%M").time()
+    print(tuesday_end_time)
     if (tuesday_end_time != None and tuesday_end_time != ''):
         tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%H:%M").time()
     if (wednesday_end_time != None and wednesday_end_time != ''):
