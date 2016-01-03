@@ -36,6 +36,8 @@ def update():
 
                 if (agreement_percentage < MIN_AGREEMENT_PERCENTAGE):
                     # Extend the HIT as long as possible to get agreement
+                    print("Length of assignments")
+                    print(len(assignments))
                     if len(assignments) < MAX_ASSIGNMENTS_TO_PUBLISH:
                         conn.extend_hit(hit.HITId, assignments_increment=1)
                     # If exceeds max assignment number allowed by Amazon, we must make a new HIT
