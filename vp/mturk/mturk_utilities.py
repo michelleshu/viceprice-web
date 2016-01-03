@@ -17,7 +17,7 @@ This file contains the main utility functions for adding tasks and retrieving up
 #region Constants
 
 # Maximum number of locations to update at any given time
-MAX_LOCATIONS_TO_UPDATE = 100
+MAX_LOCATIONS_TO_UPDATE = 20
 
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30
