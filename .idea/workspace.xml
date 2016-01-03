@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
     </list>
     <ignored path="python-getting-started.iws" />
@@ -69,8 +67,8 @@
       <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="7.236559">
-              <caret line="787" column="79" selection-start-line="787" selection-start-column="79" selection-end-line="787" selection-end-column="79" />
+            <state vertical-scroll-proportion="0.05376344">
+              <caret line="436" column="86" selection-start-line="436" selection-start-column="86" selection-end-line="436" selection-end-column="86" />
               <folding>
                 <element signature="e#28#56#0" expanded="true" />
               </folding>
@@ -1174,8 +1172,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.236559">
-          <caret line="787" column="79" selection-start-line="787" selection-start-column="79" selection-end-line="787" selection-end-column="79" />
+        <state vertical-scroll-proportion="0.05376344">
+          <caret line="436" column="86" selection-start-line="436" selection-start-column="86" selection-end-line="436" selection-end-column="86" />
           <folding>
             <element signature="e#28#56#0" expanded="true" />
           </folding>

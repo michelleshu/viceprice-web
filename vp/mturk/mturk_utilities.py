@@ -667,34 +667,34 @@ def process_find_happy_hour_info_assignment(conn, location, assignment):
 
     # Convert strings to times
     if (monday_start_time != None and monday_start_time != ''):
-        monday_start_time = datetime.datetime.strptime(monday_start_time, "%I:%M %p").time()
+        monday_start_time = datetime.datetime.strptime(monday_start_time, "%H:%M").time()
     if (tuesday_start_time != None and tuesday_start_time != ''):
-        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%I:%M %p").time()
+        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%H:%M").time()
     if (wednesday_start_time != None and wednesday_start_time != ''):
-        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%I:%M %p").time()
+        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%H:%M").time()
     if (thursday_start_time != None and thursday_start_time != ''):
-        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%I:%M %p").time()
+        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%H:%M").time()
     if (friday_start_time != None and friday_start_time != ''):
-        friday_start_time = datetime.datetime.strptime(friday_start_time, "%I:%M %p").time()
+        friday_start_time = datetime.datetime.strptime(friday_start_time, "%H:%M").time()
     if (saturday_start_time != None and saturday_start_time != ''):
-        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%I:%M %p").time()
+        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%H:%M").time()
     if (sunday_start_time != None and sunday_start_time != ''):
-        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%I:%M %p").time()
+        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%H:%M").time()
 
     if (monday_end_time != None and monday_end_time != ''):
-        monday_end_time = datetime.datetime.strptime(monday_end_time, "%I:%M %p").time()
+        monday_end_time = datetime.datetime.strptime(monday_end_time, "%H:%M").time()
     if (tuesday_end_time != None and tuesday_end_time != ''):
-        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%I:%M %p").time()
+        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%H:%M").time()
     if (wednesday_end_time != None and wednesday_end_time != ''):
-        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%I:%M %p").time()
+        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%H:%M").time()
     if (thursday_end_time != None and thursday_end_time != ''):
-        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%I:%M %p").time()
+        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%H:%M").time()
     if (friday_end_time != None and friday_end_time != ''):
-        friday_end_time = datetime.datetime.strptime(friday_end_time, "%I:%M %p").time()
+        friday_end_time = datetime.datetime.strptime(friday_end_time, "%H:%M").time()
     if (saturday_end_time != None and saturday_end_time != ''):
-        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%I:%M %p").time()
+        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%H:%M").time()
     if (sunday_end_time != None and sunday_end_time != ''):
-        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%I:%M %p").time()
+        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%H:%M").time()
 
     location.monday_start_time = monday_start_time
     location.tuesday_start_time = tuesday_start_time
@@ -758,34 +758,34 @@ def process_confirm_happy_hour_info_assignment(conn, location, assignment):
 
     # Convert strings to times
     if (monday_start_time != None and monday_start_time != ''):
-        monday_start_time = datetime.datetime.strptime(monday_start_time, "%I:%M %p").time()
+        monday_start_time = datetime.datetime.strptime(monday_start_time, "%H:%M").time()
     if (tuesday_start_time != None and tuesday_start_time != ''):
-        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%I:%M %p").time()
+        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%H:%M").time()
     if (wednesday_start_time != None and wednesday_start_time != ''):
-        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%I:%M %p").time()
+        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%H:%M").time()
     if (thursday_start_time != None and thursday_start_time != ''):
-        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%I:%M %p").time()
+        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%H:%M").time()
     if (friday_start_time != None and friday_start_time != ''):
-        friday_start_time = datetime.datetime.strptime(friday_start_time, "%I:%M %p").time()
+        friday_start_time = datetime.datetime.strptime(friday_start_time, "%H:%M").time()
     if (saturday_start_time != None and saturday_start_time != ''):
-        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%I:%M %p").time()
+        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%H:%M").time()
     if (sunday_start_time != None and sunday_start_time != ''):
-        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%I:%M %p").time()
+        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%H:%M").time()
 
     if (monday_end_time != None and monday_end_time != ''):
-        monday_end_time = datetime.datetime.strptime(monday_end_time, "%I:%M %p").time()
+        monday_end_time = datetime.datetime.strptime(monday_end_time, "%H:%M").time()
     if (tuesday_end_time != None and tuesday_end_time != ''):
-        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%I:%M %p").time()
+        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%H:%M").time()
     if (wednesday_end_time != None and wednesday_end_time != ''):
-        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%I:%M %p").time()
+        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%H:%M").time()
     if (thursday_end_time != None and thursday_end_time != ''):
-        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%I:%M %p").time()
+        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%H:%M").time()
     if (friday_end_time != None and friday_end_time != ''):
-        friday_end_time = datetime.datetime.strptime(friday_end_time, "%I:%M %p").time()
+        friday_end_time = datetime.datetime.strptime(friday_end_time, "%H:%M").time()
     if (saturday_end_time != None and saturday_end_time != ''):
-        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%I:%M %p").time()
+        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%H:%M").time()
     if (sunday_end_time != None and sunday_end_time != ''):
-        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%I:%M %p").time()
+        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%H:%M").time()
 
 
     if (location.monday_start_time != monday_start_time):
