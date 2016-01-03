@@ -56,7 +56,7 @@ MIN_AGREEMENT_PERCENTAGE = 70
 MAX_GET_HH_ATTEMPTS = 3
 MIN_CONFIRMATIONS = 2
 
-MAX_ASSIGNMENTS_TO_PUBLISH = 9
+MAX_ASSIGNMENTS_TO_PUBLISH = 8
 
 # Number of times we continue to request data if location is unreachable by phone
 PHONE_UNREACHABLE_LIMIT = 3
@@ -636,7 +636,6 @@ def was_website_hh_found(conn, location, assignment):
 # Set columns on location object according to happy hour info provided
 # Return true on success, false if no happy hours found, None if failed attention check question
 def process_find_happy_hour_info_assignment(conn, location, assignment):
-    print(location.hit_id)
     answers = assignment.answers[0]
 
     if get_answer(answers, BIGGEST_OBJECT) != "correct":

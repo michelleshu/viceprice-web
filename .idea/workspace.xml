@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
     </list>
     <ignored path="python-getting-started.iws" />
@@ -67,8 +68,8 @@
       <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.0428815">
-              <caret line="799" column="44" selection-start-line="799" selection-start-column="44" selection-end-line="799" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.43567753">
+              <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
               <folding>
                 <element signature="e#28#56#0" expanded="true" />
               </folding>
@@ -125,8 +126,8 @@
       <file leaf-file-name="mturk_update_website_tasks.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.444445">
-              <caret line="82" column="47" selection-start-line="82" selection-start-column="47" selection-end-line="82" selection-end-column="47" />
+            <state vertical-scroll-proportion="-12.222222">
+              <caret line="38" column="58" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
               <folding>
                 <element signature="e#28#57#0" expanded="true" />
               </folding>
@@ -1142,6 +1143,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/updatemturkweb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vp/management/commands/updatemturkphone.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1152,18 +1161,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/updatemturkweb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.444445">
-          <caret line="82" column="47" selection-start-line="82" selection-start-column="47" selection-end-line="82" selection-end-column="47" />
+        <state vertical-scroll-proportion="-12.222222">
+          <caret line="38" column="58" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
           <folding>
             <element signature="e#28#57#0" expanded="true" />
           </folding>
@@ -1172,8 +1173,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.0428815">
-          <caret line="799" column="44" selection-start-line="799" selection-start-column="44" selection-end-line="799" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.43567753">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
             <element signature="e#28#56#0" expanded="true" />
           </folding>
