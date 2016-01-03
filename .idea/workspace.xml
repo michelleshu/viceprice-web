@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/updatedb.py" afterPath="$PROJECT_DIR$/vp/management/commands/updatedb.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clock.py" afterPath="$PROJECT_DIR$/clock.py" />
     </list>
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,11 +86,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="clock.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="clock.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/clock.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.4918033">
+              <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
               <folding>
                 <element signature="e#0#61#0" expanded="true" />
               </folding>
@@ -110,10 +110,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="updatedb.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="updatedb.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/updatedb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15437393">
+            <state vertical-scroll-proportion="-3.3333333">
               <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -217,8 +217,8 @@
         <option value="$PROJECT_DIR$/vp/management/commands/updatemturkphone.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
-        <option value="$PROJECT_DIR$/clock.py" />
         <option value="$PROJECT_DIR$/vp/management/commands/updatedb.py" />
+        <option value="$PROJECT_DIR$/clock.py" />
       </list>
     </option>
   </component>
@@ -1140,16 +1140,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.222222">
-          <caret line="38" column="58" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
-          <folding>
-            <element signature="e#28#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.407408">
@@ -1160,22 +1150,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clock.py">
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/updatedb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state vertical-scroll-proportion="-3.3333333">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
           <folding>
-            <element signature="e#0#61#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/updatedb.py">
+    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15437393">
-          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+        <state vertical-scroll-proportion="-12.222222">
+          <caret line="38" column="58" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#28#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clock.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4918033">
+          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
