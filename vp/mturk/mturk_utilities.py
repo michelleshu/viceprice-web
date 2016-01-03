@@ -434,7 +434,7 @@ def create_hit(conn, location, hit_type):
     for parameter_name in layout_parameter_names:
         parameter_value = getattr(location, parameter_name)
         if parameter_value != None and isinstance(parameter_value, str):
-            parameter_value = parameter_value.replace("<", "&lt;")
+            parameter_value = parameter_value.replace("<", "&lt;").replace("&", "and")
 
         if parameter_name[-4:] == 'time' and parameter_value != None:
             parameter_value = parameter_value.strftime("%H:%M")

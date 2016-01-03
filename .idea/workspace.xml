@@ -67,8 +67,8 @@
       <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52401745">
-              <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.33187774">
+              <caret line="436" column="86" selection-start-line="436" selection-start-column="86" selection-end-line="436" selection-end-column="86" />
               <folding>
                 <element signature="e#28#56#0" expanded="true" />
               </folding>
@@ -228,7 +228,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="94" />
+    <option name="x" value="97" />
     <option name="y" value="27" />
     <option name="width" value="1330" />
     <option name="height" value="869" />
@@ -705,7 +705,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="94" y="27" width="1330" height="869" extended-state="0" />
+    <frame x="97" y="27" width="1330" height="869" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20225564" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1177,8 +1177,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52401745">
-          <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.33187774">
+          <caret line="436" column="86" selection-start-line="436" selection-start-column="86" selection-end-line="436" selection-end-column="86" />
           <folding>
             <element signature="e#28#56#0" expanded="true" />
           </folding>
