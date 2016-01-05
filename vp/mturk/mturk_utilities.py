@@ -17,7 +17,7 @@ This file contains the main utility functions for adding tasks and retrieving up
 #region Constants
 
 # Maximum number of locations to update at any given time
-MAX_LOCATIONS_TO_UPDATE = 20
+MAX_LOCATIONS_TO_UPDATE = 100
 
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30
@@ -195,7 +195,7 @@ HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'address', 'url_provided'],
         LAYOUT_ID: '3HZSWS2KF8728Z8M1YK5R0A49UF2GR',
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.03,
+        PRICE: 0.02,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -207,7 +207,7 @@ HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'url'],
         LAYOUT_ID: '3TJZUC06GDLW1YBSZNFIB5IF6FWOLM',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.05,
+        PRICE: 0.03,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -243,7 +243,7 @@ HIT_TYPES = {
         ],
         LAYOUT_ID: '3HMQ92ECHMPD8JTLM7ZK1NIIFZOG9U',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.05,
+        PRICE: 0.03,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -255,7 +255,7 @@ HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
         LAYOUT_ID: '3773MO9C6K1J30KC6GNVDFYIWBOZRP',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.25,
+        PRICE: 0.15,
         DURATION: 7200,
         US_LOCALE_REQUIRED: True
     },
@@ -291,7 +291,7 @@ HIT_TYPES = {
         ],
         LAYOUT_ID: '3Q91EFBMZH25X1K39E120B6G21PDLE',
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.25,
+        PRICE: 0.15,
         DURATION: 7200,
         US_LOCALE_REQUIRED: True
     }
@@ -306,13 +306,13 @@ HIT_TYPES = {
 # Add locations to update process that need to be updated
 def add_mturk_locations_to_update(conn):
 
-    currently_updating = MTurkLocationInfo.objects.filter(~Q(id = MTURK_STAGE[NO_HH_FOUND])).count() # number of updates in progress
+    currently_updating = MTurkLocationInfo.objects.filter(~Q(id = MTURK_STAGE[NO_HH_FOUND]) & ~Q(id = MTURK_STAGE[FIND_PHONE_HH])).count() # number of updates in progress
     max_new_locations = MAX_LOCATIONS_TO_UPDATE - currently_updating
 
     # Get at most max_new_locations locations that have either just been added or expired
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
     new_foursquare_locations = Location.objects.filter(
-        Q(mturkLastUpdateCompleted__isnull=True) & Q(rating__gt=9.0)
+        Q(mturkLastUpdateCompleted__isnull=True) & Q(id__lt=2600)
     )
     # new_foursquare_locations = Location.objects.filter(
     #         Q(mturkLastUpdateCompleted__isnull=True) | Q(mturkLastUpdateCompleted__lt=earliest_unexpired_date)
