@@ -958,7 +958,7 @@ def process_confirm_happy_hour_info_assignment(conn, location, assignment):
 def validate_time(str):
     if str == None or str == '':
         return str
-    if len(str) > 5 or str[-1:] == "M" or str[-1:] == "m":
+    if len(str) > 5 or str[-1] < '0' or str[-1] > '9':
         return None
     else:
         return str

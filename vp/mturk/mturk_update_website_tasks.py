@@ -103,4 +103,5 @@ def update():
 
                     approve_and_dispose(conn, hit)
 
+            location.comments = location.comments[:999]
             location.save()
