@@ -53,9 +53,13 @@ def update():
                     confirmed = process_confirm_happy_hour_info_assignment(conn, location, assignments[-1])
 
                     if (confirmed and location.deals_confirmations >= MIN_CONFIRMATIONS):
-                        location.data_source = DATA_SOURCE[PHONE]
-                        location.stage = MTURK_STAGE[COMPLETE]
-                        location.update_completed = timezone.now()
+                        if (has_happy_hour_data(location)):
+                            location.data_source = DATA_SOURCE[PHONE]
+                            location.stage = MTURK_STAGE[COMPLETE]
+                            location.update_completed = timezone.now()
+                        else:
+                            # If no valid data, move to no data found
+                            location.stage = MTURK_STAGE[NO_HH_FOUND]
                     else:
                         create_hit(conn, location, HIT_TYPES[CONFIRM_PHONE_HH])
 

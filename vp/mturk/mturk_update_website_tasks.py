@@ -95,9 +95,13 @@ def update():
                     conn.extend_hit(hit.HITId, assignments_increment=1)
                 else:
                     if (confirmed and location.deals_confirmations >= MIN_CONFIRMATIONS):
-                        location.data_source = DATA_SOURCE[WEBSITE]
-                        location.stage = MTURK_STAGE[COMPLETE]
-                        location.update_completed = timezone.now()
+                        if (has_happy_hour_data(location)):
+                            location.data_source = DATA_SOURCE[WEBSITE]
+                            location.stage = MTURK_STAGE[COMPLETE]
+                            location.update_completed = timezone.now()
+                        else:
+                            # Move to phone process if the stage completes with no valid data
+                            location.stage = MTURK_STAGE[FIND_PHONE_HH]
                     else:
                         create_hit(conn, location, HIT_TYPES[CONFIRM_WEBSITE_HH])
 
@@ -105,5 +109,5 @@ def update():
 
             if (location.comments != None):
                 location.comments = location.comments[:999]
-                
+
             location.save()

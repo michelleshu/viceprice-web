@@ -3,11 +3,10 @@ __author__ = 'michelleshu'
 from boto.mturk import price
 from boto.mturk.layoutparam import *
 from boto.mturk.qualification import *
-import datetime
+from datetime import datetime
 from django.db.models import Q
 from django.utils import timezone
 from vp.models import Location, MTurkLocationInfo
-from viceprice import settings
 
 '''
 mturk_utilities.py
@@ -15,6 +14,8 @@ This file contains the main utility functions for adding tasks and retrieving up
 '''
 
 #region Constants
+
+TIME_FORMATS = ['%H', '%H:%M', '%I:%M%p', '%I%p']
 
 # Maximum number of locations to update at any given time
 MAX_LOCATIONS_TO_UPDATE = 100
@@ -643,116 +644,27 @@ def process_find_happy_hour_info_assignment(conn, location, assignment):
             conn.reject_assignment(assignment.AssignmentId, "Failed attention check question. The car is the biggest object.")
         return None
 
-    monday_start_time = validate_time(get_answer(answers, MONDAY_START_TIME))
-    monday_end_time = validate_time(get_answer(answers, MONDAY_END_TIME))
+    location.monday_start_time = parse_time(get_answer(answers, MONDAY_START_TIME))
+    location.monday_end_time = parse_time(get_answer(answers, MONDAY_END_TIME))
     location.monday_description = get_answer(answers, MONDAY_DESCRIPTION)
-    tuesday_start_time = validate_time(get_answer(answers, TUESDAY_START_TIME))
-    tuesday_end_time = validate_time(get_answer(answers, TUESDAY_END_TIME))
+    location.tuesday_start_time = parse_time(get_answer(answers, TUESDAY_START_TIME))
+    location.tuesday_end_time = parse_time(get_answer(answers, TUESDAY_END_TIME))
     location.tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION)
-    wednesday_start_time = validate_time(get_answer(answers, WEDNESDAY_START_TIME))
-    wednesday_end_time = validate_time(get_answer(answers, WEDNESDAY_END_TIME))
+    location.wednesday_start_time = parse_time(get_answer(answers, WEDNESDAY_START_TIME))
+    location.wednesday_end_time = parse_time(get_answer(answers, WEDNESDAY_END_TIME))
     location.wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION)
-    thursday_start_time = validate_time(get_answer(answers, THURSDAY_START_TIME))
-    thursday_end_time = validate_time(get_answer(answers, THURSDAY_END_TIME))
+    location.thursday_start_time = parse_time(get_answer(answers, THURSDAY_START_TIME))
+    location.thursday_end_time = parse_time(get_answer(answers, THURSDAY_END_TIME))
     location.thursday_description = get_answer(answers, THURSDAY_DESCRIPTION)
-    friday_start_time = validate_time(get_answer(answers, FRIDAY_START_TIME))
-    friday_end_time = validate_time(get_answer(answers, FRIDAY_END_TIME))
+    location.friday_start_time = parse_time(get_answer(answers, FRIDAY_START_TIME))
+    location.friday_end_time = parse_time(get_answer(answers, FRIDAY_END_TIME))
     location.friday_description = get_answer(answers, FRIDAY_DESCRIPTION)
-    saturday_start_time = validate_time(get_answer(answers, SATURDAY_START_TIME))
-    saturday_end_time = validate_time(get_answer(answers, SATURDAY_END_TIME))
+    location.saturday_start_time = parse_time(get_answer(answers, SATURDAY_START_TIME))
+    location.saturday_end_time = parse_time(get_answer(answers, SATURDAY_END_TIME))
     location.saturday_description = get_answer(answers, SATURDAY_DESCRIPTION)
-    sunday_start_time = validate_time(get_answer(answers, SUNDAY_START_TIME))
-    sunday_end_time = validate_time(get_answer(answers, SUNDAY_END_TIME))
+    location.sunday_start_time = parse_time(get_answer(answers, SUNDAY_START_TIME))
+    location.sunday_end_time = parse_time(get_answer(answers, SUNDAY_END_TIME))
     location.sunday_description = get_answer(answers, SUNDAY_DESCRIPTION)
-
-    # Convert strings to times
-    if (monday_start_time != None and monday_start_time != ''):
-        monday_start_time = datetime.datetime.strptime(monday_start_time, "%H:%M").time()
-    else:
-        location.monday_description = None
-
-    if (tuesday_start_time != None and tuesday_start_time != ''):
-        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%H:%M").time()
-    else:
-        location.tuesday_description = None
-
-    if (wednesday_start_time != None and wednesday_start_time != ''):
-        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%H:%M").time()
-    else:
-        location.wednesday_description = None
-
-    if (thursday_start_time != None and thursday_start_time != ''):
-        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%H:%M").time()
-    else:
-        location.thursday_description = None
-
-    if (friday_start_time != None and friday_start_time != ''):
-        friday_start_time = datetime.datetime.strptime(friday_start_time, "%H:%M").time()
-    else:
-        location.friday_description = None
-
-    if (saturday_start_time != None and saturday_start_time != ''):
-        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%H:%M").time()
-    else:
-        location.saturday_description = None
-
-    if (sunday_start_time != None and sunday_start_time != ''):
-        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%H:%M").time()
-    else:
-        location.sunday_description = None
-
-
-    if (monday_end_time != None and monday_end_time != ''):
-        monday_end_time = datetime.datetime.strptime(monday_end_time, "%H:%M").time()
-    else:
-        location.monday_description = None
-
-    if (tuesday_end_time != None and tuesday_end_time != ''):
-        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%H:%M").time()
-    else:
-        location.tuesday_description = None
-
-    if (wednesday_end_time != None and wednesday_end_time != ''):
-        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%H:%M").time()
-    else:
-        location.wednesday_description = None
-
-    if (thursday_end_time != None and thursday_end_time != ''):
-        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%H:%M").time()
-    else:
-        location.thursday_description = None
-
-    if (friday_end_time != None and friday_end_time != ''):
-        friday_end_time = datetime.datetime.strptime(friday_end_time, "%H:%M").time()
-    else:
-        location.friday_description = None
-
-    if (saturday_end_time != None and saturday_end_time != ''):
-        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%H:%M").time()
-    else:
-        location.saturday_description = None
-
-    if (sunday_end_time != None and sunday_end_time != ''):
-        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%H:%M").time()
-    else:
-        location.sunday_description = None
-
-
-    location.monday_start_time = monday_start_time
-    location.tuesday_start_time = tuesday_start_time
-    location.wednesday_start_time = wednesday_start_time
-    location.thursday_start_time = thursday_start_time
-    location.friday_start_time = friday_start_time
-    location.saturday_start_time = saturday_start_time
-    location.sunday_start_time = sunday_start_time
-
-    location.monday_end_time = monday_end_time
-    location.tuesday_end_time = tuesday_end_time
-    location.wednesday_end_time = wednesday_end_time
-    location.thursday_end_time = thursday_end_time
-    location.friday_end_time = friday_end_time
-    location.saturday_end_time = saturday_end_time
-    location.sunday_end_time = sunday_end_time
 
     if get_answer(answers, COMMENTS) != None:
         if location.comments == None:
@@ -775,101 +687,28 @@ def process_confirm_happy_hour_info_assignment(conn, location, assignment):
             conn.reject_assignment(assignment.AssignmentId, "Failed attention check question. The car is the biggest object.")
         return None
 
-    monday_start_time = validate_time(get_answer(answers, MONDAY_START_TIME))
-    monday_end_time = validate_time(get_answer(answers, MONDAY_END_TIME))
+    monday_start_time = parse_time(get_answer(answers, MONDAY_START_TIME))
+    monday_end_time = parse_time(get_answer(answers, MONDAY_END_TIME))
     monday_description = get_answer(answers, MONDAY_DESCRIPTION)
-    tuesday_start_time = validate_time(get_answer(answers, TUESDAY_START_TIME))
-    tuesday_end_time = validate_time(get_answer(answers, TUESDAY_END_TIME))
+    tuesday_start_time = parse_time(get_answer(answers, TUESDAY_START_TIME))
+    tuesday_end_time = parse_time(get_answer(answers, TUESDAY_END_TIME))
     tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION)
-    wednesday_start_time = validate_time(get_answer(answers, WEDNESDAY_START_TIME))
-    wednesday_end_time = validate_time(get_answer(answers, WEDNESDAY_END_TIME))
+    wednesday_start_time = parse_time(get_answer(answers, WEDNESDAY_START_TIME))
+    wednesday_end_time = parse_time(get_answer(answers, WEDNESDAY_END_TIME))
     wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION)
-    thursday_start_time = validate_time(get_answer(answers, THURSDAY_START_TIME))
-    thursday_end_time = validate_time(get_answer(answers, THURSDAY_END_TIME))
+    thursday_start_time = parse_time(get_answer(answers, THURSDAY_START_TIME))
+    thursday_end_time = parse_time(get_answer(answers, THURSDAY_END_TIME))
     thursday_description = get_answer(answers, THURSDAY_DESCRIPTION)
-    friday_start_time = validate_time(get_answer(answers, FRIDAY_START_TIME))
-    friday_end_time = validate_time(get_answer(answers, FRIDAY_END_TIME))
+    friday_start_time = parse_time(get_answer(answers, FRIDAY_START_TIME))
+    friday_end_time = parse_time(get_answer(answers, FRIDAY_END_TIME))
     friday_description = get_answer(answers, FRIDAY_DESCRIPTION)
-    saturday_start_time = validate_time(get_answer(answers, SATURDAY_START_TIME))
-    saturday_end_time = validate_time(get_answer(answers, SATURDAY_END_TIME))
+    saturday_start_time = parse_time(get_answer(answers, SATURDAY_START_TIME))
+    saturday_end_time = parse_time(get_answer(answers, SATURDAY_END_TIME))
     saturday_description = get_answer(answers, SATURDAY_DESCRIPTION)
-    sunday_start_time = validate_time(get_answer(answers, SUNDAY_START_TIME))
-    sunday_end_time = validate_time(get_answer(answers, SUNDAY_END_TIME))
+    sunday_start_time = parse_time(get_answer(answers, SUNDAY_START_TIME))
+    sunday_end_time = parse_time(get_answer(answers, SUNDAY_END_TIME))
     sunday_description = get_answer(answers, SUNDAY_DESCRIPTION)
     comments = get_answer(answers, COMMENTS)
-
-    # Convert strings to times
-    if (monday_start_time != None and monday_start_time != ''):
-        monday_start_time = datetime.datetime.strptime(monday_start_time, "%H:%M").time()
-    else:
-        location.monday_description = None
-
-    if (tuesday_start_time != None and tuesday_start_time != ''):
-        tuesday_start_time  = datetime.datetime.strptime(tuesday_start_time, "%H:%M").time()
-    else:
-        location.tuesday_description = None
-
-    if (wednesday_start_time != None and wednesday_start_time != ''):
-        wednesday_start_time = datetime.datetime.strptime(wednesday_start_time, "%H:%M").time()
-    else:
-        location.wednesday_description = None
-
-    if (thursday_start_time != None and thursday_start_time != ''):
-        thursday_start_time = datetime.datetime.strptime(thursday_start_time, "%H:%M").time()
-    else:
-        location.thursday_description = None
-
-    if (friday_start_time != None and friday_start_time != ''):
-        friday_start_time = datetime.datetime.strptime(friday_start_time, "%H:%M").time()
-    else:
-        location.friday_description = None
-
-    if (saturday_start_time != None and saturday_start_time != ''):
-        saturday_start_time = datetime.datetime.strptime(saturday_start_time, "%H:%M").time()
-    else:
-        location.saturday_description = None
-
-    if (sunday_start_time != None and sunday_start_time != ''):
-        sunday_start_time = datetime.datetime.strptime(sunday_start_time, "%H:%M").time()
-    else:
-        location.sunday_description = None
-
-
-    if (monday_end_time != None and monday_end_time != ''):
-        monday_end_time = datetime.datetime.strptime(monday_end_time, "%H:%M").time()
-    else:
-        location.monday_description = None
-
-    if (tuesday_end_time != None and tuesday_end_time != ''):
-        tuesday_end_time = datetime.datetime.strptime(tuesday_end_time, "%H:%M").time()
-    else:
-        location.tuesday_description = None
-
-    if (wednesday_end_time != None and wednesday_end_time != ''):
-        wednesday_end_time = datetime.datetime.strptime(wednesday_end_time, "%H:%M").time()
-    else:
-        location.wednesday_description = None
-
-    if (thursday_end_time != None and thursday_end_time != ''):
-        thursday_end_time = datetime.datetime.strptime(thursday_end_time, "%H:%M").time()
-    else:
-        location.thursday_description = None
-
-    if (friday_end_time != None and friday_end_time != ''):
-        friday_end_time = datetime.datetime.strptime(friday_end_time, "%H:%M").time()
-    else:
-        location.friday_description = None
-
-    if (saturday_end_time != None and saturday_end_time != ''):
-        saturday_end_time = datetime.datetime.strptime(saturday_end_time, "%H:%M").time()
-    else:
-        location.saturday_description = None
-
-    if (sunday_end_time != None and sunday_end_time != ''):
-        sunday_end_time = datetime.datetime.strptime(sunday_end_time, "%H:%M").time()
-    else:
-        location.sunday_description = None
-
 
     if (location.monday_start_time != monday_start_time):
         confirmed = False
@@ -948,20 +787,29 @@ def process_confirm_happy_hour_info_assignment(conn, location, assignment):
 
     if (comments != None and comments != ""):
         if (location.comments == None):
-            location.comments = ""
-
-        location.comments = location.comments + "\n" + comments
+            location.comments = comments
+        else:
+            location.comments = location.comments + "\n" + comments
 
     return confirmed
 
-# Validate time string is in the right format. If not, clear it out
-def validate_time(str):
-    if str == None or str == '':
-        return str
-    if len(str) > 5 or len(str) < 4 or str[-1] < '0' or str[-1] > '9':
+# Try to parse a time string. Return None on failure
+def parse_time(string):
+    if (string == None):
         return None
-    else:
-        return str
+
+    # Remove spaces
+    string = string.replace(" ", "")
+    time = None
+
+    for format in TIME_FORMATS:
+        try:
+            time = datetime.strptime(string, format).time()
+            return time
+        except ValueError:
+            pass
+
+    return time
 
 
 # Process the assignments from a find website happy hour info by phone HIT (Stage 5)
@@ -989,6 +837,68 @@ def process_find_happy_hour_info_assignment_phone(conn, location, assignment):
     # Wrong phone number
     elif was_reachable == "3":
         return False
+
+# Check if a location has happy hour data filled out
+def has_happy_hour_data(location):
+    has_data = False
+
+    if (location.monday_description != None and location.monday_description != ''):
+        if (location.monday_start_time != None and location.monday_end_time != None):
+            has_data = True
+        else:
+            location.monday_description = None
+            location.monday_start_time = None
+            location.monday_end_time = None
+
+    if (location.tuesday_description != None and location.tuesday_description != ''):
+        if (location.tuesday_start_time != None and location.tuesday_end_time != None):
+            has_data = True
+        else:
+            location.tuesday_description = None
+            location.tuesday_start_time = None
+            location.tuesday_end_time = None
+
+    if (location.wednesday_description != None and location.wednesday_description != ''):
+        if (location.wednesday_start_time != None and location.wednesday_end_time != None):
+            has_data = True
+        else:
+            location.wednesday_description = None
+            location.wednesday_start_time = None
+            location.wednesday_end_time = None
+
+    if (location.thursday_description != None and location.thursday_description != ''):
+        if (location.thursday_start_time != None and location.thursday_end_time != None):
+            has_data = True
+        else:
+            location.thursday_description = None
+            location.thursday_start_time = None
+            location.thursday_end_time = None
+
+    if (location.friday_description != None and location.friday_description != ''):
+        if (location.friday_start_time != None and location.friday_end_time != None):
+            has_data = True
+        else:
+            location.friday_description = None
+            location.friday_start_time = None
+            location.friday_end_time = None
+
+    if (location.saturday_description != None and location.saturday_description != ''):
+        if (location.saturday_start_time != None and location.saturday_end_time != None):
+            has_data = True
+        else:
+            location.saturday_description = None
+            location.saturday_start_time = None
+            location.saturday_end_time = None
+
+    if (location.sunday_description != None and location.sunday_description != ''):
+        if (location.sunday_start_time != None and location.sunday_end_time != None):
+            has_data = True
+        else:
+            location.sunday_description = None
+            location.sunday_start_time = None
+            location.sunday_end_time = None
+
+    return has_data
 
 
 # Extend the hit if not reachable by phone or if failed attention check
