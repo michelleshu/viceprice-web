@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vp/management/commands/getphonenumbers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clock.py" afterPath="$PROJECT_DIR$/clock.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" afterPath="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/business_hours.csv" afterPath="$PROJECT_DIR$/vp/management/commands/business_hours.csv" />
     </list>
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,11 +35,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="addbusinesshours.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="addbusinesshours.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/addbusinesshours.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="24" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.048780486">
+              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -71,8 +70,8 @@
       <file leaf-file-name="business_hours.csv" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/business_hours.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.0370371">
-              <caret line="242" column="32" selection-start-line="242" selection-start-column="32" selection-end-line="242" selection-end-column="32" />
+            <state vertical-scroll-proportion="-5.5555553">
+              <caret line="10" column="29" selection-start-line="9" selection-start-column="30" selection-end-line="10" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -100,11 +99,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="getphonenumbers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="getphonenumbers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/getphonenumbers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40243903">
-              <caret line="16" column="60" selection-start-line="16" selection-start-column="60" selection-end-line="16" selection-end-column="60" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -213,10 +212,10 @@
         <option value="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
-        <option value="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" />
-        <option value="$PROJECT_DIR$/vp/management/commands/business_hours.csv" />
         <option value="$PROJECT_DIR$/clock.py" />
         <option value="$PROJECT_DIR$/vp/management/commands/getphonenumbers.py" />
+        <option value="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" />
+        <option value="$PROJECT_DIR$/vp/management/commands/business_hours.csv" />
       </list>
     </option>
   </component>
@@ -226,8 +225,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="157" />
-    <option name="y" value="182" />
+    <option name="x" value="117" />
+    <option name="y" value="106" />
     <option name="width" value="1330" />
     <option name="height" value="869" />
   </component>
@@ -747,7 +746,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="157" y="182" width="1330" height="869" extended-state="0" />
+    <frame x="117" y="106" width="1330" height="869" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24511278" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1129,22 +1128,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viceprice/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="48" selection-start-line="49" selection-start-column="48" selection-end-line="49" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/core/management/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1165,24 +1148,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/addbusinesshours.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="24" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/business_hours.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0370371">
-          <caret line="242" column="32" selection-start-line="242" selection-start-column="32" selection-end-line="242" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -1217,9 +1182,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/management/commands/getphonenumbers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40243903">
-          <caret line="16" column="60" selection-start-line="16" selection-start-column="60" selection-end-line="16" selection-end-column="60" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viceprice/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="48" selection-start-line="49" selection-start-column="48" selection-end-line="49" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/business_hours.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.5555553">
+          <caret line="10" column="29" selection-start-line="9" selection-start-column="30" selection-end-line="10" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/addbusinesshours.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.048780486">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
