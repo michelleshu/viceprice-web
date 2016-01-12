@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" afterPath="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/business_hours.csv" afterPath="$PROJECT_DIR$/vp/management/commands/business_hours.csv" />
     </list>
     <ignored path="python-getting-started.iws" />
@@ -35,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="addbusinesshours.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="addbusinesshours.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/addbusinesshours.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.048780486">
-              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -67,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="business_hours.csv" pinned="false" current-in-tab="false">
+      <file leaf-file-name="business_hours.csv" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/business_hours.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5555553">
-              <caret line="10" column="29" selection-start-line="9" selection-start-column="30" selection-end-line="10" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.2924282">
+              <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -225,8 +223,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="117" />
-    <option name="y" value="106" />
+    <option name="x" value="134" />
+    <option name="y" value="155" />
     <option name="width" value="1330" />
     <option name="height" value="869" />
   </component>
@@ -746,7 +744,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="117" y="106" width="1330" height="869" extended-state="0" />
+    <frame x="134" y="155" width="1330" height="869" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24511278" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1204,21 +1202,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/business_hours.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5555553">
-          <caret line="10" column="29" selection-start-line="9" selection-start-column="30" selection-end-line="10" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vp/management/commands/addbusinesshours.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.048780486">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/business_hours.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2924282">
+          <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
