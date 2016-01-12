@@ -35,7 +35,11 @@ class Command(BaseCommand):
 
                     business_name = row[0]
                     print(business_name)
-                    business_location = Location.objects.get(name=business_name)
+                    try:
+                        business_location = Location.objects.get(name=business_name)
+                    except Exception:
+                        print("Skip")
+                        continue
 
                     if (business_location != None):
                         business_hours = business_location.businessHours.all()
