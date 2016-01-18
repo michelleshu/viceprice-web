@@ -60,10 +60,7 @@ class Command(BaseCommand):
 
                 location.formattedPhoneNumber = data['contact'].get('formattedPhone')
                 location.website = data.get('url')
-                location.rating = data.get('rating')
 
-                if data.get('stats'):
-                    location.check_ins = data['stats'].get('checkinsCount')
                 location.foursquareDateLastUpdated = timezone.now()
 
                 location.save()

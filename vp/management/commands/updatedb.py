@@ -119,9 +119,6 @@ def write_mturk_deals_to_db():
         location.website = mturk_location.url
         location.dealDataSource = mturk_location.data_source
 
-        if location.rating != None:
-            location.rating = float(mturk_location.rating)
-
         location.comments = mturk_location.comments
         location.dateLastUpdated = django.utils.timezone.now()
 

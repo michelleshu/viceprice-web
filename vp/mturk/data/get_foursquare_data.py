@@ -11,13 +11,13 @@ def main():
     input_file_path = tkFileDialog.askopenfile()
     output_file_path = input_file_path.name[:-4] + "-fs.csv"
     output_file = open(output_file_path, 'wb')
-    
+
     with open(input_file_path.name, 'r') as input_file:
 
         filewriter = csv.writer(output_file)
         filereader = csv.reader(input_file)
 
-        filewriter.writerow(["id", "name", "latitude", "longitude", "url", "category", "address", "phone_number", "check_ins", "rating"])
+        filewriter.writerow(["id", "name", "latitude", "longitude", "url", "category", "address", "phone_number"])
 
         for row in filereader:
             foursquareId = row[0].strip()
@@ -56,11 +56,7 @@ def main():
             if (data.get('url') != None):
                 website = data.get('url').encode("utf-8")
 
-            rating = data.get('rating')
-
-            checkins = data['stats'].get('checkinsCount')
-
-            filewriter.writerow([foursquareId, name, latitude, longitude, website, primary_category, formattedAddress, formattedPhoneNumber, checkins, rating])
+            filewriter.writerow([foursquareId, name, latitude, longitude, website, primary_category, formattedAddress, formattedPhoneNumber])
 
         input_file.close()
         output_file.close()

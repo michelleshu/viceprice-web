@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" afterPath="$PROJECT_DIR$/vp/management/commands/addbusinesshours.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/business_hours.csv" afterPath="$PROJECT_DIR$/vp/management/commands/business_hours.csv" />
-    </list>
+    <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="" />
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -37,8 +34,8 @@
       <file leaf-file-name="addbusinesshours.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/addbusinesshours.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6219512">
-              <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.29268292">
+              <caret line="31" column="55" selection-start-line="31" selection-start-column="55" selection-end-line="31" selection-end-column="55" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -1213,8 +1210,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/management/commands/addbusinesshours.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6219512">
-          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.29268292">
+          <caret line="31" column="55" selection-start-line="31" selection-start-column="55" selection-end-line="31" selection-end-column="55" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
