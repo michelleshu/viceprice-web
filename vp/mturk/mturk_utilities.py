@@ -6,6 +6,7 @@ from boto.mturk.qualification import *
 from django.db.models import Q
 from django.utils import timezone
 from vp.models import Location, MTurkLocationInfo, DayOfWeek, TimeFrame
+from viceprice.settings import *
 import datetime
 
 '''
@@ -24,11 +25,6 @@ MAX_LOCATIONS_TO_UPDATE = 100
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30
 
-# Connection constants
-ACCESS_ID = 'AKIAJDPZ5R3VHIQ6LXYA'
-SECRET_KEY = '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'
-HOST = 'mechanicalturk.amazonaws.com'
-
 # HIT Type parameters
 HIT_TYPE_ID = 'HIT_TYPE_ID'
 TITLE = 'TITLE'
@@ -43,13 +39,6 @@ US_LOCALE_REQUIRED = 'US_LOCALE_REQUIRED'
 
 # HIT Type names
 VERIFY_WEBSITE = 'VERIFY_WEBSITE'
-FIND_WEBSITE_HH = 'FIND_WEBSITE_HH'
-CONFIRM_WEBSITE_HH = 'CONFIRM_WEBSITE_HH'
-FIND_PHONE_HH = 'FIND_PHONE_HH'
-CONFIRM_PHONE_HH = 'CONFIRM_PHONE_HH'
-CATEGORIZE = 'CATEGORIZE'
-COMPLETE = 'COMPLETE'
-NO_HH_FOUND = 'NO_HH_FOUND'
 
 # Parameters common across HIT Types
 HIT_KEYWORDS = ['data collection', 'listing', 'web search', 'data', 'verify']
@@ -59,9 +48,6 @@ MAX_GET_HH_ATTEMPTS = 3
 MIN_CONFIRMATIONS = 2
 
 MAX_ASSIGNMENTS_TO_PUBLISH = 8
-
-# Number of times we continue to request data if location is unreachable by phone
-PHONE_UNREACHABLE_LIMIT = 3
 
 # Qualifications required of users
 MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 70
@@ -95,14 +81,7 @@ DAYS_OF_WEEK = {
 
 # Enum for stage on MTurk
 MTURK_STAGE = {
-    VERIFY_WEBSITE: 1,
-    FIND_WEBSITE_HH: 2,
-    CONFIRM_WEBSITE_HH: 3,
-    FIND_PHONE_HH: 4,
-    CONFIRM_PHONE_HH: 5,
-    CATEGORIZE: 6,
-    COMPLETE: 7,
-    NO_HH_FOUND: 8
+    FIND_WEBSITE: 0
 }
 
 # Data Sources
@@ -187,117 +166,6 @@ SUNDAY_DESCRIPTION = "sunday-description"
 WAS_REACHABLE = "was-reachable"
 COMMENTS = "comments"
 
-# HIT Type definitions
-HIT_TYPES = {
-    VERIFY_WEBSITE: {
-        TITLE: 'Find/confirm website for a business',
-        DESCRIPTION: 'Your goal is to find or confirm a website for a business. You will be given the name, address, and URL.',
-        ANNOTATION: 'Find or verify website',
-        LAYOUT_PARAMETER_NAMES: ['name', 'address', 'url_provided'],
-        LAYOUT_ID: '3HZSWS2KF8728Z8M1YK5R0A49UF2GR',
-        MAX_ASSIGNMENTS: 3,
-        PRICE: 0.02,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: False
-    },
-
-    FIND_WEBSITE_HH: {
-        TITLE: 'Copy information from a website',
-        DESCRIPTION: 'Your goal is to copy happy hours information from a website.',
-        ANNOTATION: 'Copy happy hour information from a website',
-        LAYOUT_PARAMETER_NAMES: ['name', 'url'],
-        LAYOUT_ID: '3TJZUC06GDLW1YBSZNFIB5IF6FWOLM',
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.03,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: False
-    },
-
-    CONFIRM_WEBSITE_HH: {
-        TITLE: 'Confirm information from a website',
-        DESCRIPTION: 'Your goal is to verify that information we have matches what is shown on a website.',
-        ANNOTATION: 'Confirm happy hour information from Website',
-        LAYOUT_PARAMETER_NAMES: [
-            'url',
-            'friday_description',
-            'friday_end_time',
-            'friday_start_time',
-            'monday_description',
-            'monday_end_time',
-            'monday_start_time',
-            'name',
-            'saturday_description',
-            'saturday_end_time',
-            'saturday_start_time',
-            'sunday_description',
-            'sunday_end_time',
-            'sunday_start_time',
-            'thursday_description',
-            'thursday_end_time',
-            'thursday_start_time',
-            'tuesday_description',
-            'tuesday_end_time',
-            'tuesday_start_time',
-            'wednesday_description',
-            'wednesday_end_time',
-            'wednesday_start_time'
-        ],
-        LAYOUT_ID: '3HMQ92ECHMPD8JTLM7ZK1NIIFZOG9U',
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.03,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: False
-    },
-
-    FIND_PHONE_HH: {
-        TITLE: 'Call a business to find what Happy Hours they have',
-        DESCRIPTION: 'Your goal is to call a bar or restaurant and find out what happy hours they have.',
-        ANNOTATION: 'Call for happy hour info',
-        LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
-        LAYOUT_ID: '3773MO9C6K1J30KC6GNVDFYIWBOZRP',
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.15,
-        DURATION: 7200,
-        US_LOCALE_REQUIRED: True
-    },
-
-    CONFIRM_PHONE_HH: {
-        TITLE: 'Confirm/update our information by calling a business',
-        DESCRIPTION: 'Your goal is to call a bar or restaurant and confirm/update our happy hour information',
-        ANNOTATION: 'Call to confirm happy hour info',
-        LAYOUT_PARAMETER_NAMES: [
-            'name',
-            'phone_number',
-            'friday_description',
-            'friday_end_time',
-            'friday_start_time',
-            'monday_description',
-            'monday_end_time',
-            'monday_start_time',
-            'saturday_description',
-            'saturday_end_time',
-            'saturday_start_time',
-            'sunday_description',
-            'sunday_end_time',
-            'sunday_start_time',
-            'thursday_description',
-            'thursday_end_time',
-            'thursday_start_time',
-            'tuesday_description',
-            'tuesday_end_time',
-            'tuesday_start_time',
-            'wednesday_description',
-            'wednesday_end_time',
-            'wednesday_start_time'
-        ],
-        LAYOUT_ID: '3Q91EFBMZH25X1K39E120B6G21PDLE',
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.15,
-        DURATION: 7200,
-        US_LOCALE_REQUIRED: True
-    }
-}
-
 
 #endregion
 
@@ -337,7 +205,7 @@ def add_mturk_locations_to_update(conn):
         )
 
         # Initialize first HIT for new location
-        create_hit(conn, mturk_location, HIT_TYPES[VERIFY_WEBSITE])
+        create_hit(conn, mturk_location, MTURK_HIT_TYPES[VERIFY_WEBSITE])
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
         location.mturkLastUpdateCompleted = timezone.now()
@@ -385,8 +253,8 @@ def get_info_not_found_locations():
 # Register HIT Types with Mechanical Turk and save off HIT type IDs
 def register_hit_types(conn):
 
-    for hit_type_name in HIT_TYPES:
-        hit_type = HIT_TYPES[hit_type_name]
+    for hit_type_name in MTURK_HIT_TYPES:
+        hit_type = MTURK_HIT_TYPES[hit_type_name]
 
         min_percentage_qualification = PercentAssignmentsApprovedRequirement(
             "GreaterThan", MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
@@ -406,7 +274,7 @@ def register_hit_types(conn):
             hit_type[DESCRIPTION],
             hit_type[PRICE],
             hit_type[DURATION],
-            HIT_KEYWORDS,
+            hit_type[KEYWORDS],
             approval_delay=None,
             qual_req=qualifications)[0].HITTypeId
 
