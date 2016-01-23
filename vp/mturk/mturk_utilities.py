@@ -3,10 +3,10 @@ __author__ = 'michelleshu'
 from boto.mturk import price
 from boto.mturk.layoutparam import *
 from boto.mturk.qualification import *
-from datetime import datetime
 from django.db.models import Q
 from django.utils import timezone
-from vp.models import Location, MTurkLocationInfo
+from vp.models import Location, MTurkLocationInfo, DayOfWeek, TimeFrame
+import datetime
 
 '''
 mturk_utilities.py
@@ -16,6 +16,7 @@ This file contains the main utility functions for adding tasks and retrieving up
 #region Constants
 
 TIME_FORMATS = ['%H', '%H:%M', '%I:%M%p', '%I%p']
+BUSINESS_HOUR_CUTOFF = datetime.time(hour=21)   # Latest hour to accept for creation of phone HITs
 
 # Maximum number of locations to update at any given time
 MAX_LOCATIONS_TO_UPDATE = 100
@@ -935,3 +936,32 @@ def approve_and_dispose(conn, hit):
         conn.dispose_hit(hit.HITId)
 
 #endregion
+
+# Check to see whether we are within valid business hours for a location based on Foursquare ID
+def within_business_hours(foursquare_id):
+    now = timezone.localtime(timezone.now())
+    current_day = now.isoweekday()
+    current_time = now.time()
+
+    business_hour_ids = Location.objects.get(foursquareId = foursquare_id).businessHours.all().values_list('id', flat=True)
+    today_business_hour_ids = DayOfWeek.objects.filter(
+        day = current_day, businessHour_id__in=business_hour_ids).values_list('businessHour_id', flat=True)
+    today_time_frames = TimeFrame.objects.filter(businessHour_id__in=today_business_hour_ids).all().values('startTime', 'endTime')
+
+    for time_frame in today_time_frames:
+        if (within_time_range(current_time, time_frame['startTime'], time_frame['endTime'])):
+            return True
+
+    return False
+
+
+
+# Check if we are currently within a certain time range
+def within_time_range(time, start_time, end_time):
+    start_cutoff = (datetime.datetime.combine(datetime.date.today(), start_time) + datetime.timedelta(minutes=30)).time()
+    end_cutoff = (datetime.datetime.combine(datetime.date.today(), end_time) - datetime.timedelta(minutes=30)).time()
+
+    if (end_cutoff > BUSINESS_HOUR_CUTOFF or end_cutoff < start_cutoff):
+        end_cutoff = BUSINESS_HOUR_CUTOFF
+
+    return start_cutoff <= time and end_cutoff >= time

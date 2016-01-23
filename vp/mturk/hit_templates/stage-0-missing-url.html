@@ -1,0 +1,175 @@
+<!-- JQuery 1.11.2 -->
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" property="stylesheet" rel="stylesheet" />
+<style type="text/css">
+    .container {
+        font-family: Tahoma;
+        font-size: 14px;
+        line-height: 28px;
+    }
+    .bold-text {
+        font-weight: bold;
+    }
+    .large-text {
+        font-size: 18px;
+    }
+    .inline {
+        display: inline;
+    }
+    .indent-1 {
+        padding-left: 20px;
+    }
+    .indent-2 {
+        padding-left: 40px;
+    }
+    .radio.indent-1 {
+        padding-left: 40px;
+    }
+    .question {
+        margin-bottom: 10px;
+    }
+    a.expand-collapse-link {
+        float: right;
+        color: white;
+    }
+</style>
+<section class="container" id="Survey">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="bold-text inline">Instructions</div>
+            <a class="expand-collapse-link expanded">[Hide]</a>
+        </div>
+        <div class="panel-body">
+            <div class="collapsible">
+                <div>Find the official website for the following business:</div>
+                <div class="bold-text indent-1">${name}</div>
+                <div class="indent-1">${address}</div>
+            </div>
+        </div>
+    </div>
+    <div class="question">
+        <div>
+            <a class="web-search-link large-text text-primary">Do a web search for "${name} Washington D.C."</a>
+        </div>
+        <div class="bold-text">
+            Did you find the OFFICIAL website for: ${name}? [Do not count Facebook, Twitter, Yelp, etc]
+        </div>
+
+        <div class="radio indent-1">
+            <label>
+                <input name="url-found" type="radio" value="yes" />
+                <span>Yes</span>
+            </label>
+        </div>
+
+        <div class="show-if-url-found indent-2">
+            <span>Please enter the URL below.</span>
+            <input class="form-control" name="url" placeholder="Example: http://www.churchkeydc.com/" type="text" />
+        </div>
+
+        <div class="radio indent-1">
+            <label>
+                <input name="url-found" type="radio" value="no" />
+                <span>No</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="question attention-check">
+        <div class="bold-text">What is the biggest object here?</div>
+    </div>
+
+    <div class="question">
+        <div class="bold-text">
+            Anything we should know about?
+        <div>
+        <div>
+            <input class="form-control" name="comments" placeholder="" type="text" />
+        </div>
+    </div>
+    <input id="location-name" type="hidden" value="${name}"/>
+</section>
+
+<script type="text/javascript">
+    // Expand and collapse instructions
+    $(".expand-collapse-link").click(function() {
+        if ($(this).hasClass("expanded")) {
+            $(this).text("[Show]");
+            $(this).removeClass("expanded");
+            $(".collapsible").hide();
+        } else {
+            $(this).text("[Hide]");
+            $(this).addClass("expanded");
+            $(".collapsible").show();
+        }
+    });
+
+    // Generate link for web search
+    var name = $("#location-name").val();
+    name = name.replace(/\s/g, "+");
+    var link = "http://www.google.com/?q=" + name + "+Washington+DC";
+    $(".web-search-link").attr("href", link);
+
+
+    // Expand text box only when found a URL that was missing
+    $(".show-if-url-found").hide();
+    $("input[name='url-found']").change(function() {
+        if ($(this).val() === "yes") {
+            $(".show-if-url-found").show();
+        } else {
+            $(".show-if-url-found").hide();
+        }
+    });
+
+    var shuffleArray = function(array) {
+        var currentIndex = array.length,
+            temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    };
+
+    // Randomize the ordering of options for biggest object question
+    var objectOptions = [
+        "<div class='radio indent-1'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Book</label></div>",
+        "<div class='radio indent-1'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Phone</label></div>",
+        "<div class='radio indent-1'><label><input name='biggest-object' required='required' type='radio' value='incorrect' />A Shoe</label></div>",
+        "<div class='radio indent-1'><label><input name='biggest-object' required='required' type='radio' value='correct' />A Car</label></div>"
+    ];
+    objectOptions = shuffleArray(objectOptions);
+
+    objectOptions.forEach(function(o) {
+        $(".attention-check").append(o);
+    });
+
+    // Validation on submit
+    $(document).ready(function() {
+      $('#submitButton').click(function() {
+        if (!$("input[name='url-found']:checked").val()
+            || !$("input[name='biggest-object']:checked").val()) {
+            alert('Please answer all required questions.');
+            return false;
+        }
+        if ($("input[name='url-found']:checked").val() === 'yes'
+            && $("input[name='url']").val() == '') {
+            alert('Please enter the URL of the website.');
+            return false;
+        }
+        return true;
+      });
+    });
+</script>
