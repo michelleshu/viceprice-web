@@ -9,19 +9,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-import os
 import dj_database_url
+import os
+from viceprice.constants import *
 
+# NOTE: To set OS environment variables on Heroku, use the command
+# heroku config:push -o --filename [settings filepath]
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
+
+# Database configuration
+DATABASES = { 'default': dj_database_url.config(
+    default = os.environ.get('DATABASE_URL')
+)}
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,7 +33,8 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ADMINS = (
-    ('Michelle Shu', 'shu.michelle.w@gmail.com'), ('Justin Hinh', 'justintsn10@gmail.com')
+    ('Michelle Shu', 'shu.michelle.w@gmail.com'),
+    ('Justin Hinh', 'justintsn10@gmail.com')
 )
 
 
@@ -85,15 +90,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# if 'DATABASE_URL' does not exist, it's a local machine
-if not os.environ.has_key('DATABASE_URL'):
-    os.environ['DATABASE_URL'] = 'postgres://michelle:w00we!13@localhost:5432/viceprice_development'
-
-DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
-
-# Enable Connection Pooling (if desired)
-#DATABASES['default']['ENGINE'] = 'django_postgrespool'
-
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -101,8 +97,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
@@ -111,10 +105,29 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'vp', 'static'),
 )
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# Foursquare
+FOURSQUARE_CLIENT_ID = os.environ.get('FOURSQUARE_CLIENT_ID')
+FOURSQUARE_CLIENT_SECRET = os.environ.get('FOURSQUARE_CLIENT_SECRET')
 
-# Foursquare API Credentials
-FOURSQUARE_CLIENT_ID = 'Y0MSL55CTYJFNA3DZCGJ53VVFDOFZKCNOLWYC50KW0S12W3R'
-FOURSQUARE_CLIENT_SECRET = 'L25O3GR00MAXZ2YS2R5E3GFQC1AUWES33YNVNNA3GT5K0KY4'
+# Amazon Web Services
+AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
+
+# Mechanical Turk
+MTURK_HOST = os.environ.get('MTURK_HOST')
+
+MTURK_HIT_TYPES = {
+    FIND_WEBSITE: {
+        TITLE: 'Find the official website for a business',
+        DESCRIPTION: 'Your goal is to find the official website for a business in Washington, DC',
+        ANNOTATION: 'Find website',
+        KEYWORDS: ['data collection', 'web search', 'find', 'website'],
+        LAYOUT_PARAMETER_NAMES: ['name', 'address'],
+        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_WEBSITE'),
+        MAX_ASSIGNMENTS: 3,
+        MIN_AGREEMENT_PERCENTAGE: 70,
+        PRICE: 0.01,
+        DURATION: 3600,
+        US_LOCALE_REQUIRED: False
+    }
+}
