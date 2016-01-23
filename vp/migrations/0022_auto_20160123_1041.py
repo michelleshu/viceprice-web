@@ -12,10 +12,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name='location',
-            name='rating',
-        ),
-        migrations.RemoveField(
             model_name='mturklocationinfo',
             name='deals_confirmations',
         ),

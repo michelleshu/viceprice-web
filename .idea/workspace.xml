@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/models.py" afterPath="$PROJECT_DIR$/vp/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/migrations/0022_auto_20160123_1041.py" afterPath="$PROJECT_DIR$/vp/migrations/0022_auto_20160123_1041.py" />
     </list>
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,14 +45,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.65817696">
+            <state vertical-scroll-proportion="0.0">
               <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="42" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="0022_auto_20160123_1041.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vp/migrations/0022_auto_20160123_1041.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.20107238">
+              <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -149,9 +157,9 @@
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
         <option value="$PROJECT_DIR$/vp/management/commands/testmturk.py" />
         <option value="$PROJECT_DIR$/Procfile" />
-        <option value="$PROJECT_DIR$/vp/migrations/0022_auto_20160123_1041.py" />
         <option value="$PROJECT_DIR$/vp/migrations/0023_auto_20160123_1051.py" />
         <option value="$PROJECT_DIR$/vp/models.py" />
+        <option value="$PROJECT_DIR$/vp/migrations/0022_auto_20160123_1041.py" />
       </list>
     </option>
   </component>
@@ -1159,14 +1167,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/migrations/0022_auto_20160123_1041.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3016086">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="128" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vp/migrations/0021_auto_20151219_1655.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1177,11 +1177,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vp/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65817696">
+        <state vertical-scroll-proportion="0.0">
           <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="42" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/migrations/0022_auto_20160123_1041.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20107238">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
