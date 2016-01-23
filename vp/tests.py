@@ -2,13 +2,15 @@ from django.conf import settings
 from django.test import TestCase
 from models import Location, MTurkLocationInfo
 from mturk import mturk_utilities
-from boto import connection
+from boto.mturk import connection
 from viceprice.constants import *
 
 # TO RUN A SPECIFIC TEST:
-# ./manage.py test tests.TestCase.test_function
+# ./manage.py test vp.tests.TestCase.test_function
 
 # MTurk Tests
+
+
 
 # Test creation of HIT layouts
 # Manually check the layout appearance on development sandbox
@@ -20,7 +22,7 @@ class HITCreationTestCase(TestCase):
         host = settings.MTURK_HOST)
 
     def setUp(self):
-        location = Location.objects.objects.create(
+        location = Location.objects.create(
             name = "Liberty Lounge",
             formattedAddress = "3257 Stanton Rd SE,\nWashington, DC 20020",
             website = "http://www.justinhinh.com",
@@ -31,14 +33,15 @@ class HITCreationTestCase(TestCase):
             location = location,
             name = location.name,
             address = location.formattedAddress,
-            website = location.website
+            website = location.website,
+            stage = 0
         )
 
         mturk_utilities.register_hit_types(self.conn)
 
     # Stage 0: Find URL HIT
     def test_stage_0(self):
-        location = Location.objects.get(name = "Liberty Lounge")
+        location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
         mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
 
 
