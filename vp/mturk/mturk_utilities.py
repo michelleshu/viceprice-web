@@ -3,248 +3,93 @@ __author__ = 'michelleshu'
 from boto.mturk import price
 from boto.mturk.layoutparam import *
 from boto.mturk.qualification import *
+from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
 from vp.models import Location, MTurkLocationInfo, DayOfWeek, TimeFrame
-from viceprice.settings import *
-import datetime
+from viceprice.constants import *
 
 '''
 mturk_utilities.py
 This file contains the main utility functions for adding tasks and retrieving updates on location information from MTurk
 '''
 
-#region Constants
 
-TIME_FORMATS = ['%H', '%H:%M', '%I:%M%p', '%I%p']
-BUSINESS_HOUR_CUTOFF = datetime.time(hour=21)   # Latest hour to accept for creation of phone HITs
-
-# Maximum number of locations to update at any given time
-MAX_LOCATIONS_TO_UPDATE = 100
-
-# Days it takes for data to expire
-EXPIRATION_PERIOD = 30
-
-# HIT Type parameters
-HIT_TYPE_ID = 'HIT_TYPE_ID'
-TITLE = 'TITLE'
-DESCRIPTION = 'DESCRIPTION'
-ANNOTATION = 'ANNOTATION'
-LAYOUT_PARAMETER_NAMES = 'LAYOUT_PARAMETER_NAMES'
-LAYOUT_ID = 'LAYOUT_ID'
-MAX_ASSIGNMENTS = 'MAX_ASSIGNMENTS'
-PRICE = 'PRICE'
-DURATION = 'DURATION'
-US_LOCALE_REQUIRED = 'US_LOCALE_REQUIRED'
-
-# HIT Type names
-VERIFY_WEBSITE = 'VERIFY_WEBSITE'
-
-# Parameters common across HIT Types
-HIT_KEYWORDS = ['data collection', 'listing', 'web search', 'data', 'verify']
-HIT_APPROVAL_DELAY = datetime.timedelta(days=2)
-MIN_AGREEMENT_PERCENTAGE = 70
-MAX_GET_HH_ATTEMPTS = 3
-MIN_CONFIRMATIONS = 2
-
-MAX_ASSIGNMENTS_TO_PUBLISH = 8
-
-# Qualifications required of users
-MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 70
-MIN_HITS_COMPLETED = 100
-
-# HIT Status
-REVIEWABLE = 'Reviewable'
-
-# Assignment Status
-SUBMITTED = 'Submitted'
-REJECTED = 'Rejected'
-
-# Days of Week
-MONDAY = 'MONDAY'
-TUESDAY = 'TUESDAY'
-WEDNESDAY = 'WEDNESDAY'
-THURSDAY = 'THURSDAY'
-FRIDAY = 'FRIDAY'
-SATURDAY = 'SATURDAY'
-SUNDAY = 'SUNDAY'
-
-DAYS_OF_WEEK = {
-    MONDAY: 1,
-    TUESDAY: 2,
-    WEDNESDAY: 3,
-    THURSDAY: 4,
-    FRIDAY: 5,
-    SATURDAY: 6,
-    SUNDAY: 7
-}
-
-# Enum for stage on MTurk
-MTURK_STAGE = {
-    FIND_WEBSITE: 0
-}
-
-# Data Sources
-WEBSITE = 'WEBSITE'
-PHONE = 'PHONE'
-
-DATA_SOURCE = {
-    WEBSITE: 1,
-    PHONE: 2
-}
-
-LOCATION_PROPERTIES = [
-    "foursquare_id",
-    "name",
-    "address",
-    "url",
-    "phone_number",
-    "url_provided",
-    "url_provided_verified",
-    "url_found",
-    "get_hh_attempts",
-    "deals_confirmations",
-    "stage",
-    "hit_id",
-    "update_started",
-    "update_completed",
-    "update_cost",
-    "monday_start_time",
-    "monday_end_time",
-    "monday_description",
-    "tuesday_start_time",
-    "tuesday_end_time",
-    "tuesday_description",
-    "wednesday_start_time",
-    "wednesday_end_time",
-    "wednesday_description",
-    "thursday_start_time",
-    "thursday_end_time",
-    "thursday_description",
-    "friday_start_time",
-    "friday_end_time",
-    "friday_description",
-    "saturday_start_time",
-    "saturday_end_time",
-    "saturday_description",
-    "sunday_start_time",
-    "sunday_end_time",
-    "sunday_description",
-    "comments"
-]
-
-# HIT Answer Parameters
-COMMENTS = "comments"
-CONFIRM_URL = "confirm-url"
-CONFIRMED_RESPONSE = "confirmed"
-FIND_URL = "find-url"
-FIND_URL_WEBSITE_FIELD = "find-url-websitefield"
-BIGGEST_OBJECT = "biggest-object"
-FIND_DEALS_URL = "find-deals-url"
-DEALS_URL_WEBSITE_FIELD = "deals-url-websitefield"
-MONDAY_START_TIME = "monday-start-time"
-MONDAY_END_TIME = "monday-end-time"
-MONDAY_DESCRIPTION = "monday-description"
-TUESDAY_START_TIME = "tuesday-start-time"
-TUESDAY_END_TIME = "tuesday-end-time"
-TUESDAY_DESCRIPTION = "tuesday-description"
-WEDNESDAY_START_TIME = "wednesday-start-time"
-WEDNESDAY_END_TIME = "wednesday-end-time"
-WEDNESDAY_DESCRIPTION = "wednesday-description"
-THURSDAY_START_TIME = "thursday-start-time"
-THURSDAY_END_TIME = "thursday-end-time"
-THURSDAY_DESCRIPTION = "thursday-description"
-FRIDAY_START_TIME = "friday-start-time"
-FRIDAY_END_TIME = "friday-end-time"
-FRIDAY_DESCRIPTION = "friday-description"
-SATURDAY_START_TIME = "saturday-start-time"
-SATURDAY_END_TIME = "saturday-end-time"
-SATURDAY_DESCRIPTION = "saturday-description"
-SUNDAY_START_TIME = "sunday-start-time"
-SUNDAY_END_TIME = "sunday-end-time"
-SUNDAY_DESCRIPTION = "sunday-description"
-WAS_REACHABLE = "was-reachable"
-COMMENTS = "comments"
-
-
-#endregion
-
-
-#region Read/write MTurkLocationInfo
+#region Get locations for update
 
 # Add locations to update process that need to be updated
-def add_mturk_locations_to_update(conn):
-
-    currently_updating = MTurkLocationInfo.objects.filter(~Q(id = MTURK_STAGE[NO_HH_FOUND]) & ~Q(id = MTURK_STAGE[FIND_PHONE_HH])).count() # number of updates in progress
-    max_new_locations = MAX_LOCATIONS_TO_UPDATE - currently_updating
-
-    # Get at most max_new_locations locations that have either just been added or expired
-    earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
-    new_foursquare_locations = Location.objects.filter(
-        Q(mturkLastUpdateCompleted__isnull=True) & Q(id__lt=2600)
-    )
-    # new_foursquare_locations = Location.objects.filter(
-    #         Q(mturkLastUpdateCompleted__isnull=True) | Q(mturkLastUpdateCompleted__lt=earliest_unexpired_date)
-    #     )[0:max_new_locations]
-
-    # Add new Foursquare locations to MTurkLocationInfo
-    for location in new_foursquare_locations:
-
-        # Create a new location info object
-        mturk_location = MTurkLocationInfo(
-            foursquare_id = location.foursquareId,
-            name = location.name,
-            address = location.formattedAddress,
-            phone_number = location.formattedPhoneNumber,
-            url_provided = location.website,
-            get_hh_attempts = 0,
-            deals_confirmations = 0,
-            stage = 1,
-            update_started = timezone.now(),
-            update_cost = 0.0
-        )
-
-        # Initialize first HIT for new location
-        create_hit(conn, mturk_location, MTURK_HIT_TYPES[VERIFY_WEBSITE])
-
-        # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
-        location.mturkLastUpdateCompleted = timezone.now()
-        location.save()
-
-        mturk_location.save()
+# def add_mturk_locations_to_update(conn):
+#
+#     currently_updating = MTurkLocationInfo.objects.filter(~Q(id = MTURK_STAGE[NO_HH_FOUND]) & ~Q(id = MTURK_STAGE[FIND_PHONE_HH])).count() # number of updates in progress
+#     max_new_locations = MAX_LOCATIONS_TO_UPDATE - currently_updating
+#
+#     # Get at most max_new_locations locations that have either just been added or expired
+#     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
+#     new_foursquare_locations = Location.objects.filter(
+#         Q(mturkLastUpdateCompleted__isnull=True) & Q(id__lt=2600)
+#     )
+#     # new_foursquare_locations = Location.objects.filter(
+#     #         Q(mturkLastUpdateCompleted__isnull=True) | Q(mturkLastUpdateCompleted__lt=earliest_unexpired_date)
+#     #     )[0:max_new_locations]
+#
+#     # Add new Foursquare locations to MTurkLocationInfo
+#     for location in new_foursquare_locations:
+#
+#         # Create a new location info object
+#         mturk_location = MTurkLocationInfo(
+#             foursquare_id = location.foursquareId,
+#             name = location.name,
+#             address = location.formattedAddress,
+#             phone_number = location.formattedPhoneNumber,
+#             url_provided = location.website,
+#             get_hh_attempts = 0,
+#             deals_confirmations = 0,
+#             stage = 1,
+#             update_started = timezone.now(),
+#             update_cost = 0.0
+#         )
+#
+#         # Initialize first HIT for new location
+#         create_hit(conn, mturk_location, MTURK_HIT_TYPES[VERIFY_WEBSITE])
+#
+#         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
+#         location.mturkLastUpdateCompleted = timezone.now()
+#         location.save()
+#
+#         mturk_location.save()
 
 
 # Retrieve in progress website updates
-def get_website_update_locations():
-
-    website_stages = [
-        MTURK_STAGE[VERIFY_WEBSITE],
-        MTURK_STAGE[FIND_WEBSITE_HH],
-        MTURK_STAGE[CONFIRM_WEBSITE_HH]
-    ];
-
-    return MTurkLocationInfo.objects.filter(stage__in=website_stages)
+# def get_website_update_locations():
+#
+#     website_stages = [
+#         MTURK_STAGE[VERIFY_WEBSITE],
+#         MTURK_STAGE[FIND_WEBSITE_HH],
+#         MTURK_STAGE[CONFIRM_WEBSITE_HH]
+#     ];
+#
+#     return MTurkLocationInfo.objects.filter(stage__in=website_stages)
 
 
 # Retrieve in progress phone updates
-def get_phone_update_locations():
-
-    phone_stages = [
-        MTURK_STAGE[FIND_PHONE_HH],
-        MTURK_STAGE[CONFIRM_PHONE_HH]
-    ];
-
-    return MTurkLocationInfo.objects.filter(stage__in=phone_stages)
+# def get_phone_update_locations():
+#
+#     phone_stages = [
+#         MTURK_STAGE[FIND_PHONE_HH],
+#         MTURK_STAGE[CONFIRM_PHONE_HH]
+#     ];
+#
+#     return MTurkLocationInfo.objects.filter(stage__in=phone_stages)
 
 
 # Retrieve completed locations
-def get_complete_locations():
-    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[COMPLETE])
+# def get_complete_locations():
+#     return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[COMPLETE])
 
 
 # Retrieve info not found locations
-def get_info_not_found_locations():
-    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[NO_HH_FOUND])
+# def get_info_not_found_locations():
+#     return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[NO_HH_FOUND])
 
 #endregion
 
@@ -253,8 +98,8 @@ def get_info_not_found_locations():
 # Register HIT Types with Mechanical Turk and save off HIT type IDs
 def register_hit_types(conn):
 
-    for hit_type_name in MTURK_HIT_TYPES:
-        hit_type = MTURK_HIT_TYPES[hit_type_name]
+    for hit_type_name in settings.MTURK_HIT_TYPES:
+        hit_type = settings.MTURK_HIT_TYPES[hit_type_name]
 
         min_percentage_qualification = PercentAssignmentsApprovedRequirement(
             "GreaterThan", MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
@@ -280,7 +125,7 @@ def register_hit_types(conn):
 
 
 # Read layout parameters from MTurkLocationInfo object and create a HIT
-def create_hit(conn, location, hit_type):
+def create_hit(conn, mturk_location_info, hit_type):
 
     # Use qualifications: MIN_PERCENTAGE_APPROVED, MIN_HITS_COMPLETED and optionally US_LOCALE_REQUIRED
     min_percentage_qualification = PercentAssignmentsApprovedRequirement(
