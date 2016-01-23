@@ -96,5 +96,5 @@ class MTurkLocationInfo(models.Model):
     hit_id = models.CharField(max_length=100, null=True)
     update_started = models.DateTimeField(null=True)
     update_completed = models.DateTimeField(null=True)
-    update_cost = models.FloatField(null=False)
+    update_cost = models.FloatField(default=0.0)
     comments = models.CharField(max_length=1000, null=True)

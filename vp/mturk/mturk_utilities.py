@@ -3,6 +3,7 @@ __author__ = 'michelleshu'
 from boto.mturk import price
 from boto.mturk.layoutparam import *
 from boto.mturk.qualification import *
+import datetime
 from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
@@ -145,12 +146,10 @@ def create_hit(conn, mturk_location_info, hit_type):
 
     layout_parameters = []
     for parameter_name in layout_parameter_names:
-        parameter_value = getattr(location, parameter_name)
+        parameter_value = getattr(mturk_location_info, parameter_name)
         if parameter_value != None and isinstance(parameter_value, str):
+            # Handle string replacements so names play well with MTurk
             parameter_value = parameter_value.replace("<", "&lt;").replace("&", "and")
-
-        if parameter_name[-4:] == 'time' and parameter_value != None:
-            parameter_value = parameter_value.strftime("%H:%M")
 
         layout_parameters.append(LayoutParameter(parameter_name, parameter_value))
 
@@ -162,19 +161,17 @@ def create_hit(conn, mturk_location_info, hit_type):
         max_assignments=hit_type[MAX_ASSIGNMENTS],
         title=hit_type[TITLE],
         description=hit_type[DESCRIPTION],
-        keywords=HIT_KEYWORDS,
+        keywords=hit_type[KEYWORDS],
         reward=price.Price(amount=hit_type[PRICE], currency_code='USD'),
         duration=hit_type[DURATION],
-        approval_delay=HIT_APPROVAL_DELAY,
         annotation=hit_type[ANNOTATION],
-        questions=None,
         layout_params=LayoutParameters(layout_parameters),
-        response_groups = None,
         qualifications = qualifications
     )
 
-    location.hit_id = hit[0].HITId
-    location.update_cost = location.update_cost + hit_type[PRICE]
+    mturk_location_info.hit_id = hit[0].HITId
+    mturk_location_info.update_cost = mturk_location_info.update_cost + hit_type[PRICE]
+    mturk_location_info.save()
 
 
 # Retrieve answer field value in list of QuestionFormAnswers for HIT to the question with matching questionId tag
