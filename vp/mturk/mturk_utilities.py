@@ -19,78 +19,81 @@ This file contains the main utility functions for adding tasks and retrieving up
 #region Get locations for update
 
 # Add locations to update process that need to be updated
-# def add_mturk_locations_to_update(conn):
-#
-#     currently_updating = MTurkLocationInfo.objects.filter(~Q(id = MTURK_STAGE[NO_HH_FOUND]) & ~Q(id = MTURK_STAGE[FIND_PHONE_HH])).count() # number of updates in progress
-#     max_new_locations = MAX_LOCATIONS_TO_UPDATE - currently_updating
-#
-#     # Get at most max_new_locations locations that have either just been added or expired
-#     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
-#     new_foursquare_locations = Location.objects.filter(
-#         Q(mturkLastUpdateCompleted__isnull=True) & Q(id__lt=2600)
-#     )
-#     # new_foursquare_locations = Location.objects.filter(
-#     #         Q(mturkLastUpdateCompleted__isnull=True) | Q(mturkLastUpdateCompleted__lt=earliest_unexpired_date)
-#     #     )[0:max_new_locations]
-#
-#     # Add new Foursquare locations to MTurkLocationInfo
-#     for location in new_foursquare_locations:
-#
-#         # Create a new location info object
-#         mturk_location = MTurkLocationInfo(
-#             foursquare_id = location.foursquareId,
-#             name = location.name,
-#             address = location.formattedAddress,
-#             phone_number = location.formattedPhoneNumber,
-#             url_provided = location.website,
-#             get_hh_attempts = 0,
-#             deals_confirmations = 0,
-#             stage = 1,
-#             update_started = timezone.now(),
-#             update_cost = 0.0
-#         )
-#
-#         # Initialize first HIT for new location
-#         create_hit(conn, mturk_location, MTURK_HIT_TYPES[VERIFY_WEBSITE])
-#
-#         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
-#         location.mturkLastUpdateCompleted = timezone.now()
-#         location.save()
-#
-#         mturk_location.save()
+def add_mturk_locations_to_update(conn, max_to_add = None):
+    if (max_to_add == None):
+        max_to_add = MAX_LOCATIONS_TO_UPDATE
+
+    currently_updating = MTurkLocationInfo.objects.filter(
+        ~Q(stage = MTURK_STAGE[NO_INFO]) & ~Q(stage = MTURK_STAGE[COMPLETE])).count() # number of updates in progress
+    max_new_locations = max_to_add - currently_updating
+
+    # Get at most max_new_locations locations that have either just been added or expired
+    earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
+    new_locations = Location.objects.filter(
+        mturkLastUpdateCompleted__lt=earliest_unexpired_date)[0:max_new_locations]
+
+    # Add new Foursquare locations to MTurkLocationInfo
+    for location in new_locations:
+
+        # If location has no website, start in Stage 0. Otherwise, start in Stage 1.
+        if (location.website == None or location.website == ''):
+            stage = MTURK_STAGE[FIND_WEBSITE]
+        else:
+            stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
+
+        mturk_location = MTurkLocationInfo(
+            location = location,
+            name = location.name,
+            address = location.formattedAddress,
+            phone_number = location.formattedPhoneNumber,
+            website = location.website,
+            stage = stage,
+            update_started = timezone.now(),
+            update_cost = 0.0
+        )
+
+        # TODO EDIT this to reflect proper stage when HIT Layout for Stage 1 is made
+        # Initialize first HIT for new location
+        create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
+
+        # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
+        location.mturkLastUpdateCompleted = timezone.now()
+        location.save()
+
+        mturk_location.save()
 
 
 # Retrieve in progress website updates
-# def get_website_update_locations():
-#
-#     website_stages = [
-#         MTURK_STAGE[VERIFY_WEBSITE],
-#         MTURK_STAGE[FIND_WEBSITE_HH],
-#         MTURK_STAGE[CONFIRM_WEBSITE_HH]
-#     ];
-#
-#     return MTurkLocationInfo.objects.filter(stage__in=website_stages)
+def get_website_update_mturk_locations():
+
+    website_stages = [
+        MTURK_STAGE[FIND_WEBSITE],
+        MTURK_STAGE[FIND_HAPPY_HOUR_WEB],
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+    ]
+
+    return list(MTurkLocationInfo.objects.filter(stage__in=website_stages))
 
 
 # Retrieve in progress phone updates
-# def get_phone_update_locations():
-#
-#     phone_stages = [
-#         MTURK_STAGE[FIND_PHONE_HH],
-#         MTURK_STAGE[CONFIRM_PHONE_HH]
-#     ];
-#
-#     return MTurkLocationInfo.objects.filter(stage__in=phone_stages)
+def get_phone_update_mturk_locations():
+
+    phone_stages = [
+        MTURK_STAGE[FIND_HAPPY_HOUR_PHONE],
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
+    ]
+
+    return list(MTurkLocationInfo.objects.filter(stage__in=phone_stages))
 
 
 # Retrieve completed locations
-# def get_complete_locations():
-#     return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[COMPLETE])
+def get_complete_mturk_locations():
+    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[COMPLETE])
 
 
 # Retrieve info not found locations
-# def get_info_not_found_locations():
-#     return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[NO_HH_FOUND])
+def get_no_info_mturk_locations():
+    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[NO_INFO])
 
 #endregion
 
