@@ -51,7 +51,7 @@
     </div>
     <div class="question">
         <div>
-            <a class="web-search-link large-text text-primary">Do a web search for "${name} Washington D.C."</a>
+            <a class="web-search-link large-text text-primary" target="_blank">Do a web search for "${name} Washington D.C."</a>
         </div>
         <div class="bold-text">
             Did you find the OFFICIAL website for: ${name}? [Do not count Facebook, Twitter, Yelp, etc]
@@ -109,7 +109,7 @@
     // Generate link for web search
     var name = $("#location-name").val();
     name = name.replace(/\s/g, "+");
-    var link = "http://www.google.com/?q=" + name + "+Washington+DC";
+    var link = "http://www.google.com/search?q=" + name + "+Washington+DC";
     $(".web-search-link").attr("href", link);
 
 

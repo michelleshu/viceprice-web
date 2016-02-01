@@ -5,4 +5,34 @@ Stage 0 - Missing URL
     Outputs:
         - url-found (yes, no)
         - url
-        
+        - comments
+
+Stage 1 - Find Happy Hour Web
+    Inputs:
+        - name
+        - url
+    Outputs:
+        - happy-hour-found (yes, no, wrong-website)
+        - monday-start-time
+        - monday-end-time
+        - monday-description
+        - tuesday-start-time
+        - tuesday-end-time
+        - tuesday-description
+        - wednesday-start-time
+        - wednesday-end-time
+        - wednesday-description
+        - thursday-start-time
+        - thursday-end-time
+        - thursday-description
+        - friday-start-time
+        - friday-end-time
+        - friday-description
+        - saturday-start-time
+        - saturday-end-time
+        - saturday-description
+        - sunday-start-time
+        - sunday-end-time
+        - sunday-description
+        - comments
+
