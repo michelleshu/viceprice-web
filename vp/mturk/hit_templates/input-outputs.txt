@@ -5,6 +5,7 @@ Stage 0 - Missing URL
     Outputs:
         - url-found (yes, no)
         - url
+        - attention-check
         - comments
 
 Stage 1 - Find Happy Hour Web
@@ -34,5 +35,6 @@ Stage 1 - Find Happy Hour Web
         - sunday-start-time
         - sunday-end-time
         - sunday-description
+        - attention-check
         - comments
 

@@ -45,12 +45,42 @@ REVIEWABLE = 'Reviewable'
 SUBMITTED = 'Submitted'
 REJECTED = 'Rejected'
 
+# HIT Result Parameters
+URL_FOUND = 'url-found'
+URL = 'url'
+ATTENTION_CHECK = 'attention-check'
+COMMENTS = 'comments'
+HAPPY_HOUR_FOUND = 'happy-hour-found'
+MONDAY_START_TIME = 'monday-start-time'
+MONDAY_END_TIME = 'monday-end-time'
+MONDAY_DESCRIPTION = 'monday-description'
+TUESDAY_START_TIME = 'tuesday-start-time'
+TUESDAY_END_TIME = 'tuesday-end-time'
+TUESDAY_DESCRIPTION = 'tuesday-description'
+WEDNESDAY_START_TIME = 'wednesday-start-time'
+WEDNESDAY_END_TIME = 'wednesday-end-time'
+WEDNESDAY_DESCRIPTION = 'wednesday-description'
+THURSDAY_START_TIME = 'thursday-start-time'
+THURSDAY_END_TIME = 'thursday-end-time'
+THURSDAY_DESCRIPTION = 'thursday-description'
+FRIDAY_START_TIME = 'friday-start-time'
+FRIDAY_END_TIME = 'friday-end-time'
+FRIDAY_DESCRIPTION = 'friday-description'
+SATURDAY_START_TIME = 'saturday-start-time'
+SATURDAY_END_TIME = 'saturday-end-time'
+SATURDAY_DESCRIPTION = 'saturday-description'
+SUNDAY_START_TIME = 'sunday-start-time'
+SUNDAY_END_TIME = 'sunday-end-time'
+SUNDAY_DESCRIPTION = 'sunday-description'
+
+
 # Time constants
 TIME_FORMATS = ['%H', '%H:%M', '%I:%M%p', '%I%p']
 #BUSINESS_HOUR_CUTOFF = datetime.time(hour=21)   # Latest hour to accept for creation of phone HITs
 
 # Maximum number of locations to update at any given time
 MAX_LOCATIONS_TO_UPDATE = 100
+MAX_ASSIGNMENTS_TO_PUBLISH = 9
 
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30
