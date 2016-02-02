@@ -255,42 +255,34 @@ def get_url_agreement_percentage(urls):
 
 # Process the assignments from a verify website HIT (Stage 1)
 # Return the URL agreement percentage and agreed upon URL
-def process_verify_website_hit_assignments(conn, location, assignments):
+def process_find_website_hit_assignments(conn, location, assignments):
     hit_id = location.hit_id
     url_responses = []
 
     for assignment in assignments:
         if assignment.AssignmentStatus != REJECTED:
             answers = assignment.answers[0]
-            confirm_url = get_answer(answers, CONFIRM_URL)
-            find_url = get_answer(answers, FIND_URL)
-            url_found = get_answer(answers, FIND_URL_WEBSITE_FIELD)
-            biggest_object = get_answer(answers, BIGGEST_OBJECT)
+            url_found = get_answer(answers, URL_FOUND)
+            url = get_answer(answers, URL)
+            attention_check = get_answer(answers, ATTENTION_CHECK)
             comments = get_answer(answers, COMMENTS)
 
-            if (biggest_object != "correct"):
+            if (attention_check != 'correct'):
                 if assignment.AssignmentStatus == SUBMITTED:
-                    conn.reject_assignment(assignment.AssignmentId, "Failed attention check question. The car is the biggest object.")
+                    conn.reject_assignment(assignment.AssignmentId, 'Failed attention check question.')
                 conn.extend_hit(hit_id, assignments_increment = 1)
                 return None
 
-            if (find_url == "1"):
-                if (url_found == None or ''):
-                    if assignment.AssignmentStatus == SUBMITTED:
-                        conn.reject_assignment(assignment.AssignmentId, 'Found website through web search but did not paste URL as requested in instructions')
-                    conn.extend_hit(hit_id, assignments_increment=1)
-                    return None
-
-            if (confirm_url == "1"):
-                url_responses.append(CONFIRMED_RESPONSE)
+            if (url_found == 'yes'):
+                url_responses.append(url)
             else:
-                url_responses.append(url_found)
+                url_responses.append('')
 
-            if (comments != None and comments != ""):
+            if (comments != None and comments != ''):
                 if (location.comments == None):
-                    location.comments = ""
+                    location.comments = ''
 
-                location.comments = location.comments + "\n" + comments
+                location.comments = location.comments + '\nFIND WEBSITE: ' + comments
 
     return get_url_agreement_percentage(url_responses)
 
