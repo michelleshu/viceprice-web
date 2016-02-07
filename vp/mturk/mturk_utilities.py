@@ -7,6 +7,7 @@ import datetime
 from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
+from pprint import pprint
 from vp.models import Location, MTurkLocationInfo, DayOfWeek, TimeFrame
 from viceprice.constants import *
 
@@ -186,80 +187,64 @@ def get_answer(answers, question_id):
     return None
 
 
-# Check to see if domain names of two URLs match (
-def domains_match(a, b):
-    # Check for empty string
-    if (a == "" or a == None):
-        return b == "" or b == None
-    if (b == "" or b == None):
-        return False
+# Add comments to MTurkLocationInfo
+def add_comments(mturk_location, comments):
+    if (comments != None and comments != ''):
+        if (mturk_location.comments == None or mturk_location.comments == ''):
+            mturk_location.comments = comments
+        else:
+            mturk_location.comments = mturk_location.comments + '\n' + comments
 
-    # Strip backslash from end if it exists
-    if (a[-1] == '/'):
-        a = a[:-1]
-
-    if (b[-1] == '/'):
-        b = b[:-1]
-
-    # Get tail that comes after optional http and www
-    a = a.replace("https://", "").replace("http://", "")
-    b = b.replace("https://", "").replace("http://", "")
-    a_start_index = a.find("www.")
-    if (a_start_index == -1):
-        a_start_index = 0
-    else:
-        a_start_index = a_start_index + 4
-
-    b_start_index = b.find("www.")
-    if (b_start_index == -1):
-        b_start_index = 0
-    else:
-        b_start_index = b_start_index + 4
-
-    return a[a_start_index:].strip().lower() == b[b_start_index:].strip().lower()
+        mturk_location.comments = mturk_location.comments[:999]
+        mturk_location.save()
 
 
 # Get the agreement percentage among a set of URLs and the URL with the highest agreement percentage
 def get_url_agreement_percentage(urls):
-    i = 0
-    max_agreement_percentage = 0
+    domains = []
+    max_agreement_count = 0
     max_agreed_url = ""
-    while (i < len(urls)):
-        # For each url in list, compare to all other urls in list not including itself and calculate agreement
-        # percentage overall
-        agrees = 0
-        disagrees = 0
-        j = 0
-        while(j < len(urls)):
-            if (i != j):
-                if (domains_match(urls[i], urls[j])):
-                    agrees = agrees + 1
-                else:
-                    disagrees = disagrees + 1
-            j = j + 1
 
-        # Add one here to numerator and denominator to count the url itself in the agreement percentage
-        # For instance, if we have two submissions that are the same and one that is different, the percentage
-        # should be 66.7
-        agreement_percentage = (agrees + 1.0) / (agrees + disagrees + 1.0) * 100.0
+    for url in urls:
+        if (url == 'None' or url == ''):
+            domains.append('')
 
-        # Choose the max of the agreement percentages we have seen relative to the base url used for comparison
-        if (agreement_percentage > max_agreement_percentage):
-            max_agreement_percentage = agreement_percentage
-            max_agreed_url = urls[i]
-        i = i + 1
+        else:
+            # Remove whitespace and uppercase characters
+            url = url.strip().lower()
+
+            # Strip backslash from end if it exists
+            if (url[-1] == '/'):
+                url = url[:-1]
+
+            # Add domain after optional http://, https://, www to domains
+            domains.append(url.lstrip("https://www."))
+
+    # For each domain in list, compare to all other domains and calculate number that agree
+    for domain in domains:
+        agreement_count = domains.count(domain)
+        if (agreement_count > max_agreement_count):
+            max_agreement_count = agreement_count
+            if (domain == ''):
+                max_agreed_url = None
+            else:
+                max_agreed_url = "http://www." + domain
+
+            if (max_agreement_count > len(domains) / 2):
+                return ((max_agreement_count * 100.0) / len(domains), max_agreed_url)
 
     # Return the maximum agreement percentage seen and the url that corresponds to it
-    return (max_agreement_percentage, max_agreed_url)
+    return ((max_agreement_count * 100.0) / len(domains), max_agreed_url)
 
 
 # Process the assignments from a verify website HIT (Stage 1)
 # Return the URL agreement percentage and agreed upon URL
-def process_find_website_hit_assignments(conn, location, assignments):
-    hit_id = location.hit_id
+def process_find_website_hit_assignments(conn, mturk_location, assignments):
+    hit_id = mturk_location.hit_id
     url_responses = []
 
     for assignment in assignments:
+
         if assignment.AssignmentStatus != REJECTED:
             answers = assignment.answers[0]
             url_found = get_answer(answers, URL_FOUND)
@@ -268,6 +253,7 @@ def process_find_website_hit_assignments(conn, location, assignments):
             comments = get_answer(answers, COMMENTS)
 
             if (attention_check != 'correct'):
+                print("Failed attention check")
                 if assignment.AssignmentStatus == SUBMITTED:
                     conn.reject_assignment(assignment.AssignmentId, 'Failed attention check question.')
                 conn.extend_hit(hit_id, assignments_increment = 1)
@@ -278,11 +264,7 @@ def process_find_website_hit_assignments(conn, location, assignments):
             else:
                 url_responses.append('')
 
-            if (comments != None and comments != ''):
-                if (location.comments == None):
-                    location.comments = ''
-
-                location.comments = location.comments + '\nFIND WEBSITE: ' + comments
+            add_comments(mturk_location, comments)
 
     return get_url_agreement_percentage(url_responses)
 

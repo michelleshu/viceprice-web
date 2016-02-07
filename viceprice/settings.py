@@ -125,7 +125,6 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'address'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_WEBSITE'),
         MAX_ASSIGNMENTS: 3,
-        MIN_AGREEMENT_PERCENTAGE: 70,
         PRICE: 0.01,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
