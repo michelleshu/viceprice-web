@@ -33,7 +33,6 @@ KEYWORDS = 'KEYWORDS'
 LAYOUT_PARAMETER_NAMES = 'LAYOUT_PARAMETER_NAMES'
 LAYOUT_ID = 'LAYOUT_ID'
 MAX_ASSIGNMENTS = 'MAX_ASSIGNMENTS'
-MIN_AGREEMENT_PERCENTAGE = 'MIN_AGREEMENT_PERCENTAGE'
 PRICE = 'PRICE'
 DURATION = 'DURATION'
 US_LOCALE_REQUIRED = 'US_LOCALE_REQUIRED'
@@ -80,6 +79,11 @@ TIME_FORMATS = ['%H', '%H:%M', '%I:%M%p', '%I%p']
 
 # Maximum number of locations to update at any given time
 MAX_LOCATIONS_TO_UPDATE = 100
+
+# Minimum percentage agreement required (e.g. between website URL submissions)
+MIN_AGREEMENT_PERCENTAGE = 70.0
+
+# Maximum number of assignments to publish
 MAX_ASSIGNMENTS_TO_PUBLISH = 9
 
 # Days it takes for data to expire

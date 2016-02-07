@@ -1,17 +1,34 @@
 import datetime
 from django.conf import settings
-from django.db.models import Q
 from django.test import TestCase
 from django.utils import timezone
 from models import Location, MTurkLocationInfo
-from mturk import mturk_utilities
+from mturk import mturk_utilities, mturk_update_website_tasks, mturk_update_phone_tasks
 from boto.mturk import connection
+from mock import MagicMock, mock
+from pprint import pprint
 from viceprice.constants import *
 
 # TO RUN A SPECIFIC TEST:
-# foreman run manage.py test vp.tests.Test.test_function
+# foreman run python manage.py test vp.tests.Test.test_function
 
 # MTurk Tests
+
+# Mock of boto.mturk.connection.Assignment.Answer
+class MockAnswer():
+    def __init__(self, qid, answer):
+        self.qid = qid
+        self.fields = [ answer ]
+
+# Mock of boto.mturk.connection.Assignment
+class MockAssignment():
+    def __init__ (self, assignment_id = None):
+        self.AssignmentId = assignment_id
+        self.AssignmentStatus = SUBMITTED
+        self.answers = [[]]
+
+    def add_answer(self, qid, answer):
+        self.answers[0].append(MockAnswer(qid, answer))
 
 # Test retrieval of and initialization of locations that need updating
 # We will have 3 locations that need updating, 2 that don't, and 2 others that are already in progress of being updated.
@@ -177,14 +194,14 @@ class HITCreationTest(TestCase):
 
     # Stage 0: Find URL HIT
     def test_stage_0(self):
-        location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
 
     def test_stage_1(self):
-        location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        location.stage = 1
-        location.save()
-        mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_location.stage = 1
+        mturk_location.save()
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
 
 
 # Test evaluation and update of completed HIT assignments
@@ -213,15 +230,32 @@ class HITUpdateTest(TestCase):
 
         mturk_utilities.register_hit_types(self.conn)
 
+    def print_status(self):
+        mturk_locations = MTurkLocationInfo.objects.all()
+        for mturk_location in mturk_locations:
+            print(mturk_location.name)
+
+            if mturk_location.stage != None:
+                print('  Stage: ' + str(mturk_location.stage))
+            if mturk_location.website != None:
+                print('  Website: ' + str(mturk_location.website))
+            if mturk_location.hit_id != None:
+                print('  HIT ID: ' + str(mturk_location.hit_id))
+
     # Stage 0: Find URL HIT
     def test_stage_0(self):
         location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        location.website = None
+        location.save()
         mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
 
         print("HIT " + location.hit_id + " created.")
-        raw_input("Respond at https://workersandbox.mturk.com/mturk/accept?hitId=" + location.hit_id)
+        self.print_status()
+        raw_input("Respond at workersandbox.mturk.com...")
 
-        print("Responded")
+        mturk_update_website_tasks.update()
+        print("Updated")
+        self.print_status()
 
     def test_stage_1(self):
         location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
@@ -231,12 +265,173 @@ class HITUpdateTest(TestCase):
 
 
 # Test Stage 0: Find URL of MTurk
-class MTurkFindURLTest(TestCase):
+class ProcessFindWebsiteTest(TestCase):
     def setUp(self):
-        # Location that we find URL for
-        found_location = Location.objects.create(name = "FindURLFound")
-        # Location that we do not find URL for
-        not_found_location = Location.objects.create(name = "FindURLNotFound")
+        location = Location.objects.create(name = "FindURL")
+        MTurkLocationInfo.objects.create(location = location, name = "FindURL", stage = 0, hit_id = "HIT_Id")
 
-        MTurkLocationInfo.objects.create(location = found_location, name = "FindURLFound", stage = 0)
-        MTurkLocationInfo.objects.create(location = not_found_location, name = "FindURLNotFound", stage = 0)
+    @mock.patch('boto.mturk.connection.MTurkConnection')
+    def test_agreement(self, mock_connection):
+        mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
+
+        assignment1 = MockAssignment()
+        assignment1.add_answer(URL_FOUND, 'yes')
+        assignment1.add_answer(URL, 'http://www.libertylounge.com')
+        assignment1.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment2 = MockAssignment()
+        assignment2.add_answer(URL_FOUND, 'yes')
+        assignment2.add_answer(URL, 'http://www.libertylounge.com')
+        assignment2.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment3 = MockAssignment()
+        assignment3.add_answer(URL_FOUND, 'yes')
+        assignment3.add_answer(URL, 'http://www.libertylounge.com')
+        assignment3.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignments = [ assignment1, assignment2, assignment3 ]
+
+        result = mturk_utilities.process_find_website_hit_assignments(
+            mock_connection, mturk_location, assignments)
+
+        self.assertEqual(result[0], 100.0)
+        self.assertEqual(result[1], 'http://www.libertylounge.com')
+
+
+    @mock.patch('boto.mturk.connection.MTurkConnection')
+    def test_disagreement(self, mock_connection):
+        mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
+
+        assignment1 = MockAssignment()
+        assignment1.add_answer(URL_FOUND, 'yes')
+        assignment1.add_answer(URL, 'http://www.libertylounge2.com')
+        assignment1.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment2 = MockAssignment()
+        assignment2.add_answer(URL_FOUND, 'yes')
+        assignment2.add_answer(URL, 'http://www.libertylounge.com')
+        assignment2.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment3 = MockAssignment()
+        assignment3.add_answer(URL_FOUND, 'yes')
+        assignment3.add_answer(URL, 'http://www.libertylounge.com')
+        assignment3.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment4 = MockAssignment()
+        assignment4.add_answer(URL_FOUND, 'yes')
+        assignment4.add_answer(URL, 'http://www.libertylounge2.com')
+        assignment4.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment5 = MockAssignment()
+        assignment5.add_answer(URL_FOUND, 'yes')
+        assignment5.add_answer(URL, 'http://www.libertylounge.com')
+        assignment5.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
+
+        result = mturk_utilities.process_find_website_hit_assignments(
+            mock_connection, mturk_location, assignments)
+
+        self.assertEqual(result[0], 60.0)
+        self.assertEqual(result[1], 'http://www.libertylounge.com')
+
+
+    @mock.patch('boto.mturk.connection.MTurkConnection')
+    def test_disagreement_no_url(self, mock_connection):
+        mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
+
+        assignment1 = MockAssignment()
+        assignment1.add_answer(URL_FOUND, 'no')
+        assignment1.add_answer(URL, None)
+        assignment1.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment2 = MockAssignment()
+        assignment2.add_answer(URL_FOUND, 'yes')
+        assignment2.add_answer(URL, 'http://www.libertylounge.com')
+        assignment2.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment3 = MockAssignment()
+        assignment3.add_answer(URL_FOUND, 'no')
+        assignment3.add_answer(URL, None)
+        assignment3.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment4 = MockAssignment()
+        assignment4.add_answer(URL_FOUND, 'no')
+        assignment4.add_answer(URL, None)
+        assignment4.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignments = [ assignment1, assignment2, assignment3, assignment4 ]
+
+        result = mturk_utilities.process_find_website_hit_assignments(
+            mock_connection, mturk_location, assignments)
+
+        self.assertEqual(result[0], 75.0)
+        self.assertEqual(result[1], None)
+
+
+    @mock.patch('boto.mturk.connection.MTurkConnection')
+    def test_different_url_formats(self, mock_connection):
+        mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
+
+        assignment1 = MockAssignment()
+        assignment1.add_answer(URL_FOUND, 'yes')
+        assignment1.add_answer(URL, 'www.libertylounge.com')
+        assignment1.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment2 = MockAssignment()
+        assignment2.add_answer(URL_FOUND, 'yes')
+        assignment2.add_answer(URL, 'http://www.libertylounge.com/')
+        assignment2.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment3 = MockAssignment()
+        assignment3.add_answer(URL_FOUND, 'yes')
+        assignment3.add_answer(URL, 'libertylounge.com/')
+        assignment3.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment4 = MockAssignment()
+        assignment4.add_answer(URL_FOUND, 'yes')
+        assignment4.add_answer(URL, 'https://libertylounge.com')
+        assignment4.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment5 = MockAssignment()
+        assignment5.add_answer(URL_FOUND, 'yes')
+        assignment5.add_answer(URL, 'www.libertylounge.net')
+        assignment5.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
+
+        result = mturk_utilities.process_find_website_hit_assignments(
+            mock_connection, mturk_location, assignments)
+
+        self.assertEqual(result[0], 80.0)
+        self.assertEqual(result[1], 'http://www.libertylounge.com')
+
+
+    @mock.patch('boto.mturk.connection.MTurkConnection')
+    def test_fail_attention_check(self, mock_connection):
+        mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
+
+        assignment1 = MockAssignment(assignment_id = 1)
+        assignment1.add_answer(URL_FOUND, 'yes')
+        assignment1.add_answer(URL, 'http://www.libertylounge.com')
+        assignment1.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment2 = MockAssignment(assignment_id = 2)
+        assignment2.add_answer(URL_FOUND, 'yes')
+        assignment2.add_answer(URL, 'http://www.libertylounge.com/')
+        assignment2.add_answer(ATTENTION_CHECK, 'correct')
+
+        assignment3 = MockAssignment(assignment_id = 3)
+        assignment3.add_answer(URL_FOUND, 'yes')
+        assignment3.add_answer(URL, 'http://libertylounge.com')
+        assignment3.add_answer(ATTENTION_CHECK, 'incorrect')
+
+        assignments = [ assignment1, assignment2, assignment3 ]
+
+        result = mturk_utilities.process_find_website_hit_assignments(
+            mock_connection, mturk_location, assignments)
+
+        self.assertEqual(result, None)
+        mock_connection.reject_assignment.assert_called_with(3, 'Failed attention check question.')
+        mock_connection.extend_hit.assert_called_with("HIT_Id", assignments_increment = 1)
+

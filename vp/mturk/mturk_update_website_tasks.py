@@ -40,32 +40,37 @@ def update():
             # Process assignments depending on current stage of HIT
             if int(mturk_location.stage) == MTURK_STAGE[FIND_WEBSITE]:
                 url_agreement_info = process_find_website_hit_assignments(conn, mturk_location, assignments)
-
-                if (url_agreement_info == None):
-                    continue
-
                 agreement_percentage = url_agreement_info[0]
                 agreed_url = url_agreement_info[1]
+                print("Agreement Percentage")
+                print(agreement_percentage)
+                print("Agreed URL")
+                print(agreed_url)
 
                 if (agreement_percentage < MIN_AGREEMENT_PERCENTAGE):
                     # Extend the HIT as long as possible to get agreement
                     if len(assignments) < MAX_ASSIGNMENTS_TO_PUBLISH:
+                        print("Extend HIT")
                         conn.extend_hit(hit.HITId, assignments_increment=1)
                     # If exceeds max assignment number allowed by Amazon, we must make a new HIT
                     else:
+                        print("Recreate HIT")
                         conn.disable_hit(hit.HITId)
                         create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
                 else:
                     # If no URL found, continue to phone stage if possible. Forfeit if not.
                     if (agreed_url == '' or agreed_url == None):
                         if (mturk_location.phone_number != None and mturk_location.phone_number != ''):
+                            print("Go to Phone")
                             mturk_location.hit_id = None
                             mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]
                         else:
+                            print("Go to No Info")
                             mturk_location.stage = MTURK_STAGE[NO_INFO]
                             mturk_location.update_completed = timezone.now()
 
                     else:
+                        print("Go to Find Happy Hour")
                         mturk_location.url = agreed_url
                         mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
                         create_hit(conn, mturk_location, settings.HIT_TYPES[FIND_HAPPY_HOUR_WEB])
@@ -111,8 +116,5 @@ def update():
             #             create_hit(conn, location, HIT_TYPES[CONFIRM_WEBSITE_HH])
             #
             #         approve_and_dispose(conn, hit)
-
-            if (mturk_location.comments != None):
-                mturk_location.comments = mturk_location.comments[:999]
 
             mturk_location.save()
