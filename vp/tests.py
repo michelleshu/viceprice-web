@@ -238,9 +238,11 @@ class HITUpdateTest(TestCase):
             if mturk_location.stage != None:
                 print('  Stage: ' + str(mturk_location.stage))
             if mturk_location.website != None:
-                print('  Website: ' + str(mturk_location.website))
+                print('  Website: ' + mturk_location.website)
             if mturk_location.hit_id != None:
                 print('  HIT ID: ' + str(mturk_location.hit_id))
+            if mturk_location.comments != None:
+                print('  Comments: ' + mturk_location.comments)
 
     # Stage 0: Find URL HIT
     def test_stage_0(self):
@@ -289,7 +291,7 @@ class ProcessFindWebsiteTest(TestCase):
         assignments = [ assignment1, assignment2, assignment3 ]
 
         result = mturk_utilities.process_find_website_hit_assignments(
-            mock_connection, mturk_location, assignments)
+            mturk_location, assignments)
 
         self.assertEqual(result[0], 100.0)
         self.assertEqual(result[1], 'http://www.libertylounge.com')
@@ -322,7 +324,7 @@ class ProcessFindWebsiteTest(TestCase):
         assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
 
         result = mturk_utilities.process_find_website_hit_assignments(
-            mock_connection, mturk_location, assignments)
+            mturk_location, assignments)
 
         self.assertEqual(result[0], 60.0)
         self.assertEqual(result[1], 'http://www.libertylounge.com')
@@ -351,7 +353,7 @@ class ProcessFindWebsiteTest(TestCase):
         assignments = [ assignment1, assignment2, assignment3, assignment4 ]
 
         result = mturk_utilities.process_find_website_hit_assignments(
-            mock_connection, mturk_location, assignments)
+            mturk_location, assignments)
 
         self.assertEqual(result[0], 75.0)
         self.assertEqual(result[1], None)
@@ -384,34 +386,7 @@ class ProcessFindWebsiteTest(TestCase):
         assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
 
         result = mturk_utilities.process_find_website_hit_assignments(
-            mock_connection, mturk_location, assignments)
+            mturk_location, assignments)
 
         self.assertEqual(result[0], 80.0)
         self.assertEqual(result[1], 'http://www.libertylounge.com')
-
-
-    @mock.patch('boto.mturk.connection.MTurkConnection')
-    def test_fail_attention_check(self, mock_connection):
-        mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
-
-        assignment1 = MockAssignment(assignment_id = 1)
-        assignment1.add_answer(URL_FOUND, 'yes')
-        assignment1.add_answer(URL, 'http://www.libertylounge.com')
-
-        assignment2 = MockAssignment(assignment_id = 2)
-        assignment2.add_answer(URL_FOUND, 'yes')
-        assignment2.add_answer(URL, 'http://www.libertylounge.com/')
-
-        assignment3 = MockAssignment(assignment_id = 3)
-        assignment3.add_answer(URL_FOUND, 'yes')
-        assignment3.add_answer(URL, 'http://libertylounge.com')
-
-        assignments = [ assignment1, assignment2, assignment3 ]
-
-        result = mturk_utilities.process_find_website_hit_assignments(
-            mock_connection, mturk_location, assignments)
-
-        self.assertEqual(result, None)
-        mock_connection.reject_assignment.assert_called_with(3, 'Failed attention check question.')
-        mock_connection.extend_hit.assert_called_with("HIT_Id", assignments_increment = 1)
-
