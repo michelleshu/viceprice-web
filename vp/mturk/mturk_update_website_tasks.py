@@ -71,9 +71,9 @@ def update():
 
                     else:
                         print("Go to Find Happy Hour")
-                        mturk_location.url = agreed_url
+                        mturk_location.website = agreed_url
                         mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
-                        create_hit(conn, mturk_location, settings.HIT_TYPES[FIND_HAPPY_HOUR_WEB])
+                        create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
 
                     approve_and_dispose(conn, hit)
 
