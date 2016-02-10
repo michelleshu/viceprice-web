@@ -260,9 +260,6 @@
             </table>
         </div>
     </div>
-    <div class="question attention-check">
-        <div class="bold-text">What is the biggest object here?</div>
-    </div>
 
     <div class="question">
         <div class="bold-text">
@@ -302,39 +299,6 @@
         } else {
             $(".show-if-hh-found").hide();
         }
-    });
-
-    var shuffleArray = function(array) {
-        var currentIndex = array.length,
-            temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    };
-
-    // Randomize the ordering of options for biggest object question
-    var objectOptions = [
-        "<div class='radio indent-1'><label><input name='attention-check' required='required' type='radio' value='incorrect' />A Book</label></div>",
-        "<div class='radio indent-1'><label><input name='attention-check' required='required' type='radio' value='incorrect' />A Phone</label></div>",
-        "<div class='radio indent-1'><label><input name='attention-check' required='required' type='radio' value='incorrect' />A Shoe</label></div>",
-        "<div class='radio indent-1'><label><input name='attention-check' required='required' type='radio' value='correct' />A Car</label></div>"
-    ];
-    objectOptions = shuffleArray(objectOptions);
-
-    objectOptions.forEach(function(o) {
-        $(".attention-check").append(o);
     });
 
     // Auto-grow textareas on front end

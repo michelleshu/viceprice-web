@@ -47,7 +47,6 @@ REJECTED = 'Rejected'
 # HIT Result Parameters
 URL_FOUND = 'url-found'
 URL = 'url'
-ATTENTION_CHECK = 'attention-check'
 COMMENTS = 'comments'
 HAPPY_HOUR_FOUND = 'happy-hour-found'
 MONDAY_START_TIME = 'monday-start-time'
