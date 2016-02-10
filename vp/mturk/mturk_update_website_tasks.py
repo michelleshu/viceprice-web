@@ -39,7 +39,7 @@ def update():
 
             # Process assignments depending on current stage of HIT
             if int(mturk_location.stage) == MTURK_STAGE[FIND_WEBSITE]:
-                url_agreement_info = process_find_website_hit_assignments(conn, mturk_location, assignments)
+                url_agreement_info = process_find_website_hit_assignments(mturk_location, assignments)
                 agreement_percentage = url_agreement_info[0]
                 agreed_url = url_agreement_info[1]
                 print("Agreement Percentage")

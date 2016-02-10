@@ -239,8 +239,7 @@ def get_url_agreement_percentage(urls):
 
 # Process the assignments from a verify website HIT (Stage 1)
 # Return the URL agreement percentage and agreed upon URL
-def process_find_website_hit_assignments(conn, mturk_location, assignments):
-    hit_id = mturk_location.hit_id
+def process_find_website_hit_assignments(mturk_location, assignments):
     url_responses = []
 
     for assignment in assignments:
@@ -249,15 +248,7 @@ def process_find_website_hit_assignments(conn, mturk_location, assignments):
             answers = assignment.answers[0]
             url_found = get_answer(answers, URL_FOUND)
             url = get_answer(answers, URL)
-            attention_check = get_answer(answers, ATTENTION_CHECK)
             comments = get_answer(answers, COMMENTS)
-
-            if (attention_check != 'correct'):
-                print("Failed attention check")
-                if assignment.AssignmentStatus == SUBMITTED:
-                    conn.reject_assignment(assignment.AssignmentId, 'Failed attention check question.')
-                conn.extend_hit(hit_id, assignments_increment = 1)
-                return None
 
             if (url_found == 'yes'):
                 url_responses.append(url)
