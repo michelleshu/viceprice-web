@@ -13,6 +13,8 @@ FIND_HAPPY_HOUR_PHONE = 'FIND_HAPPY_HOUR_PHONE'
 CONFIRM_HAPPY_HOUR_PHONE = 'CONFIRM_HAPPY_HOUR_PHONE'
 COMPLETE = 'COMPLETE'
 NO_INFO = 'NO_INFO'
+WRONG_WEBSITE = 'WRONG_WEBSITE'
+WRONG_PHONE_NUMBER = 'WRONG_PHONE_NUMBER'
 
 MTURK_STAGE = {
     FIND_WEBSITE: 0,
@@ -21,7 +23,9 @@ MTURK_STAGE = {
     FIND_HAPPY_HOUR_PHONE: 3,
     CONFIRM_HAPPY_HOUR_PHONE: 4,
     COMPLETE: 5,
-    NO_INFO: 6
+    NO_INFO: 6,
+    WRONG_WEBSITE: 7,
+    WRONG_PHONE_NUMBER: 8
 }
 
 # HIT Type Parameters
@@ -82,8 +86,9 @@ MAX_LOCATIONS_TO_UPDATE = 100
 # Minimum percentage agreement required (e.g. between website URL submissions)
 MIN_AGREEMENT_PERCENTAGE = 70.0
 
-# Maximum number of assignments to publish
+# MTurk iteration variables
 MAX_ASSIGNMENTS_TO_PUBLISH = 9
+MAX_GET_HAPPY_HOUR_WEB_ATTEMPTS = 3
 
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30

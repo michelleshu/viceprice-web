@@ -91,10 +91,10 @@ class MTurkLocationInfo(models.Model):
     website = models.CharField(max_length=256, null=True)
     phone_number = models.CharField(max_length=30, null=True)
     stage = models.IntegerField(null=False)
+    attempts = models.IntegerField(default=0)
     confirmations = models.IntegerField(default=0)
-    data_source = models.IntegerField(null=True)
     hit_id = models.CharField(max_length=100, null=True)
-    update_started = models.DateTimeField(null=True)
-    update_completed = models.DateTimeField(null=True)
-    update_cost = models.FloatField(default=0.0)
     comments = models.CharField(max_length=1000, null=True)
+
+# Track the time and cost
+#class MTurkLocationInfoStats(models.Model):

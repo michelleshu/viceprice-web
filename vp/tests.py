@@ -199,9 +199,27 @@ class HITCreationTest(TestCase):
 
     def test_stage_1(self):
         mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_location.stage = 1
+        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
         mturk_location.save()
         mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
+
+    def test_stage_2(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+        mturk_location.save()
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
+
+    def test_stage_3(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]
+        mturk_location.save()
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_PHONE])
+
+    def test_stage_4(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
+        mturk_location.save()
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
 
 
 # Test evaluation and update of completed HIT assignments
@@ -259,14 +277,69 @@ class HITUpdateTest(TestCase):
         print("Updated")
         self.print_status()
 
+    # Stage 1: Find web happy hour
     def test_stage_1(self):
         location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        location.stage = 1
+        location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
         location.save()
         mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
 
+        print("HIT " + location.hit_id + " created.")
+        self.print_status()
+        raw_input("Respond at workersandbox.mturk.com...")
 
-# Test Stage 0: Find URL of MTurk
+        mturk_update_website_tasks.update()
+        print("Updated")
+        self.print_status()
+
+    # Stage 2: Confirm web happy hour
+    def test_stage_2(self):
+        location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+        location.save()
+        mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
+
+        print("HIT " + location.hit_id + " created.")
+        self.print_status()
+        raw_input("Respond at workersandbox.mturk.com...")
+
+        mturk_update_website_tasks.update()
+        print("Updated")
+        self.print_status()
+
+    # Stage 3: Find phone happy hour
+    def test_stage_3(self):
+        location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]
+        location.save()
+        mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_PHONE])
+
+        print("HIT " + location.hit_id + " created.")
+        self.print_status()
+        raw_input("Respond at workersandbox.mturk.com...")
+
+        mturk_update_website_tasks.update()
+        print("Updated")
+        self.print_status()
+
+
+    # Stage 4: Confirm phone happy hour
+    def test_stage_4(self):
+        location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
+        location.save()
+        mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
+
+        print("HIT " + location.hit_id + " created.")
+        self.print_status()
+        raw_input("Respond at workersandbox.mturk.com...")
+
+        mturk_update_website_tasks.update()
+        print("Updated")
+        self.print_status()
+
+
+# Test ProcessFindWebsite for Stage 0: Find URL of MTurk
 class ProcessFindWebsiteTest(TestCase):
     def setUp(self):
         location = Location.objects.create(name = "FindURL")
@@ -390,3 +463,53 @@ class ProcessFindWebsiteTest(TestCase):
 
         self.assertEqual(result[0], 80.0)
         self.assertEqual(result[1], 'http://www.libertylounge.com')
+
+
+# Test GetHappyHourFound for Stage 1: Find Happy Hour Web
+class GetHappyHourFoundTest(TestCase):
+    def setUp(self):
+        location = Location.objects.create(name = "GetHappyHour")
+        MTurkLocationInfo.objects.create(location = location, name = "GetHappyHour", stage = 1, hit_id = "HIT_Id")
+
+    def test_happy_hour_found(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "GetHappyHour")
+
+        assignment = MockAssignment()
+        assignment.add_answer(HAPPY_HOUR_FOUND, 'yes')
+
+        result = mturk_utilities.get_happy_hour_found(mturk_location, assignment)
+
+        self.assertTrue(result)
+
+    def test_happy_hour_not_found(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "GetHappyHour")
+
+        assignment = MockAssignment()
+        assignment.add_answer(HAPPY_HOUR_FOUND, 'no')
+
+        result = mturk_utilities.get_happy_hour_found(mturk_location, assignment)
+
+        self.assertFalse(result)
+        self.assertEqual(mturk_location.attempts, 1)
+
+    def test_wrong_website(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "GetHappyHour")
+
+        assignment = MockAssignment()
+        assignment.add_answer(HAPPY_HOUR_FOUND, 'wrong-website')
+
+        result = mturk_utilities.get_happy_hour_found(mturk_location, assignment)
+
+        self.assertFalse(result)
+        self.assertEqual(mturk_location.stage, MTURK_STAGE[WRONG_WEBSITE])
+
+    def test_wrong_number(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "GetHappyHour")
+
+        assignment = MockAssignment()
+        assignment.add_answer(HAPPY_HOUR_FOUND, 'wrong-phone-number')
+
+        result = mturk_utilities.get_happy_hour_found(mturk_location, assignment)
+
+        self.assertFalse(result)
+        self.assertEqual(mturk_location.stage, MTURK_STAGE[WRONG_PHONE_NUMBER])

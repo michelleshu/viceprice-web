@@ -237,7 +237,7 @@ def get_url_agreement_percentage(urls):
     return ((max_agreement_count * 100.0) / len(domains), max_agreed_url)
 
 
-# Process the assignments from a verify website HIT (Stage 1)
+# Process the assignments from a find website HIT (Stage 0)
 # Return the URL agreement percentage and agreed upon URL
 def process_find_website_hit_assignments(mturk_location, assignments):
     url_responses = []
@@ -260,53 +260,40 @@ def process_find_website_hit_assignments(mturk_location, assignments):
     return get_url_agreement_percentage(url_responses)
 
 
-# Process the assignments from a find happy hour URL HIT (Stage 2)
-# Return the happy hour URL agreement percentage and agreed upon URL
-def process_find_happy_hour_url_assignments(conn, location, assignments):
-    hit_id = location.hit_id
-    deals_url_responses = []
-
-    for assignment in assignments:
-        if assignment.AssignmentStatus != REJECTED:
-            answers = assignment.answers[0]
-            find_deals_url = get_answer(answers, FIND_DEALS_URL)
-            deals_url = get_answer(answers, DEALS_URL_WEBSITE_FIELD)
-            biggest_object = get_answer(answers, BIGGEST_OBJECT)
-            comments = get_answer(answers, COMMENTS)
-
-            if biggest_object != "correct":
-                if assignment.AssignmentStatus == SUBMITTED:
-                    conn.reject_assignment(assignment.AssignmentId, "Failed attention check question. The car is the biggest object.")
-                conn.extend_hit(hit_id, assignments_increment = 1)
-                return None
-
-            if find_deals_url == "1":
-                if deals_url == None or '':
-                    if assignment.AssignmentStatus == SUBMITTED:
-                        conn.reject_assignment(assignment.AssignmentId, 'Found happy hour URL through web search but did not paste URL as requested in instructions')
-                    conn.extend_hit(hit_id, assignments_increment=1)
-                    return None
-
-            if (comments != None and comments != ""):
-                if (location.comments == None):
-                    location.comments = ""
-
-                location.comments = location.comments + "\n" + comments
-
-            deals_url_responses.append(deals_url)
-
-    return get_url_agreement_percentage(deals_url_responses)
-
-
-# Get whether happy hour was found on website
-# If not, update happy hour attempt cound
-def was_website_hh_found(conn, location, assignment):
+# Get whether happy hour was found
+# If not, update happy hour attempt count
+# If we have wrong website, or wrong phone number, update the stage to reflect it and terminate the happy hour
+# acquisition process
+def get_happy_hour_found(mturk_location, assignment):
     answers = assignment.answers[0]
+    happy_hour_found = get_answer(answers, HAPPY_HOUR_FOUND)
+    comments = get_answer(answers, COMMENTS)
 
-    if get_answer(answers, FIND_DEALS_URL) == "1":
+    add_comments(mturk_location, comments)
+
+    if happy_hour_found == "yes":
+        # Happy hours found
         return True
+
+    elif happy_hour_found == "no":
+        # Happy hours not found, but information source is correct
+        mturk_location.attempts = int(mturk_location.attempts) + 1
+        mturk_location.save()
+        return False
+
+    elif happy_hour_found == "wrong-website":
+        # Happy hours not found, because we have wrong website
+        mturk_location.stage = MTURK_STAGE[WRONG_WEBSITE]
+        mturk_location.save()
+        return False
+
+    elif happy_hour_found == "wrong-phone-number":
+        # Happy hours not found, because we have wrong phone number
+        mturk_location.stage = MTURK_STAGE[WRONG_PHONE_NUMBER]
+        mturk_location.save()
+        return False
+
     else:
-        location.get_hh_attempts = int(location.get_hh_attempts) + 1
         return False
 
 
