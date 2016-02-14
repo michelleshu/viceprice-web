@@ -174,7 +174,6 @@ def create_hit(conn, mturk_location_info, hit_type):
     )
 
     mturk_location_info.hit_id = hit[0].HITId
-    mturk_location_info.update_cost = mturk_location_info.update_cost + hit_type[PRICE]
     mturk_location_info.save()
 
 

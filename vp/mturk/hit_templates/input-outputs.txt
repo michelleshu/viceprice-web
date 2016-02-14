@@ -1,16 +1,16 @@
-Stage 0 - Missing URL
+Stage 0 - Missing Website
     Inputs:
         - name
         - address
     Outputs:
-        - url-found (yes, no)
-        - url
+        - website-found (yes, no)
+        - website
         - comments
 
 Stage 1 - Find Happy Hour Web
     Inputs:
         - name
-        - url
+        - website
     Outputs:
         - happy-hour-found (yes, no, wrong-website)
         - monday-start-time

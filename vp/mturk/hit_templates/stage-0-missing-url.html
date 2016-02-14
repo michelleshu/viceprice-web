@@ -59,19 +59,19 @@
 
         <div class="radio indent-1">
             <label>
-                <input name="url-found" type="radio" value="yes" />
+                <input name="website-found" type="radio" value="yes" />
                 <span>Yes</span>
             </label>
         </div>
 
-        <div class="show-if-url-found indent-2">
+        <div class="show-if-website-found indent-2">
             <span>Please enter the URL below.</span>
-            <input class="form-control" name="url" placeholder="Example: http://www.churchkeydc.com/" type="text" />
+            <input class="form-control" name="website" placeholder="Example: http://www.churchkeydc.com/" type="text" />
         </div>
 
         <div class="radio indent-1">
             <label>
-                <input name="url-found" type="radio" value="no" />
+                <input name="website-found" type="radio" value="no" />
                 <span>No</span>
             </label>
         </div>
@@ -110,24 +110,24 @@
 
 
     // Expand text box only when found a URL that was missing
-    $(".show-if-url-found").hide();
-    $("input[name='url-found']").change(function() {
+    $(".show-if-website-found").hide();
+    $("input[name='website-found']").change(function() {
         if ($(this).val() === "yes") {
-            $(".show-if-url-found").show();
+            $(".show-if-website-found").show();
         } else {
-            $(".show-if-url-found").hide();
+            $(".show-if-website-found").hide();
         }
     });
 
     // Validation on submit
     $(document).ready(function() {
       $('#submitButton').click(function() {
-        if (!$("input[name='url-found']:checked").val()) {
+        if (!$("input[name='website-found']:checked").val()) {
             alert('Please select whether or not you found a website.');
             return false;
         }
-        if ($("input[name='url-found']:checked").val() === 'yes'
-            && $("input[name='url']").val() == '') {
+        if ($("input[name='website-found']:checked").val() === 'yes'
+            && $("input[name='website']").val() == '') {
             alert('Please enter the URL of the website.');
             return false;
         }

@@ -134,7 +134,7 @@ MTURK_HIT_TYPES = {
         DESCRIPTION: 'Your goal is to search a website for happy hour deals',
         ANNOTATION: 'Find happy hour web',
         KEYWORDS: ['data collection', 'copy', 'website'],
-        LAYOUT_PARAMETER_NAMES: ['name', 'url'],
+        LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR_WEB'),
         MAX_ASSIGNMENTS: 1,
         PRICE: 0.05,
