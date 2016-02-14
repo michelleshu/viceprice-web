@@ -350,16 +350,16 @@ class ProcessFindWebsiteTest(TestCase):
         mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
 
         assignment1 = MockAssignment()
-        assignment1.add_answer(URL_FOUND, 'yes')
-        assignment1.add_answer(URL, 'http://www.libertylounge.com')
+        assignment1.add_answer(WEBSITE_FOUND, 'yes')
+        assignment1.add_answer(WEBSITE, 'http://www.libertylounge.com')
 
         assignment2 = MockAssignment()
-        assignment2.add_answer(URL_FOUND, 'yes')
-        assignment2.add_answer(URL, 'http://www.libertylounge.com')
+        assignment2.add_answer(WEBSITE_FOUND, 'yes')
+        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com')
 
         assignment3 = MockAssignment()
-        assignment3.add_answer(URL_FOUND, 'yes')
-        assignment3.add_answer(URL, 'http://www.libertylounge.com')
+        assignment3.add_answer(WEBSITE_FOUND, 'yes')
+        assignment3.add_answer(WEBSITE, 'http://www.libertylounge.com')
 
         assignments = [ assignment1, assignment2, assignment3 ]
 
@@ -375,24 +375,24 @@ class ProcessFindWebsiteTest(TestCase):
         mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
 
         assignment1 = MockAssignment()
-        assignment1.add_answer(URL_FOUND, 'yes')
-        assignment1.add_answer(URL, 'http://www.libertylounge2.com')
+        assignment1.add_answer(WEBSITE_FOUND, 'yes')
+        assignment1.add_answer(WEBSITE, 'http://www.libertylounge2.com')
 
         assignment2 = MockAssignment()
-        assignment2.add_answer(URL_FOUND, 'yes')
-        assignment2.add_answer(URL, 'http://www.libertylounge.com')
+        assignment2.add_answer(WEBSITE_FOUND, 'yes')
+        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com')
 
         assignment3 = MockAssignment()
-        assignment3.add_answer(URL_FOUND, 'yes')
-        assignment3.add_answer(URL, 'http://www.libertylounge.com')
+        assignment3.add_answer(WEBSITE_FOUND, 'yes')
+        assignment3.add_answer(WEBSITE, 'http://www.libertylounge.com')
 
         assignment4 = MockAssignment()
-        assignment4.add_answer(URL_FOUND, 'yes')
-        assignment4.add_answer(URL, 'http://www.libertylounge2.com')
+        assignment4.add_answer(WEBSITE_FOUND, 'yes')
+        assignment4.add_answer(WEBSITE, 'http://www.libertylounge2.com')
 
         assignment5 = MockAssignment()
-        assignment5.add_answer(URL_FOUND, 'yes')
-        assignment5.add_answer(URL, 'http://www.libertylounge.com')
+        assignment5.add_answer(WEBSITE_FOUND, 'yes')
+        assignment5.add_answer(WEBSITE, 'http://www.libertylounge.com')
 
         assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
 
@@ -408,20 +408,20 @@ class ProcessFindWebsiteTest(TestCase):
         mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
 
         assignment1 = MockAssignment()
-        assignment1.add_answer(URL_FOUND, 'no')
-        assignment1.add_answer(URL, None)
+        assignment1.add_answer(WEBSITE_FOUND, 'no')
+        assignment1.add_answer(WEBSITE, None)
 
         assignment2 = MockAssignment()
-        assignment2.add_answer(URL_FOUND, 'yes')
-        assignment2.add_answer(URL, 'http://www.libertylounge.com')
+        assignment2.add_answer(WEBSITE_FOUND, 'yes')
+        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com')
 
         assignment3 = MockAssignment()
-        assignment3.add_answer(URL_FOUND, 'no')
-        assignment3.add_answer(URL, None)
+        assignment3.add_answer(WEBSITE_FOUND, 'no')
+        assignment3.add_answer(WEBSITE, None)
 
         assignment4 = MockAssignment()
-        assignment4.add_answer(URL_FOUND, 'no')
-        assignment4.add_answer(URL, None)
+        assignment4.add_answer(WEBSITE_FOUND, 'no')
+        assignment4.add_answer(WEBSITE, None)
 
         assignments = [ assignment1, assignment2, assignment3, assignment4 ]
 
@@ -437,24 +437,24 @@ class ProcessFindWebsiteTest(TestCase):
         mturk_location = MTurkLocationInfo.objects.get(name = "FindURL")
 
         assignment1 = MockAssignment()
-        assignment1.add_answer(URL_FOUND, 'yes')
-        assignment1.add_answer(URL, 'www.libertylounge.com')
+        assignment1.add_answer(WEBSITE_FOUND, 'yes')
+        assignment1.add_answer(WEBSITE, 'www.libertylounge.com')
 
         assignment2 = MockAssignment()
-        assignment2.add_answer(URL_FOUND, 'yes')
-        assignment2.add_answer(URL, 'http://www.libertylounge.com/')
+        assignment2.add_answer(WEBSITE_FOUND, 'yes')
+        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com/')
 
         assignment3 = MockAssignment()
-        assignment3.add_answer(URL_FOUND, 'yes')
-        assignment3.add_answer(URL, 'libertylounge.com/')
+        assignment3.add_answer(WEBSITE_FOUND, 'yes')
+        assignment3.add_answer(WEBSITE, 'libertylounge.com/')
 
         assignment4 = MockAssignment()
-        assignment4.add_answer(URL_FOUND, 'yes')
-        assignment4.add_answer(URL, 'https://libertylounge.com')
+        assignment4.add_answer(WEBSITE_FOUND, 'yes')
+        assignment4.add_answer(WEBSITE, 'https://libertylounge.com')
 
         assignment5 = MockAssignment()
-        assignment5.add_answer(URL_FOUND, 'yes')
-        assignment5.add_answer(URL, 'www.libertylounge.net')
+        assignment5.add_answer(WEBSITE_FOUND, 'yes')
+        assignment5.add_answer(WEBSITE, 'www.libertylounge.net')
 
         assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
 

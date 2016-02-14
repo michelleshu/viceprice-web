@@ -49,8 +49,8 @@ SUBMITTED = 'Submitted'
 REJECTED = 'Rejected'
 
 # HIT Result Parameters
-URL_FOUND = 'url-found'
-URL = 'url'
+WEBSITE_FOUND = 'website-found'
+WEBSITE = 'website'
 COMMENTS = 'comments'
 HAPPY_HOUR_FOUND = 'happy-hour-found'
 MONDAY_START_TIME = 'monday-start-time'
