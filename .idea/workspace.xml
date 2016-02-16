@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/production.env" afterPath="$PROJECT_DIR$/env/production.env" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/gettwitter.py" afterPath="$PROJECT_DIR$/vp/management/commands/gettwitter.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/getyelp.py" afterPath="$PROJECT_DIR$/vp/management/commands/getyelp.py" />
     </list>
     <ignored path="python-getting-started.iws" />
@@ -95,7 +93,7 @@
         <entry file="file://$PROJECT_DIR$/vp/management/commands/gettwitter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="46" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
+              <caret line="32" column="43" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -126,8 +124,8 @@
       <file leaf-file-name="getyelp.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/getyelp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.81975967">
-              <caret line="119" column="31" selection-start-line="119" selection-start-column="31" selection-end-line="119" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.8">
+              <caret line="119" column="41" selection-start-line="119" selection-start-column="41" selection-end-line="119" selection-end-column="41" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -919,7 +917,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23909883" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52070266" sideWeight="0.5689531" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.120978124" sideWeight="0.5689531" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1413,16 +1411,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/gettwitter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="46" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/env/production.env">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1431,10 +1419,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/gettwitter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="43" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vp/management/commands/getyelp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.81975967">
-          <caret line="119" column="31" selection-start-line="119" selection-start-column="31" selection-end-line="119" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.8">
+          <caret line="119" column="41" selection-start-line="119" selection-start-column="41" selection-end-line="119" selection-end-column="41" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
