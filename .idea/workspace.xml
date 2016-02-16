@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/gettwitter.py" afterPath="$PROJECT_DIR$/vp/management/commands/gettwitter.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/getyelp.py" afterPath="$PROJECT_DIR$/vp/management/commands/getyelp.py" />
     </list>
     <ignored path="python-getting-started.iws" />
@@ -93,7 +95,7 @@
         <entry file="file://$PROJECT_DIR$/vp/management/commands/gettwitter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="43" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
+              <caret line="26" column="29" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -124,8 +126,8 @@
       <file leaf-file-name="getyelp.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vp/management/commands/getyelp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8">
-              <caret line="119" column="41" selection-start-line="119" selection-start-column="41" selection-end-line="119" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.89160305">
+              <caret line="123" column="31" selection-start-line="123" selection-start-column="31" selection-end-line="123" selection-end-column="31" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -235,7 +237,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="127" />
+    <option name="x" value="78" />
     <option name="y" value="28" />
     <option name="width" value="1376" />
     <option name="height" value="872" />
@@ -912,7 +914,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="127" y="28" width="1376" height="872" extended-state="0" />
+    <frame x="78" y="28" width="1376" height="872" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23909883" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1411,6 +1413,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vp/management/commands/gettwitter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="29" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/env/production.env">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1419,20 +1431,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/management/commands/gettwitter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="43" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vp/management/commands/getyelp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8">
-          <caret line="119" column="41" selection-start-line="119" selection-start-column="41" selection-end-line="119" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.89160305">
+          <caret line="123" column="31" selection-start-line="123" selection-start-column="31" selection-end-line="123" selection-end-column="31" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>

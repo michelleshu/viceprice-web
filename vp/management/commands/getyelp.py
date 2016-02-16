@@ -114,7 +114,7 @@ class Command(BaseCommand):
 
             if (responses != None and responses.get('businesses') != None and len(responses.get('businesses')) > 0):
                 result = self.find_match(location, responses['businesses'])
-                if (result.get('id') != None):
+                if (result != None and result.get('id') != None):
                     location.yelpId = result['id']
                     print(location.name)
                     print(location.yelpId)
