@@ -24,9 +24,6 @@ class Command(BaseCommand):
                 })
                 .json())['response']
 
-            print("Response")
-            print(response)
-
             data = response.get('venue')
             if data != None:
                 location.twitterHandle = data['contact'].get('twitter')
