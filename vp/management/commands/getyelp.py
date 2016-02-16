@@ -114,10 +114,11 @@ class Command(BaseCommand):
 
             if (responses != None and responses.get('businesses') != None and len(responses.get('businesses')) > 0):
                 result = self.find_match(location, responses['businesses'])
-                location.yelpId = result['id']
-                print(location.name)
-                print(location.yelpId)
-                location.save()
+                if (result.get('id') != None):
+                    location.yelpId = result['id']
+                    print(location.name)
+                    print(location.yelpId)
+                    location.save()
 
     def handle(self, *args, **options):
         self.update_locations()
