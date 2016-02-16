@@ -75,13 +75,13 @@ class Location(models.Model):
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
     foursquareDateLastUpdated = models.DateTimeField(null=True)
-    mturkLastUpdateStarted = models.DateTimeField(null=True)
-    mturkLastUpdateCompleted = models.DateTimeField(null=True)
-    mturkLastUpdateCost = models.FloatField(null=True)
     dealDataSource = models.IntegerField(null=True)
-    foursquareId = models.CharField(max_length=50, null=True, unique=True)
     deals = models.ManyToManyField(Deal)
     comments = models.CharField(max_length=1000, null=True)
+    facebookId = models.CharField(max_length=50, null=True)
+    foursquareId = models.CharField(max_length=50, null=True)
+    twitterHandle = models.CharField(max_length=50, null=True)
+    yelpId = models.CharField(max_length=50, null=True)
 
 # Track location as it goes through MTurk update process
 class MTurkLocationInfo(models.Model):
