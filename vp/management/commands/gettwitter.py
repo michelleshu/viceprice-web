@@ -11,9 +11,9 @@ class Command(BaseCommand):
     def update_locations(self):
 
         # Get all locations that have no Foursquare data
-        foursquare_locations = Location.objects.all()
+        locations = Location.objects.all()
 
-        for location in foursquare_locations:
+        for location in locations:
             print('Retrieving data for "%s"' % location.foursquareId)
             response = (requests.get("https://api.foursquare.com/v2/venues/" + location.foursquareId,
                 params = {
