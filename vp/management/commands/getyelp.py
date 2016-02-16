@@ -119,7 +119,5 @@ class Command(BaseCommand):
                 print(location.yelpId)
                 location.save()
 
-                time.sleep(0.5)
-
     def handle(self, *args, **options):
         self.update_locations()

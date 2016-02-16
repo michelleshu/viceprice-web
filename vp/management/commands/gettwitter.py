@@ -31,7 +31,6 @@ class Command(BaseCommand):
 
                 print('Updated "%s"' % location.name)
                 print(location.twitterHandle)
-                time.sleep(0.5)
 
     def handle(self, *args, **options):
         self.update_locations()
