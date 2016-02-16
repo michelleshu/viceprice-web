@@ -116,6 +116,12 @@ AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 # Mechanical Turk
 MTURK_HOST = os.environ.get('MTURK_HOST')
 
+# Yelp
+YELP_CONSUMER_KEY = os.environ.get('YELP_CONSUMER_KEY')
+YELP_CONSUMER_SECRET = os.environ.get('YELP_CONSUMER_SECRET')
+YELP_TOKEN = os.environ.get('YELP_TOKEN')
+YELP_TOKEN_SECRET = os.environ.get('YELP_TOKEN_SECRET')
+
 MTURK_HIT_TYPES = {
     FIND_WEBSITE: {
         TITLE: 'Find the official website for a business',
