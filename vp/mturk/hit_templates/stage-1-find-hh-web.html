@@ -389,10 +389,6 @@
             return false;
         }
 
-        var hasHappyHourInfo = false;
-
-        debugger;
-
         // Check that times and descriptions are populated correctly
         var mondayStartTime = $("input[name='monday-start-time']").val();
         var mondayEndTime = $("input[name='monday-end-time']").val();
@@ -558,7 +554,8 @@
             }
         }
 
-        if (formattedHappyHourString.length === 0) {
+        if ($("input[name='happy-hour-found']:checked").val() == 'yes' &&
+            formattedHappyHourString.length === 0) {
             alert("Please enter happy hour information or select no happy hours found");
             return false;
         }

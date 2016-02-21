@@ -206,6 +206,10 @@ class HITCreationTest(TestCase):
     def test_stage_2(self):
         mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
         mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
+            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
+            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
+            "***7|||18:00|||20:00|||Sunday Description"
         mturk_location.save()
         mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
 
@@ -235,7 +239,8 @@ class HITUpdateTest(TestCase):
             name = "Liberty Lounge",
             formattedAddress = "3257 Stanton Rd SE,\nWashington, DC 20020",
             website = "http://www.justinhinh.com",
-            formattedPhoneNumber = "(202)790-4414"
+            formattedPhoneNumber = "(202)790-4414",
+            mturkDateLastUpdated = timezone.now()
         )
 
         MTurkLocationInfo.objects.create(
@@ -259,6 +264,12 @@ class HITUpdateTest(TestCase):
                 print('  Website: ' + mturk_location.website)
             if mturk_location.hit_id != None:
                 print('  HIT ID: ' + str(mturk_location.hit_id))
+            if mturk_location.deals != None:
+                print('  Deals: ' + mturk_location.deals)
+            if mturk_location.attempts != None:
+                print('  Attempts: ' + str(mturk_location.attempts))
+            if mturk_location.confirmations != None:
+                print('  Confirmations: ' + str(mturk_location.confirmations))
             if mturk_location.comments != None:
                 print('  Comments: ' + mturk_location.comments)
 

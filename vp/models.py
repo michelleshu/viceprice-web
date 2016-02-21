@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
-from pytz import timezone
+from django.utils import timezone
 
 MONDAY = 'Monday'
 TUESDAY = 'Tuesday'
@@ -20,8 +20,6 @@ DAY_OF_WEEK = {
     SATURDAY: 6,
     SUNDAY: 7
 }
-
-EASTERN_TIMEZONE = timezone('US/Eastern')
 
 class LocationCategory(models.Model):
     name = models.CharField(max_length=256, null=False)
@@ -74,9 +72,9 @@ class Location(models.Model):
     formattedAddress = models.CharField(max_length=512, null=True)
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
-    foursquareDateLastUpdated = models.DateTimeField(null=True)
     dealDataSource = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
+    mturkDateLastUpdated = models.DateTimeField(default=timezone.make_aware(datetime(year=2016, month=1, day=1), timezone.get_current_timezone()))
     comments = models.CharField(max_length=1000, null=True)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)
