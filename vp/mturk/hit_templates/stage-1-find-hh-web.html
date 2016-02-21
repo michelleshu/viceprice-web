@@ -273,7 +273,7 @@
     <input id="location-website" type="hidden" value="${website}"/>
 
     <!-- // Format: ***1|||16:00|||19:00|||Description***2... -->
-    <input name="formatted-happy-hours" type="hidden" value=""/>
+    <input name="deals" type="hidden" value=""/>
 </section>
 
 <script type="text/javascript">
@@ -433,7 +433,7 @@
                     formattedHappyHourString = formattedHappyHourString +
                         "***1|||" + formattedMondayStartTime + "|||" +
                         formattedMondayEndTime + "|||" +
-                        mondayDescription;
+                        mondayDescription.trim();
                 }
             }
         }
@@ -453,7 +453,7 @@
                     formattedHappyHourString = formattedHappyHourString +
                         "***2|||" + formattedTuesdayStartTime + "|||" +
                         formattedTuesdayEndTime + "|||" +
-                        tuesdayDescription;
+                        tuesdayDescription.trim();
                 }
             }
         }
@@ -473,7 +473,7 @@
                     formattedHappyHourString = formattedHappyHourString +
                         "***3|||" + formattedWednesdayStartTime + "|||" +
                         formattedWednesdayEndTime + "|||" +
-                        wednesdayDescription;
+                        wednesdayDescription.trim();
                 }
             }
         }
@@ -493,7 +493,7 @@
                     formattedHappyHourString = formattedHappyHourString +
                         "***4|||" + formattedThursdayStartTime + "|||" +
                         formattedThursdayEndTime + "|||" +
-                        thursdayDescription;
+                        thursdayDescription.trim();
                 }
             }
         }
@@ -513,7 +513,7 @@
                     formattedHappyHourString = formattedHappyHourString +
                         "***5|||" + formattedFridayStartTime + "|||" +
                         formattedFridayEndTime + "|||" +
-                        fridayDescription;
+                        fridayDescription.trim();
                 }
             }
         }
@@ -533,7 +533,7 @@
                     formattedHappyHourString = formattedHappyHourString +
                         "***6|||" + formattedSaturdayStartTime + "|||" +
                         formattedSaturdayEndTime + "|||" +
-                        saturdayDescription;
+                        saturdayDescription.trim();
                 }
             }
         }
@@ -553,13 +553,17 @@
                     formattedHappyHourString = formattedHappyHourString +
                         "***7|||" + formattedSundayStartTime + "|||" +
                         formattedSundayEndTime + "|||" +
-                        sundayDescription;
+                        sundayDescription.trim();
                 }
             }
         }
 
-        console.log("formattedHappyHourString", formattedHappyHourString);
-        $("input[name='formatted-happy-hours']").val(formattedHappyHourString);
+        if (formattedHappyHourString.length === 0) {
+            alert("Please enter happy hour information or select no happy hours found");
+            return false;
+        }
+
+        $("input[name='deals']").val(formattedHappyHourString);
 
         return true;
       });

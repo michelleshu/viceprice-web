@@ -93,6 +93,7 @@ class MTurkLocationInfo(models.Model):
     stage = models.IntegerField(null=False)
     attempts = models.IntegerField(default=0)
     confirmations = models.IntegerField(default=0)
+    deals = models.CharField(max_length=3000, null=True)
     hit_id = models.CharField(max_length=100, null=True)
     comments = models.CharField(max_length=1000, null=True)
 

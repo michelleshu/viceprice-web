@@ -94,14 +94,8 @@ def update():
 
                 else:
                     # Happy hour was found. Process response
-                    processed = process_find_happy_hour_info_assignment(conn, location, assignments[-1])
+                    process_find_happy_hour_info_assignment(mturk_location, assignments[-1])
 
-                    if processed == True:
-                        location.stage = MTURK_STAGE[CONFIRM_WEBSITE_HH]
-                        create_hit(conn, location, HIT_TYPES[CONFIRM_WEBSITE_HH])
-                        approve_and_dispose(conn, hit)
-                    else:
-                        conn.extend_hit(hit.HITId, assignments_increment=1)
             #
             # elif int(location.stage) == MTURK_STAGE[CONFIRM_WEBSITE_HH]:
             #     confirmed = process_confirm_happy_hour_info_assignment(conn, location, assignments[-1])

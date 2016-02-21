@@ -124,8 +124,8 @@ YELP_TOKEN_SECRET = os.environ.get('YELP_TOKEN_SECRET')
 
 MTURK_HIT_TYPES = {
     FIND_WEBSITE: {
-        TITLE: 'Find the official website for a business',
-        DESCRIPTION: 'Your goal is to find the official website for a business in Washington, DC',
+        TITLE: 'Find the website for a business',
+        DESCRIPTION: 'Your goal is to find the official website for a business',
         ANNOTATION: 'Find website',
         KEYWORDS: ['data collection', 'web search', 'find', 'website'],
         LAYOUT_PARAMETER_NAMES: ['name', 'address'],
@@ -136,9 +136,9 @@ MTURK_HIT_TYPES = {
         US_LOCALE_REQUIRED: False
     },
     FIND_HAPPY_HOUR_WEB: {
-        TITLE: 'Find happy hour info on a website',
-        DESCRIPTION: 'Your goal is to search a website for happy hour deals',
-        ANNOTATION: 'Find happy hour web',
+        TITLE: 'Find information on a website',
+        DESCRIPTION: 'Your goal is to search a website for information',
+        ANNOTATION: 'Find info web',
         KEYWORDS: ['data collection', 'copy', 'website'],
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR_WEB'),
@@ -146,5 +146,55 @@ MTURK_HIT_TYPES = {
         PRICE: 0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
+    },
+    CONFIRM_HAPPY_HOUR_WEB: {
+        TITLE: 'Check accuracy of information from a website',
+        DESCRIPTION: 'Your goal is to check the accuracy of information on a website',
+        ANNOTATION: 'Confirm info web',
+        KEYWORDS: ['data collection', 'copy', 'website'],
+        LAYOUT_PARAMETER_NAMES: ['name', 'website', 'deals'],
+        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_WEB'),
+        MAX_ASSIGNMENTS: 1,
+        PRICE: 0.05,
+        DURATION: 3600,
+        US_LOCALE_REQUIRED: False
+    },
+    CONFIRM_HAPPY_HOUR_WEB_2: {
+        TITLE: 'Check accuracy of information from a website',
+        DESCRIPTION: 'Your goal is to check the accuracy of information on a website',
+        ANNOTATION: 'Confirm info web',
+        KEYWORDS: ['data collection', 'copy', 'website'],
+        LAYOUT_PARAMETER_NAMES: ['name', 'website', 'deals'],
+        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_WEB'),
+        MAX_ASSIGNMENTS: 1,
+        PRICE: 0.05,
+        DURATION: 3600,
+        US_LOCALE_REQUIRED: False
+    },
+    FIND_HAPPY_HOUR_PHONE: {
+        TITLE: 'Call a business and find out what specials they are offering. [30 cent bonus for successful calls that get info]',
+        DESCRIPTION: 'You will call a business and ask what specials they are offering. You will get a 30 cent bonus for successful calls that get info]',
+        ANNOTATION: 'Find business info',
+        KEYWORDS: ['phone call', 'phone' 'business info', 'specials', 'bonus'],
+        LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
+        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR_PHONE'),
+        MAX_ASSIGNMENTS: 1,
+        PRICE: 0.10,
+        BONUS: 0.30,
+        DURATION: 3600,
+        US_LOCALE_REQUIRED: True
+    },
+    CONFIRM_HAPPY_HOUR_PHONE: {
+        TITLE: 'Call a business and find out what specials they are offering. [30 cent bonus for successful calls]',
+        DESCRIPTION: 'You will call a business, ask what specials they have, and see if our info is up to date [30 cent bonus for successful calls]',
+        ANNOTATION: 'Find business info',
+        KEYWORDS: ['phone call', 'phone' 'business info', 'specials'],
+        LAYOUT_PARAMETER_NAMES: ['name', 'phone_number', 'deals'],
+        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_PHONE'),
+        MAX_ASSIGNMENTS: 1,
+        PRICE: 0.10,
+        BONUS: 0.30,
+        DURATION: 3600,
+        US_LOCALE_REQUIRED: True
     }
 }

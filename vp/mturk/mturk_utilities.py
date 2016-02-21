@@ -299,42 +299,12 @@ def get_happy_hour_found(mturk_location, assignment):
 # Process the assignments from a find website happy hour info HIT (Stage 3)
 # Set columns on location object according to happy hour info provided
 # Return true on success, false if no happy hours found, None if failed attention check question
-def process_find_happy_hour_info_assignment(conn, location, assignment):
+def process_find_happy_hour_info_assignment(mturk_location, assignment):
     answers = assignment.answers[0]
-
-    if get_answer(answers, BIGGEST_OBJECT) != "correct":
-        if assignment.AssignmentStatus == SUBMITTED:
-            conn.reject_assignment(assignment.AssignmentId, "Failed attention check question. The car is the biggest object.")
-        return None
-
-    location.monday_start_time = parse_time(get_answer(answers, MONDAY_START_TIME))
-    location.monday_end_time = parse_time(get_answer(answers, MONDAY_END_TIME))
-    location.monday_description = get_answer(answers, MONDAY_DESCRIPTION)
-    location.tuesday_start_time = parse_time(get_answer(answers, TUESDAY_START_TIME))
-    location.tuesday_end_time = parse_time(get_answer(answers, TUESDAY_END_TIME))
-    location.tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION)
-    location.wednesday_start_time = parse_time(get_answer(answers, WEDNESDAY_START_TIME))
-    location.wednesday_end_time = parse_time(get_answer(answers, WEDNESDAY_END_TIME))
-    location.wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION)
-    location.thursday_start_time = parse_time(get_answer(answers, THURSDAY_START_TIME))
-    location.thursday_end_time = parse_time(get_answer(answers, THURSDAY_END_TIME))
-    location.thursday_description = get_answer(answers, THURSDAY_DESCRIPTION)
-    location.friday_start_time = parse_time(get_answer(answers, FRIDAY_START_TIME))
-    location.friday_end_time = parse_time(get_answer(answers, FRIDAY_END_TIME))
-    location.friday_description = get_answer(answers, FRIDAY_DESCRIPTION)
-    location.saturday_start_time = parse_time(get_answer(answers, SATURDAY_START_TIME))
-    location.saturday_end_time = parse_time(get_answer(answers, SATURDAY_END_TIME))
-    location.saturday_description = get_answer(answers, SATURDAY_DESCRIPTION)
-    location.sunday_start_time = parse_time(get_answer(answers, SUNDAY_START_TIME))
-    location.sunday_end_time = parse_time(get_answer(answers, SUNDAY_END_TIME))
-    location.sunday_description = get_answer(answers, SUNDAY_DESCRIPTION)
-
-    if get_answer(answers, COMMENTS) != None:
-        if location.comments == None:
-            location.comments = ""
-        location.comments = location.comments + "\n" + get_answer(answers, COMMENTS)
-
-    return True
+    mturk_location.deals = get_answer(answers, DEALS)
+    mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+    mturk_location.save()
+    add_comments(mturk_location, get_answer(answers, COMMENTS))
 
 
 # Process the assignments from a confirm website happy hour info HIT (Stage 4)
