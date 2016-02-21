@@ -1,16 +1,11 @@
 from django.core.management.base import BaseCommand
 from vp.models import Location
 from viceprice import settings
-import requests
-import time
-import argparse
 import json
-import pprint
-import sys
 import urllib
 import urllib2
 import oauth2
-
+import unicodecsv as csv
 
 API_HOST = 'api.yelp.com'
 DEFAULT_LOCATION = 'Washington, DC'
@@ -103,6 +98,17 @@ class Command(BaseCommand):
                     abs(location.longitude - response['location']['coordinate']['longitude']) < 0.001):
                     return response
 
+    def get_business(self, business_id):
+        """Query the Business API by a business ID.
+        Args:
+            business_id (str): The ID of the business to query.
+        Returns:
+            dict: The JSON response from the request.
+        """
+        business_path = BUSINESS_PATH + business_id
+
+        return self.request(API_HOST, business_path)
+
 
     # Update all location data that needs to be updated
     def update_locations(self):
@@ -120,5 +126,42 @@ class Command(BaseCommand):
                     print(location.yelpId)
                     location.save()
 
+
+    def write_attributes_to_csv(self):
+
+        with open('yelp_data.csv', 'wb') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['ID', 'Name', 'Categories', '', '', '', '', '', 'Neighborhoods'])
+
+            locations = Location.objects.all()
+
+            for location in locations:
+                if location.yelpId != None:
+                    data = self.get_business(location.yelpId)
+                    row = [location.id, location.name]
+
+                    categories = data.get('categories')
+                    if categories != None and len(categories) > 0:
+                        for category in categories:
+                            print(category[0])
+                            row.append(category[0])
+                        for i in range(6 - len(categories)):
+                            row.append('')
+                    else:
+                        for i in range(6):
+                            row.append('')
+
+                    neighborhoods = data['location'].get('neighborhoods')
+                    if neighborhoods != None and len(neighborhoods) > 0:
+                        for neighborhood in neighborhoods:
+                            print(neighborhood)
+                            row.append(neighborhood)
+
+                    writer.writerow(row)
+
+            csvfile.close()
+
+
     def handle(self, *args, **options):
-        self.update_locations()
+        #self.update_locations()
+        self.write_attributes_to_csv()

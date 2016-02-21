@@ -9,6 +9,7 @@ Common constant values to be used app-wide
 FIND_WEBSITE = 'FIND_WEBSITE'
 FIND_HAPPY_HOUR_WEB = 'FIND_HAPPY_HOUR_WEB'
 CONFIRM_HAPPY_HOUR_WEB = 'CONFIRM_HAPPY_HOUR_WEB'
+CONFIRM_HAPPY_HOUR_WEB_2 = 'CONFIRM_HAPPY_HOUR_WEB_2'
 FIND_HAPPY_HOUR_PHONE = 'FIND_HAPPY_HOUR_PHONE'
 CONFIRM_HAPPY_HOUR_PHONE = 'CONFIRM_HAPPY_HOUR_PHONE'
 COMPLETE = 'COMPLETE'
@@ -20,12 +21,13 @@ MTURK_STAGE = {
     FIND_WEBSITE: 0,
     FIND_HAPPY_HOUR_WEB: 1,
     CONFIRM_HAPPY_HOUR_WEB: 2,
-    FIND_HAPPY_HOUR_PHONE: 3,
-    CONFIRM_HAPPY_HOUR_PHONE: 4,
-    COMPLETE: 5,
-    NO_INFO: 6,
-    WRONG_WEBSITE: 7,
-    WRONG_PHONE_NUMBER: 8
+    CONFIRM_HAPPY_HOUR_WEB_2: 3,
+    FIND_HAPPY_HOUR_PHONE: 4,
+    CONFIRM_HAPPY_HOUR_PHONE: 5,
+    COMPLETE: 6,
+    NO_INFO: 7,
+    WRONG_WEBSITE: 8,
+    WRONG_PHONE_NUMBER: 9
 }
 
 # HIT Type Parameters
@@ -38,6 +40,7 @@ LAYOUT_PARAMETER_NAMES = 'LAYOUT_PARAMETER_NAMES'
 LAYOUT_ID = 'LAYOUT_ID'
 MAX_ASSIGNMENTS = 'MAX_ASSIGNMENTS'
 PRICE = 'PRICE'
+BONUS = 'BONUS'
 DURATION = 'DURATION'
 US_LOCALE_REQUIRED = 'US_LOCALE_REQUIRED'
 
@@ -53,27 +56,7 @@ WEBSITE_FOUND = 'website-found'
 WEBSITE = 'website'
 COMMENTS = 'comments'
 HAPPY_HOUR_FOUND = 'happy-hour-found'
-MONDAY_START_TIME = 'monday-start-time'
-MONDAY_END_TIME = 'monday-end-time'
-MONDAY_DESCRIPTION = 'monday-description'
-TUESDAY_START_TIME = 'tuesday-start-time'
-TUESDAY_END_TIME = 'tuesday-end-time'
-TUESDAY_DESCRIPTION = 'tuesday-description'
-WEDNESDAY_START_TIME = 'wednesday-start-time'
-WEDNESDAY_END_TIME = 'wednesday-end-time'
-WEDNESDAY_DESCRIPTION = 'wednesday-description'
-THURSDAY_START_TIME = 'thursday-start-time'
-THURSDAY_END_TIME = 'thursday-end-time'
-THURSDAY_DESCRIPTION = 'thursday-description'
-FRIDAY_START_TIME = 'friday-start-time'
-FRIDAY_END_TIME = 'friday-end-time'
-FRIDAY_DESCRIPTION = 'friday-description'
-SATURDAY_START_TIME = 'saturday-start-time'
-SATURDAY_END_TIME = 'saturday-end-time'
-SATURDAY_DESCRIPTION = 'saturday-description'
-SUNDAY_START_TIME = 'sunday-start-time'
-SUNDAY_END_TIME = 'sunday-end-time'
-SUNDAY_DESCRIPTION = 'sunday-description'
+DEALS = 'deals'
 
 
 # Time constants
