@@ -31,7 +31,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
     # Get at most max_new_locations locations that have either just been added or expired
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
     new_locations = Location.objects.filter(
-        mturkLastUpdateCompleted__lt=earliest_unexpired_date)[0:max_new_locations]
+        mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
@@ -48,9 +48,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
             address = location.formattedAddress,
             phone_number = location.formattedPhoneNumber,
             website = location.website,
-            stage = stage,
-            update_started = timezone.now(),
-            update_cost = 0.0
+            stage = stage
         )
 
         # TODO EDIT this to reflect proper stage when HIT Layout for Stage 1 is made
@@ -296,268 +294,30 @@ def get_happy_hour_found(mturk_location, assignment):
         return False
 
 
-# Process the assignments from a find website happy hour info HIT (Stage 3)
-# Set columns on location object according to happy hour info provided
-# Return true on success, false if no happy hours found, None if failed attention check question
+# Process the assignment from a find website happy hour info HIT (Stage 1)
 def process_find_happy_hour_info_assignment(mturk_location, assignment):
     answers = assignment.answers[0]
     mturk_location.deals = get_answer(answers, DEALS)
-    mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
     mturk_location.save()
     add_comments(mturk_location, get_answer(answers, COMMENTS))
 
 
-# Process the assignments from a confirm website happy hour info HIT (Stage 4)
-# Set columns on location object according to happy hour info provided
-# Set confirmation count on location to number of confirmations received
-# Return confirmation or None if failed attention check
-def process_confirm_happy_hour_info_assignment(conn, location, assignment):
-    confirmed = True
+# Process the assignment from a confirm website happy hour info HIT (Stage 2/3)
+def process_confirm_happy_hour_info_assignment(mturk_location, assignment):
     answers = assignment.answers[0]
+    deals = get_answer(answers, DEALS)
 
-    if get_answer(answers, BIGGEST_OBJECT) != "correct":
-        if assignment.AssignmentStatus == SUBMITTED:
-            conn.reject_assignment(assignment.AssignmentId, "Failed attention check question. The car is the biggest object.")
-        return None
-
-    monday_start_time = parse_time(get_answer(answers, MONDAY_START_TIME))
-    monday_end_time = parse_time(get_answer(answers, MONDAY_END_TIME))
-    monday_description = get_answer(answers, MONDAY_DESCRIPTION)
-    tuesday_start_time = parse_time(get_answer(answers, TUESDAY_START_TIME))
-    tuesday_end_time = parse_time(get_answer(answers, TUESDAY_END_TIME))
-    tuesday_description = get_answer(answers, TUESDAY_DESCRIPTION)
-    wednesday_start_time = parse_time(get_answer(answers, WEDNESDAY_START_TIME))
-    wednesday_end_time = parse_time(get_answer(answers, WEDNESDAY_END_TIME))
-    wednesday_description = get_answer(answers, WEDNESDAY_DESCRIPTION)
-    thursday_start_time = parse_time(get_answer(answers, THURSDAY_START_TIME))
-    thursday_end_time = parse_time(get_answer(answers, THURSDAY_END_TIME))
-    thursday_description = get_answer(answers, THURSDAY_DESCRIPTION)
-    friday_start_time = parse_time(get_answer(answers, FRIDAY_START_TIME))
-    friday_end_time = parse_time(get_answer(answers, FRIDAY_END_TIME))
-    friday_description = get_answer(answers, FRIDAY_DESCRIPTION)
-    saturday_start_time = parse_time(get_answer(answers, SATURDAY_START_TIME))
-    saturday_end_time = parse_time(get_answer(answers, SATURDAY_END_TIME))
-    saturday_description = get_answer(answers, SATURDAY_DESCRIPTION)
-    sunday_start_time = parse_time(get_answer(answers, SUNDAY_START_TIME))
-    sunday_end_time = parse_time(get_answer(answers, SUNDAY_END_TIME))
-    sunday_description = get_answer(answers, SUNDAY_DESCRIPTION)
-    comments = get_answer(answers, COMMENTS)
-
-    if (location.monday_start_time != monday_start_time):
-        confirmed = False
-        location.monday_start_time = monday_start_time
-    if (location.monday_end_time != monday_end_time):
-        confirmed = False
-        location.monday_end_time = monday_end_time
-    if (location.monday_description != monday_description):
-        confirmed = False
-        location.monday_description = monday_description
-
-    if (location.tuesday_start_time != tuesday_start_time):
-        confirmed = False
-        location.tuesday_start_time = tuesday_start_time
-    if (location.tuesday_end_time != tuesday_end_time):
-        confirmed = False
-        location.tuesday_end_time = tuesday_end_time
-    if (location.tuesday_description != tuesday_description):
-        confirmed = False
-        location.tuesday_description = tuesday_description
-
-    if (location.wednesday_start_time != wednesday_start_time):
-        confirmed = False
-        location.wednesday_start_time = wednesday_start_time
-    if (location.wednesday_end_time != wednesday_end_time):
-        confirmed = False
-        location.wednesday_end_time = wednesday_end_time
-    if (location.wednesday_description != wednesday_description):
-        confirmed = False
-        location.wednesday_description = wednesday_description
-
-    if (location.thursday_start_time != thursday_start_time):
-        confirmed = False
-        location.thursday_start_time = thursday_start_time
-    if (location.thursday_end_time != thursday_end_time):
-        confirmed = False
-        location.thursday_end_time = thursday_end_time
-    if (location.thursday_description != thursday_description):
-        confirmed = False
-        location.thursday_description = thursday_description
-
-    if (location.friday_start_time != friday_start_time):
-        confirmed = False
-        location.friday_start_time = friday_start_time
-    if (location.friday_end_time != friday_end_time):
-        confirmed = False
-        location.friday_end_time = friday_end_time
-    if (location.friday_description != friday_description):
-        confirmed = False
-        location.friday_description = friday_description
-
-    if (location.saturday_start_time != saturday_start_time):
-        confirmed = False
-        location.saturday_start_time = saturday_start_time
-    if (location.saturday_end_time != saturday_end_time):
-        confirmed = False
-        location.saturday_end_time = saturday_end_time
-    if (location.saturday_description != saturday_description):
-        confirmed = False
-        location.saturday_description = saturday_description
-
-    if (location.sunday_start_time != sunday_start_time):
-        confirmed = False
-        location.sunday_start_time = sunday_start_time
-    if (location.sunday_end_time != sunday_end_time):
-        confirmed = False
-        location.sunday_end_time = sunday_end_time
-    if (location.sunday_description != sunday_description):
-        confirmed = False
-        location.sunday_description = sunday_description
-
-    if (confirmed):
-        location.deals_confirmations = int(location.deals_confirmations) + 1
+    if deals == mturk_location.deals:
+        # If deals hasn't changed, this HIT confirms the previous one.
+        mturk_location.confirmations += 1
     else:
-        location.deals_confirmations = 0
+        # Otherwise, set confirmations back to 0
+        mturk_location.confirmations = 0
 
-    if (comments != None and comments != ""):
-        if (location.comments == None):
-            location.comments = comments
-        else:
-            location.comments = location.comments + "\n" + comments
-
-    return confirmed
-
-# Try to parse a time string. Return None on failure
-def parse_time(string):
-    if (string == None):
-        return None
-
-    # Remove spaces
-    string = string.replace(" ", "")
-    time = None
-
-    for format in TIME_FORMATS:
-        try:
-            time = datetime.strptime(string, format).time()
-            return time
-        except ValueError:
-            pass
-
-    return time
-
-
-# Process the assignments from a find website happy hour info by phone HIT (Stage 5)
-# Set columns on location object according to happy hour info provided
-# Return true if happy hour information found or if HIT was continued
-# Return false if wrong phone number
-def process_find_happy_hour_info_assignment_phone(conn, location, assignment):
-    answers = assignment.answers[0]
-    was_reachable = get_answer(answers, WAS_REACHABLE)
-
-    # Reachable by phone and happy hour info found
-    if was_reachable == "1":
-        processed = process_find_happy_hour_info_assignment(conn, location, assignment)
-
-        if (processed == None):
-            # Failed attention check
-            return None
-
-        location.stage = MTURK_STAGE[CONFIRM_PHONE_HH]
-        return True
-    # Not reachable by phone
-    elif was_reachable == "2":
-        conn.extend_hit(location.hit_id, assignments_increment=1)
-        return True
-    # Wrong phone number
-    elif was_reachable == "3":
-        return False
-
-# Check if a location has happy hour data filled out
-def has_happy_hour_data(location):
-    has_data = False
-
-    if (location.monday_description != None and location.monday_description != ''):
-        if (location.monday_start_time != None and location.monday_end_time != None):
-            has_data = True
-        else:
-            location.monday_description = None
-            location.monday_start_time = None
-            location.monday_end_time = None
-
-    if (location.tuesday_description != None and location.tuesday_description != ''):
-        if (location.tuesday_start_time != None and location.tuesday_end_time != None):
-            has_data = True
-        else:
-            location.tuesday_description = None
-            location.tuesday_start_time = None
-            location.tuesday_end_time = None
-
-    if (location.wednesday_description != None and location.wednesday_description != ''):
-        if (location.wednesday_start_time != None and location.wednesday_end_time != None):
-            has_data = True
-        else:
-            location.wednesday_description = None
-            location.wednesday_start_time = None
-            location.wednesday_end_time = None
-
-    if (location.thursday_description != None and location.thursday_description != ''):
-        if (location.thursday_start_time != None and location.thursday_end_time != None):
-            has_data = True
-        else:
-            location.thursday_description = None
-            location.thursday_start_time = None
-            location.thursday_end_time = None
-
-    if (location.friday_description != None and location.friday_description != ''):
-        if (location.friday_start_time != None and location.friday_end_time != None):
-            has_data = True
-        else:
-            location.friday_description = None
-            location.friday_start_time = None
-            location.friday_end_time = None
-
-    if (location.saturday_description != None and location.saturday_description != ''):
-        if (location.saturday_start_time != None and location.saturday_end_time != None):
-            has_data = True
-        else:
-            location.saturday_description = None
-            location.saturday_start_time = None
-            location.saturday_end_time = None
-
-    if (location.sunday_description != None and location.sunday_description != ''):
-        if (location.sunday_start_time != None and location.sunday_end_time != None):
-            has_data = True
-        else:
-            location.sunday_description = None
-            location.sunday_start_time = None
-            location.sunday_end_time = None
-
-    return has_data
-
-
-# Extend the hit if not reachable by phone or if failed attention check
-# Return True if extended
-def extend_if_not_reachable(conn, location, assignments):
-    answers = assignments[-1].answers[0]
-    was_reachable = get_answer(answers, WAS_REACHABLE)
-    biggest_object = get_answer(answers, BIGGEST_OBJECT)
-
-    if biggest_object != "correct":
-        if assignments[-1].AssignmentStatus == SUBMITTED:
-            conn.reject_assignment(assignments[-1].AssignmentId, "Failed attention check question. The car is the biggest object.")
-        conn.extend_hit(location.hit_id, assignments_increment=1)
-        return True
-
-    if was_reachable == "2":
-        if len(assignments) >= PHONE_UNREACHABLE_LIMIT:
-            location.comments = "Unreachable by phone"
-            location.stage = MTURK_STAGE[NO_HH_FOUND]
-
-        else:
-            conn.extend_hit(location.hit_id, assignments_increment=1)
-
-        return True
-
-    return False
+    # Update deals
+    mturk_location.deals = get_answer(answers, DEALS)
+    mturk_location.save()
+    add_comments(mturk_location, get_answer(answers, COMMENTS))
 
 
 # Approve assignments from HIT and dispose of the HIT

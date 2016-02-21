@@ -73,7 +73,7 @@ def update():
                 # Get latest assignment
                 assignment = assignments[-1]
 
-                happy_hour_found = get_happy_hour_found(conn, mturk_location, assignment)
+                happy_hour_found = get_happy_hour_found(mturk_location, assignment)
 
                 if not happy_hour_found:
                     # If happy hour was not found because we have the wrong website or wrong phone number, done.
@@ -95,6 +95,35 @@ def update():
                 else:
                     # Happy hour was found. Process response
                     process_find_happy_hour_info_assignment(mturk_location, assignments[-1])
+                    mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+                    create_hit(conn, mturk_location.settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
+                    approve_and_dispose(conn, hit)
+
+            elif int(mturk_location.stage == MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]) or \
+                int(mturk_location.stage == MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]):
+
+                assignment = assignments[-1]
+                happy_hour_found = get_happy_hour_found(mturk_location, assignment)
+
+                if not happy_hour_found:
+                    if (mturk_location.stage == MTURK_STAGE[WRONG_WEBSITE] or
+                        mturk_location.stage == MTURK_STAGE[WRONG_PHONE_NUMBER]):
+                        approve_and_dispose(conn, hit)
+
+                    else:
+                        # Move back to find happy hour stage
+                        mturk_location.hit_id = None
+                        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
+                        approve_and_dispose(conn, hit)
+
+                else:
+                    process_confirm_happy_hour_info_assignment(mturk_location, assignments[-1])
+
+                    # If confirmations exceed min required, done!
+                    if (mturk_location.confirmations >= 2):
+                        mturk_location.stage = MTURK_STAGE[COMPLETE]
+
+
 
             #
             # elif int(location.stage) == MTURK_STAGE[CONFIRM_WEBSITE_HH]:
