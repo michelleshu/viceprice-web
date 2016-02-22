@@ -10,7 +10,7 @@ logging.basicConfig()
 eastern_timezone = pytz.timezone('US/Eastern')
 q = Queue(connection = conn)
 
-@sched.scheduled_job('cron', minute='32', second='0', timezone=eastern_timezone) #@sched.scheduled_job('cron', minute='5-55/10', second='0', timezone=eastern_timezone)
+@sched.scheduled_job('cron', minute='0-59/10', second='0', timezone=eastern_timezone) #@sched.scheduled_job('cron', minute='5-55/10', second='0', timezone=eastern_timezone)
 def queue_mturk_website_update():
     print('MTurk website update queued')
     q.enqueue(updatemturkweb.run)
