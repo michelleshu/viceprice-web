@@ -48,8 +48,8 @@
       <file leaf-file-name="clock.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/clock.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32061067">
-              <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.22900763">
+              <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -102,7 +102,7 @@
       <file leaf-file-name="mturk_utilities.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-28.333334">
+            <state vertical-scroll-proportion="-21.11111">
               <caret line="51" column="41" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
               <folding>
                 <element signature="e#28#56#0" expanded="true" />
@@ -1390,20 +1390,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-28.333334">
-          <caret line="51" column="41" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
-          <folding>
-            <element signature="e#28#56#0" expanded="true" />
-            <element signature="e#2778#2965#0" expanded="false" />
-            <element signature="e#3039#3107#0" expanded="false" />
-            <element signature="e#3185#3252#0" expanded="false" />
-            <element signature="e#3403#4499#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/viceprice/constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1418,6 +1404,20 @@
           <caret line="162" column="51" selection-start-line="162" selection-start-column="51" selection-end-line="162" selection-end-column="51" />
           <folding>
             <element signature="e#333#355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_utilities.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.11111">
+          <caret line="51" column="41" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
+          <folding>
+            <element signature="e#28#56#0" expanded="true" />
+            <element signature="e#2778#2965#0" expanded="false" />
+            <element signature="e#3039#3107#0" expanded="false" />
+            <element signature="e#3185#3252#0" expanded="false" />
+            <element signature="e#3403#4499#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1442,8 +1442,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/clock.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32061067">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.22900763">
+          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
           <folding />
         </state>
       </provider>
