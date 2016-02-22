@@ -96,7 +96,7 @@ def update():
                     # Happy hour was found. Process response
                     process_find_happy_hour_info_assignment(mturk_location, assignments[-1])
                     mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
-                    create_hit(conn, mturk_location.settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
+                    create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
                     approve_and_dispose(conn, hit)
 
             elif int(mturk_location.stage == MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]) or \
@@ -122,28 +122,19 @@ def update():
                     # If confirmations exceed min required, done!
                     if (mturk_location.confirmations >= 2):
                         mturk_location.stage = MTURK_STAGE[COMPLETE]
+                        mturk_location.data_source = DATA_SOURCE[WEBSITE]
+                        approve_and_dispose(conn, hit)
 
+                    # Otherwise, go to other confirm stage (to avoid same Turker picking up HIT again
+                    else:
+                        if (mturk_location.stage == MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]):
+                            mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]
+                            create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB_2])
 
+                        else:
+                            mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+                            create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
 
-            #
-            # elif int(location.stage) == MTURK_STAGE[CONFIRM_WEBSITE_HH]:
-            #     confirmed = process_confirm_happy_hour_info_assignment(conn, location, assignments[-1])
-            #
-            #     if (confirmed == None):
-            #         # Failed attention check
-            #         conn.extend_hit(hit.HITId, assignments_increment=1)
-            #     else:
-            #         if (confirmed and location.deals_confirmations >= MIN_CONFIRMATIONS):
-            #             if (has_happy_hour_data(location)):
-            #                 location.data_source = DATA_SOURCE[WEBSITE]
-            #                 location.stage = MTURK_STAGE[COMPLETE]
-            #                 location.update_completed = timezone.now()
-            #             else:
-            #                 # Move to phone process if the stage completes with no valid data
-            #                 location.stage = MTURK_STAGE[FIND_PHONE_HH]
-            #         else:
-            #             create_hit(conn, location, HIT_TYPES[CONFIRM_WEBSITE_HH])
-            #
-            #         approve_and_dispose(conn, hit)
+                        approve_and_dispose(conn, hit)
 
             mturk_location.save()
