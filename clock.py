@@ -20,4 +20,4 @@ def queue_mturk_website_update():
 #     print('MTurk phone update queued')
 #     q.enqueue(updatemturkphone.run)
 
-# sched.start()
+sched.start()
