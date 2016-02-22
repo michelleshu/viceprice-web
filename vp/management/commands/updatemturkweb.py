@@ -9,8 +9,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         mturk_update_website_tasks.update()
-        updatedb.write_mturk_deals_to_db()
+        #updatedb.write_mturk_deals_to_db()
 
 def run():
     mturk_update_website_tasks.update()
-    updatedb.write_mturk_deals_to_db()
+    #updatedb.write_mturk_deals_to_db()

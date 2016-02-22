@@ -53,7 +53,7 @@ REJECTED = 'Rejected'
 
 # HIT Result Parameters
 WEBSITE_FOUND = 'website-found'
-WEBSITE = 'website'
+WEBSITE_FIELD = 'website'
 COMMENTS = 'comments'
 HAPPY_HOUR_FOUND = 'happy-hour-found'
 DEALS = 'deals'
