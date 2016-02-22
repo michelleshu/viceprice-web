@@ -30,8 +30,11 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
 
     # Get at most max_new_locations locations that have either just been added or expired
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
-    new_locations = Location.objects.filter(
-        mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
+
+    new_locations = Location.objects.filter(Q(id__gte=2343) & Q(id__lte=2412) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
+
+    # new_locations = Location.objects.filter(
+    #     mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
@@ -51,12 +54,8 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
             stage = stage
         )
 
-        # TODO EDIT this to reflect proper stage when HIT Layout for Stage 1 is made
-        # Initialize first HIT for new location
-        create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
-
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
-        location.mturkLastUpdateCompleted = timezone.now()
+        location.mturkDateLastUpdated = timezone.now()
         location.save()
 
         mturk_location.save()
@@ -68,7 +67,8 @@ def get_website_update_mturk_locations():
     website_stages = [
         MTURK_STAGE[FIND_WEBSITE],
         MTURK_STAGE[FIND_HAPPY_HOUR_WEB],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB],
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]
     ]
 
     return list(MTurkLocationInfo.objects.filter(stage__in=website_stages))
@@ -203,7 +203,7 @@ def get_url_agreement_percentage(urls):
     max_agreed_url = ""
 
     for url in urls:
-        if (url == 'None' or url == ''):
+        if (url == None or url == ''):
             domains.append('')
 
         else:
@@ -243,8 +243,8 @@ def process_find_website_hit_assignments(mturk_location, assignments):
 
         if assignment.AssignmentStatus != REJECTED:
             answers = assignment.answers[0]
-            url_found = get_answer(answers, URL_FOUND)
-            url = get_answer(answers, URL)
+            url_found = get_answer(answers, WEBSITE_FOUND)
+            url = get_answer(answers, WEBSITE_FIELD)
             comments = get_answer(answers, COMMENTS)
 
             if (url_found == 'yes'):
