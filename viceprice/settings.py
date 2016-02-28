@@ -131,7 +131,7 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'address'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_WEBSITE'),
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.01,
+        PRICE: 0.03,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -143,7 +143,7 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR_WEB'),
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.02,
+        PRICE: 0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -155,7 +155,7 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'website', 'deals'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_WEB'),
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.03,
+        PRICE: 0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },
@@ -167,7 +167,7 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'website', 'deals'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_WEB'),
         MAX_ASSIGNMENTS: 1,
-        PRICE: 0.03,
+        PRICE: 0.05,
         DURATION: 3600,
         US_LOCALE_REQUIRED: False
     },

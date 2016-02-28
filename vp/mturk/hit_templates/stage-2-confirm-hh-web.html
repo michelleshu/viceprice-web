@@ -87,50 +87,44 @@
         </div>
         <div class="panel-body">
             <div class="collapsible">
-            	<div>
-                    <span>Please confirm that the happy hour information we have for the business </span>
-                    <span class="bold-text">${name}</span>
-                    <span> in Washington DC is correct and up to date. If the information is wrong, please update.</span>
+                <div class="bold-text">
+                    Happy Hours are when alcoholic drinks [beer/wine/liquor] are cheaper at a specific time and/or day.
                 </div>
-            	<div class="bold-text">
-                    Happy Hour: When beer/wine/liquor are sold at a lower price at a specific time or day.
-                </div>
-            	<div>Use the example below as a guide.</div>
+
                 <div>
-                    <img style="padding: 1em 2em;" src="http://i.imgur.com/OVMfH8W.png" width="700px" />
+                    <a class="web-search-link text-primary" target="_blank">Do a web search for "site:${website} Happy Hours"</a><!--
+                    --><span>. This is the easiest way to find Happy Hours at ${name}.</span>
+                </div>
+
+                <div>
+                    <span>If you find information, copy it. If you did not find information, go to </span>
+                    <a class="text-primary" href="${website}" target="_blank">${website}</a>
+                    <span> and look around. Normally Happy Hours are under </span>
+                    <span class="bold-text">Menus</span><!--
+                    --><span>, </span>
+                    <span class="bold-text">Beverages</span><!--
+                    --><span>, </span>
+                    <span class="bold-text">Specials</span><!--
+                    --><span>, </span>
+                    <span class="bold-text">Drinks</span><!--
+                    --><span>, or </span>
+                    <span class="bold-text">Deals</span>.
+                </div>
+
+            	<div>
+                    See if the following happy hour information is correct. If the information is wrong, please update the information.
                 </div>
             </div>
         </div>
     </div>
 
-    <p>
-        <span>First, </span>
-        <a class="web-search-link text-primary" target="_blank">click to do a Google Search for "site:${website} Happy Hours"</a><!--
-        --><span>. Look through relevant results for happy hour info at ${name}.</span>
-    </p>
-
-    <p>
-        <span>If you do not see results, go directly to </span>
-        <a class="text-primary" href="${website}" target="_blank">${website}</a>
-        <span> and look around for Happy Hour information. Normally it is located in </span>
-        <span class="bold-text">Menus</span><!--
-        --><span>, </span>
-        <span class="bold-text">Beverages</span><!--
-        --><span>, </span>
-        <span class="bold-text">Specials</span><!--
-        --><span>, </span>
-        <span class="bold-text">Drinks</span><!--
-        --><span>, or </span>
-        <span class="bold-text">Deals</span>.
-    </p>
-
     <div class="question">
         <div>
             <span class="bold-text">
-                Did you find any happy hour(s) listed with time and description?
+                Did you find any happy hour(s) with a time AND deal description?
             </span>
             <span>
-                 &nbsp; [If you only see time but no description, answer No]
+                 &nbsp; [We need both. If you only see one, answer No]
             <span>
         </div>
 
@@ -158,36 +152,22 @@
 
     <div class="question show-if-hh-found">
         <div class="bold-text">
-            Compare the happy hour information you found with the information we have below. Check that both the time frame and description matches.
+            See if our time and deal descriptions for the Happy Hours are correct. If correct, press 'Correct'. If wrong, press 'Incorrect' and update our information.
         </div>
         <div>
-            For each day, if the information matches, please click 'Correct'.
-        </div>
-        <div>
-            If the information does not match, please click 'Incorrect' and adjust the times and descriptions as necessary. For descriptions, DO NOT INCLUDE:
+            Rules for the deal description:
         </div>
         <ol>
             <li>
-                <span class="bold-text">
-                    Ingredients</span><!--
-                --><span>. We only want the name of the drink, not what is in the drink.
-                </span>
+                No food. We only want alcoholic drinks.
             </li>
             <li>
-                <span class="bold-text">
-                    Food specials</span><!--
-                --><span>. We only want alcoholic drinks, not food
-                </span>
+                No ingredients. Only copy the drink name, not what is in the drink.
             </li>
             <li>
-                <span class="bold-text">
-                    Drink origin/location</span><!--
-                --><span>. We do not care where a beer/wine came from.
-                </span>
+                Do not copy where a drink came from. Only the name.
             </li>
         </ol>
-    </div>
-    <div class="question show-if-hh-found">
         <div>
             <table class="hh-info-table">
             	<tbody>
@@ -350,7 +330,7 @@
 
     <div class="question">
         <div class="bold-text">
-            Anything we should know about?
+            Have any comments?
         <div>
         <div>
             <input class="form-control" name="comments" placeholder="" type="text" />
@@ -946,7 +926,7 @@
 
         $("input[name='deals']").val(formattedHappyHourString);
 
-        return true;
+        return confirm('Are you sure the descriptions contain NO food deals? Click Cancel to edit, OK to submit');
       });
     });
 </script>
