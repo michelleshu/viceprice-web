@@ -778,8 +778,7 @@
             return false;
         }
 
-        if (!$("input[name='monday-start-time']").hasClass('hidden') &&
-            (mondayStartTime.length > 0 || mondayEndTime.length > 0)) {
+        if (mondayStartTime.length > 0 || mondayEndTime.length > 0) {
             if (mondayDescription.length === 0) {
                 alert("Please populate a description for Monday's happy hour or delete the Monday times");
                 return false;
