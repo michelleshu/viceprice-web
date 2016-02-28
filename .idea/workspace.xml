@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vp/management/commands/getfacebook.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/management/commands/getfacebook.py" afterPath="$PROJECT_DIR$/vp/management/commands/getfacebook.py" />
     </list>
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,9 +38,9 @@
         <entry file="file://$PROJECT_DIR$/vp/management/commands/getfacebook.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.4172767">
-              <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+              <caret line="19" column="63" selection-start-line="19" selection-start-column="63" selection-end-line="19" selection-end-column="63" />
               <folding>
-                <element signature="e#0#51#0" expanded="true" />
+                <element signature="e#0#53#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -161,8 +160,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="356" />
-    <option name="y" value="23" />
+    <option name="x" value="545" />
+    <option name="y" value="334" />
     <option name="width" value="1481" />
     <option name="height" value="872" />
   </component>
@@ -758,7 +757,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="356" y="23" width="1481" height="872" extended-state="0" />
+    <frame x="545" y="334" width="1481" height="872" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2221472" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1301,9 +1300,9 @@
     <entry file="file://$PROJECT_DIR$/vp/management/commands/getfacebook.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4172767">
-          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <caret line="19" column="63" selection-start-line="19" selection-start-column="63" selection-end-line="19" selection-end-column="63" />
           <folding>
-            <element signature="e#0#51#0" expanded="true" />
+            <element signature="e#0#53#0" expanded="true" />
           </folding>
         </state>
       </provider>

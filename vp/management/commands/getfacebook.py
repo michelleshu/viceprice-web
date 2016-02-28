@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from vp.models import Location
 from viceprice import settings
@@ -10,10 +11,13 @@ class Command(BaseCommand):
         with open('facebook_data.csv', 'rb') as datafile:
             reader = csv.reader(datafile)
             for row in reader:
-                location_id = int(row[0])
-                location = Location.objects.get(id = location_id)
-                location.facebookId = row[3]
-                location.save()
+                try:
+                    location_id = int(row[0])
+                    location = Location.objects.get(id = location_id)
+                    location.facebookId = row[3]
+                    location.save()
+                except ObjectDoesNotExist:
+                    print(str(location_id) + " does not exist")
 
 
     def handle(self, *args, **options):
