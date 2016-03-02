@@ -60,7 +60,7 @@ class TimeFrame(models.Model):
 # Information about a deal at a location
 class Deal(models.Model):
     dealHour = models.OneToOneField(BusinessHour)
-    description = models.CharField(max_length=512)
+    description = models.CharField(max_length=2000)
 
 # Information about a location
 class Location(models.Model):
@@ -81,6 +81,16 @@ class Location(models.Model):
     twitterHandle = models.CharField(max_length=50, null=True)
     yelpId = models.CharField(max_length=50, null=True)
 
+# Track the time and cost of MTurk stage
+class MTurkLocationInfoStat(models.Model):
+    location = models.ForeignKey(Location)
+    dateStarted = models.DateTimeField(null=False)
+    dateCompleted = models.DateTimeField()
+    stage = models.IntegerField(null=False)
+    costPerAssignment = models.FloatField(null=False)
+    costForStage = models.FloatField(default=0.0)
+    dataConfirmed = models.BooleanField(default=False)
+
 # Track location as it goes through MTurk update process
 class MTurkLocationInfo(models.Model):
     location = models.ForeignKey(Location)
@@ -94,6 +104,4 @@ class MTurkLocationInfo(models.Model):
     deals = models.CharField(max_length=10000, null=True)
     hit_id = models.CharField(max_length=100, null=True)
     comments = models.CharField(max_length=1000, null=True)
-
-# Track the time and cost
-#class MTurkLocationInfoStats(models.Model):
+    stats = models.ForeignKey(MTurkLocationInfoStat, null=True)
