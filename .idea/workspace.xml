@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/vp/mturk/hit_templates/stage-3-find-hh-phone.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/vp/mturk/hit_templates/stage-4-confirm-hh-phone.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/development.env" afterPath="$PROJECT_DIR$/env/development.env" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/hit_templates/input-outputs.txt" afterPath="$PROJECT_DIR$/vp/mturk/hit_templates/input-outputs.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" afterPath="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/tests.py" afterPath="$PROJECT_DIR$/vp/tests.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vp/views.py" afterPath="$PROJECT_DIR$/vp/views.py" />
     </list>
     <ignored path="python-getting-started.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,16 +33,17 @@
     <favorites_list name="python-getting-started" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.47718173">
+    <splitter split-orientation="horizontal" split-proportion="0.8229167">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/viceprice/settings.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="115" column="17" selection-start-line="115" selection-start-column="17" selection-end-line="115" selection-end-column="17" />
+                  <caret line="126" column="17" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="17" />
                   <folding>
-                    <element signature="e#333#355#0" expanded="true" />
+                    <marker date="1457299450000" expanded="true" signature="0:331" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+                    <marker date="1457299450000" expanded="true" signature="333:399" placeholder="import ..." />
                   </folding>
                 </state>
               </provider>
@@ -76,10 +68,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="mturk_update_phone_tasks.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="mturk_update_phone_tasks.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.658858">
+                <state vertical-scroll-proportion="0.0">
                   <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#29#0" expanded="true" />
@@ -100,11 +92,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="development.env" pinned="false" current-in-tab="false">
+          <file leaf-file-name="development.env" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/env/development.env">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="9" column="66" selection-start-line="9" selection-start-column="66" selection-end-line="9" selection-end-column="66" />
+                <state vertical-scroll-proportion="0.2635432">
+                  <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
                   <folding />
                 </state>
               </provider>
@@ -139,8 +131,8 @@
           <file leaf-file-name="mturk_update_website_tasks.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.48316252">
-                  <caret line="94" column="38" selection-start-line="94" selection-start-column="38" selection-end-line="94" selection-end-column="38" />
+                <state vertical-scroll-proportion="0.15373352">
+                  <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
                   <folding>
                     <element signature="e#28#57#0" expanded="true" />
                   </folding>
@@ -245,11 +237,11 @@
         <option value="$PROJECT_DIR$/vp/views.py" />
         <option value="$PROJECT_DIR$/viceprice/urls.py" />
         <option value="$PROJECT_DIR$/vp/models.py" />
-        <option value="$PROJECT_DIR$/env/development.env" />
         <option value="$PROJECT_DIR$/vp/tests.py" />
-        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
+        <option value="$PROJECT_DIR$/env/development.env" />
+        <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
       </list>
     </option>
   </component>
@@ -259,8 +251,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-144" />
-    <option name="y" value="23" />
+    <option name="x" value="58" />
+    <option name="y" value="32" />
     <option name="width" value="1584" />
     <option name="height" value="872" />
   </component>
@@ -914,7 +906,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-144" y="23" width="1584" height="872" extended-state="0" />
+    <frame x="58" y="32" width="1584" height="872" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2114899" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1367,20 +1359,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/env/development.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="66" selection-start-line="9" selection-start-column="66" selection-end-line="9" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/viceprice/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="115" column="17" selection-start-line="115" selection-start-column="17" selection-end-line="115" selection-end-column="17" />
+          <caret line="126" column="17" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="17" />
           <folding>
-            <element signature="e#333#355#0" expanded="true" />
+            <marker date="1457299450000" expanded="true" signature="0:331" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1457299450000" expanded="true" signature="333:399" placeholder="import ..." />
           </folding>
         </state>
       </provider>
@@ -1427,6 +1412,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1437,13 +1432,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py">
+    <entry file="file://$PROJECT_DIR$/env/development.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.658858">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.2635432">
+          <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
