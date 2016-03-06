@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
 from pprint import pprint
-from vp.models import Location, MTurkLocationInfo, DayOfWeek, TimeFrame
+from vp.models import Location, MTurkLocationInfo, MTurkLocationInfoStat, DayOfWeek, TimeFrame
 from viceprice.constants import *
 
 '''
@@ -278,6 +278,12 @@ def get_happy_hour_found(mturk_location, assignment):
         mturk_location.save()
         return False
 
+    elif happy_hour_found == "no-response":
+        # No one picked up the phone
+        mturk_location.attempts = int(mturk_location.attempts) + 1
+        mturk_location.save()
+        return False
+
     elif happy_hour_found == "wrong-website":
         # Happy hours not found, because we have wrong website
         mturk_location.stage = MTURK_STAGE[WRONG_WEBSITE]
@@ -359,3 +365,35 @@ def within_time_range(time, start_time, end_time):
         end_cutoff = BUSINESS_HOUR_CUTOFF
 
     return start_cutoff <= time and end_cutoff >= time
+
+
+#region Metadata Collection
+
+def add_mturk_stat(mturk_location, stage_name):
+    hit_type = settings.MTURK_HIT_TYPES[stage_name]
+
+    stat = MTurkLocationInfoStat(
+        dateStarted=timezone.now(),
+        location=mturk_location.location,
+        stage=MTURK_STAGE[stage_name],
+        costForStage=hit_type.PRICE * hit_type.MAX_ASSIGNMENTS,
+        costPerAssignment=hit_type.PRICE * hit_type.MAX_ASSIGNMENTS
+    )
+    stat.save()
+
+    mturk_location.stat = stat
+    mturk_location.save()
+
+
+def add_mturk_stat_cost(mturk_location, additional_cost):
+    mturk_location.stat.costForStage += additional_cost
+    mturk_location.stat.save()
+
+
+def complete_mturk_stat(mturk_location, data_confirmed):
+    mturk_location.stat.dateCompleted = timezone.now()
+    mturk_location.stat.data_confirmed = data_confirmed
+    mturk_location.stat.save()
+
+
+#endregion

@@ -80,6 +80,9 @@ def get_locations_within_bounds(request):
 
         return HttpResponse(json.dumps(locations), content_type="application/json")
 
+def get_all_locations():
+    return Location.objects.all()
+
 # Custom mapping from Location and Address objects to JSON-serializable view info
 def location_info_to_dict(location):
     return {
