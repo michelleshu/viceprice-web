@@ -28,5 +28,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
     # Other Data
-    url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch')
+    url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch'),
+    url(r'^app/$', vp.views.app, name = 'app'),
+    url(r'^home/$', vp.views.home, name = 'home')
 )

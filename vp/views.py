@@ -108,9 +108,19 @@ def fetch_locations(request):
     locations = Location.objects.all()
     jsons=[]
     for location in locations:
-        json = {"type": "Feature","geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]},"properties": {"name": location.name}}
+        json = {"type": "Feature","geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]},"properties": {"name": location.name, "website":location.website, "phone": location.formattedPhoneNumber }}
         jsons.append(json)
     return JsonResponse({'json':jsons})
+
+def app(request):
+    context = {}
+    context.update(csrf(request))
+    return render_to_response('app.html', context)
+
+def home(request):
+    context = {}
+    context.update(csrf(request))
+    return render_to_response('home.html', context)
 
 def submit_locations_to_upload(request):
     data = request.POST
