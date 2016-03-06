@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6f8897b-c345-4db3-9319-075675274f6e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/development.env" afterPath="$PROJECT_DIR$/env/development.env" />
     </list>
     <ignored path="python-getting-started.iws" />
@@ -41,10 +42,7 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
                   <caret line="126" column="17" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="17" />
-                  <folding>
-                    <marker date="1457299450000" expanded="true" signature="0:331" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                    <marker date="1457299450000" expanded="true" signature="333:399" placeholder="import ..." />
-                  </folding>
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -95,8 +93,8 @@
           <file leaf-file-name="development.env" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/env/development.env">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.2635432">
-                  <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
+                <state vertical-scroll-proportion="0.043923866">
+                  <caret line="2" column="128" selection-start-line="2" selection-start-column="128" selection-end-line="2" selection-end-column="128" />
                   <folding />
                 </state>
               </provider>
@@ -127,11 +125,11 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="mturk_update_website_tasks.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.15373352">
+                <state vertical-scroll-proportion="0.16983895">
                   <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
                   <folding>
                     <element signature="e#28#57#0" expanded="true" />
@@ -240,8 +238,8 @@
         <option value="$PROJECT_DIR$/vp/tests.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_phone_tasks.py" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_utilities.py" />
-        <option value="$PROJECT_DIR$/env/development.env" />
         <option value="$PROJECT_DIR$/vp/mturk/mturk_update_website_tasks.py" />
+        <option value="$PROJECT_DIR$/env/development.env" />
       </list>
     </option>
   </component>
@@ -251,9 +249,9 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="58" />
-    <option name="y" value="32" />
-    <option name="width" value="1584" />
+    <option name="x" value="46" />
+    <option name="y" value="23" />
+    <option name="width" value="1828" />
     <option name="height" value="872" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -284,7 +282,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -504,6 +501,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -906,10 +904,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="58" y="32" width="1584" height="872" extended-state="0" />
+    <frame x="46" y="23" width="1828" height="872" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2114899" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21115974" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08494209" sideWeight="0.4058069" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1032,7 +1030,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1363,10 +1360,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="126" column="17" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="17" />
-          <folding>
-            <marker date="1457299450000" expanded="true" signature="0:331" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1457299450000" expanded="true" signature="333:399" placeholder="import ..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1434,8 +1428,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/env/development.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2635432">
-          <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.043923866">
+          <caret line="2" column="128" selection-start-line="2" selection-start-column="128" selection-end-line="2" selection-end-column="128" />
           <folding />
         </state>
       </provider>
