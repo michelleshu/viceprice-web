@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
+from django.http import JsonResponse
 from models import Location, LocationCategory
 import json
 
@@ -71,7 +72,7 @@ def get_locations_within_bounds(request):
         locations = list(
             Location.objects
                 .select_related('address')
-                .filter(latitude__range = [min_lat, max_lat], longitude__range = [min_lng, max_lng])
+                .filter(latitude__range=[min_lat, max_lat], longitude__range=[min_lng, max_lng])
                 .order_by('pk')[:50]
             )
 
@@ -100,6 +101,14 @@ def upload_data_view(request):
 
     return render_to_response('upload_data.html', context)
 
+def fetch_locations(request):
+    locations = Location.objects.all()
+    jsons=[]
+    for location in locations:
+        json = {"type": "Feature","geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]},"properties": {"name": location.name}}
+        jsons.append(json)
+    return JsonResponse({'json':jsons})
+
 def submit_locations_to_upload(request):
     data = request.POST
 
@@ -108,8 +117,8 @@ def submit_locations_to_upload(request):
     location_category_id = int(data.get('location-category'))
 
     for foursquare_id in location_foursquare_ids:
-        location, created = Location.objects.get_or_create(foursquareId = foursquare_id.strip())
-        location_category = LocationCategory.objects.get(id = location_category_id)
+        location, created = Location.objects.get_or_create(foursquareId=foursquare_id.strip())
+        location_category = LocationCategory.objects.get(id=location_category_id)
         location.locationCategories.add(location_category)
         location.save()
 
