@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', vp.views.logout_user, name='logout'),
     url(r'^register/$', vp.views.register_view, name='register'),
     url(r'^authenticate_user/$', vp.views.authenticate_user, name='authenticate_user'),
-
+    
     # Data
     url(r'^upload_data/$', vp.views.upload_data_view, name='upload_data'),
     url(r'^submit_locations_to_upload/$', vp.views.submit_locations_to_upload, name='submit_locations_to_upload'),
@@ -25,5 +25,8 @@ urlpatterns = patterns('',
     url(r'^get_locations_within_bounds/$', vp.views.get_locations_within_bounds, name='get_locations_within_bounds'),
 
     # Admin
-    url(r'^admin/', include(admin.site.urls))
+    url(r'^admin/', include(admin.site.urls)),
+    
+    # Other Data
+    url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch')
 )
