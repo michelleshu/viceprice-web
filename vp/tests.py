@@ -186,6 +186,7 @@ class HITCreationTest(TestCase):
             location = location,
             name = location.name,
             address = location.formattedAddress,
+            phone_number = "(202)890-4414",
             website = location.website,
             stage = 0
         )
