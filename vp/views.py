@@ -108,7 +108,7 @@ def fetch_locations(request):
     locations = Location.objects.all()
     jsons=[]
     for location in locations:
-        json = {"type": "Feature","geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]},"properties": {"name": location.name, "website":location.website, "phone": location.formattedPhoneNumber }}
+        json = {"type": "Feature","geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]},"properties": {"name": location.name, "website":location.website, "phone": location.formattedPhoneNumber, "icon": {"className": "pin","iconSize": ""}}}
         jsons.append(json)
     return JsonResponse({'json':jsons})
 
