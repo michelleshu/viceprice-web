@@ -1,15 +1,14 @@
 /**METRO UI**/
-label {
-	display: block;
+.tiles {
+  display: block;
     background: rgb(35, 40, 43);
-    width:60px;
-    height: 60px;
+    width:30%;
+    height: 7%;
     float: left;
-    margin: 10px;
-    margin: 3% 3% 3% 3%;
-	cursor: pointer;
-	position: relative;
-	border: solid 2px transparent;
+    margin-bottom: 6%;
+    cursor: pointer;
+   position: relative;
+   border: solid 2px transparent;
 }
 
 input[type="checkbox"] {
@@ -19,52 +18,57 @@ input[type="checkbox"] {
 .v-icon{
  display: inline-block;
   content:url("../img/v-icon.ico");
-  height:50px;
-  width:50px;
-  margin-left:5%;
-  transition: 0.5s linear;
+    height:55%;
+    width:55%;
+    margin-left:15%;
+    margin-bottom: 6%;
+    margin-top: 2%;
 }
 
 .label{
-	color: #fbfbfb;
-	font: 70% "Montserrat";
-  	opacity: 0;
-  	display: flex;
-  	align-items: center;
-  	justify-content: center;
+  color: #fbfbfb;
+  font: 65% "Montserrat";
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /**HOVER**/
-label:hover{
-	background-color:#c8a45e;
+.hoverBg{
+  background-color:#c8a45e;
 }
 
-label:hover .v-icon{
-	height:35px;
-  	width:35px;
-  	margin-left:15%;
-  	transition: .15s linear .15s;
+/*.hoverIcon .v-icon{
+    height:55%;
+    width:55%;
+    transition: .15s linear .15s;
     opacity: 1;
+    margin-left:15%;
+    margin-bottom: 6%;
+    margin-top: 2%;
 }
 
-label:hover .label{
-	transition: .3s linear .3s;
+.hoverLabel .label{
+  transition: .3s linear .3s;
     opacity: 1;
-}
+}*/
 
 /**checked**/
-input[type="checkbox"]:checked + label {
-	background-color:#c8a45e;
+input[type="checkbox"]:checked + .tiles {
+  background-color:#c8a45e;
 }
 
-input[type="checkbox"]:checked + label .v-icon{
-	height:35px;
-  	width:35px;
-  	margin-left:15%;
+input[type="checkbox"]:checked + .tiles .v-icon{
+  height:55%;
+  width:55%;
+  margin-left:15%;
+  margin-bottom: 6%;
+  margin-top: 2%;
 }
 
-input[type="checkbox"]:checked + label .label{
-	opacity:1;
+input[type="checkbox"]:checked + .tiles .label{
+  opacity:1;
 }
 
 /****************/
@@ -244,7 +248,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   -moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
   -o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
   transition: transform 0.3s ease-out, opacity 0.3s ease-in;
-  }	
+  } 
 
   /****tooltip css****/
   .tooltip{
@@ -264,7 +268,3 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
     color:#7d7f80;
     font-size:5%;
   }
-
-
-
-
