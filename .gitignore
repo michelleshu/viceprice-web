@@ -3,3 +3,5 @@ venv
 staticfiles
 db.sqlite3
 .foreman
+.idea/workspace.xml
+env/development.env
