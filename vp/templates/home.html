@@ -8,11 +8,14 @@
 	<link rel="stylesheet" type="text/css" href="../static/css/component.css" />
 	<link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<!-- JS -->
 	<script src='https://code.jquery.com/jquery-2.2.1.min.js'></script>
 	<script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
 	<script src='../static/js/cluster.js'></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<style>
 			body {
 				font-family: 'Montserrat';
@@ -38,6 +41,7 @@
 			  top: 50%;
 			  margin: -20px 0 0 -20px;
 			  }
+			  
 		</style>
 	</head>
 	<body>
@@ -46,72 +50,74 @@
 
 			<div class='left-side-bar'>
 				<div class='search-div'>
-					<p>
-						SEARCH
-					</p>
+					<p>SEARCH</p>
 					<form method="get" action="/search" id="search">
 						<input name="q" type="text" size="40" />
 					</form>
 				</div>
 				<div class='hours-div'>
-					<p>
-						HOURS
-					</p>
+					<p>HOURS</p>
+				      <output for="day" id="day_output">Sat</output>
+					  	<div class="slider">
+					  	<input type="range" id="day" value="1" step="1" min="1" max="7" oninput="outputUpdate(value)">
+						</div>
+					  <output for="time" id="time_output">8:00 AM</output>
+					  <input type="range" id="time" value="8" step="1" min="8" max="38" oninput="outputUpdate(value)">
 				</div>
 				<div class='location-div'>
-					<p>
-						LOCATION:
-					</p>
-
+					<p> LOCATION:</p>
+					<br/><br/>
 				</div>
 				 <div class='venues-div'>
                 <p> VENUES: </p>  
             </div>
                 <input type="checkbox" id="dive" checked>
-                <label class="tiles" for="dive" style="margin-left:10%;"><i class="v-icon"></i>
+                <label class="tiles" for="dive" style="margin-left:18%;"><i class="v-icon"></i>
                 <span class="label">Dive Bar</span></label>
 
                 <input type="checkbox" id="gay" checked>
-                <label class="tiles" for="gay" style="margin-left:6%;"><i class="v-icon"></i>
+                <label class="tiles" for="gay" style="margin-left:5%;"><i class="v-icon"></i>
                 <span class="label">Gay Bar</span></label>
 
                 <input type="checkbox" id="hotel" checked>
-                <label class="tiles" for="hotel" style="margin-left:10%;"><i class="v-icon"></i>
+                <label class="tiles" for="hotel" style="margin-left:18%;"><i class="v-icon"></i>
                 <span class="label">Hotel</span></label>
 
                 <input type="checkbox" id="general" checked>
-                <label class="tiles" for="general" style="margin-left:6%;"><i class="v-icon"></i>
+                <label class="tiles" for="general" style="margin-left:5%;"><i class="v-icon"></i>
                 <span class="label">General</span></label>
                 
                 <input type="checkbox" id="fancy" checked>
-                <label class="tiles" for="fancy" style="margin-left:10%;"><i class="v-icon"></i>
+                <label class="tiles" for="fancy" style="margin-left:18%;"><i class="v-icon"></i>
                 <span class="label">Fancy</span></label>
 
                 <input type="checkbox" id="sports" checked>
-                <label class="tiles" for="sports" style="margin-left:6%;"><i class="v-icon"></i>
+                <label class="tiles" for="sports" style="margin-left:5%;"><i class="v-icon"></i>
                 <span class="label">Sports</span></label>
                 
                 <input type="checkbox" id="pub" checked>
-                <label class="tiles" for="pub" style="margin-left:10%;"><i class="v-icon"></i>
+                <label class="tiles" for="pub" style="margin-left:18%;"><i class="v-icon"></i>
                 <span class="label">Pub</span></label>
                 
                 <input type="checkbox" id="nightclub" checked>
-                <label class="tiles" for="nightclub"style="margin-left:6%;"><i class="v-icon"></i>
+                <label class="tiles" for="nightclub"style="margin-left:5%;"><i class="v-icon"></i>
                 <span class="label">Nightclub</span></label>
                 
                 <input type="checkbox" id="piano" value="Hi" checked>
-                <label class="tiles" for="piano" style="margin-left:10%;"><i class="v-icon"></i>
+                <label class="tiles" for="piano" style="margin-left:18%;"><i class="v-icon"></i>
                 <span class="label">Piano</span></label>
                 
                 <input type="checkbox" id="hookah" checked>
-                <label class="tiles" for="hookah" style="margin-left:6%;"><i class="v-icon"></i>
+                <label class="tiles" for="hookah" style="margin-left:5%;"><i class="v-icon"></i>
                 <span class="label">Hookah</span></label>
 				
-				<div class="about-contact-us">
+				
+			</div>
+
+			<div class="about-contact-us">
 					<a href="url">About</a>
 					<a href="url">Contact Us</a>
 					<a href="url">Owner?</a>
-				</div>
 			</div>
 
 			<div class='right-side-bar'>
@@ -122,51 +128,25 @@
 				</div>
 				<div class="specials-div">
 					<h2> Happy Hour Specials </h2>
-					<p>
-						$5 Drink Specials
-					</p>
+					<p>$5 Drink Specials</p>
 					<ul>
-						<li>
-							Beer
-						</li>
+						<li>Beer</li>
 						<ul>
-							<li>
-								$2 off all drafts
-							</li>
+							<li>$2 off all drafts</li>
 						</ul>
-						<li>
-							Wine
-						</li>
+						<li>Wine</li>
 						<ul>
-							<li>
-								$5 House Wines
-							</li>
+							<li>$5 House Wines</li>
 						</ul>
-						<li>
-							Cocktails &amp; Sprits
-						</li>
+						<li>Cocktails &amp; Sprits</li>
 						<ul>
-							<li>
-								$1 off all rails
-							</li>
-							<li>
-								$2 off all cocktails
-							</li>
-							<li>
-								$9 Boiler Maker
-							</li>
-							<li>
-								$1 off all rails
-							</li>
-							<li>
-								$2 off all cocktails
-							</li>
-							<li>
-								$1 off all rails
-							</li>
-							<li>
-								$2 off all cocktails
-							</li>
+							<li>$1 off all rails</li>
+							<li>$2 off all cocktails</li>
+							<li>$9 Boiler Maker</li>
+							<li>$1 off all rails</li>
+							<li>$2 off all cocktails</li>
+							<li>$1 off all rails</li>
+							<li>$2 off all cocktails</li>
 						</ul>
 					</ul>
 				</div>
@@ -196,7 +176,7 @@
 				</div>
 			</div>
 		</div>
-
+		<script src='../static/js/dcn.js'></script>
 		<script>
 			$(".tiles").hover(function() {
                     $(this).addClass('hoverBg');
@@ -204,12 +184,90 @@
                     $(this).removeClass('hoverBg');
                 }); 
 
-    $("input:checkbox").click(function() {
+   			$("input:checkbox").click(function() {
                     var ischecked= $(this).is(':checked');
                     if(!ischecked)
                        $("label[for='"+$(this).attr('id')+"']").removeClass('hoverBg');
                 }); 
 
+   			function outputUpdate(num) {
+    		if(num==1)
+			document.querySelector('#day_output').value = "Sat";
+			else if (num==2)
+			document.querySelector('#day_output').value= "Sun";
+			else if (num==3)
+			document.querySelector('#day_output').value= "Mon";
+			else if (num==4)
+			document.querySelector('#day_output').value= "Tues";
+			else if (num==5)
+			document.querySelector('#day_output').value= "Wed";
+			else if (num==6)
+			document.querySelector('#day_output').value= "Thurs";
+			else if(num==7)
+			document.querySelector('#day_output').value= "Fri";
+			else if (num==8)
+			document.querySelector('#time_output').value= "8:00 AM";
+			else if (num==9)
+			document.querySelector('#time_output').value= "8:30 AM";
+			else if (num==10)
+			document.querySelector('#time_output').value= "9:00 AM";
+			else if (num==11)
+			document.querySelector('#time_output').value= "9:30 AM";
+			else if (num==12)
+			document.querySelector('#time_output').value= "10:00 AM";
+			else if(num==13)
+			document.querySelector('#time_output').value= "10:30 AM";
+			else if(num==14)
+			document.querySelector('#time_output').value= "11:00 AM";
+			else if (num==15)
+			document.querySelector('#time_output').value= "11:30 AM";
+			else if (num==16)
+			document.querySelector('#time_output').value= "12:00 PM";
+			else if (num==17)
+			document.querySelector('#time_output').value= "12:30 PM";
+			else if (num==18)
+			document.querySelector('#time_output').value= "1:00 PM";
+			else if (num==19)
+			document.querySelector('#time_output').value= "1:30 PM";
+			else if(num==20)
+			document.querySelector('#time_output').value= "2:00 PM";
+			else if(num==21)
+			document.querySelector('#time_output').value= "2:30 PM";
+			else if (num==22)
+			document.querySelector('#time_output').value= "3:00 PM";
+			else if (num==23)
+			document.querySelector('#time_output').value= "3:30 PM";
+			else if (num==24)
+			document.querySelector('#time_output').value= "4:00 PM";
+			else if (num==25)
+			document.querySelector('#time_output').value= "4:30 PM";
+			else if (num==26)
+			document.querySelector('#time_output').value= "5:00 PM";
+			else if(num==27)
+			document.querySelector('#time_output').value= "5:30 PM";
+			else if (num==28)
+			document.querySelector('#time_output').value= "6:00 PM";
+			else if (num==29)
+			document.querySelector('#time_output').value= "6:30 PM";
+			else if(num==30)
+			document.querySelector('#time_output').value= "7:00 PM";
+			else if (num==31)
+			document.querySelector('#time_output').value= "7:30 PM";
+			else if(num==32)
+			document.querySelector('#time_output').value= "8:00 PM";
+			else if (num==33)
+			document.querySelector('#time_output').value= "8:30 PM";
+			else if (num==34)
+			document.querySelector('#time_output').value= "9:00 PM";
+			else if(num==35)
+			document.querySelector('#time_output').value= "9:30 PM";
+			else if(num==36)
+			document.querySelector('#time_output').value= "10:00 PM";
+			else if (num==37)
+			document.querySelector('#time_output').value= "10:30 PM";
+			else if (num==38)
+			document.querySelector('#time_output').value= "11:00 PM";
+		}
 			/*****MapBox*****/
 			L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 
@@ -245,7 +303,33 @@
 					clusterGroup.addLayer(goeJsonlayer);
  					map.addLayer(clusterGroup);
 
-				});				
+				});		
+
+				/***DC Neighborhoods***/
+				var dcnLayer = L.geoJson(dcn,  {
+      			style: getStyle,
+      			onEachFeature: onEachFeature
+  				}).addTo(map);
+
+  				function getStyle(feature) {
+      			return {
+          		weight: 2,
+          		opacity: 0.2,
+          		color: 'black',
+          		fillOpacity: 0.6,
+          		fillColor: 'white'
+      			};
+  				}
+  
+  				function onEachFeature(feature, layer) {
+      			layer.on({
+          		click: zoomToFeature
+      			});
+  				}
+
+				function zoomToFeature(e) {
+				map.fitBounds(e.target.getBounds());
+				}		
 				
 		</script>
 	</body>
