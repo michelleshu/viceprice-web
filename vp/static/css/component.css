@@ -352,7 +352,12 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
       #time_output{margin-left: 34%;}
       #day,#time{margin-top: 8%; margin-bottom: 8%;width: 88%;}
 
- 
+  .map_labels{
+  color:rgb(35, 40, 43);
+  font-family: Montserrat;
+  font-size: 13px;
+  text-align: center;
+  }
 
 
 

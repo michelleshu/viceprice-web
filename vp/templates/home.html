@@ -275,7 +275,7 @@
 
 			var map = L.mapbox.map('map');
 
-			L.mapbox.styleLayer('mapbox://styles/mapbox/dark-v8').addTo(map);
+			L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa').addTo(map);
 
 			map.setView([38.907557, -77.009014], 13);
 			map.setMaxBounds(bounds);
@@ -300,12 +300,13 @@
 							layer.bindPopup(content);
 						}
 					});
-					clusterGroup.addLayer(goeJsonlayer);
- 					map.addLayer(clusterGroup);
+					//map.addLayer(goeJsonlayer);
+ 					//map.addLayer(clusterGroup);
 
 				});		
 
 				/***DC Neighborhoods***/
+
 				var dcnLayer = L.geoJson(dcn,  {
       			style: getStyle,
       			onEachFeature: onEachFeature
@@ -314,22 +315,68 @@
   				function getStyle(feature) {
       			return {
           		weight: 2,
-          		opacity: 0.2,
-          		color: 'black',
-          		fillOpacity: 0.6,
-          		fillColor: 'white'
+          		opacity: 0.5,
+          		color: 'rgb(35, 40, 43)',
+          		fillOpacity: 0.80,
+          		fillColor: getColor(feature.id),
       			};
+  				}
+
+  				function getColor(d) {
+			    return d == 1 ? '#CC9592' :   //north dc
+			          d == 2  ? '#BF74A5' :   //west dc
+			          d == 3  ? '#DADFE3' :   //Friendship Heights
+			          d == 4  ? '#DEBABF' :   //Adams Morgan
+			          d == 5  ? '#917A7D' :   //East dc
+			          d == 6  ? '#DADFE3' :   //shaw
+			          d == 7  ? '#D6778E' :   //Capitol Hill
+			          d == 8  ? '#DEBABF' :   //downtown
+			          d == 9  ? '#D6778E' :   //Columbia Heights
+			          d == 10 ? '#CC9592' :   //Dupont Circle
+			          d == 11 ? '#DADFE3' :   //Foggy bottom
+			          d == 12 ? '#DEBABF' :   //Georgetown
+			          d == 13 ? '#BF74A5' :   //logan circle
+			          d == 14 ? '#917A7D' :   //u street
+			          d == 15 ? '#917A7D' :   //Waterfront
+			          d == 16 ? '#DADFE3' :   //south east
+			          '#BF74A5';              //h street
   				}
   
   				function onEachFeature(feature, layer) {
       			layer.on({
-          		click: zoomToFeature
-      			});
-  				}
+              		mousemove: mousemove,
+              		mouseout: mouseout,
+            		click: zoomToFeature
+            		});
+            	var label = L.marker(layer.getBounds().getCenter(), {
+            	icon: L.divIcon({
+            		className: 'label',
+    html: "<div class='map_labels'>" + feature.properties.name+"</div>",
+            		iconSize: [54, 35]
+             		})
+          			}).addTo(map);
+          		};
+
 
 				function zoomToFeature(e) {
 				map.fitBounds(e.target.getBounds());
-				}		
+				}	
+
+				function mousemove(e) {
+			    var layer = e.target;
+					layer.setStyle({
+				          weight: 3,
+				          opacity: 0.5,
+				          fillOpacity: 0.9
+				    });
+				  if (!L.Browser.ie && !L.Browser.opera) {
+          			layer.bringToFront();
+      				}
+  				}
+
+  				function mouseout(e) {
+			      dcnLayer.resetStyle(e.target);
+  				}
 				
 		</script>
 	</body>
