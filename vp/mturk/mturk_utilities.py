@@ -25,13 +25,21 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         max_to_add = MAX_LOCATIONS_TO_UPDATE
 
     currently_updating = MTurkLocationInfo.objects.filter(
-        ~Q(stage = MTURK_STAGE[NO_INFO]) & ~Q(stage = MTURK_STAGE[COMPLETE])).count() # number of updates in progress
+        ~Q(stage = MTURK_STAGE[NO_INFO]) &
+        ~Q(stage = MTURK_STAGE[COMPLETE]) &
+        ~Q(stage = MTURK_STAGE[WRONG_WEBSITE]) &
+        ~Q(stage = MTURK_STAGE[WRONG_PHONE_NUMBER])
+    ).count() # number of updates in progress
+
     max_new_locations = max_to_add - currently_updating
 
     # Get at most max_new_locations locations that have either just been added or expired
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
 
-    new_locations = Location.objects.filter(Q(id__gte=2343) & Q(id__lte=2412) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
+    #new_locations = Location.objects.filter(Q(id__gte=2343) & Q(id__lte=2412) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
+
+    new_locations = Location.objects.filter(Q(name = "Liberty Lounge") &
+                    Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
 
     # new_locations = Location.objects.filter(
     #     mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
@@ -338,12 +346,12 @@ def approve_and_dispose(conn, hit):
 #endregion
 
 # Check to see whether we are within valid business hours for a location based on Foursquare ID
-def within_business_hours(foursquare_id):
+def within_business_hours(location_id):
     now = timezone.localtime(timezone.now())
     current_day = now.isoweekday()
     current_time = now.time()
 
-    business_hour_ids = Location.objects.get(foursquareId = foursquare_id).businessHours.all().values_list('id', flat=True)
+    business_hour_ids = Location.objects.get(id = location_id).businessHours.all().values_list('id', flat=True)
     today_business_hour_ids = DayOfWeek.objects.filter(
         day = current_day, businessHour_id__in=business_hour_ids).values_list('businessHour_id', flat=True)
     today_time_frames = TimeFrame.objects.filter(businessHour_id__in=today_business_hour_ids).all().values('startTime', 'endTime')
@@ -353,7 +361,6 @@ def within_business_hours(foursquare_id):
             return True
 
     return False
-
 
 
 # Check if we are currently within a certain time range

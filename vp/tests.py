@@ -2,7 +2,7 @@ import datetime
 from django.conf import settings
 from django.test import TestCase
 from django.utils import timezone
-from models import Location, MTurkLocationInfo
+from models import Location, MTurkLocationInfo, BusinessHour
 from mturk import mturk_utilities, mturk_update_website_tasks, mturk_update_phone_tasks
 from boto.mturk import connection
 from mock import MagicMock, mock
@@ -601,3 +601,44 @@ class GetHappyHourFoundTest(TestCase):
 
         self.assertFalse(result)
         self.assertEqual(mturk_location.stage, MTURK_STAGE[WRONG_PHONE_NUMBER])
+
+
+# Test that current time is within business hours
+class WithinBusinessHoursTest(TestCase):
+    def test_true(self):
+        location = Location.objects.create(name = "BusinessHours")
+
+        now = timezone.localtime(timezone.now())
+        current_day = now.isoweekday()
+        current_time = now.time()
+
+        # Create business hours including now
+        businessHour = BusinessHour.objects.create([{
+            "start": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) - datetime.timedelta(hours = 1)).time(),
+            "end": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) + datetime.timedelta(hours = 1)).time()
+        }], [ current_day ])
+
+        location.businessHours.add(businessHour)
+
+        within_business_hours = mturk_utilities.within_business_hours(location.id)
+
+        self.assertTrue(within_business_hours)
+
+    def test_false(self):
+        location = Location.objects.create(name = "BusinessHours")
+
+        now = timezone.localtime(timezone.now())
+        current_day = now.isoweekday()
+        current_time = now.time()
+
+        # Create business hours including now
+        businessHour = BusinessHour.objects.create([{
+            "start": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) + datetime.timedelta(hours = 1)).time(),
+            "end": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) + datetime.timedelta(hours = 2)).time()
+        }], [ current_day ])
+
+        location.businessHours.add(businessHour)
+
+        within_business_hours = mturk_utilities.within_business_hours(location.id)
+
+        self.assertFalse(within_business_hours)

@@ -1,4 +1,5 @@
 __author__ = 'michelleshu'
+import datetime
 
 '''
 constants.py
@@ -63,7 +64,8 @@ DEALS = 'deals'
 
 # Time constants
 TIME_FORMATS = ['%H', '%H:%M', '%I:%M%p', '%I%p']
-#BUSINESS_HOUR_CUTOFF = datetime.time(hour=21)   # Latest hour to accept for creation of phone HITs
+
+BUSINESS_HOUR_CUTOFF = datetime.time(hour = 21)   # Latest hour to accept for creation of phone HITs
 
 # Maximum number of locations to update at any given time
 MAX_LOCATIONS_TO_UPDATE = 100

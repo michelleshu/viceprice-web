@@ -39,12 +39,12 @@ def update():
         if (hit.HITStatus == REVIEWABLE):
             assignments = conn.get_assignments(hit.HITId)
 
-            # if (not within_business_hours(location.foursquareId)):
-            #     # Outside of business hours, cancel HIT and restart tomorrow
-            #     approve_and_dispose(conn, hit)
-            #     location.hit_id = None
-            #     location.save()
-            #     continue
+            if (not within_business_hours(mturk_location.id)):
+                # Outside of business hours, cancel HIT and restart tomorrow
+                approve_and_dispose(conn, hit)
+                mturk_location.hit_id = None
+                mturk_location.save()
+                continue
 
             # Process assignments depending on current stage of HIT
             if int(mturk_location.stage) == MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]:
