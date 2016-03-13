@@ -208,5 +208,18 @@ MTURK_HIT_TYPES = {
         BONUS: 0.30,
         DURATION: 3600,
         US_LOCALE_REQUIRED: True
-    }
+    },
+    CONFIRM_HAPPY_HOUR_PHONE_2: {
+        TITLE: 'Call a business and find out what specials they are offering. [30 cent bonus for successful calls]',
+        DESCRIPTION: 'You will call a business, ask what specials they have, and see if our info is up to date [30 cent bonus for successful calls]',
+        ANNOTATION: 'Find business info',
+        KEYWORDS: ['phone call', 'phone' 'business info', 'specials'],
+        LAYOUT_PARAMETER_NAMES: ['name', 'phone_number', 'deals'],
+        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_PHONE'),
+        MAX_ASSIGNMENTS: 1,
+        PRICE: 0.10,
+        BONUS: 0.30,
+        DURATION: 3600,
+        US_LOCALE_REQUIRED: True
+    },
 }

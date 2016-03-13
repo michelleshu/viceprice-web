@@ -85,7 +85,7 @@ class Location(models.Model):
 class MTurkLocationInfoStat(models.Model):
     location = models.ForeignKey(Location)
     dateStarted = models.DateTimeField(null=False)
-    dateCompleted = models.DateTimeField()
+    dateCompleted = models.DateTimeField(null=True)
     stage = models.IntegerField(null=False)
     costPerAssignment = models.FloatField(null=False)
     costForStage = models.FloatField(default=0.0)
@@ -104,4 +104,4 @@ class MTurkLocationInfo(models.Model):
     deals = models.CharField(max_length=10000, null=True)
     hit_id = models.CharField(max_length=100, null=True)
     comments = models.CharField(max_length=1000, null=True)
-    stats = models.ForeignKey(MTurkLocationInfoStat, null=True)
+    stat = models.ForeignKey(MTurkLocationInfoStat, null=True)

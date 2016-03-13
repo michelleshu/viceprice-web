@@ -1,0 +1,931 @@
+<!-- JQuery 1.11.2 -->
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" property="stylesheet" rel="stylesheet" />
+
+<style type="text/css">
+    .container {
+        font-family: Tahoma;
+        font-size: 14px;
+        line-height: 28px;
+    }
+    p {
+        line-height: 1.4;
+    }
+    .bold-text {
+        font-weight: bold;
+    }
+    .inline {
+        display: inline;
+    }
+    .indent-1 {
+        padding-left: 20px;
+    }
+    .indent-2 {
+        padding-left: 40px;
+    }
+    .radio.indent-1 {
+        padding-left: 40px;
+    }
+    .question {
+        margin-bottom: 10px;
+    }
+    a.expand-collapse-link {
+        float: right;
+        color: white;
+    }
+    .example-container {
+        margin-bottom: 20px;
+    }
+    .hh-info-example-table {
+        width: 800px;
+        padding: 20px;
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 11.7px;
+        color: grey;
+    }
+    .hh-info-example-table td {
+        border: 1px solid grey;
+        text-align: left;
+        vertical-align: top;
+        padding: 10px;
+    }
+    .hh-info-table {
+        width: 800px;
+        padding: 20px;
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 11.7px;
+    }
+    .hh-info-table td {
+        border: 1px solid black;
+        text-align: left;
+        vertical-align: top;
+        padding: 10px;
+    }
+    .hh-info-table td input {
+        width: 100px;
+    }
+    .narrow-column {
+        width: 120px;
+    }
+    .wide-column {
+        width: 440px;
+    }
+    textarea {
+        resize: none;
+        overflow: hidden;
+        width: 420px;
+        max-height: 1000px;
+    }
+</style>
+<section class="container" id="Survey">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="bold-text inline">Instructions</div>
+            <a class="expand-collapse-link expanded">[Hide]</a>
+        </div>
+        <div class="panel-body">
+            <div class="collapsible">
+            	<div class="bold-text">
+                    Happy Hours are when alcoholic drinks [beer/wine/liquor] are cheaper at a specific time and/or day.
+                </div>
+
+                <div>
+                    You will call a business and ask what their Happy Hour specials are.
+                    Then you will check that our happy hour information is correct based
+                    on the result of the call.
+                </div>
+
+                <div>
+                    A bonus is given to calls that get Happy Hour information.
+                    If your call did not go through, you will only get the base rate and no bonus.
+                    We quality check all our info.
+                    <span class="bold-text">
+                        If you are caught lying you will be given a ban.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="question">
+        <div>
+            <div>
+                Your goal is to call for Happy Hour info and confirm that the data in the table below is accurate.
+                Please retrieve both a time and description for all deals.
+            </div>
+            <span class="bold-text">
+                Call *67 ${phone_number} [*67 hides your number from the caller ID] and ask for their Happy Hour specials.
+                Were you able to reach ${name} and get their Happy Hour specials?
+            </span>
+        </div>
+
+        <div class="radio indent-1">
+            <label>
+                <input name="happy-hour-found" type="radio" value="yes" />
+                <span>Yes, happy hour information received</span>
+            </label>
+        </div>
+
+        <div class="radio indent-1">
+            <label>
+                <input name="happy-hour-found" type="radio" value="no" />
+                <span>${name} has no happy hours</span>
+            </label>
+        </div>
+
+        <div class="radio indent-1">
+            <label>
+                <input name="happy-hour-found" type="radio" value="no-response" />
+                <span>No one picked up my call</span>
+            </label>
+        </div>
+
+        <div class="radio indent-1">
+            <label>
+                <input name="happy-hour-found" type="radio" value="wrong-phone-number" />
+                <span>This is the wrong phone number for ${name}</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="question show-if-hh-found">
+        <div class="bold-text">
+            See if our times and descriptions are correct. Rules for the deal description:
+        </div>
+        <ol>
+            <li>
+                No food. We only want alcoholic drinks.
+            </li>
+            <li>
+                No ingredients. Only copy the drink name, not what is in the drink.
+            </li>
+            <li>
+                Do not copy where a drink came from. Only the name.
+            </li>
+        </ol>
+        <div>Here is an example of how to format your response:</div>
+    </div>
+    <div class="question show-if-hh-found">
+        <div>
+            <table class="hh-info-table">
+            	<tbody>
+            		<tr>
+            			<td class="narrow-column"><strong>Day</strong></td>
+            			<td class="narrow-column"><strong>Happy Hour Start Time</strong></td>
+            			<td class="narrow-column"><strong>Happy Hour End Time</strong></td>
+            			<td class="wide-column"><strong>Happy Hour Description</strong></td>
+                        <td class="narrow-column"><strong>Information Correct?</strong></td>
+            		</tr>
+                    <tr>
+                        <td>Monday</td>
+                        <td>
+                            <input class="monday-provided-info uneditable-input monday-provided-start-time" readonly="readonly" type="text"/>
+                            <input class="hidden monday-update-info" name="monday-start-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <input class="monday-provided-info uneditable-input monday-provided-end-time" readonly="readonly" type="text"/>
+                            <input class="hidden monday-update-info" name="monday-end-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <textarea class="monday-provided-info uneditable-input monday-provided-description" onkeyup="auto_grow(this)" readonly="readonly"></textarea>
+                            <p class="hidden monday-prompt monday-update-info">Please enter the correct times and description for Monday.</p>
+                            <textarea class="hidden monday-update-info" name="monday-description" onkeyup="auto_grow(this)"></textarea>
+                            <button class="monday-submit hidden monday-update-info">Submit</button>
+                        </td>
+                        <td>
+                            <a class="monday-correct-link">Correct</a><br />
+                            <a class="monday-incorrect-link">Incorrect</a>
+                        </td>
+                    </tr>
+                        <td>Tuesday</td>
+                        <td>
+                            <input class="tuesday-provided-info uneditable-input tuesday-provided-start-time" readonly="readonly" type="text"/>
+                            <input class="hidden tuesday-update-info" name="tuesday-start-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <input class="tuesday-provided-info uneditable-input tuesday-provided-end-time" readonly="readonly" type="text"/>
+                            <input class="hidden tuesday-update-info" name="tuesday-end-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <textarea class="tuesday-provided-info uneditable-input tuesday-provided-description" onkeyup="auto_grow(this)" readonly="readonly"></textarea>
+                            <p class="hidden tuesday-prompt tuesday-update-info">Please enter the correct times and description for Tuesday.</p>
+                            <textarea class="hidden tuesday-update-info" name="tuesday-description" onkeyup="auto_grow(this)"></textarea>
+                            <button class="tuesday-submit hidden tuesday-update-info">Submit</button>
+                        </td>
+                        <td>
+                            <a class="tuesday-correct-link">Correct</a><br />
+                            <a class="tuesday-incorrect-link">Incorrect</a>
+                        </td>
+            		<tr>
+                        <td>Wednesday</td>
+                        <td>
+                            <input class="wednesday-provided-info uneditable-input wednesday-provided-start-time" readonly="readonly" type="text"/>
+                            <input class="hidden wednesday-update-info" name="wednesday-start-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <input class="wednesday-provided-info uneditable-input wednesday-provided-end-time" readonly="readonly" type="text"/>
+                            <input class="hidden wednesday-update-info" name="wednesday-end-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <textarea class="wednesday-provided-info uneditable-input wednesday-provided-description" onkeyup="auto_grow(this)" readonly="readonly"></textarea>
+                            <p class="hidden wednesday-prompt wednesday-update-info">Please enter the correct times and description for Wednesday.</p>
+                            <textarea class="hidden wednesday-update-info" name="wednesday-description" onkeyup="auto_grow(this)"></textarea>
+                            <button class="wednesday-submit hidden wednesday-update-info">Submit</button>
+                        </td>
+                        <td>
+                            <a class="wednesday-correct-link">Correct</a><br />
+                            <a class="wednesday-incorrect-link">Incorrect</a>
+                        </td>
+            		</tr>
+            		<tr>
+                        <td>Thursday</td>
+                        <td>
+                            <input class="thursday-provided-info uneditable-input thursday-provided-start-time" readonly="readonly" type="text"/>
+                            <input class="hidden thursday-update-info" name="thursday-start-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <input class="thursday-provided-info uneditable-input thursday-provided-end-time" readonly="readonly" type="text"/>
+                            <input class="hidden thursday-update-info" name="thursday-end-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <textarea class="thursday-provided-info uneditable-input thursday-provided-description" onkeyup="auto_grow(this)" readonly="readonly"></textarea>
+                            <p class="hidden thursday-prompt thursday-update-info">Please enter the correct times and description for Thursday.</p>
+                            <textarea class="hidden thursday-update-info" name="thursday-description" onkeyup="auto_grow(this)"></textarea>
+                            <button class="thursday-submit hidden thursday-update-info">Submit</button>
+                        </td>
+                        <td>
+                            <a class="thursday-correct-link">Correct</a><br />
+                            <a class="thursday-incorrect-link">Incorrect</a>
+                        </td>
+            		</tr>
+            		<tr>
+                        <td>Friday</td>
+                        <td>
+                            <input class="friday-provided-info uneditable-input friday-provided-start-time" readonly="readonly" type="text"/>
+                            <input class="hidden friday-update-info" name="friday-start-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <input class="friday-provided-info uneditable-input friday-provided-end-time" readonly="readonly" type="text"/>
+                            <input class="hidden friday-update-info" name="friday-end-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <textarea class="friday-provided-info uneditable-input friday-provided-description" onkeyup="auto_grow(this)" readonly="readonly"></textarea>
+                            <p class="hidden friday-prompt friday-update-info">Please enter the correct times and description for Friday.</p>
+                            <textarea class="hidden friday-update-info" name="friday-description" onkeyup="auto_grow(this)"></textarea>
+                            <button class="friday-submit hidden friday-update-info">Submit</button>
+                        </td>
+                        <td>
+                            <a class="friday-correct-link">Correct</a><br />
+                            <a class="friday-incorrect-link">Incorrect</a>
+                        </td>
+            		</tr>
+            		<tr>
+                        <td>Saturday</td>
+                        <td>
+                            <input class="saturday-provided-info uneditable-input saturday-provided-start-time" readonly="readonly" type="text"/>
+                            <input class="hidden saturday-update-info" name="saturday-start-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <input class="saturday-provided-info uneditable-input saturday-provided-end-time" readonly="readonly" type="text"/>
+                            <input class="hidden saturday-update-info" name="saturday-end-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <textarea class="saturday-provided-info uneditable-input saturday-provided-description" onkeyup="auto_grow(this)" readonly="readonly"></textarea>
+                            <p class="hidden saturday-prompt saturday-update-info">Please enter the correct times and description for Saturday.</p>
+                            <textarea class="hidden saturday-update-info" name="saturday-description" onkeyup="auto_grow(this)"></textarea>
+                            <button class="saturday-submit hidden saturday-update-info">Submit</button>
+                        </td>
+                        <td>
+                            <a class="saturday-correct-link">Correct</a><br />
+                            <a class="saturday-incorrect-link">Incorrect</a>
+                        </td>
+            		</tr>
+            		<tr>
+                        <td>Sunday</td>
+                        <td>
+                            <input class="sunday-provided-info uneditable-input sunday-provided-start-time" readonly="readonly" type="text"/>
+                            <input class="hidden sunday-update-info" name="sunday-start-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <input class="sunday-provided-info uneditable-input sunday-provided-end-time" readonly="readonly" type="text"/>
+                            <input class="hidden sunday-update-info" name="sunday-end-time" type="text" placeholder="00:00 AM"/>
+                        </td>
+                        <td>
+                            <textarea class="sunday-provided-info uneditable-input sunday-provided-description" onkeyup="auto_grow(this)" readonly="readonly"></textarea>
+                            <p class="hidden sunday-prompt sunday-update-info">Please enter the correct times and description for Sunday.</p>
+                            <textarea class="hidden sunday-update-info" name="sunday-description" onkeyup="auto_grow(this)"></textarea>
+                            <button class="sunday-submit hidden sunday-update-info">Submit</button>
+                        </td>
+                        <td>
+                            <a class="sunday-correct-link">Correct</a><br />
+                            <a class="sunday-incorrect-link">Incorrect</a>
+                        </td>
+            		</tr>
+            	</tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="bold-text">
+            Have any comments?
+        <div>
+        <div>
+            <input class="form-control" name="comments" placeholder="" type="text" />
+        </div>
+    </div>
+
+    <!-- // Format: ***1|||16:00|||19:00|||Description***2... -->
+    <input name="deals" type="hidden" value="${deals}"/>
+</section>
+
+<script type="text/javascript">
+    // Expand and collapse instructions
+    $(".expand-collapse-link").click(function() {
+        if ($(this).hasClass("expanded")) {
+            $(this).text("[Show]");
+            $(this).removeClass("expanded");
+            $(".collapsible").hide();
+        } else {
+            $(this).text("[Hide]");
+            $(this).addClass("expanded");
+            $(".collapsible").show();
+        }
+    });
+
+    // Track whether either Correct/Incorrect has been marked for each happy hour
+    var confirmedOrCorrected = [false, false, false, false, false, false, false];
+
+    // Provide text for null happy hours
+    if ($(".monday-provided-description").text() == "") {
+        $(".monday-provided-description").text("No happy hours on Monday");
+    }
+    if ($(".tuesday-provided-description").text() == "") {
+        $(".tuesday-provided-description").text("No happy hours on Tuesday");
+    }
+    if ($(".wednesday-provided-description").text() == "") {
+        $(".wednesday-provided-description").text("No happy hours on Wednesday");
+    }
+    if ($(".thursday-provided-description").text() == "") {
+        $(".thursday-provided-description").text("No happy hours on Thursday");
+    }
+    if ($(".friday-provided-description").text() == "") {
+        $(".friday-provided-description").text("No happy hours on Friday");
+    }
+    if ($(".saturday-provided-description").text() == "") {
+        $(".saturday-provided-description").text("No happy hours on Saturday");
+    }
+    if ($(".sunday-provided-description").text() == "") {
+        $(".sunday-provided-description").text("No happy hours on Sunday");
+    }
+
+    // Set behavior for clicking to confirm information is correct
+    $(".monday-correct-link").click(function() {
+        $(".monday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".monday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".monday-update-info").addClass("hidden");
+        $(".monday-provided-info").removeClass("hidden");
+        confirmedOrCorrected[0] = true;
+    });
+    $(".tuesday-correct-link").click(function() {
+        $(".tuesday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".tuesday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".tuesday-update-info").addClass("hidden");
+        $(".tuesday-provided-info").removeClass("hidden");
+        confirmedOrCorrected[1] = true;
+    });
+    $(".wednesday-correct-link").click(function() {
+        $(".wednesday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".wednesday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".wednesday-update-info").addClass("hidden");
+        $(".wednesday-provided-info").removeClass("hidden");
+        confirmedOrCorrected[2] = true;
+    });
+    $(".thursday-correct-link").click(function() {
+        $(".thursday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".thursday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".thursday-update-info").addClass("hidden");
+        $(".thursday-provided-info").removeClass("hidden");
+        confirmedOrCorrected[3] = true;
+    });
+    $(".friday-correct-link").click(function() {
+        $(".friday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".friday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".friday-update-info").addClass("hidden");
+        $(".friday-provided-info").removeClass("hidden");
+        confirmedOrCorrected[4] = true;
+    });
+    $(".saturday-correct-link").click(function() {
+        $(".saturday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".saturday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".saturday-update-info").addClass("hidden");
+        $(".saturday-provided-info").removeClass("hidden");
+        confirmedOrCorrected[5] = true;
+    });
+    $(".sunday-correct-link").click(function() {
+        $(".sunday-correct-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".sunday-incorrect-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".sunday-update-info").addClass("hidden");
+        $(".sunday-provided-info").removeClass("hidden");
+        confirmedOrCorrected[6] = true;
+    });
+
+    // Set behavior for clicking to edit incorrect information
+    $(".monday-incorrect-link").click(function() {
+        $(".monday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".monday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".monday-update-info").removeClass("hidden");
+        $(".monday-update-info").removeClass("uneditable-input");
+        $(".monday-submit").removeClass("hidden");
+        $(".monday-provided-info").addClass("hidden");
+        confirmedOrCorrected[0] = true;
+    });
+    $(".tuesday-incorrect-link").click(function() {
+        $(".tuesday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".tuesday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".tuesday-update-info").removeClass("hidden");
+        $(".tuesday-update-info").removeClass("uneditable-input");
+        $(".tuesday-submit").removeClass("hidden");
+        $(".tuesday-provided-info").addClass("hidden");
+        confirmedOrCorrected[1] = true;
+    });
+    $(".wednesday-incorrect-link").click(function() {
+        $(".wednesday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".wednesday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".wednesday-update-info").removeClass("hidden");
+        $(".wednesday-update-info").removeClass("uneditable-input");
+        $(".wednesday-submit").removeClass("hidden");
+        $(".wednesday-provided-info").addClass("hidden");
+        confirmedOrCorrected[2] = true;
+    });
+    $(".thursday-incorrect-link").click(function() {
+        $(".thursday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".thursday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".thursday-update-info").removeClass("hidden");
+        $(".thursday-update-info").removeClass("uneditable-input");
+        $(".thursday-submit").removeClass("hidden");
+        $(".thursday-provided-info").addClass("hidden");
+        confirmedOrCorrected[3] = true;
+    });
+    $(".friday-incorrect-link").click(function() {
+        $(".friday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".friday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".friday-update-info").removeClass("hidden");
+        $(".friday-update-info").removeClass("uneditable-input");
+        $(".friday-submit").removeClass("hidden");
+        $(".friday-provided-info").addClass("hidden");
+        confirmedOrCorrected[4] = true;
+    });
+    $(".saturday-incorrect-link").click(function() {
+        $(".saturday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".saturday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".saturday-update-info").removeClass("hidden");
+        $(".saturday-update-info").removeClass("uneditable-input");
+        $(".saturday-submit").removeClass("hidden");
+        $(".saturday-provided-info").addClass("hidden");
+        confirmedOrCorrected[5] = true;
+    });
+    $(".sunday-incorrect-link").click(function() {
+        $(".sunday-incorrect-link").css("font-weight", "bold").css("font-size", "14px");
+        $(".sunday-correct-link").css("font-weight", "normal").css("font-size", "11.7px");
+        $(".sunday-update-info").removeClass("hidden");
+        $(".sunday-update-info").removeClass("uneditable-input");
+        $(".sunday-submit").removeClass("hidden");
+        $(".sunday-provided-info").addClass("hidden");
+        confirmedOrCorrected[6] = true;
+    });
+
+    // On submit, make input boxes uneditable
+    $(".monday-submit").click(function(e) {
+        e.preventDefault();
+        $(".monday-update-info").addClass("uneditable-input");
+        $(".monday-submit").addClass("hidden");
+        $(".monday-prompt").addClass("hidden");
+    });
+    $(".tuesday-submit").click(function(e) {
+        e.preventDefault();
+        $(".tuesday-update-info").addClass("uneditable-input");
+        $(".tuesday-submit").addClass("hidden");
+        $(".tuesday-prompt").addClass("hidden");
+    });
+    $(".wednesday-submit").click(function(e) {
+        e.preventDefault();
+        $(".wednesday-update-info").addClass("uneditable-input");
+        $(".wednesday-submit").addClass("hidden");
+        $(".wednesday-prompt").addClass("hidden");
+    });
+    $(".thursday-submit").click(function(e) {
+        e.preventDefault();
+        $(".thursday-update-info").addClass("uneditable-input");
+        $(".thursday-submit").addClass("hidden");
+        $(".thursday-prompt").addClass("hidden");
+    });
+    $(".friday-submit").click(function(e) {
+        e.preventDefault();
+        $(".friday-update-info").addClass("uneditable-input");
+        $(".friday-submit").addClass("hidden");
+        $(".friday-prompt").addClass("hidden");
+    });
+    $(".saturday-submit").click(function(e) {
+        e.preventDefault();
+        $(".saturday-update-info").addClass("uneditable-input");
+        $(".saturday-submit").addClass("hidden");
+        $(".saturday-prompt").addClass("hidden");
+    });
+    $(".sunday-submit").click(function(e) {
+        e.preventDefault();
+        $(".sunday-update-info").addClass("uneditable-input");
+        $(".sunday-submit").addClass("hidden");
+        $(".sunday-prompt").addClass("hidden");
+    });
+
+    // Expand happy hours section only if happy hours were found.
+    // Preset the value to happy hours found to show table
+    $("input[name='happy-hour-found'][value='yes']").prop("checked", true);
+    $("input[name='happy-hour-found']").change(function() {
+        if ($(this).val() == "yes") {
+            $(".show-if-hh-found").show();
+        } else {
+            $(".show-if-hh-found").hide();
+        }
+    });
+
+    // Parse a 24 hour time to a 12 hour time string
+    var parse_time_12 = function(time) {
+        var splitTime = time.split(":");
+        var hour = parseInt(splitTime[0]);
+        var minute = splitTime[1];
+        var suffix = "AM"
+
+        if (hour == 12) {
+            suffix = "PM";
+        } else if (hour > 12) {
+            hour = hour - 12;
+            suffix = "PM"
+        } else if (hour == 0) {
+            hour = 12;
+        }
+        return hour + ":" + minute + " " + suffix;
+    };
+
+    // Populate previous deal information
+    var populateDealInfo = function() {
+        var dealStrings = $("input[name='deals']").val().split("***");
+        for (var i = 1; i < dealStrings.length; i++) {
+            var dealInfo = dealStrings[i].split("|||");
+            var day = parseInt(dealInfo[0]);
+            var start = parse_time_12(dealInfo[1]);
+            var end = parse_time_12(dealInfo[2]);
+            var description = dealInfo[3];
+
+            if (day == 1) {
+                $('input.monday-provided-start-time').val(start);
+                $("input[name='monday-start-time']").val(start);
+                $('input.monday-provided-end-time').val(end);
+                $("input[name='monday-end-time']").val(end);
+                $('textarea.monday-provided-description').val(description);
+                $("textarea[name='monday-description']").val(description);
+            } else if (day == 2) {
+                $('input.tuesday-provided-start-time').val(start);
+                $("input[name='tuesday-start-time']").val(start);
+                $('input.tuesday-provided-end-time').val(end);
+                $("input[name='tuesday-end-time']").val(end);
+                $('textarea.tuesday-provided-description').val(description);
+                $("textarea[name='tuesday-description']").val(description);
+            } else if (day == 3) {
+                $('input.wednesday-provided-start-time').val(start);
+                $("input[name='wednesday-start-time']").val(start);
+                $('input.wednesday-provided-end-time').val(end);
+                $("input[name='wednesday-end-time']").val(end);
+                $('textarea.wednesday-provided-description').val(description);
+                $("textarea[name='wednesday-description']").val(description);
+            } else if (day == 4) {
+                $('input.thursday-provided-start-time').val(start);
+                $("input[name='thursday-start-time']").val(start);
+                $('input.thursday-provided-end-time').val(end);
+                $("input[name='thursday-end-time']").val(end);
+                $('textarea.thursday-provided-description').val(description);
+                $("textarea[name='thursday-description']").val(description);
+            } else if (day == 5) {
+                $('input.friday-provided-start-time').val(start);
+                $("input[name='friday-start-time']").val(start);
+                $('input.friday-provided-end-time').val(end);
+                $("input[name='friday-end-time']").val(end);
+                $('textarea.friday-provided-description').val(description);
+                $("textarea[name='friday-description']").val(description);
+            } else if (day == 6) {
+                $('input.saturday-provided-start-time').val(start);
+                $("input[name='saturday-start-time']").val(start);
+                $('input.saturday-provided-end-time').val(end);
+                $("input[name='saturday-end-time']").val(end);
+                $('textarea.saturday-provided-description').val(description);
+                $("textarea[name='saturday-description']").val(description);
+            } else if (day == 7) {
+                $('input.sunday-provided-start-time').val(start);
+                $("input[name='sunday-start-time']").val(start);
+                $('input.sunday-provided-end-time').val(end);
+                $("input[name='sunday-end-time']").val(end);
+                $('textarea.sunday-provided-description').val(description);
+                $("textarea[name='sunday-description']").val(description);
+            }
+        }
+    };
+    populateDealInfo();
+
+    // Try to parse time to 24 hour HH:MM format, return null on failure
+    // http://www.timlabonne.com/2013/07/parsing-a-time-string-with-javascript/
+    var parse_time = function(timeStr) {
+        timeStr = timeStr.trim();
+        var time = timeStr.match(/(\d+)(?::(\d\d))?\s*(p?)/i);
+
+        // Ensure that there are 2 minute digits
+        var colonIndex = timeStr.indexOf(":");
+        if (colonIndex > -1) {
+            if (isNaN(parseInt(timeStr[colonIndex + 1]))
+                || isNaN(parseInt(timeStr[colonIndex + 2]))) {
+                return null;
+            }
+            if (colonIndex > 2) {
+                return null;
+            }
+            if (!isNaN(parseInt(timeStr[colonIndex + 3]))) {
+                return null;
+            }
+        } else {
+            if (timeStr == "0") {
+                return null;
+            }
+        }
+
+        if (!time) {
+            return null;
+        }
+
+        var hour = parseInt(time[1], 10);
+        var minute = parseInt(time[2], 10);
+        if (minute < 0 || minute > 59) {
+            return null;
+        }
+
+        if (isNaN(minute)) {
+            minute = 0;
+        }
+
+        if ((time[3] === "p" || time[3] === "P") && hour !== 12) {
+            hour += 12;
+        }
+        if (hour < 0 || hour > 23) {
+            return null;
+        }
+
+        if (timeStr[timeStr.length - 1] !== 'm' &&
+            timeStr[timeStr.length - 1] !== 'M' &&
+            timeStr[timeStr.length - 1] !== '.' &&
+            hour <= 12
+            && hour > 0) {
+            return null;
+        }
+
+        if (time[3].length === 0 && hour === 12) {
+            hour = 0;
+        }
+
+        var formattedHour = "" + hour;
+        if (formattedHour.length === 1) {
+            formattedHour = "0" + hour;
+        }
+        var formattedMinute = "" + minute;
+        if (formattedMinute.length === 1) {
+            formattedMinute = "0" + minute;
+        }
+
+        return formattedHour + ":" + formattedMinute;
+    };
+
+    // Auto-grow textareas on front end
+    var auto_grow = function(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight) + "px";
+    };
+
+    $(document).ready(function() {
+      $('#submitButton').click(function() {
+        // Check whether happy hour found is checked
+        if (!$("input[name='happy-hour-found']:checked").val()) {
+            alert('Please select whether or not you found a happy hour.');
+            return false;
+        }
+
+        if ($("input[name='happy-hour-found']:checked").val() == "yes") {
+            // Check that times and descriptions are populated correctly
+            var mondayStartTime = $("input[name='monday-start-time']").val();
+            var mondayEndTime = $("input[name='monday-end-time']").val();
+            var mondayDescription = $("textarea[name='monday-description']").val();
+            var tuesdayStartTime = $("input[name='tuesday-start-time']").val();
+            var tuesdayEndTime = $("input[name='tuesday-end-time']").val();
+            var tuesdayDescription = $("textarea[name='tuesday-description']").val();
+            var wednesdayStartTime = $("input[name='wednesday-start-time']").val();
+            var wednesdayEndTime = $("input[name='wednesday-end-time']").val();
+            var wednesdayDescription = $("textarea[name='wednesday-description']").val();
+            var thursdayStartTime = $("input[name='thursday-start-time']").val();
+            var thursdayEndTime = $("input[name='thursday-end-time']").val();
+            var thursdayDescription = $("textarea[name='thursday-description']").val();
+            var fridayStartTime = $("input[name='friday-start-time']").val();
+            var fridayEndTime = $("input[name='friday-end-time']").val();
+            var fridayDescription = $("textarea[name='friday-description']").val();
+            var saturdayStartTime = $("input[name='saturday-start-time']").val();
+            var saturdayEndTime = $("input[name='saturday-end-time']").val();
+            var saturdayDescription = $("textarea[name='saturday-description']").val();
+            var sundayStartTime = $("input[name='sunday-start-time']").val();
+            var sundayEndTime = $("input[name='sunday-end-time']").val();
+            var sundayDescription = $("textarea[name='sunday-description']").val();
+
+            var formattedHappyHourString = "";
+
+            if (!confirmedOrCorrected[0]) {
+                alert("Please confirm or correct Monday's happy hour information");
+                return false;
+            }
+            if (!confirmedOrCorrected[1]) {
+                alert("Please confirm or correct Tuesday's happy hour information");
+                return false;
+            }
+            if (!confirmedOrCorrected[2]) {
+                alert("Please confirm or correct Wednesday's happy hour information");
+                return false;
+            }
+            if (!confirmedOrCorrected[3]) {
+                alert("Please confirm or correct Thursday's happy hour information");
+                return false;
+            }
+            if (!confirmedOrCorrected[4]) {
+                alert("Please confirm or correct Friday's happy hour information");
+                return false;
+            }
+            if (!confirmedOrCorrected[5]) {
+                alert("Please confirm or correct Saturday's happy hour information");
+                return false;
+            }
+            if (!confirmedOrCorrected[6]) {
+                alert("Please confirm or correct Sunday's happy hour information");
+                return false;
+            }
+
+            if (mondayStartTime.length > 0
+                || mondayEndTime.length > 0) {
+                if (mondayDescription.length === 0) {
+                    alert("Please populate a description for Monday's happy hour or delete the Monday times");
+                    return false;
+                } else {
+                    var formattedMondayStartTime = parse_time(mondayStartTime);
+                    var formattedMondayEndTime = parse_time(mondayEndTime);
+                    if (!formattedMondayStartTime || !formattedMondayEndTime) {
+                        alert("Please provide Monday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***1|||" + formattedMondayStartTime + "|||" +
+                            formattedMondayEndTime + "|||" +
+                            mondayDescription.trim();
+                    }
+                }
+            }
+
+            if (tuesdayStartTime.length > 0
+                || tuesdayEndTime.length > 0) {
+                if (tuesdayDescription.length === 0) {
+                    alert("Please populate a description for Tuesday's happy hour or delete the Tuesday times");
+                    return false;
+                } else {
+                    var formattedTuesdayStartTime = parse_time(tuesdayStartTime);
+                    var formattedTuesdayEndTime = parse_time(tuesdayEndTime);
+                    if (!formattedTuesdayStartTime || !formattedTuesdayEndTime) {
+                        alert("Please provide Tuesday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***2|||" + formattedTuesdayStartTime + "|||" +
+                            formattedTuesdayEndTime + "|||" +
+                            tuesdayDescription.trim();
+                    }
+                }
+            }
+
+            if (wednesdayStartTime.length > 0
+                || wednesdayEndTime.length > 0) {
+                if (wednesdayDescription.length === 0) {
+                    alert("Please populate a description for Wednesday's happy hour or delete the Wednesday times");
+                    return false;
+                } else {
+                    var formattedWednesdayStartTime = parse_time(wednesdayStartTime);
+                    var formattedWednesdayEndTime = parse_time(wednesdayEndTime);
+                    if (!formattedWednesdayStartTime || !formattedWednesdayEndTime) {
+                        alert("Please provide Wednesday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***3|||" + formattedWednesdayStartTime + "|||" +
+                            formattedWednesdayEndTime + "|||" +
+                            wednesdayDescription.trim();
+                    }
+                }
+            }
+
+            if (thursdayStartTime.length > 0
+                || thursdayEndTime.length > 0) {
+                if (thursdayDescription.length === 0) {
+                    alert("Please populate a description for Thursday's happy hour or delete the Thursday times");
+                    return false;
+                } else {
+                    var formattedThursdayStartTime = parse_time(thursdayStartTime);
+                    var formattedThursdayEndTime = parse_time(thursdayEndTime);
+                    if (!formattedThursdayStartTime || !formattedThursdayEndTime) {
+                        alert("Please provide Thursday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***4|||" + formattedThursdayStartTime + "|||" +
+                            formattedThursdayEndTime + "|||" +
+                            thursdayDescription.trim();
+                    }
+                }
+            }
+
+            if (fridayStartTime.length > 0
+                || fridayEndTime.length > 0) {
+                if (fridayDescription.length === 0) {
+                    alert("Please populate a description for Friday's happy hour or delete the Friday times");
+                    return false;
+                } else {
+                    var formattedFridayStartTime = parse_time(fridayStartTime);
+                    var formattedFridayEndTime = parse_time(fridayEndTime);
+                    if (!formattedFridayStartTime || !formattedFridayEndTime) {
+                        alert("Please provide Friday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***5|||" + formattedFridayStartTime + "|||" +
+                            formattedFridayEndTime + "|||" +
+                            fridayDescription.trim();
+                    }
+                }
+            }
+
+            if (saturdayStartTime.length > 0
+                || saturdayEndTime.length > 0) {
+                if (saturdayDescription.length === 0) {
+                    alert("Please populate a description for Saturday's happy hour or delete the Saturday times");
+                    return false;
+                } else {
+                    var formattedSaturdayStartTime = parse_time(saturdayStartTime);
+                    var formattedSaturdayEndTime = parse_time(saturdayEndTime);
+                    if (!formattedSaturdayStartTime || !formattedSaturdayEndTime) {
+                        alert("Please provide Saturday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***6|||" + formattedSaturdayStartTime + "|||" +
+                            formattedSaturdayEndTime + "|||" +
+                            saturdayDescription.trim();
+                    }
+                }
+            }
+
+            if (sundayStartTime.length > 0
+                || sundayEndTime.length > 0) {
+                if (sundayDescription.length === 0) {
+                    alert("Please populate a description for Sunday's happy hour or delete the Sunday times");
+                    return false;
+                } else {
+                    var formattedSundayStartTime = parse_time(sundayStartTime);
+                    var formattedSundayEndTime = parse_time(sundayEndTime);
+                    if (!formattedSundayStartTime || !formattedSundayEndTime) {
+                        alert("Please provide Sunday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***7|||" + formattedSundayStartTime + "|||" +
+                            formattedSundayEndTime + "|||" +
+                            sundayDescription.trim();
+                    }
+                }
+            }
+
+            if (formattedHappyHourString.length === 0) {
+                alert("Please enter happy hour information or select no happy hours found");
+                return false;
+            }
+
+            $("input[name='deals']").val(formattedHappyHourString);
+
+            return confirm('Are you sure the descriptions you entered contain NO food deals? Click Cancel to edit, OK to submit');
+        } else {
+            return true;
+        }
+    });
+});
+</script>

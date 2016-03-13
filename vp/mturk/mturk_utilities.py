@@ -376,8 +376,8 @@ def add_mturk_stat(mturk_location, stage_name):
         dateStarted=timezone.now(),
         location=mturk_location.location,
         stage=MTURK_STAGE[stage_name],
-        costForStage=hit_type.PRICE * hit_type.MAX_ASSIGNMENTS,
-        costPerAssignment=hit_type.PRICE * hit_type.MAX_ASSIGNMENTS
+        costForStage=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS],
+        costPerAssignment=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS]
     )
     stat.save()
 
@@ -394,6 +394,8 @@ def complete_mturk_stat(mturk_location, data_confirmed):
     mturk_location.stat.dateCompleted = timezone.now()
     mturk_location.stat.data_confirmed = data_confirmed
     mturk_location.stat.save()
+    mturk_location.stat = None
+    mturk_location.save()
 
 
 #endregion

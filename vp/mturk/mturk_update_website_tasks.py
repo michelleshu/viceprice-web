@@ -55,12 +55,12 @@ def update():
                     # Extend the HIT as long as possible to get agreement
                     if len(assignments) < MAX_ASSIGNMENTS_TO_PUBLISH:
                         conn.extend_hit(hit.HITId, assignments_increment=1)
-                        add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE].PRICE)
+                        add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE][PRICE])
                     # If exceeds max assignment number allowed by Amazon, we must make a new HIT
                     else:
                         conn.disable_hit(hit.HITId)
                         create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
-                        add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE].PRICE * settings.MTURK_HIT_TYPES[FIND_WEBSITE].MAX_ASSIGNMENTS)
+                        add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE][PRICE] * settings.MTURK_HIT_TYPES[FIND_WEBSITE][MAX_ASSIGNMENTS])
                 else:
                     # If no URL found, continue to phone stage if possible. Forfeit if not.
                     if (agreed_url == '' or agreed_url == None):
@@ -84,13 +84,11 @@ def update():
             elif int(mturk_location.stage) == MTURK_STAGE[FIND_HAPPY_HOUR_WEB]:
                 # Get latest assignment
                 assignment = assignments[-1]
-
                 happy_hour_found = get_happy_hour_found(mturk_location, assignment)
 
                 if not happy_hour_found:
-                    # If happy hour was not found because we have the wrong website or wrong phone number, done.
-                    if (mturk_location.stage == MTURK_STAGE[WRONG_WEBSITE] or
-                        mturk_location.stage == MTURK_STAGE[WRONG_PHONE_NUMBER]):
+                    # If happy hour was not found because we have the wrong website, done.
+                    if (mturk_location.stage == MTURK_STAGE[WRONG_WEBSITE]):
                         complete_mturk_stat(mturk_location, False)
                         approve_and_dispose(conn, hit)
 
@@ -98,7 +96,7 @@ def update():
                         # If we've not maxed out on attempts to get the happy hour info, try again
                         if mturk_location.attempts < MAX_GET_HAPPY_HOUR_WEB_ATTEMPTS:
                             conn.extend_hit(hit.HITId, assignments_increment=1)
-                            add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB].PRICE)
+                            add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB][PRICE])
                         else:
                             # Otherwise, transfer to phone process
                             mturk_location.hit_id = None
@@ -123,8 +121,7 @@ def update():
                 happy_hour_found = get_happy_hour_found(mturk_location, assignment)
 
                 if not happy_hour_found:
-                    if (mturk_location.stage == MTURK_STAGE[WRONG_WEBSITE] or
-                        mturk_location.stage == MTURK_STAGE[WRONG_PHONE_NUMBER]):
+                    if (mturk_location.stage == MTURK_STAGE[WRONG_WEBSITE]):
                         complete_mturk_stat(mturk_location, False)
                         approve_and_dispose(conn, hit)
 
@@ -155,7 +152,7 @@ def update():
                             mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
                             create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
 
-                        add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB].PRICE)
+                        add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB][PRICE])
                         approve_and_dispose(conn, hit)
 
             mturk_location.save()
