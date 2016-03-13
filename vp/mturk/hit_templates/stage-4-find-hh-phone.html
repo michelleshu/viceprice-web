@@ -273,7 +273,7 @@
 
     // Expand happy hours section only if happy hours were found.
     // Preset the value to happy hours found to show table
-    $("input[name='happy-hour-found']").val("yes");
+    $("input[name='happy-hour-found'][value='yes']").prop("checked", true);
     $("input[name='happy-hour-found']").change(function() {
         if ($(this).val() == "yes") {
             $(".show-if-hh-found").show();
