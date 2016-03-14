@@ -38,7 +38,10 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
 
     #new_locations = Location.objects.filter(Q(id__gte=2343) & Q(id__lte=2412) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
 
-    new_locations = Location.objects.filter(Q(name = "Liberty Lounge") &
+    test_ids = [2862, 2500, 2538, 2485, 2529, 2449, 3040, 3138, 2733, 2502, 2831, 3175, 2480, 3169, 2892, 2372, 2860,
+                2624, 2925, 2900, 3043, 2717, 2781, 2748, 2574]
+
+    new_locations = Location.objects.filter(Q(id__in=test_ids) &
                     Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
 
     # new_locations = Location.objects.filter(
@@ -64,6 +67,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
         location.mturkDateLastUpdated = timezone.now()
+        location.comments = ""
         location.save()
 
         mturk_location.save()
@@ -87,7 +91,8 @@ def get_phone_update_mturk_locations():
 
     phone_stages = [
         MTURK_STAGE[FIND_HAPPY_HOUR_PHONE],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE],
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE_2]
     ]
 
     return list(MTurkLocationInfo.objects.filter(stage__in=phone_stages))
@@ -197,7 +202,7 @@ def add_comments(mturk_location, comments):
     if (comments != None and comments != ''):
         if (mturk_location.comments == None or mturk_location.comments == ''):
             mturk_location.comments = comments
-        else:
+        elif comments not in mturk_location.comments:
             mturk_location.comments = mturk_location.comments + '\n' + comments
 
         mturk_location.comments = mturk_location.comments[:999]
