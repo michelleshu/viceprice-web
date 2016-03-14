@@ -130,11 +130,19 @@ def update():
                         else:
                             if (mturk_location.stage == MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]):
                                 mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE_2]
-                                create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE_2])
+
+                                if (within_business_hours(mturk_location.location.id)):
+                                    create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE_2])
+                                else:
+                                    mturk_location.hit_id = None
 
                             else:
                                 mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
-                                create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
+
+                                if (within_business_hours(mturk_location.location.id)):
+                                    create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
+                                else:
+                                    mturk_location.hit_id = None
 
                             add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE][PRICE])
 
