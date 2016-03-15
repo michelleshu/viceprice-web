@@ -273,7 +273,7 @@
 
     // Expand happy hours section only if happy hours were found.
     // Preset the value to happy hours found to show table
-    $("input[name='happy-hour-found']").val("yes");
+    $("input[name='happy-hour-found'][value='yes']").prop("checked", true);
     $("input[name='happy-hour-found']").change(function() {
         if ($(this).val() == "yes") {
             $(".show-if-hh-found").show();
@@ -366,180 +366,184 @@
             return false;
         }
 
-        // Check that times and descriptions are populated correctly
-        var mondayStartTime = $("input[name='monday-start-time']").val();
-        var mondayEndTime = $("input[name='monday-end-time']").val();
-        var mondayDescription = $("textarea[name='monday-description']").val();
-        var tuesdayStartTime = $("input[name='tuesday-start-time']").val();
-        var tuesdayEndTime = $("input[name='tuesday-end-time']").val();
-        var tuesdayDescription = $("textarea[name='tuesday-description']").val();
-        var wednesdayStartTime = $("input[name='wednesday-start-time']").val();
-        var wednesdayEndTime = $("input[name='wednesday-end-time']").val();
-        var wednesdayDescription = $("textarea[name='wednesday-description']").val();
-        var thursdayStartTime = $("input[name='thursday-start-time']").val();
-        var thursdayEndTime = $("input[name='thursday-end-time']").val();
-        var thursdayDescription = $("textarea[name='thursday-description']").val();
-        var fridayStartTime = $("input[name='friday-start-time']").val();
-        var fridayEndTime = $("input[name='friday-end-time']").val();
-        var fridayDescription = $("textarea[name='friday-description']").val();
-        var saturdayStartTime = $("input[name='saturday-start-time']").val();
-        var saturdayEndTime = $("input[name='saturday-end-time']").val();
-        var saturdayDescription = $("textarea[name='saturday-description']").val();
-        var sundayStartTime = $("input[name='sunday-start-time']").val();
-        var sundayEndTime = $("input[name='sunday-end-time']").val();
-        var sundayDescription = $("textarea[name='sunday-description']").val();
+        if ($("input[name='happy-hour-found']:checked").val() == "yes") {
 
-        var formattedHappyHourString = "";
+            // Check that times and descriptions are populated correctly
+            var mondayStartTime = $("input[name='monday-start-time']").val();
+            var mondayEndTime = $("input[name='monday-end-time']").val();
+            var mondayDescription = $("textarea[name='monday-description']").val();
+            var tuesdayStartTime = $("input[name='tuesday-start-time']").val();
+            var tuesdayEndTime = $("input[name='tuesday-end-time']").val();
+            var tuesdayDescription = $("textarea[name='tuesday-description']").val();
+            var wednesdayStartTime = $("input[name='wednesday-start-time']").val();
+            var wednesdayEndTime = $("input[name='wednesday-end-time']").val();
+            var wednesdayDescription = $("textarea[name='wednesday-description']").val();
+            var thursdayStartTime = $("input[name='thursday-start-time']").val();
+            var thursdayEndTime = $("input[name='thursday-end-time']").val();
+            var thursdayDescription = $("textarea[name='thursday-description']").val();
+            var fridayStartTime = $("input[name='friday-start-time']").val();
+            var fridayEndTime = $("input[name='friday-end-time']").val();
+            var fridayDescription = $("textarea[name='friday-description']").val();
+            var saturdayStartTime = $("input[name='saturday-start-time']").val();
+            var saturdayEndTime = $("input[name='saturday-end-time']").val();
+            var saturdayDescription = $("textarea[name='saturday-description']").val();
+            var sundayStartTime = $("input[name='sunday-start-time']").val();
+            var sundayEndTime = $("input[name='sunday-end-time']").val();
+            var sundayDescription = $("textarea[name='sunday-description']").val();
 
-        if (mondayStartTime.length > 0
-            || mondayEndTime.length > 0) {
-            if (mondayDescription.length === 0) {
-                alert("Please populate a description for Monday's happy hour or delete the Monday times");
-                return false;
-            } else {
-                var formattedMondayStartTime = parse_time(mondayStartTime);
-                var formattedMondayEndTime = parse_time(mondayEndTime);
-                if (!formattedMondayStartTime || !formattedMondayEndTime) {
-                    alert("Please provide Monday times in 00:00AM format");
+            var formattedHappyHourString = "";
+
+            if (mondayStartTime.length > 0
+                || mondayEndTime.length > 0) {
+                if (mondayDescription.length === 0) {
+                    alert("Please populate a description for Monday's happy hour or delete the Monday times");
                     return false;
                 } else {
-                    formattedHappyHourString = formattedHappyHourString +
-                        "***1|||" + formattedMondayStartTime + "|||" +
-                        formattedMondayEndTime + "|||" +
-                        mondayDescription.trim();
+                    var formattedMondayStartTime = parse_time(mondayStartTime);
+                    var formattedMondayEndTime = parse_time(mondayEndTime);
+                    if (!formattedMondayStartTime || !formattedMondayEndTime) {
+                        alert("Please provide Monday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***1|||" + formattedMondayStartTime + "|||" +
+                            formattedMondayEndTime + "|||" +
+                            mondayDescription.trim();
+                    }
                 }
             }
-        }
 
-        if (tuesdayStartTime.length > 0
-            || tuesdayEndTime.length > 0) {
-            if (tuesdayDescription.length === 0) {
-                alert("Please populate a description for Tuesday's happy hour or delete the Tuesday times");
-                return false;
-            } else {
-                var formattedTuesdayStartTime = parse_time(tuesdayStartTime);
-                var formattedTuesdayEndTime = parse_time(tuesdayEndTime);
-                if (!formattedTuesdayStartTime || !formattedTuesdayEndTime) {
-                    alert("Please provide Tuesday times in 00:00AM format");
+            if (tuesdayStartTime.length > 0
+                || tuesdayEndTime.length > 0) {
+                if (tuesdayDescription.length === 0) {
+                    alert("Please populate a description for Tuesday's happy hour or delete the Tuesday times");
                     return false;
                 } else {
-                    formattedHappyHourString = formattedHappyHourString +
-                        "***2|||" + formattedTuesdayStartTime + "|||" +
-                        formattedTuesdayEndTime + "|||" +
-                        tuesdayDescription.trim();
+                    var formattedTuesdayStartTime = parse_time(tuesdayStartTime);
+                    var formattedTuesdayEndTime = parse_time(tuesdayEndTime);
+                    if (!formattedTuesdayStartTime || !formattedTuesdayEndTime) {
+                        alert("Please provide Tuesday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***2|||" + formattedTuesdayStartTime + "|||" +
+                            formattedTuesdayEndTime + "|||" +
+                            tuesdayDescription.trim();
+                    }
                 }
             }
-        }
 
-        if (wednesdayStartTime.length > 0
-            || wednesdayEndTime.length > 0) {
-            if (wednesdayDescription.length === 0) {
-                alert("Please populate a description for Wednesday's happy hour or delete the Wednesday times");
-                return false;
-            } else {
-                var formattedWednesdayStartTime = parse_time(wednesdayStartTime);
-                var formattedWednesdayEndTime = parse_time(wednesdayEndTime);
-                if (!formattedWednesdayStartTime || !formattedWednesdayEndTime) {
-                    alert("Please provide Wednesday times in 00:00AM format");
+            if (wednesdayStartTime.length > 0
+                || wednesdayEndTime.length > 0) {
+                if (wednesdayDescription.length === 0) {
+                    alert("Please populate a description for Wednesday's happy hour or delete the Wednesday times");
                     return false;
                 } else {
-                    formattedHappyHourString = formattedHappyHourString +
-                        "***3|||" + formattedWednesdayStartTime + "|||" +
-                        formattedWednesdayEndTime + "|||" +
-                        wednesdayDescription.trim();
+                    var formattedWednesdayStartTime = parse_time(wednesdayStartTime);
+                    var formattedWednesdayEndTime = parse_time(wednesdayEndTime);
+                    if (!formattedWednesdayStartTime || !formattedWednesdayEndTime) {
+                        alert("Please provide Wednesday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***3|||" + formattedWednesdayStartTime + "|||" +
+                            formattedWednesdayEndTime + "|||" +
+                            wednesdayDescription.trim();
+                    }
                 }
             }
-        }
 
-        if (thursdayStartTime.length > 0
-            || thursdayEndTime.length > 0) {
-            if (thursdayDescription.length === 0) {
-                alert("Please populate a description for Thursday's happy hour or delete the Thursday times");
-                return false;
-            } else {
-                var formattedThursdayStartTime = parse_time(thursdayStartTime);
-                var formattedThursdayEndTime = parse_time(thursdayEndTime);
-                if (!formattedThursdayStartTime || !formattedThursdayEndTime) {
-                    alert("Please provide Thursday times in 00:00AM format");
+            if (thursdayStartTime.length > 0
+                || thursdayEndTime.length > 0) {
+                if (thursdayDescription.length === 0) {
+                    alert("Please populate a description for Thursday's happy hour or delete the Thursday times");
                     return false;
                 } else {
-                    formattedHappyHourString = formattedHappyHourString +
-                        "***4|||" + formattedThursdayStartTime + "|||" +
-                        formattedThursdayEndTime + "|||" +
-                        thursdayDescription.trim();
+                    var formattedThursdayStartTime = parse_time(thursdayStartTime);
+                    var formattedThursdayEndTime = parse_time(thursdayEndTime);
+                    if (!formattedThursdayStartTime || !formattedThursdayEndTime) {
+                        alert("Please provide Thursday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***4|||" + formattedThursdayStartTime + "|||" +
+                            formattedThursdayEndTime + "|||" +
+                            thursdayDescription.trim();
+                    }
                 }
             }
-        }
 
-        if (fridayStartTime.length > 0
-            || fridayEndTime.length > 0) {
-            if (fridayDescription.length === 0) {
-                alert("Please populate a description for Friday's happy hour or delete the Friday times");
-                return false;
-            } else {
-                var formattedFridayStartTime = parse_time(fridayStartTime);
-                var formattedFridayEndTime = parse_time(fridayEndTime);
-                if (!formattedFridayStartTime || !formattedFridayEndTime) {
-                    alert("Please provide Friday times in 00:00AM format");
+            if (fridayStartTime.length > 0
+                || fridayEndTime.length > 0) {
+                if (fridayDescription.length === 0) {
+                    alert("Please populate a description for Friday's happy hour or delete the Friday times");
                     return false;
                 } else {
-                    formattedHappyHourString = formattedHappyHourString +
-                        "***5|||" + formattedFridayStartTime + "|||" +
-                        formattedFridayEndTime + "|||" +
-                        fridayDescription.trim();
+                    var formattedFridayStartTime = parse_time(fridayStartTime);
+                    var formattedFridayEndTime = parse_time(fridayEndTime);
+                    if (!formattedFridayStartTime || !formattedFridayEndTime) {
+                        alert("Please provide Friday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***5|||" + formattedFridayStartTime + "|||" +
+                            formattedFridayEndTime + "|||" +
+                            fridayDescription.trim();
+                    }
                 }
             }
-        }
 
-        if (saturdayStartTime.length > 0
-            || saturdayEndTime.length > 0) {
-            if (saturdayDescription.length === 0) {
-                alert("Please populate a description for Saturday's happy hour or delete the Saturday times");
-                return false;
-            } else {
-                var formattedSaturdayStartTime = parse_time(saturdayStartTime);
-                var formattedSaturdayEndTime = parse_time(saturdayEndTime);
-                if (!formattedSaturdayStartTime || !formattedSaturdayEndTime) {
-                    alert("Please provide Saturday times in 00:00AM format");
+            if (saturdayStartTime.length > 0
+                || saturdayEndTime.length > 0) {
+                if (saturdayDescription.length === 0) {
+                    alert("Please populate a description for Saturday's happy hour or delete the Saturday times");
                     return false;
                 } else {
-                    formattedHappyHourString = formattedHappyHourString +
-                        "***6|||" + formattedSaturdayStartTime + "|||" +
-                        formattedSaturdayEndTime + "|||" +
-                        saturdayDescription.trim();
+                    var formattedSaturdayStartTime = parse_time(saturdayStartTime);
+                    var formattedSaturdayEndTime = parse_time(saturdayEndTime);
+                    if (!formattedSaturdayStartTime || !formattedSaturdayEndTime) {
+                        alert("Please provide Saturday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***6|||" + formattedSaturdayStartTime + "|||" +
+                            formattedSaturdayEndTime + "|||" +
+                            saturdayDescription.trim();
+                    }
                 }
             }
-        }
 
-        if (sundayStartTime.length > 0
-            || sundayEndTime.length > 0) {
-            if (sundayDescription.length === 0) {
-                alert("Please populate a description for Sunday's happy hour or delete the Sunday times");
-                return false;
-            } else {
-                var formattedSundayStartTime = parse_time(sundayStartTime);
-                var formattedSundayEndTime = parse_time(sundayEndTime);
-                if (!formattedSundayStartTime || !formattedSundayEndTime) {
-                    alert("Please provide Sunday times in 00:00AM format");
+            if (sundayStartTime.length > 0
+                || sundayEndTime.length > 0) {
+                if (sundayDescription.length === 0) {
+                    alert("Please populate a description for Sunday's happy hour or delete the Sunday times");
                     return false;
                 } else {
-                    formattedHappyHourString = formattedHappyHourString +
-                        "***7|||" + formattedSundayStartTime + "|||" +
-                        formattedSundayEndTime + "|||" +
-                        sundayDescription.trim();
+                    var formattedSundayStartTime = parse_time(sundayStartTime);
+                    var formattedSundayEndTime = parse_time(sundayEndTime);
+                    if (!formattedSundayStartTime || !formattedSundayEndTime) {
+                        alert("Please provide Sunday times in 00:00AM format");
+                        return false;
+                    } else {
+                        formattedHappyHourString = formattedHappyHourString +
+                            "***7|||" + formattedSundayStartTime + "|||" +
+                            formattedSundayEndTime + "|||" +
+                            sundayDescription.trim();
+                    }
                 }
             }
+
+            if (formattedHappyHourString.length === 0) {
+                alert("Please enter happy hour information or select no happy hours found");
+                return false;
+            }
+
+            $("input[name='deals']").val(formattedHappyHourString);
+
+            return confirm('Are you sure the happy hour descriptions contain NO food deals? Click Cancel to edit, OK to submit');
+        } else {
+            return true;
         }
-
-        if ($("input[name='happy-hour-found']:checked").val() == 'yes' &&
-            formattedHappyHourString.length === 0) {
-            alert("Please enter happy hour information or select no happy hours found");
-            return false;
-        }
-
-        $("input[name='deals']").val(formattedHappyHourString);
-
-        return confirm('Are you sure the descriptions you entered contain NO food deals? Click Cancel to edit, OK to submit');
       });
     });
 </script>

@@ -25,13 +25,24 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         max_to_add = MAX_LOCATIONS_TO_UPDATE
 
     currently_updating = MTurkLocationInfo.objects.filter(
-        ~Q(stage = MTURK_STAGE[NO_INFO]) & ~Q(stage = MTURK_STAGE[COMPLETE])).count() # number of updates in progress
+        ~Q(stage = MTURK_STAGE[NO_INFO]) &
+        ~Q(stage = MTURK_STAGE[COMPLETE]) &
+        ~Q(stage = MTURK_STAGE[WRONG_WEBSITE]) &
+        ~Q(stage = MTURK_STAGE[WRONG_PHONE_NUMBER])
+    ).count() # number of updates in progress
+
     max_new_locations = max_to_add - currently_updating
 
     # Get at most max_new_locations locations that have either just been added or expired
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
 
-    new_locations = Location.objects.filter(Q(id__gte=2343) & Q(id__lte=2412) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
+    #new_locations = Location.objects.filter(Q(id__gte=2343) & Q(id__lte=2412) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
+
+    test_ids = [2862, 2500, 2538, 2485, 2529, 2449, 3040, 3138, 2733, 2502, 2831, 3175, 2480, 3169, 2892, 2372, 2860,
+                2624, 2925, 2900, 3043, 2717, 2781, 2748, 2574]
+
+    new_locations = Location.objects.filter(Q(id__in=test_ids) &
+                    Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
 
     # new_locations = Location.objects.filter(
     #     mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
@@ -56,6 +67,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
         location.mturkDateLastUpdated = timezone.now()
+        location.comments = ""
         location.save()
 
         mturk_location.save()
@@ -79,7 +91,8 @@ def get_phone_update_mturk_locations():
 
     phone_stages = [
         MTURK_STAGE[FIND_HAPPY_HOUR_PHONE],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE],
+        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE_2]
     ]
 
     return list(MTurkLocationInfo.objects.filter(stage__in=phone_stages))
@@ -189,7 +202,7 @@ def add_comments(mturk_location, comments):
     if (comments != None and comments != ''):
         if (mturk_location.comments == None or mturk_location.comments == ''):
             mturk_location.comments = comments
-        else:
+        elif comments not in mturk_location.comments:
             mturk_location.comments = mturk_location.comments + '\n' + comments
 
         mturk_location.comments = mturk_location.comments[:999]
@@ -338,12 +351,12 @@ def approve_and_dispose(conn, hit):
 #endregion
 
 # Check to see whether we are within valid business hours for a location based on Foursquare ID
-def within_business_hours(foursquare_id):
+def within_business_hours(location_id):
     now = timezone.localtime(timezone.now())
     current_day = now.isoweekday()
     current_time = now.time()
 
-    business_hour_ids = Location.objects.get(foursquareId = foursquare_id).businessHours.all().values_list('id', flat=True)
+    business_hour_ids = Location.objects.get(id = location_id).businessHours.all().values_list('id', flat=True)
     today_business_hour_ids = DayOfWeek.objects.filter(
         day = current_day, businessHour_id__in=business_hour_ids).values_list('businessHour_id', flat=True)
     today_time_frames = TimeFrame.objects.filter(businessHour_id__in=today_business_hour_ids).all().values('startTime', 'endTime')
@@ -353,7 +366,6 @@ def within_business_hours(foursquare_id):
             return True
 
     return False
-
 
 
 # Check if we are currently within a certain time range
@@ -376,8 +388,8 @@ def add_mturk_stat(mturk_location, stage_name):
         dateStarted=timezone.now(),
         location=mturk_location.location,
         stage=MTURK_STAGE[stage_name],
-        costForStage=hit_type.PRICE * hit_type.MAX_ASSIGNMENTS,
-        costPerAssignment=hit_type.PRICE * hit_type.MAX_ASSIGNMENTS
+        costForStage=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS],
+        costPerAssignment=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS]
     )
     stat.save()
 
@@ -394,6 +406,8 @@ def complete_mturk_stat(mturk_location, data_confirmed):
     mturk_location.stat.dateCompleted = timezone.now()
     mturk_location.stat.data_confirmed = data_confirmed
     mturk_location.stat.save()
+    mturk_location.stat = None
+    mturk_location.save()
 
 
 #endregion
