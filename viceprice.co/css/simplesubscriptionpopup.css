@@ -1,8 +1,9 @@
 .simplesignuppro {
 	position:fixed;
-	width:40%;
+	width:80%;
 	display:block;
 	z-index:99999;
+    left: 10% !important;
 	opacity: 0;
 	z-index: -1;
 }

@@ -1,4 +1,5 @@
 __author__ = 'michelleshu'
+import datetime
 
 '''
 constants.py
@@ -12,6 +13,7 @@ CONFIRM_HAPPY_HOUR_WEB = 'CONFIRM_HAPPY_HOUR_WEB'
 CONFIRM_HAPPY_HOUR_WEB_2 = 'CONFIRM_HAPPY_HOUR_WEB_2'
 FIND_HAPPY_HOUR_PHONE = 'FIND_HAPPY_HOUR_PHONE'
 CONFIRM_HAPPY_HOUR_PHONE = 'CONFIRM_HAPPY_HOUR_PHONE'
+CONFIRM_HAPPY_HOUR_PHONE_2 = 'CONFIRM_HAPPY_HOUR_PHONE_2'
 COMPLETE = 'COMPLETE'
 NO_INFO = 'NO_INFO'
 WRONG_WEBSITE = 'WRONG_WEBSITE'
@@ -24,10 +26,11 @@ MTURK_STAGE = {
     CONFIRM_HAPPY_HOUR_WEB_2: 3,
     FIND_HAPPY_HOUR_PHONE: 4,
     CONFIRM_HAPPY_HOUR_PHONE: 5,
-    COMPLETE: 6,
-    NO_INFO: 7,
-    WRONG_WEBSITE: 8,
-    WRONG_PHONE_NUMBER: 9
+    CONFIRM_HAPPY_HOUR_PHONE_2: 6,
+    COMPLETE: 7,
+    NO_INFO: 8,
+    WRONG_WEBSITE: 9,
+    WRONG_PHONE_NUMBER: 10
 }
 
 # HIT Type Parameters
@@ -61,7 +64,8 @@ DEALS = 'deals'
 
 # Time constants
 TIME_FORMATS = ['%H', '%H:%M', '%I:%M%p', '%I%p']
-#BUSINESS_HOUR_CUTOFF = datetime.time(hour=21)   # Latest hour to accept for creation of phone HITs
+
+BUSINESS_HOUR_CUTOFF = datetime.time(hour = 20)   # Latest hour to accept for creation of phone HITs
 
 # Maximum number of locations to update at any given time
 MAX_LOCATIONS_TO_UPDATE = 100
@@ -72,6 +76,7 @@ MIN_AGREEMENT_PERCENTAGE = 70.0
 # MTurk iteration variables
 MAX_ASSIGNMENTS_TO_PUBLISH = 9
 MAX_GET_HAPPY_HOUR_WEB_ATTEMPTS = 3
+MAX_GET_HAPPY_HOUR_PHONE_ATTEMPTS = 3
 
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30

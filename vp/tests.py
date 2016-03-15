@@ -2,7 +2,7 @@ import datetime
 from django.conf import settings
 from django.test import TestCase
 from django.utils import timezone
-from models import Location, MTurkLocationInfo
+from models import Location, MTurkLocationInfo, BusinessHour
 from mturk import mturk_utilities, mturk_update_website_tasks, mturk_update_phone_tasks
 from boto.mturk import connection
 from mock import MagicMock, mock
@@ -186,7 +186,7 @@ class HITCreationTest(TestCase):
             location = location,
             name = location.name,
             address = location.formattedAddress,
-            phone_number = "(202)890-4414",
+            phone_number = location.formattedPhoneNumber,
             website = location.website,
             stage = 0
         )
@@ -258,6 +258,7 @@ class HITUpdateTest(TestCase):
             location = location,
             name = location.name,
             address = location.formattedAddress,
+            phone_number = location.formattedPhoneNumber,
             website = location.website,
             stage = 0
         )
@@ -287,9 +288,10 @@ class HITUpdateTest(TestCase):
     # Stage 0: Find URL HIT
     def test_stage_0(self):
         mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_utilities.add_mturk_stat(mturk_location, FIND_WEBSITE)
         mturk_location.website = None
         mturk_location.save()
-        mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
 
         print("HIT " + mturk_location.hit_id + " created.")
         self.print_status()
@@ -302,6 +304,7 @@ class HITUpdateTest(TestCase):
     # Stage 1: Find web happy hour
     def test_stage_1(self):
         mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_utilities.add_mturk_stat(mturk_location, FIND_HAPPY_HOUR_WEB)
         mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
         mturk_location.save()
         mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
@@ -317,6 +320,7 @@ class HITUpdateTest(TestCase):
     # Stage 2: Confirm web happy hour
     def test_stage_2(self):
         mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_WEB)
         mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
         mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
             "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
@@ -336,13 +340,14 @@ class HITUpdateTest(TestCase):
     # Stage 3: Confirm web happy hour 2
     def test_stage_3(self):
         mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
+        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_WEB_2)
+        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]
         mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
             "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
             "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
             "***7|||18:00|||20:00|||Sunday Description"
         mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB_2])
 
         print("HIT " + mturk_location.hit_id + " created.")
         self.print_status()
@@ -353,18 +358,60 @@ class HITUpdateTest(TestCase):
         self.print_status()
 
 
-    # Stage 4: Confirm phone happy hour
+    # Stage 4: Find phone happy hour
     def test_stage_4(self):
-        location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
-        location.save()
-        mturk_utilities.create_hit(self.conn, location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_utilities.add_mturk_stat(mturk_location, FIND_HAPPY_HOUR_PHONE)
+        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]
+        mturk_location.save()
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_PHONE])
 
-        print("HIT " + location.hit_id + " created.")
+        print("HIT " + mturk_location.hit_id + " created.")
         self.print_status()
         raw_input("Respond at workersandbox.mturk.com...")
 
-        mturk_update_website_tasks.update()
+        mturk_update_phone_tasks.update()
+        print("Updated")
+        self.print_status()
+
+
+    #Stage 5: Confirm phone happy hour
+    def test_stage_5(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_PHONE)
+        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
+        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
+            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
+            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
+            "***7|||18:00|||20:00|||Sunday Description"
+        mturk_location.save()
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
+
+        print("HIT " + mturk_location.hit_id + " created.")
+        self.print_status()
+        raw_input("Respond at workersandbox.mturk.com...")
+
+        mturk_update_phone_tasks.update()
+        print("Updated")
+        self.print_status()
+
+    #Stage 6: Confirm phone happy hour 2
+    def test_stage_6(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
+        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_PHONE_2)
+        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE_2]
+        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
+            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
+            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
+            "***7|||18:00|||20:00|||Sunday Description"
+        mturk_location.save()
+        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE_2])
+
+        print("HIT " + mturk_location.hit_id + " created.")
+        self.print_status()
+        raw_input("Respond at workersandbox.mturk.com...")
+
+        mturk_update_phone_tasks.update()
         print("Updated")
         self.print_status()
 
@@ -522,6 +569,17 @@ class GetHappyHourFoundTest(TestCase):
         self.assertFalse(result)
         self.assertEqual(mturk_location.attempts, 1)
 
+    def test_no_response(self):
+        mturk_location = MTurkLocationInfo.objects.get(name = "GetHappyHour")
+
+        assignment = MockAssignment()
+        assignment.add_answer(HAPPY_HOUR_FOUND, 'no-response')
+
+        result = mturk_utilities.get_happy_hour_found(mturk_location, assignment)
+
+        self.assertFalse(result)
+        self.assertEqual(mturk_location.attempts, 1)
+
     def test_wrong_website(self):
         mturk_location = MTurkLocationInfo.objects.get(name = "GetHappyHour")
 
@@ -543,3 +601,44 @@ class GetHappyHourFoundTest(TestCase):
 
         self.assertFalse(result)
         self.assertEqual(mturk_location.stage, MTURK_STAGE[WRONG_PHONE_NUMBER])
+
+
+# Test that current time is within business hours
+class WithinBusinessHoursTest(TestCase):
+    def test_true(self):
+        location = Location.objects.create(name = "BusinessHours")
+
+        now = timezone.localtime(timezone.now())
+        current_day = now.isoweekday()
+        current_time = now.time()
+
+        # Create business hours including now
+        businessHour = BusinessHour.objects.create([{
+            "start": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) - datetime.timedelta(hours = 1)).time(),
+            "end": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) + datetime.timedelta(hours = 1)).time()
+        }], [ current_day ])
+
+        location.businessHours.add(businessHour)
+
+        within_business_hours = mturk_utilities.within_business_hours(location.id)
+
+        self.assertTrue(within_business_hours)
+
+    def test_false(self):
+        location = Location.objects.create(name = "BusinessHours")
+
+        now = timezone.localtime(timezone.now())
+        current_day = now.isoweekday()
+        current_time = now.time()
+
+        # Create business hours including now
+        businessHour = BusinessHour.objects.create([{
+            "start": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) + datetime.timedelta(hours = 1)).time(),
+            "end": (datetime.datetime.combine(datetime.date(1, 1, 1), current_time) + datetime.timedelta(hours = 2)).time()
+        }], [ current_day ])
+
+        location.businessHours.add(businessHour)
+
+        within_business_hours = mturk_utilities.within_business_hours(location.id)
+
+        self.assertFalse(within_business_hours)
