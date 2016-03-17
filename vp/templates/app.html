@@ -1,74 +1,694 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-		<link rel="stylesheet" type="text/css" href="../static/css/component.css" />
-		<link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
-		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat">
-		<!-- JS -->
-		<script src='https://code.jquery.com/jquery-2.2.1.min.js'></script>
-		<script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
-		<script src='../static/js/cluster.js'></script>
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-			}
-			#map {
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				width: 100%;
-			}
-			.pin {
-				width: 35px;
-				height: 35px;
-				border-radius: 50% 50% 50% 10%;
-				border: solid white 3.5px;
-				background: #89849b;
-				position: absolute;
-				transform: rotateY(30deg);
-				left: 50%;
-				top: 50%;
-				margin: -20px 0 0 -20px;
-			}
-		</style>
-	</head>
-	<body>
-		<div id='map'></div>
-		<script>
-			L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
+<head>
+<meta charset=utf-8 />
+<title> VicePrice </title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <!-- css -->
+  <link rel="stylesheet" type="text/css" href="../static/css/component.css" />
+  <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <!-- JS -->
+  <script src='https://code.jquery.com/jquery-2.2.1.min.js'></script>
+  <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+  <script src='../static/js/cluster.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <style>
+      body {
+        font-family: 'Montserrat';
+        margin: 0;
+        padding: 0;
+      }
+      .map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      .pin {
+        width: 25px;
+        height: 25px;
+        border-radius: 50% 50% 50% 10%;
+        border:solid white 3.5px;
+        background: #89849b;
+        position: absolute;
+        transform: rotateY(30deg);
+        left: 50%;
+        top: 50%;
+        margin: -20px 0 0 -20px;
+        }
+        .menu-ui {
+  background:#fff;
+  position:absolute;
+  top:10px;right:10px;
+  z-index:1;
+  border-radius:3px;
+  width:120px;
+  border:1px solid rgba(0,0,0,0.4);
+  }
+  .menu-ui a {
+    font-size:13px;
+    color:#404040;
+    display:block;
+    margin:0;padding:0;
+    padding:10px;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,0,0,0.25);
+    text-align:center;
+    }
+    .menu-ui a:first-child {
+      border-radius:3px 3px 0 0;
+      }
+    .menu-ui a:last-child {
+      border:none;
+      border-radius:0 0 3px 3px;
+      }
+    .menu-ui a:hover {
+      background:#f8f8f8;
+      color:#404040;
+      }
+    .menu-ui a.active,
+    .menu-ui a.active:hover {
+      background:#3887BE;
+      color:#FFF;
+      }
+    </style>
+</head>
+<body>
+  <nav id='menu-ui' class='menu-ui'>
+  <a href='#' class='active' id='filter-all'>All</a>
+  <a href='#' id='filter-gt'>Georgetown</a>
+  <a href='#' id='filter-fb'>Foggy Bottom</a>
+  <a href='#' id='filter-nd'>North DC</a>
+  <a href='#' id='filter-wd'>West DC</a>
+  <a href='#' id='filter-fh'>Friendship Heights</a>
+  <a href='#' id='filter-am'>Adams Morgan</a>
+  <a href='#' id='filter-ed'>East DC</a>
+  <a href='#' id='filter-sh'>Shaw</a>
+  <a href='#' id='filter-ch'>Capitol Hill</a>
+  <a href='#' id='filter-dt'>Downtown</a>
+  <a href='#' id='filter-chs'>Columbia Heights</a>
+  <a href='#' id='filter-dc'>Dupont Circle</a>
+  <a href='#' id='filter-lc'>Logan Circle</a>
+  <a href='#' id='filter-us'>U Street</a>
+  <a href='#' id='filter-wf'>Waterfront</a>
+  <a href='#' id='filter-se'>South East</a>
+  <a href='#' id='filter-hs'>H Street</a>
+</nav>
+<div id='map' class='map' style='position:fixed;'></div>
+<script src='../static/js/dcn.js'></script>
+<script>
+/*****MapBox*****/
+  L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
+  var southWest = L.latLng(38.820993, -76.875833), 
+      northEast = L.latLng(39.004460, -77.158084), 
+      bounds = L.latLngBounds(southWest, northEast);
+  
+  var map = L.mapbox.map('map');
+  L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa').addTo(map);
+  map.setView([38.907557, -77.028130]);
+  map.setMaxBounds(bounds);
+  map.setZoom(13);
+    
+  /*************************/
+  var clusterGroup = new L.MarkerClusterGroup({polygonOptions: {
+            fillColor: 'white',
+            color: 'white',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.3
+          }
+        });//end of cluster
+          //var goeJsonlayer;
+  var myLayer = L.mapbox.featureLayer().addTo(map);
 
-			var geoJsonData = [];
-			var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(39.004460, -77.158084), bounds = L.latLngBounds(southWest, northEast);
+  myLayer.on('layeradd', function(e) {
+    var marker = e.layer,
+        feature = marker.feature;
 
-			var map = L.mapbox.map('map');
+    // Create custom popup content
+    var popupContent =  '<div class="tooltip"><h1>' + feature.properties.id + '<\/h1>' + '<p>' + feature.properties.phone + '<br \/>' + feature.properties.website + '<\/p> <\/div>';
 
-			L.mapbox.styleLayer('mapbox://styles/mapbox/dark-v8').addTo(map);
-			map.setView([38.907557, -77.009014], 13).setMaxBounds(bounds);
+    // http://leafletjs.com/reference.html#popup
+    marker.bindPopup(popupContent,{
+        closeButton: false,
+        minWidth: 320
+    });
+});
 
-			var clusterGroup = new L.MarkerClusterGroup({
-				polygonOptions : {
-					fillColor : 'white',
-					color : 'white',
-					weight : 2,
-					opacity : 1,
-					fillOpacity : 0.3
-				}
-			});
-			//end of cluster
-			$.get("../fetch/", function(data) {
-				geoJsonData = data.json;
-				var goeJsonlayer = L.geoJson(geoJsonData, {
-					onEachFeature : function(feature, layer) {
-						layer.setIcon(L.divIcon(feature.properties.icon));
-						var content = '<div class="tooltip"><h1>' + feature.properties.name + '<\/h1>' + '<p>' + feature.properties.phone + '<br \/>' + feature.properties.website + '<\/p> <\/div>';
-						layer.bindPopup(content);
-					}
-				});
-				clusterGroup.addLayer(goeJsonlayer);
-				map.addLayer(clusterGroup);
 
-			});
-		</script>
-	</body>
+  $.get("../fetch/", function(data) {
+          geoJsonData = data.json;
+          myLayer.setGeoJSON(geoJsonData);
+        });   
+
+
+      gt = document.getElementById('filter-gt'),
+      fb = document.getElementById('filter-fb'),
+      nd = document.getElementById('filter-nd'),
+      wd = document.getElementById('filter-wd'),
+      fh = document.getElementById('filter-fh'),
+      am = document.getElementById('filter-am'),
+      ed = document.getElementById('filter-ed'),
+      sh = document.getElementById('filter-sh'),
+      ch = document.getElementById('filter-ch'),
+      dt = document.getElementById('filter-dt'),
+      chs = document.getElementById('filter-chs'),
+      dc = document.getElementById('filter-dc'),
+      lc = document.getElementById('filter-lc'),
+      us = document.getElementById('filter-us'),
+      wf = document.getElementById('filter-wf'),
+      se = document.getElementById('filter-se'),
+      hs = document.getElementById('filter-hs'),
+      all = document.getElementById('filter-all');
+
+    gt.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Georgetown";
+        });
+        return false;
+    };
+
+    fb.onclick = function(e) {
+        all.className = '';
+        gt.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Foggy Bottom";
+        });
+        return false;
+    };
+
+    nd.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        gt.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "North DC";
+        });
+        return false;
+    };
+
+    wd.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        gt.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "West DC";
+        });
+        return false;
+    };
+
+    fh.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        gt.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Friendship Heights";
+        });
+        return false;
+    };
+
+    am.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        gt.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Adams Morgan";
+        });
+        return false;
+    };
+
+    ed.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        gt.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "East DC";
+        });
+        return false;
+    };
+
+    sh.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        gt.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Shaw";
+        });
+        return false;
+    };
+
+    ch.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        gt.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Capitol Hill";
+        });
+        return false;
+    };
+
+    dt.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        gt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Downtown";
+        });
+        return false;
+    };
+
+    chs.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        gt.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Columbia Heights";
+        });
+        return false;
+    };
+
+    dc.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        gt.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Dupont Circle";
+        });
+        return false;
+    };
+
+    lc.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        gt.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Logan Circle";
+        });
+        return false;
+    };
+
+    us.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        gt.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "U Street";
+        });
+        return false;
+    };
+
+    wf.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        gt.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "Waterfront";
+        });
+        return false;
+    };
+
+    se.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        gt.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "South East";
+        });
+        return false;
+    };
+
+    hs.onclick = function(e) {
+        all.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        gt.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            return f.properties["neighborhood"] === "H Street";
+        });
+        return false;
+    };
+
+    all.onclick = function() {
+        gt.className = '';
+        fb.className ='';
+        nd.className ='';
+        wd.className ='';
+        fh.className ='';
+        am.className ='';
+        ed.className ='';
+        sh.className ='';
+        ch.className ='';
+        dt.className ='';
+        chs.className ='';
+        dc.className ='';
+        lc.className ='';
+        us.className ='';
+        wf.className ='';
+        se.className ='';
+        hs.className ='';
+        this.className = 'active';
+        myLayer.setFilter(function(f) {
+            // Returning true for all markers shows everything.
+            return true;
+        });
+        return false;
+    };
+    /***DC Neighborhoods***/
+        var dcnLayer = L.geoJson(dcn,  {
+            style: getStyle,
+            onEachFeature: onEachFeature
+          }).addTo(map);
+
+        var label,div,currentZoom;
+          function getStyle(feature) {
+            return {
+              weight: 2,
+              opacity: 0.5,
+              color: '#c8a45e',
+              fillOpacity: 0.8,
+              fillColor: 'rgb(35, 40, 43)',
+            };
+          }
+  
+          function onEachFeature(feature, layer) {
+            layer.on({
+                  //mousemove: mousemove,
+                  mouseout: mouseout,
+                click: click
+                });
+              
+              label = L.marker(layer.getBounds().getCenter(), {
+              icon: L.divIcon({
+                className: 'label',
+            html: getHTML(feature.id,feature.properties.name),
+                iconSize: [100, 35]
+                })}).addTo(map);
+              };
+              /*map.on('zoomend', function() {
+          currentZoom = map.getZoom();
+          $('.map_labels').css('font-size', currentZoom/1.5);
+        });*/
+        function click(e) {
+        map.fitBounds(e.target.getBounds());
+        
+        } 
+        function mousemove(e) {
+          var layer = e.target;
+          layer.setStyle({
+                  weight: 3,
+                  opacity: 0.5,
+                  fillColor:'#c8a45e',
+                  fillOpacity: 0.8
+            });
+          if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+              }
+          }
+          function mouseout(e) {
+            dcnLayer.resetStyle(e.target);
+          }
+        
+        function getHTML(e,d) {
+         return e == 1 ? "<div class='map_labels' style='font-size:18px;margin-top:30%;'>" + d +"</div>" : //north DC
+                    e == 2  ?"<div class='map_labels' style='font-size:18px;margin-left:30%;'>" + d +"</div>" :  //west dc
+                    e == 3  ? "<div class='map_labels' style='font-size:16px;'>" + d +"</div> " :  //Friendship Heights
+                    e == 4  ? "<div class='map_labels' style='font-size:14px;'>" + d +"</div>" :  //Adams Morgan
+                    e == 5  ?"<div class='map_labels' style='font-size:18px;margin-right:30%;'>" + d +"</div>" :  //East dc
+                    e == 6  ? "<div class='map_labels' style='font-size:16px;'>" + d +"</div>" :  //shaw
+                    e == 7  ? "<div class='map_labels' style='font-size:16px;'>" + d +"</div>" :  //Capitol Hill
+                    e == 8 ? "<div class='map_labels' style='font-size:16px;margin-top:15%;'>" + d +"</div>" :  //downtown
+                    e == 9 ? "<div class='map_labels' style='font-size:14px;'>" + d +"</div>" :  //Columbia Heights
+                    e == 10 ? "<div class='map_labels' style='font-size:14px;width:50px;margin-left:30%;margin-top:10%;'>" + d +"</div>" :  //Dupont Circle
+                    e == 11 ? "<div class='map_labels' style='font-size:16px;'>" + d +"</div>" :  //foggy bottom
+                    e == 12 ? "<div class='map_labels' style='font-size:16px;'>" + d +"</div>" :  //georgetown
+                    e == 13 ? "<div class='map_labels' style='font-size:14px;width:50px;margin-left:25%;'>" + d +"</div>" :  //Logan Circle
+                    e == 14 ? "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"</div>" :  //u street
+                    e == 15 ? "<div class='map_labels' style='font-size:14px;margin-rigth:50%;'>" + d +"</div>" : //Waterfront
+                    e == 16 ? "<div class='map_labels' style='font-size:18px;text-align:left;'>" + d +"</div>" : //South east
+                    "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"</div>"; //h street 
+            }
+</script>
+</body>
 </html>
