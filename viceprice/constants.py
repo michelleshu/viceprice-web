@@ -112,3 +112,25 @@ DATA_SOURCE = {
     WEBSITE: 1,
     PHONE: 2
 }
+
+# Drink Categories
+BEER = 'BEER'
+WINE = 'WINE'
+LIQUOR = 'LIQUOR'
+
+DRINK_CATEGORY = {
+    BEER: 1,
+    WINE: 2,
+    LIQUOR: 3
+}
+
+# Deal Detail Data Types
+PRICE = 'PRICE'
+PERCENT_OFF = 'PERCENT OFF'
+PRICE_OFF = 'PRICE OFF'
+
+DEAL_DETAIL_TYPE = {
+    PRICE: 1,
+    PERCENT_OFF: 2,
+    PRICE_OFF: 3
+}
