@@ -62,6 +62,14 @@ class Deal(models.Model):
     dealHour = models.OneToOneField(BusinessHour)
     description = models.CharField(max_length=2000)
 
+# Details about a particular drink and price
+class DealDetail(models.Model):
+    deal = models.ForeignKey(Deal)
+    drinkName = models.CharField(max_length=1000)
+    drinkCategory = models.IntegerField()
+    type = models.IntegerField()
+    value = models.FloatField()
+
 # Information about a location
 class Location(models.Model):
     name = models.CharField(max_length=256, null=True)
