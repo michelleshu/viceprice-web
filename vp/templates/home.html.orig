@@ -182,11 +182,19 @@
                 },function() {
                     $(this).removeClass('hoverBg');
                 }); 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 41d75b78c3c337ff81570137fb6d9c769ccaf6e8
    			$("input:checkbox").click(function() {
                     var ischecked= $(this).is(':checked');
                     if(!ischecked)
                        $("label[for='"+$(this).attr('id')+"']").removeClass('hoverBg');
                 }); 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 41d75b78c3c337ff81570137fb6d9c769ccaf6e8
    			function outputUpdate(num) {
     		if(num==1)
 			document.querySelector('#day_output').value = "Sat";
@@ -267,6 +275,22 @@
 		}
 			/*****MapBox*****/
 			L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
+<<<<<<< HEAD
+
+			var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(39.004460, -77.158084), 
+				bounds = L.latLngBounds(southWest, northEast);
+
+			var map = L.mapbox.map('map');
+
+			L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa').addTo(map);
+
+			map.setView([38.907557, -77.028130]);
+			map.setMaxBounds(bounds);
+			map.setZoom(13, {
+			mixZoom: 12,	
+			});
+
+=======
 			var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(39.004460, -77.158084), 
 				bounds = L.latLngBounds(southWest, northEast);
 			var map = L.mapbox.map('map');
@@ -274,6 +298,7 @@
 			map.setView([38.907557, -77.028130]);
 			map.setMaxBounds(bounds);
 			map.setZoom(13);
+>>>>>>> 41d75b78c3c337ff81570137fb6d9c769ccaf6e8
 			/*************************/
 			var clusterGroup = new L.MarkerClusterGroup({polygonOptions: {
             fillColor: 'white',
@@ -295,12 +320,51 @@
 					});
 					//map.addLayer(goeJsonlayer);
  					//map.addLayer(clusterGroup);
+<<<<<<< HEAD
+
+				});		
+
+				/***DC Neighborhoods***/
+
+=======
 				});		
 				/***DC Neighborhoods***/
+>>>>>>> 41d75b78c3c337ff81570137fb6d9c769ccaf6e8
 				var dcnLayer = L.geoJson(dcn,  {
       			style: getStyle,
       			onEachFeature: onEachFeature
   				}).addTo(map);
+<<<<<<< HEAD
+
+				var label,div,currentZoom;
+
+  				function getStyle(feature) {
+      			return {
+          		weight: 2,
+          		opacity: 0.5,
+          		color: '#c8a45e',
+          		fillOpacity: 0.8,
+          		fillColor: 'rgb(35, 40, 43)',
+      			};
+  				}
+  
+  				function onEachFeature(feature, layer) {
+      			layer.on({
+              		mousemove: mousemove,
+              		mouseout: mouseout,
+            		click: zoomToFeature
+            		});
+            	
+            	label = L.marker(layer.getBounds().getCenter(), {
+            	icon: L.divIcon({
+            		className: 'label',
+    				html: getHTML(feature.id,feature.properties.name),
+            		iconSize: [100, 35]
+             		})}).addTo(map);
+          		};
+
+
+=======
 
 				var label,div,currentZoom;
   				function getStyle(feature) {
@@ -327,10 +391,35 @@
             		iconSize: [100, 35]
              		})}).addTo(map);
           		};
+>>>>>>> 41d75b78c3c337ff81570137fb6d9c769ccaf6e8
             	/*map.on('zoomend', function() {
 				  currentZoom = map.getZoom();
 				  $('.map_labels').css('font-size', currentZoom/1.5);
 				});*/
+<<<<<<< HEAD
+
+				function zoomToFeature(e) {
+				map.fitBounds(e.target.getBounds());
+				}	
+
+				function mousemove(e) {
+			    var layer = e.target;
+					layer.setStyle({
+				          weight: 3,
+				          opacity: 0.5,
+				          fillColor:'#c8a45e',
+				          fillOpacity: 0.8
+				    });
+				  if (!L.Browser.ie && !L.Browser.opera) {
+          			layer.bringToFront();
+      				}
+  				}
+
+  				function mouseout(e) {
+			      dcnLayer.resetStyle(e.target);
+  				}
+				
+=======
 				function click(e) {
 				map.fitBounds(e.target.getBounds());
 				
@@ -351,6 +440,7 @@
 			      dcnLayer.resetStyle(e.target);
   				}
 				
+>>>>>>> 41d75b78c3c337ff81570137fb6d9c769ccaf6e8
 				function getHTML(e,d) {
 				 return e == 1 ? "<div class='map_labels' style='font-size:18px;margin-top:30%;'>" + d +"</div>" : //north DC
 		                e == 2  ?"<div class='map_labels' style='font-size:18px;margin-left:30%;'>" + d +"</div>" :  //west dc
