@@ -1,0 +1,29 @@
+.hidden {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.happy-hour-entry-container {
+    margin-top: 3rem;
+}
+
+.happy-hour-entry-container h6 {
+    margin-bottom: 0;
+}
+
+.happy-hour-entry-container a {
+    cursor: pointer;
+}
+
+.title-row {
+    margin-bottom: 8px;
+}
+
+.content-row {
+    margin-bottom: 24px;
+}
+
+.deal-value {
+    width: 60%;
+}

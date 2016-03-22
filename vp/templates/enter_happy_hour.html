@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block resources %}
+    <link rel="stylesheet" href="{% static 'css/enter-happy-hour.css' %}">
+    <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/enter-happy-hour.js' %}"></script>
+{% endblock resources %}
+
+{% block content %}
+    <div class="container happy-hour-entry-container">
+        <div class="row">
+            <div class="progress-bar-complete"></div>
+            <div class="progress-bar-incomplete"></div>
+        </div>
+        <div class="row">
+            <div class="ten columns">
+                <h5>Location: {{location.name}}</h5>
+            </div>
+            <div class="two columns">
+                <button class="button-primary">Skip</button>
+            </div>
+        </div>
+        <div class="row">
+            <h5>Website: <a href="{{location.website}}" target="_blank">{{location.website}}</a></h5>
+        </div>
+        <div class="row">
+            <h5>Phone Number: {{location.phone_number}}</h5>
+        </div>
+        <div class="deal-section">
+            <hr/>
+            <div class="row title-row">
+                <div class="seven columns">
+                    <h6>DAY(S) OF WEEK (Click and drag to select)</h6>
+                </div>
+                <div class="five columns">
+                    <h6>TIME PERIOD</h6>
+                </div>
+
+            <div class="row content-row">
+                <div class="seven columns day-of-week-buttons">
+                    <button class="monday-button">M</button>
+                    <button class="tuesday-button">T</button>
+                    <button class="wednesday-button">W</button>
+                    <button class="thursday-button">Th</button>
+                    <button class="friday-button">F</button>
+                    <button class="saturday-button">S</button>
+                    <button class="sunday-button">Su</button>
+                </div>
+                <div class="five columns">
+                    <div>
+                        <input type="time" class="start-time" value="00:00"/>
+                        <span> to </span>
+                        <input type="time" class="end-time" value="00:00"/>
+                        <input type="checkbox" class="until-close"/>
+                        <span>Til Close</span>
+                    </div>
+
+                    <div>
+                        <a class="add-time-period-link"> + Add another time period</a>
+                    </div>
+
+                    <div class="second-time-period hidden">
+                        <i class="fa fa-minus-circle delete-time-period-link"></i>
+                        <input type="time" class="start-time" value="00:00"/>
+                        <span> to </span>
+                        <input type="time" class="end-time" value="00:00"/>
+                        <input type="checkbox" class="until-close"/>
+                        <span>Til Close</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row title-row">
+                <div class="six columns">
+                    <h6>DRINK NAMES</h6>
+                </div>
+                <div class="two columns">
+                    <h6>CATEGORY</h6>
+                </div>
+                <div class="two columns">
+                    <h6>DEAL TYPE</h6>
+                </div>
+                <div class="two columns">
+                    <h6>DEAL VALUE</h6>
+                </div>
+            </div>
+            <div class="row content-row">
+                <div class="six columns">
+                    <input type="text" class="u-full-width" placeholder="Corona Light, Miller Lite"/>
+                </div>
+                <div class="two columns">
+                    <select class="u-full-width">
+                        <option value="beer">Beer</option>
+                        <option value="wine">Wine</option>
+                        <option value="liquor">Liquor</option>
+                    </select>
+                </div>
+                <div class="two columns">
+                    <select class="u-full-width">
+                        <option value="price">Price</option>
+                        <option value="percent-off">% Off</option>
+                        <option value="price-off">$ Off</option>
+                    </select>
+                </div>
+                <div class="two columns">
+                    <span class="dollar-prefix">$</span>
+                    <input type="text" class="deal-value"/>
+                    <span class="percent-off-suffix hidden">% off</span>
+                    <span class="price-off-suffix hidden"> off</span>
+                </div>
+                <div>
+                    <a> + Add another deal</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <a> + Add another time period</a>
+        </div>
+    </div>
+    <div class="u-pull-right">
+        <button class="button-primary submit-button">Submit</button>
+    </div>
+
+{% endblock content %}
