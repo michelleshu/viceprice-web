@@ -14,7 +14,7 @@ def index(request):
     if request.user.is_authenticated():
         context = { 'user': request.user }
         context.update(csrf(request));
-        return upload_data_view(request)
+        return enter_happy_hour_view(request)
 
 # Authentication
 def login_view(request):
@@ -121,6 +121,14 @@ def home(request):
     context = {}
     context.update(csrf(request))
     return render_to_response('home.html', context)
+
+@login_required(login_url='/login/')
+def enter_happy_hour_view(request):
+    context = {}
+    context.update(csrf(request))
+
+    return render_to_response('enter_happy_hour.html', context)
+
 
 def submit_locations_to_upload(request):
     data = request.POST

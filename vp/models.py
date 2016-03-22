@@ -88,6 +88,7 @@ class Location(models.Model):
     foursquareId = models.CharField(max_length=50, null=True)
     twitterHandle = models.CharField(max_length=50, null=True)
     yelpId = models.CharField(max_length=50, null=True)
+    dealDataManuallyReviewed = models.DateTimeField(null=True)
 
 # Track the time and cost of MTurk stage
 class MTurkLocationInfoStat(models.Model):
