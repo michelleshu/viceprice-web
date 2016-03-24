@@ -40,140 +40,17 @@
 			  top: 50%;
 			  margin: -20px 0 0 -20px;
 			  }
-			  
+
 		</style>
 	</head>
 	<body>
 		<div class='grid'>
 			<div id='map' class='map' style='position:fixed;'></div>
 
-			<div class='left-side-bar'>
-				<div class='search-div'>
-					<p>SEARCH</p>
-					<form method="get" action="/search" id="search">
-						<input name="q" type="text" size="40" />
-					</form>
-				</div>
-				<div class='hours-div'>
-					<p>HOURS</p>
-				      <output for="day" id="day_output">Sat</output>
-					  	<div class="slider">
-					  	<input type="range" id="day" value="1" step="1" min="1" max="7" oninput="outputUpdate(value)">
-						</div>
-					  <output for="time" id="time_output">8:00 AM</output>
-					  <input type="range" id="time" value="8" step="1" min="8" max="38" oninput="outputUpdate(value)">
-				</div>
-				<div class='location-div'>
-					<p> LOCATION:</p>
-					<br/><br/>
-				</div>
-				 <div class='venues-div'>
-                <p> VENUES: </p>  
-            </div>
-                <input type="checkbox" id="dive" checked>
-                <label class="tiles" for="dive" style="margin-left:18%;"><i class="v-icon"></i>
-                <span class="label">Dive Bar</span></label>
+			{% include '_filters.html' %}
 
-                <input type="checkbox" id="gay" checked>
-                <label class="tiles" for="gay" style="margin-left:5%;"><i class="v-icon"></i>
-                <span class="label">Gay Bar</span></label>
+			{% include '_venue_details.html' %}
 
-                <input type="checkbox" id="hotel" checked>
-                <label class="tiles" for="hotel" style="margin-left:18%;"><i class="v-icon"></i>
-                <span class="label">Hotel</span></label>
-
-                <input type="checkbox" id="general" checked>
-                <label class="tiles" for="general" style="margin-left:5%;"><i class="v-icon"></i>
-                <span class="label">General</span></label>
-                
-                <input type="checkbox" id="fancy" checked>
-                <label class="tiles" for="fancy" style="margin-left:18%;"><i class="v-icon"></i>
-                <span class="label">Fancy</span></label>
-
-                <input type="checkbox" id="sports" checked>
-                <label class="tiles" for="sports" style="margin-left:5%;"><i class="v-icon"></i>
-                <span class="label">Sports</span></label>
-                
-                <input type="checkbox" id="pub" checked>
-                <label class="tiles" for="pub" style="margin-left:18%;"><i class="v-icon"></i>
-                <span class="label">Pub</span></label>
-                
-                <input type="checkbox" id="nightclub" checked>
-                <label class="tiles" for="nightclub"style="margin-left:5%;"><i class="v-icon"></i>
-                <span class="label">Nightclub</span></label>
-                
-                <input type="checkbox" id="piano" value="Hi" checked>
-                <label class="tiles" for="piano" style="margin-left:18%;"><i class="v-icon"></i>
-                <span class="label">Piano</span></label>
-                
-                <input type="checkbox" id="hookah" checked>
-                <label class="tiles" for="hookah" style="margin-left:5%;"><i class="v-icon"></i>
-                <span class="label">Hookah</span></label>
-				
-				
-			</div>
-
-			<div class="about-contact-us">
-					<a href="url">About</a>
-					<a href="url">Contact Us</a>
-					<a href="url">Owner?</a>
-			</div>
-
-			<div class='right-side-bar'>
-				<img src="../static/img/sushi.jpg" width="300" height="170px"/>
-				<div class="bar-info-div">
-					<h1> Hanate Sushi Bar</h1>
-					<h3> Facny Bar | </h3><h4>3:00 PM to 5:30 PM </h4>
-				</div>
-				<div class="specials-div">
-					<h2> Happy Hour Specials </h2>
-					<p>$5 Drink Specials</p>
-					<ul>
-						<li>Beer</li>
-						<ul>
-							<li>$2 off all drafts</li>
-						</ul>
-						<li>Wine</li>
-						<ul>
-							<li>$5 House Wines</li>
-						</ul>
-						<li>Cocktails &amp; Sprits</li>
-						<ul>
-							<li>$1 off all rails</li>
-							<li>$2 off all cocktails</li>
-							<li>$9 Boiler Maker</li>
-							<li>$1 off all rails</li>
-							<li>$2 off all cocktails</li>
-							<li>$1 off all rails</li>
-							<li>$2 off all cocktails</li>
-						</ul>
-					</ul>
-				</div>
-				<div class="reviews-div">
-					<div style="overflow:hidden;">
-						<h2> Reviews </h2>
-						<img src="../static/img/facebook_icon.png" style="display:block;float:right;width:20%; height:20%; padding-bottom:5%"/>
-					</div>
-					<ul>
-						<li><img src="../static/img/icon-profile.png" style="vertical-align:middle; padding-right:5%;"/> it's like a Moroccan oasis in the middle of ....
-						</li>
-						<hr class="review-hr">
-						<li>
-							<img src="../static/img/icon-profile.png" style="vertical-align:middle; padding-right:5%;"/> try getting a table by window ...
-						</li>
-						<hr class="review-hr">
-						<li>
-							<img src="../static/img/icon-profile.png" style="vertical-align:middle; padding-right:5%;"/> seared scallops along ..
-						</li>
-						<hr class="review-hr">
-						<li>
-							<img src="../static/img/icon-profile.png" style="vertical-align:middle; padding-right:5%;"/> seared scallops along ..
-						</li>
-						<hr class="review-hr">
-					</ul>
-					<a href="url"> Read more ... </a>
-				</div>
-			</div>
 		</div>
 		<script src='../static/js/dcn.js'></script>
 		<script>
@@ -181,12 +58,14 @@
                     $(this).addClass('hoverBg');
                 },function() {
                     $(this).removeClass('hoverBg');
-                }); 
+                });
+
    			$("input:checkbox").click(function() {
                     var ischecked= $(this).is(':checked');
                     if(!ischecked)
                        $("label[for='"+$(this).attr('id')+"']").removeClass('hoverBg');
-                }); 
+                });
+
    			function outputUpdate(num) {
     		if(num==1)
 			document.querySelector('#day_output').value = "Sat";
@@ -267,7 +146,8 @@
 		}
 			/*****MapBox*****/
 			L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
-			var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(39.004460, -77.158084), 
+
+			var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(39.004460, -77.158084),
 				bounds = L.latLngBounds(southWest, northEast);
 			var map = L.mapbox.map('map');
 			L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa').addTo(map);
@@ -295,7 +175,9 @@
 					});
 					//map.addLayer(goeJsonlayer);
  					//map.addLayer(clusterGroup);
-				});		
+
+				});
+
 				/***DC Neighborhoods***/
 				var dcnLayer = L.geoJson(dcn,  {
       			style: getStyle,
@@ -312,14 +194,14 @@
           		fillColor: 'rgb(35, 40, 43)',
       			};
   				}
-  
+
   				function onEachFeature(feature, layer) {
       			layer.on({
               		mousemove: mousemove,
               		mouseout: mouseout,
             		click: click
             		});
-            	
+
             	label = L.marker(layer.getBounds().getCenter(), {
             	icon: L.divIcon({
             		className: 'label',
@@ -333,8 +215,8 @@
 				});*/
 				function click(e) {
 				map.fitBounds(e.target.getBounds());
-				
-				}	
+				}
+
 				function mousemove(e) {
 			    var layer = e.target;
 					layer.setStyle({
@@ -350,7 +232,7 @@
   				function mouseout(e) {
 			      dcnLayer.resetStyle(e.target);
   				}
-				
+
 				function getHTML(e,d) {
 				 return e == 1 ? "<div class='map_labels' style='font-size:18px;margin-top:30%;'>" + d +"</div>" : //north DC
 		                e == 2  ?"<div class='map_labels' style='font-size:18px;margin-left:30%;'>" + d +"</div>" :  //west dc
@@ -368,7 +250,7 @@
 		                e == 14 ? "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"</div>" :  //u street
 		                e == 15 ? "<div class='map_labels' style='font-size:14px;margin-rigth:50%;'>" + d +"</div>" : //Waterfront
 		                e == 16 ? "<div class='map_labels' style='font-size:18px;text-align:left;'>" + d +"</div>" : //South east
-		                "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"</div>"; //h street 
+		                "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"</div>"; //h street
 						}
 		</script>
 	</body>
