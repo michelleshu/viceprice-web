@@ -40,6 +40,7 @@
 });
 
 //markers data
+var geoJsonData;
   $.get("../fetch/", function(data) {
           geoJsonData = data.json;
         });   

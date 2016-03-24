@@ -94,6 +94,7 @@ class Location(models.Model):
     twitterHandle = models.CharField(max_length=50, null=True)
     yelpId = models.CharField(max_length=50, null=True)
     dealDataManuallyReviewed = models.DateTimeField(null=True)
+    neighborhood=models.CharField(max_length=256, null=True)
 
 # Track the time and cost of MTurk stage
 class MTurkLocationInfoStat(models.Model):
