@@ -130,6 +130,10 @@ def enter_happy_hour_view(request):
     return render_to_response('enter_happy_hour.html', context)
 
 
+# def get_location_that_needs_happy_hour(request):
+
+
+
 def submit_locations_to_upload(request):
     data = request.POST
 

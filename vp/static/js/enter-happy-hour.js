@@ -10,6 +10,21 @@ $(document).ready(function() {
     .mouseup(function() {
         isMouseDown = false;
     });
+
+    $(".submit-button").click(function() {
+        var deals = $(".deal-section");
+        var dealData = [];
+
+        for (var i = 0; i < deals.length; i++) {
+            dealData.push(getDealInfo($(deals[i])));
+        }
+
+        console.log(dealData);
+
+        return {
+            'deals': dealData
+        };
+    });
 });
 
 $(document).on("mousedown", ".day-of-week-buttons button", function() {
@@ -42,7 +57,7 @@ $(document).on("click", ".delete-time-period-link", function() {
     $(this).parent().addClass("hidden");
 });
 
-$(document).on("change", ".deal-type-selector", function() {
+$(document).on("change", ".deal-type", function() {
     if ($(this).val() == "price") {
         $(this).parent().parent().find(".dollar-prefix").removeClass("hidden");
         $(this).parent().parent().find(".percent-off-suffix").addClass("hidden");
@@ -80,19 +95,15 @@ $(document).on("click", ".delete-deal-link", function(event) {
     }
 });
 
-// var getData = function() {
-//     return {
-//         deals:
-//     }
-// }
-
 var getDealInfo = function(dealElement) {
     var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary"));
     var timePeriods = getTimePeriods(dealElement.find(".time-periods"));
+    var dealDetails = getDealDetails(dealElement);
 
     return {
         "daysOfWeek": daysOfWeek,
-        "timePeriods": timePeriods
+        "timePeriods": timePeriods,
+        "dealDetails": dealDetails
     }
 };
 
@@ -100,7 +111,7 @@ var getTimePeriods = function(timePeriods) {
     var firstTimePeriod = {
         'startTime': timePeriods.find(".first-time-period .start-time").val(),
         'endTime': timePeriods.find(".first-time-period .end-time").val(),
-        'untilClose': timePeriods.find(".until-close").is(":checked")
+        'untilClose': timePeriods.find(".first-time-period .until-close").is(":checked")
     };
     var timePeriodResults = [firstTimePeriod];
 
@@ -108,7 +119,7 @@ var getTimePeriods = function(timePeriods) {
         var secondTimePeriod = {
             'startTime': timePeriods.find(".second-time-period .start-time").val(),
             'endTime': timePeriods.find(".second-time-period .end-time").val(),
-            'untilClose': timePeriods.find(".until-close").is(":checked")
+            'untilClose': timePeriods.find(".second-time-period .until-close").is(":checked")
         };
         timePeriodResults.push(secondTimePeriod);
     }
@@ -116,8 +127,21 @@ var getTimePeriods = function(timePeriods) {
     return timePeriodResults;
 };
 
-var getDealDetails = function(drinkDetails) {
+var getDealDetails = function(dealElement) {
+    var dealDetails = dealElement.find(".deal-detail-section");
+    var dealDetailResults = [];
 
+    for (var i = 0; i < dealDetails.length; i++) {
+        var detail = $(dealDetails[i]);
+        dealDetailResults.push({
+            'names': detail.find(".drink-names").val(),
+            'category': detail.find(".drink-category").val(),
+            'dealType': detail.find(".deal-type").val(),
+            'dealValue': parseFloat(detail.find(".deal-value").val())
+        });
+    }
+
+    return dealDetailResults;
 };
 
 var getDaysOfWeek = function(daysOfWeekPrimaryButtons) {
