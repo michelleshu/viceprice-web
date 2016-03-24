@@ -1,4 +1,4 @@
-		/*****MapBox*****/
+	/*****MapBox*****/
   L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
   var southWest = L.latLng(38.820993, -76.875833), 
       northEast = L.latLng(39.004460, -77.158084), 
@@ -14,16 +14,7 @@
   L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa').addTo(map);
   map.setMaxBounds(bounds);
     
-  /*************************/
-  var clusterGroup = new L.MarkerClusterGroup({polygonOptions: {
-            fillColor: 'white',
-            color: 'white',
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.3
-          }
-        });//end of cluster
-          
+  /*******Creating featureLayer and adding markers data*********/
   var myLayer = L.mapbox.featureLayer().addTo(map);
 
   myLayer.on('layeradd', function(e) {
@@ -39,19 +30,18 @@
     });
 });
 
-//markers data
 var geoJsonData;
   $.get("../fetch/", function(data) {
           geoJsonData = data.json;
         });   
 
-    /***DC Neighborhoods***/
+/***DC Neighborhoods***/
         var dcnLayer = L.geoJson(dcn,  {
             style: getStyle,
             onEachFeature: onEachFeature
           }).addTo(map);
 
-        var lastLayer,lastLabel;
+        var lastLayer,lastLabel,css,id,neighborhood;
 
           function getStyle(feature) {
             return {
@@ -99,7 +89,6 @@ var geoJsonData;
           };
              
         function click(e) {
-           var css,id,neighborhood;
            css=document.getElementsByClassName("label");
            
         if(lastLayer === undefined){}//do nothign
@@ -153,9 +142,11 @@ var geoJsonData;
 
           function labelLocation (l,f){
             //had to manually adjust the label location of few polygons
-           return f.id == 13 ? L.latLng(38.909684,-77.031951): 
-                  f.id == 15 ? L.latLng(38.872020, -77.012171): 
-                  f.id == 16 ? L.latLng(38.858346, -76.996716):
+          return f.id == 10 ? L.latLng(38.912624, -77.042739): 
+                 f.id == 13 ? L.latLng(38.911011, -77.031959): 
+                 f.id == 14 ? L.latLng(38.918115, -77.030865): 
+                 f.id == 15 ? L.latLng(38.872020, -77.012171): 
+                 f.id == 16 ? L.latLng(38.858346, -76.996716):
                   l.getBounds().getCenter();
           }
         
@@ -177,5 +168,33 @@ var geoJsonData;
             e == 14 ? "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"<div class='bar_num_labels' id='14'>( 40 )<div/></div>" :  //u street
             e == 15 ? "<div class='map_labels' style='font-size:14px;margin-rigth:50%;'>" + d +"<div class='bar_num_labels' id='15'>( 10 )<div/></div>" : //Waterfront
             e == 16 ? "<div class='map_labels' style='font-size:18px;text-align:left;'>" + d +"<div class='bar_num_labels' id='16'>( 2 )<div/></div>" : //South east
-                    "<div class='map_labels' style='font-size:13px;margin-top:2%;'>" + d +"<div class='bar_num_labels' id='17'>( 27 )<div/></div>"; //h street 
+                    "<div class='map_labels' style='font-size:12px;'>" + d +"<div class='bar_num_labels' id='17' >( 27 )<div/></div>"; //h street 
             }
+
+/******Zoom in / Zoom out and Neighborhood Zoom functions******/
+var zoom
+
+$("#neighboor-zoom").click(function() {
+  //zoom out to dc level
+    map.setView([38.907557, -77.028130],13);
+    //reset polygon style
+    dcnLayer.resetStyle(lastLayer);
+    lastLayer.on({mousemove:mousemove, mouseout:mouseout});
+    document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
+    id=parseInt(lastLayer.feature.id)-1;
+    css[id].style.display="block";
+    //remove all markers
+     myLayer.setFilter(function(f) {
+            return false;
+        });               
+}); 
+
+$("#zoom-in").click(function() {
+  zoom=map.getZoom();
+  map.setZoom(zoom+1);             
+}); 
+
+$("#zoom-out").click(function() {
+   zoom=map.getZoom();
+  map.setZoom(zoom-1);               
+}); 

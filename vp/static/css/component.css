@@ -1,77 +1,3 @@
-/**METRO UI**/
-.tiles {
-  display: block;
-    background: rgb(35, 40, 43);
-    width:30%;
-    height: 7%;
-    float: left;
-    margin-top: 5%;
-    cursor: pointer;
-   position: relative;
-   border: solid 2px transparent;
-}
-
-input[type="checkbox"] {
-    display: none;
-}
-
-.v-icon{
- display: inline-block;
-  content:url("../img/v-icon.ico");
-    height:55%;
-    width:55%;
-    margin-left:15%;
-    margin-bottom: 6%;
-    margin-top: 2%;
-}
-
-.label{
-  color: #fbfbfb;
-  font: 65% "Montserrat";
-    opacity: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/**HOVER**/
-.hoverBg{
-  background-color:#c8a45e;
-}
-
-/*.hoverIcon .v-icon{
-    height:55%;
-    width:55%;
-    transition: .15s linear .15s;
-    opacity: 1;
-    margin-left:15%;
-    margin-bottom: 6%;
-    margin-top: 2%;
-}
-
-.hoverLabel .label{
-  transition: .3s linear .3s;
-    opacity: 1;
-}*/
-
-/**checked**/
-input[type="checkbox"]:checked + .tiles {
-  background-color:#c8a45e;
-}
-
-input[type="checkbox"]:checked + .tiles .v-icon{
-  height:55%;
-  width:55%;
-  margin-left:15%;
-  margin-bottom: 6%;
-  margin-top: 2%;
-}
-
-input[type="checkbox"]:checked + .tiles .label{
-  opacity:1;
-}
-
-
 /****************/
 html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   margin:0;
@@ -84,7 +10,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 /* Leftside bar*/
 .left-side-bar  { position:fixed;float:left; width:16.6666%; max-width:200px; background-color:rgb(35, 40, 43); top:0; bottom:0; left:0;} 
 
-.search-div, .venues-div, .location-div, .hours-div{
+.search-div, .hours-div{
   display:block;
   padding-left:10%;
   position:relative;
@@ -113,12 +39,15 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   border-bottom: 1px solid #7d7f80;
   }
 
-.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-bottom:1%;}
+.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-bottom:1%; width: 100%;}
 
-a {font-size:60%; font-family: Arial, sans-serif;padding-left:8%;}
+a {font-size:60%; font-family: Arial, sans-serif;padding-left:1%;}
 a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
+.zooming-bar { position: fixed; float:right; width: 2%; height:10%; background-color: #c8a45e;top:0; margin-left:15.8%;}
+.zooming-bar li{ list-style-type: none;text-align: center;}
+.zooming-bar img{width:80%;height:80%;margin-top:15%;cursor: pointer;}
 /* Rightside bar*/
 .right-side-bar {position:absolute; float:left; width:25.0000%; max-width:300px; background-color:#fbfbfb;opacity:0.95; top:0; right:0;  }
 
