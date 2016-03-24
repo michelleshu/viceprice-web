@@ -16,6 +16,29 @@
     cursor: pointer;
 }
 
+.progress-bar-incomplete {
+    width: 100%;
+    height: 10px;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress-bar-complete {
+    width: 50%;
+    height: 10px;
+    background-color: green;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.number-complete {
+    height: 50px;
+    padding-top: 15px;
+}
+
 .title-row {
     margin-bottom: 8px;
 }

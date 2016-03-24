@@ -34,9 +34,13 @@ class BusinessHourManager(models.Manager):
         for tf in time_frames_data:
             # Convert times from military time strings to time objects
             start_time = tf['start']
-            end_time = tf['end']
+            end_time = tf.get('end')
+            until_close = tf.get('until_close')
 
-            time_frame = TimeFrame(startTime = start_time, endTime = end_time, businessHour = business_hour)
+            if until_close == None:
+                until_close = False
+
+            time_frame = TimeFrame(startTime = start_time, endTime = end_time, untilClose = until_close, businessHour = business_hour)
             time_frame.save()
 
         for d in days_of_week:
@@ -54,7 +58,8 @@ class DayOfWeek(models.Model):
 
 class TimeFrame(models.Model):
     startTime = models.TimeField()
-    endTime = models.TimeField()
+    endTime = models.TimeField(null=True)
+    untilClose = models.BooleanField(default=False)
     businessHour = models.ForeignKey(BusinessHour, related_name='time_frames', null=True)
 
 # Information about a deal at a location

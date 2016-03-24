@@ -6,8 +6,11 @@ from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http import JsonResponse
-from models import Location, LocationCategory
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail
 import json
+import pprint
 
 @login_required(login_url='/login/')
 def index(request):
@@ -122,6 +125,9 @@ def home(request):
     context.update(csrf(request))
     return render_to_response('home.html', context)
 
+
+# Manual Happy Hour Entry
+
 @login_required(login_url='/login/')
 def enter_happy_hour_view(request):
     context = {}
@@ -130,8 +136,68 @@ def enter_happy_hour_view(request):
     return render_to_response('enter_happy_hour.html', context)
 
 
-# def get_location_that_needs_happy_hour(request):
+def get_location_that_needs_happy_hour(request):
+    locations = Location.objects.filter(dealDataManuallyReviewed=None).order_by('?')
+    selected = locations.first()
 
+    response = {
+        'remaining_count': locations.count(),
+        'location_id': selected.id,
+        'location_name': selected.name,
+        'location_website': selected.website,
+        'location_phone_number': selected.formattedPhoneNumber
+    }
+    return JsonResponse(response)
+
+# @csrf_exempt
+# def submit_happy_hour_data(request):
+#     data = request.POST
+#
+#     DRINK_CATEGORIES = {
+#         "beer": 1,
+#         "wine": 2,
+#         "liquor": 3
+#     }
+#
+#     DEAL_TYPES = {
+#         "price": 1,
+#         "percent-off": 2,
+#         "price-off": 3
+#     }
+#
+#     location_id = data.get('location_id')
+#     location = Location.objects.get(id = location_id)
+#
+#     deals = data.get('deals')
+#     for deal in deals:
+#         time_period_data = deal.get('timePeriods')
+#         time_periods = []
+#
+#         for tp_data in time_period_data:
+#             time_periods.append({
+#                 'start': tp_data.get("startTime"),
+#                 'end': tp_data.get("endTime"),
+#                 'until_close': tp_data.get("untilClose")
+#             })
+#
+#         deal_hour = BusinessHour.objects.create(time_periods, deal.get('daysOfWeek'))
+#         deal_hour.save()
+#
+#         deal = Deal(deal_hour=deal_hour, description="")
+#         deal.save()
+#
+#         deal_detail_data = deal.get('dealDetails')
+#         deal_details = []
+#
+#         for detail in deal_detail_data:
+#             drink_names = detail.get("names")
+#             category = DRINK_CATEGORIES[detail.get("category")]
+#             type = DEAL_TYPES[detail.get("type")]
+#
+#             deal_details.append(DealDetail(deal=deal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("value"))
+#     )
+#
+#     return HttpResponse("success")
 
 
 def submit_locations_to_upload(request):
