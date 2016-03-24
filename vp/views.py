@@ -115,10 +115,10 @@ def fetch_locations(request):
         jsons.append(json)
     return JsonResponse({'json':jsons})
 
-def app(request):
+def sandbox(request):
     context = {}
     context.update(csrf(request))
-    return render_to_response('app.html', context)
+    return render_to_response('sandbox.html', context)
 
 def home(request):
     context = {}
@@ -214,4 +214,3 @@ def submit_locations_to_upload(request):
         location.save()
 
     return HttpResponse("Success")
-

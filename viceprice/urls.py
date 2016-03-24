@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', vp.views.logout_user, name='logout'),
     url(r'^register/$', vp.views.register_view, name='register'),
     url(r'^authenticate_user/$', vp.views.authenticate_user, name='authenticate_user'),
-    
+
     # Data
     url(r'^enter_happy_hour/$', vp.views.enter_happy_hour_view, name='enter_happy_hour'),
     url(r'^get_location_that_needs_happy_hour/$', vp.views.get_location_that_needs_happy_hour, name='get_location_that_needs_happy_hour'),
@@ -29,9 +29,9 @@ urlpatterns = patterns('',
 
     # Admin
     url(r'^admin/', include(admin.site.urls)),
-    
+
     # Other Data
     url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch'),
-    url(r'^app/$', vp.views.app, name = 'app'),
+    url(r'^sandbox/$', vp.views.sandbox, name = 'sandbox'),
     url(r'^home/$', vp.views.home, name = 'home')
 )
