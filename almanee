@@ -1,0 +1,1642 @@
+[33mcommit 58dbf9215c03f6f3b4d239526130d61564bc1d1b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Thu Mar 24 13:33:19 2016 -0400
+
+    Delete development.env
+
+[33mcommit c22ff5bd9be21cae087ae334d77f5b4dc629c4df[m
+Author: Josh Jordan <josh.jordan@gmail.com>
+Date:   Thu Mar 24 00:15:12 2016 -0400
+
+    Cleanup: rename app.html to sandbox to be clear that its a playground and not the main app. Remove .orig files
+
+[33mcommit 41131f9d1048018afcb535996009187055a4f099[m
+Merge: 725c712 cabfee5
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Thu Mar 24 13:02:02 2016 -0400
+
+    Merge pull request #1 from michelleshu/jsj-refactor-front-end
+    
+    Jsj refactor front end
+
+[33mcommit cabfee579f9d10b7b4834787f23abfea622fdd35[m
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Thu Mar 24 12:55:28 2016 -0400
+
+    Update mapbox.js
+    
+    Added some minor changes to the code and some comments for clarification
+
+[33mcommit 04a121533241089483d7478e7a24df22cd1b928b[m
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Thu Mar 24 12:31:15 2016 -0400
+
+    Delete app.css
+    
+    not needed anymore
+
+[33mcommit df85f4a9c4129d90d5375fffde287020f1cfb71d[m
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Thu Mar 24 12:27:24 2016 -0400
+
+    Update _filters.html
+    
+    Justin decided to get rid of the venues filters for now
+
+[33mcommit 725c7124a0b2dd2f1f7f87873175e7554f8cecd8[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Thu Mar 24 01:10:42 2016 -0400
+
+    All except submit happy hour
+
+[33mcommit 1869c59ac5882d981955ecd8b8bc2f5ffc61291d[m
+Author: Josh Jordan <josh.jordan@gmail.com>
+Date:   Wed Mar 23 23:06:14 2016 -0400
+
+    Marker for sidebar in app.html
+
+[33mcommit 09dab7b057d2b25904bec77d13de5a01d67269f4[m
+Author: Josh Jordan <josh.jordan@gmail.com>
+Date:   Wed Mar 23 22:50:48 2016 -0400
+
+    Refactor CSS and JS to their own files
+
+[33mcommit e97ccff0148f43e92bdb0b3ecb65db64768da222[m
+Author: Josh Jordan <josh.jordan@gmail.com>
+Date:   Wed Mar 23 22:30:16 2016 -0400
+
+    Partial templates for left and right side panels
+
+[33mcommit eec5a718aeab74be5150f1bd818666d1108ccb98[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Mar 23 21:26:14 2016 -0400
+
+    Add migration for dealDataManuallyReviewed
+
+[33mcommit 663de35d1193275fa347558eed75630ed10a4f0d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Mar 23 20:27:00 2016 -0400
+
+    Add all front end interactivity and get info for days and time periods
+
+[33mcommit 295bbb3bc428b4a0117eda1697865e9192be7f54[m
+Merge: fe78dee 41d75b7
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Mar 22 00:05:59 2016 -0400
+
+    Merge branch 'master' of https://git.heroku.com/viceprice
+
+[33mcommit fe78dee48283130de786f749198cac632ac3d072[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Mar 22 00:04:19 2016 -0400
+
+    First row skeleton for data entry front end
+
+[33mcommit 5a41dd00c18110477eb610cc85dc8397000ca057[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 20 15:12:36 2016 -0400
+
+    Add deal detail data model
+
+[33mcommit 41d75b78c3c337ff81570137fb6d9c769ccaf6e8[m
+Author: Sumaya Abdullah <Sumaya Abdullah>
+Date:   Fri Mar 18 18:01:54 2016 -0400
+
+    app update
+
+[33mcommit dc10387244a46a32ccec8a9daa3c137de380ff9d[m
+Author: Sumaya Abdullah <Sumaya Abdullah>
+Date:   Fri Mar 18 17:58:10 2016 -0400
+
+    app update
+
+[33mcommit be0cd8522d863fc46bb11d64ffdea6ee5a4fb05d[m
+Author: Sumaya Abdullah <Sumaya Abdullah>
+Date:   Thu Mar 17 18:34:32 2016 -0400
+
+    app.html
+
+[33mcommit fd3042da4216b431c920d92a22afd3f7fbb4c6ff[m
+Author: Sumaya Abdullah <Sumaya Abdullah>
+Date:   Wed Mar 16 19:10:02 2016 -0400
+
+    added neighborhood feature to map
+
+[33mcommit 8ee6861882eaeaf3175efd90a1388eb812841930[m
+Merge: 4e53bba 749fdd6
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Mar 15 20:21:01 2016 -0400
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 749fdd66ac14feda3bf4a212f74105b627f04626[m
+Merge: 2084a6f 158d5b6
+Author: salmanee <salmanee@gwmail.gwu.edu>
+Date:   Tue Mar 15 13:12:35 2016 -0400
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 2084a6feef0d97febd8e203d69b686718940b995[m
+Author: salmanee <salmanee@gwmail.gwu.edu>
+Date:   Tue Mar 15 13:01:26 2016 -0400
+
+    neighborhoods
+
+[33mcommit 4e53bba512941d40a5763ea390d1b3b7eef39792[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 22:32:27 2016 -0400
+
+    Add another business hours check
+
+[33mcommit 158d5b6c3f82d429985e426745c7ad46c975dcaf[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 22:29:00 2016 -0400
+
+    Update cron for phone
+
+[33mcommit e066a53f79c84eb4e213fb66ce88247955454a0c[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 22:26:45 2016 -0400
+
+    Run clock
+
+[33mcommit 163690c84edc282b7230595c21c54fa0423e8185[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 22:21:55 2016 -0400
+
+    Add env variables for HIT Layouts Production
+
+[33mcommit c49afe10d1965bd37b2a12f1d1b7f17c170dfab3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 22:13:18 2016 -0400
+
+    Bug Fixes
+
+[33mcommit a2c9e60ef7e7f7e81c740be32935cdb5e09be976[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 17:22:36 2016 -0400
+
+    Add test for phone calls within business hours
+
+[33mcommit 29918600f5d5af2a2c319cdcc7934ee05558caf0[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 16:01:46 2016 -0400
+
+    Update templates so that food warning only pops up if happy hour information entered
+
+[33mcommit 308a3b30ada8aea5776849bd12eb6970b7184e96[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 13 15:21:50 2016 -0400
+
+    Add Confirm Phone HIT
+
+[33mcommit d99930884ba52fe09533c75625f4f61f6a0d55cd[m
+Author: salmanee <salmanee@gwmail.gwu.edu>
+Date:   Sat Mar 12 18:02:43 2016 -0500
+
+    added labels and colors to polygons
+
+[33mcommit b6d57fc48817edaf045361e7fbfcf07bc4a2988d[m
+Author: Justin <justintsn10@gmail.com>
+Date:   Sat Mar 12 12:38:39 2016 -0500
+
+    LOL
+
+[33mcommit adb67b72f25adc3a9d08160b5e59d06938c99618[m
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Wed Mar 9 19:39:26 2016 -0500
+
+    neighborhood highlights
+
+[33mcommit 4fee9dedb6d359436a0a96b2a323d1c499472287[m
+Merge: 12e051e 2e83a5d
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Tue Mar 8 11:46:46 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 12e051e52bed1daf9b94627ffa00dbb49b62591c[m
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Tue Mar 8 11:41:53 2016 -0500
+
+    sidebar nav/markers modifications
+
+[33mcommit 974b7fc1c3f64b5bc92e3a57d27c287925795587[m
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Tue Mar 8 11:41:14 2016 -0500
+
+    sidebar nav/markers modifications
+
+[33mcommit 2e83a5d2c15fe963f3fc89ce041ebb68c98306e5[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 6 18:36:58 2016 -0500
+
+    Update .gitignore
+
+[33mcommit a328cf10a40a08a90070290e2b28211d010d9f36[m
+Merge: ad807f9 7af4cd2
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 6 18:30:38 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit ad807f960447fab45b546e211ae3cdfdf4d3f5e5[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 6 18:30:33 2016 -0500
+
+    Update dev database URL to COBALT
+
+[33mcommit 7af4cd239c3913e93aa680cee343f64cc04dd2df[m
+Author: jeremy <jeremy.a.heaton@gmail.com>
+Date:   Sun Mar 6 18:24:40 2016 -0500
+
+    revering database configuration again
+
+[33mcommit 2ca766b296d76e789eb0e51ef0a1894e3e969e03[m
+Merge: 5093db3 e9dd3b6
+Author: jeremy <jeremy.a.heaton@gmail.com>
+Date:   Sun Mar 6 18:13:57 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 5093db339f68049c066209d0a9539fa890527f05[m
+Author: jeremy <jeremy.a.heaton@gmail.com>
+Date:   Sun Mar 6 18:13:12 2016 -0500
+
+    copied files to django static and template directories
+
+[33mcommit e9dd3b630e7af0b9837ba2c374bd7c07cfaf3f29[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 6 16:25:39 2016 -0500
+
+    Add URL for development DB
+
+[33mcommit dee485c108987dcbb8114eb79b80538982908745[m
+Merge: e511982 f123e63
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 6 16:24:10 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit f123e63ff0154effef39834e554ceb89a0171798[m
+Author: jeremy <jeremy.a.heaton@gmail.com>
+Date:   Sun Mar 6 16:14:05 2016 -0500
+
+    reverted db env varible to original
+
+[33mcommit 2b27afedb1ee5927172c245c4a1aa27dbf856f9c[m
+Author: jeremy <jeremy.a.heaton@gmail.com>
+Date:   Sun Mar 6 16:09:03 2016 -0500
+
+    added response to server that produces geojson
+
+[33mcommit e5119826a46b2695bf062fbdeed3d912d686c4ab[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Mar 6 15:35:46 2016 -0500
+
+    Set up layout for phone HIT 1
+
+[33mcommit fa409b064889060d071359efc392b4f071bbbf4d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Mar 1 21:04:00 2016 -0500
+
+    Add migration
+
+[33mcommit 4909c32456ee4b70031c1fb1fc6163040644b291[m
+Merge: 6d04596 212f3d4
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Mar 1 21:02:14 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 6d04596d49ff663cc0e589aa3adec65103ea4082[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Mar 1 21:02:07 2016 -0500
+
+    Extend column for deals and add stats table
+
+[33mcommit 212f3d44b79dec39d6323077f680d94c474dffeb[m
+Author: justintsn <justintsn@users.noreply.github.com>
+Date:   Mon Feb 29 14:40:53 2016 -0500
+
+    Added files via upload
+    
+    Here's the full website.
+
+[33mcommit 24843aaab6f473804115eb132210ed8b23c12983[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 28 16:15:55 2016 -0500
+
+    Protect against IDs that do not exist
+
+[33mcommit df9fac7054b9f264946e38e351ea344e757eba35[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 28 16:06:54 2016 -0500
+
+    Add Facebook data
+
+[33mcommit 95f98283094b78b5ef46fa1fd2d1ef42334e8b90[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 28 15:36:14 2016 -0500
+
+    Write completed deals to db
+
+[33mcommit 224fbc5f413189778535f7e105dea19df0e1eb1f[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 28 14:16:50 2016 -0500
+
+    Fix Monday bug
+
+[33mcommit f62696f217474ab4254c91444234f4fff3c18bd0[m
+Merge: 1cf4d0f e3300ba
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 28 14:08:47 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 1cf4d0f0ce34fab06424817168c2f25da51431f8[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 28 14:08:44 2016 -0500
+
+    Revise web HIT layouts, worker qualifications
+
+[33mcommit e3300ba9a47d8025b7a3eabaf78aeba8259b4d07[m
+Author: salmanee <s.almanee_it@yahoo.com>
+Date:   Fri Feb 26 20:07:15 2016 -0500
+
+    Added files via upload
+
+[33mcommit 11695ebb3efd6e8c513278a5eb7d2802934d1f54[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 22 20:21:58 2016 -0500
+
+    Extend max size for deals
+
+[33mcommit 9c29285f61d301aecf8f96bff7d7b605dc52dc7b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 22 00:02:20 2016 -0500
+
+    Run hourly
+
+[33mcommit 86d74f1153b1c367676c0dc3ac1743e32a7ac6cb[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 23:53:43 2016 -0500
+
+    Start scheduler
+
+[33mcommit 0ee23e5cd72790b7648f6da7dae45d9ae278e101[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 23:43:14 2016 -0500
+
+    Run clock every 10 min
+
+[33mcommit 5905a1dfcd42dbec3b703a4d1f97daa5add8c80e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 23:29:39 2016 -0500
+
+    Start
+
+[33mcommit 296b4e60988c2fbcb9e826c9792812c16537b77b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 23:20:03 2016 -0500
+
+    Change clock process to run every hour on the half hour
+
+[33mcommit 868a36465aa3b3fbabd2d2a9dcf4d614d39713fe[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 23:16:54 2016 -0500
+
+    Fix bugs, prepare first Heroku test
+
+[33mcommit f38ae08c31109367246e997e0f0616a015f33c2c[m
+Merge: 4188121 1729353
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 19:05:29 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 4188121a1cec76dfd2df83fe8b2fa2a134d1b278[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 19:05:23 2016 -0500
+
+    minor adjustments
+
+[33mcommit 1729353319d2a5987de1695e117713c3b7d220e8[m
+Author: justintsn <justintsn10@gmail.com>
+Date:   Mon Feb 15 16:02:07 2016 -0500
+
+    Key Updated
+    
+    Added Facebook User Token and App token. I've been told that the app
+    token does not expire but user token does after some time. Let me know
+    what you see.
+
+[33mcommit 8b7495eda60a472a6c3b80ab8c8b33e5114b9c16[m
+Author: justintsn <justintsn10@gmail.com>
+Date:   Mon Feb 15 12:56:50 2016 -0500
+
+    Key Updated
+    
+    Updated Foursquare's keys to new VicePrice client and secret key
+
+[33mcommit 6861e4a00f3f2d2a989037477e917fbc7bbba6fb[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 18:38:35 2016 -0500
+
+    Find and confirm web happy hour
+
+[33mcommit 3e1e5d495a923e715400140939a33482981b8895[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 21 12:59:29 2016 -0500
+
+    Update yelp data script
+
+[33mcommit 8ed02179582184d2590ff3caa71549a8d44f31a1[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 15 22:13:49 2016 -0500
+
+    Remove logs from twitter query
+
+[33mcommit dbc7c6185ce7e946a32e4b141b1e33e47d7b54bf[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 15 22:07:24 2016 -0500
+
+    Revise null check
+
+[33mcommit 5c42201c69d9b3184c78fbeb59a0e1690bca2ff1[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 15 22:05:12 2016 -0500
+
+    Add null check for yelp id
+
+[33mcommit 9b04175f871823517caa71ec151c326246026977[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 15 22:01:09 2016 -0500
+
+    Transfer Yelp auth info to production
+
+[33mcommit 1798424c3c59641edaad2a6d6c2cde50dd90f7c2[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 15 21:54:55 2016 -0500
+
+    Add script for yelp API search
+
+[33mcommit bc5b9425ed2c5ce2e514200bbea6bd2fe1dfb608[m
+Merge: 6162a15 f82e1cc
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 15 20:40:52 2016 -0500
+
+    Merge branch 'master' of https://github.com/michelleshu/viceprice-web
+
+[33mcommit 6162a151fb7fc543c96b88b82b6de97b9ad97727[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 15 20:40:46 2016 -0500
+
+    update db with social media fields
+
+[33mcommit f82e1ccde394c7bc545eb3cb4ac549994a1c0861[m
+Author: justintsn <justintsn10@gmail.com>
+Date:   Sun Feb 14 11:01:10 2016 -0500
+
+    Added Keys
+    
+    Facebook and Yelp Keys
+
+[33mcommit 1e1451cdbb6b6542e5dfa30c438d88c37f859161[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Feb 13 19:16:16 2016 -0500
+
+    Get times and happy hour descriptions (Stage 1 JS front end)
+
+[33mcommit 12a531d6af1ebff68a1b3dccda0a6b9b6ff3b952[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Feb 13 15:01:56 2016 -0500
+
+    Add utility method and test for get happy hour found
+
+[33mcommit ef9f39c76f72e87e3eeb74019077bb08a2fc98b7[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Feb 9 20:53:08 2016 -0500
+
+    Fixes to stage 0
+
+[33mcommit 1f7bfa302b2a97ec4837af5a1872a3a2c731780e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Feb 9 20:15:18 2016 -0500
+
+    Remove instances of attention check
+
+[33mcommit 8d77938f7a6d05afcc5e74dbb156891b8313651e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Feb 7 16:24:23 2016 -0500
+
+    Additions to Stage 0 testing
+
+[33mcommit d21e2a89d391903ff7d5d686488ec513885099bc[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Feb 1 21:29:27 2016 -0500
+
+    Begin revising website task updates
+
+[33mcommit 30c4f8ff9d7119fa3825c3c3df6a95e6f6552a6a[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 31 21:50:21 2016 -0500
+
+    Update layouts
+
+[33mcommit 1971e6e538f4831be07c08af47f9570d94083569[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 24 12:31:33 2016 -0500
+
+    Add tests for getting locations and mturklocationinfos
+
+[33mcommit 7134ec57c730d8ca204fcd9cea96fc7a37501de6[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 23 17:33:29 2016 -0500
+
+    Add unit test for first HIT creation
+
+[33mcommit f3fded7e227adabcf56d1ca508b5c6a67ddaf754[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 23 17:08:11 2016 -0500
+
+    Add development and production env files
+
+[33mcommit 7734670c28391e3b68153d86684b353cb9c98447[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 23 11:16:54 2016 -0500
+
+    Remove data files from code
+
+[33mcommit 52ce6c4c13a6ccf0245799a2b0047c42dc6f2d52[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 23 10:55:37 2016 -0500
+
+    Fix rating removal
+
+[33mcommit 463efb9ac8f86df4d43eb7a540ea2765fb5504ff[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 23 10:54:08 2016 -0500
+
+    Revise mturklocationinfo object
+
+[33mcommit 88a7163606a22e051447ada91c032457a8c74115[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 23 09:27:38 2016 -0500
+
+    Clean up and add HIT template for Stage 0
+
+[33mcommit 829f51abcdc03bd44041c5ac5ca42ce276abe4b8[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 18 13:35:05 2016 -0500
+
+    Remove all instances of rating and check ins
+
+[33mcommit c49ff804fd5be1a9f99e733451e9eccf6bff2af3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 22:12:11 2016 -0500
+
+    Just skip missing ones
+
+[33mcommit 82033ccf5c0f27bf6bd61f9f3368fc80a2b66fcf[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 22:09:08 2016 -0500
+
+    Remove
+
+[33mcommit 7683122a0c15b7e039b3f251e55a4feab819de29[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 22:07:49 2016 -0500
+
+    Remove
+
+[33mcommit b3eab4bbe83a88b5470dc6eb7598beeac08b53d9[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 22:06:31 2016 -0500
+
+    Remove
+
+[33mcommit 88636d232e988691b709bb8b98ab7bcedafb9c6c[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 22:05:00 2016 -0500
+
+    Remove
+
+[33mcommit 46a2960a0c0ae29f19af0c86fd8ba4ac1f0e1093[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 22:01:53 2016 -0500
+
+    oops
+
+[33mcommit 00f82c87b80fd448c54f535ee80c01a0cbf9e96a[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 22:01:19 2016 -0500
+
+    Revert "Remove Los Cuates"
+    
+    This reverts commit e023efbb3fe9d04351ea915f5c7b311a541e5bd5.
+
+[33mcommit e023efbb3fe9d04351ea915f5c7b311a541e5bd5[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 21:58:04 2016 -0500
+
+    Remove Los Cuates
+
+[33mcommit 98a50372bb3e2c6560576e9e385aafa56d231123[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 21:55:47 2016 -0500
+
+    Add business hours script
+
+[33mcommit 3786e95a179626279266efcd4d5899f123f9800c[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 11 21:29:37 2016 -0500
+
+    Add phone number update
+
+[33mcommit 278bdd7f20d1b443328f46a917b132a42837fd4d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 9 18:47:16 2016 -0500
+
+    Add time parser, updates for HITs with no valid data
+
+[33mcommit 7d64f493e17632f88d8e0ec1c27b55bede3219d8[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Jan 5 08:03:11 2016 -0500
+
+    Fix string validation again
+
+[33mcommit cc16ccd1ac1a1a030331ca08fd4a37dbfe0d1498[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 4 23:38:36 2016 -0500
+
+    oops
+
+[33mcommit 549fbaa667bcbc2ecd13e745c30be2ee89b2189e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 4 23:35:22 2016 -0500
+
+    bugfixes
+
+[33mcommit 1c01b878962c8a0361fa79927b82e6ff6cca1196[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Jan 4 20:24:22 2016 -0500
+
+    Commence first wave
+
+[33mcommit 526d8119f4365b46dea19f37674d4e34b4d752b8[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 11:56:33 2016 -0500
+
+    Pause phone updates
+
+[33mcommit 69c79c6b34c48748d6e6849a1996c593fa8ff5ec[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 11:27:35 2016 -0500
+
+    Add setup() to updatedb
+
+[33mcommit 491ef12ef6ee092acd609048f2a11b594a143e5d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 10:53:15 2016 -0500
+
+    Commence normal scheduling
+
+[33mcommit 9f9c13f47a0a441fd732d90556f8a3658fa298c3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 10:50:27 2016 -0500
+
+    Small adjustments
+
+[33mcommit 6b32546d3eea8406b2e17204031be7796423196d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 10:47:43 2016 -0500
+
+    Simple validation for time
+
+[33mcommit 62fe3382ce285bef53ff5187d633ad2e6bd9dab4[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 10:31:13 2016 -0500
+
+    Debug
+
+[33mcommit 5845d202219c785074b2565f1b36fecaf00f80ad[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 10:27:57 2016 -0500
+
+    Debug
+
+[33mcommit cfd7c163d3aba526e1a0671124e954c09f8992d2[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 10:20:50 2016 -0500
+
+    Change back to 24 hour time
+
+[33mcommit 17eacf55ae61a3c4306bea3b3df1969e1ccfa4f0[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 10:17:05 2016 -0500
+
+    Try to change to 12 hour format
+
+[33mcommit eb673275520b92ead58c280f0b73c5feda4bb214[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jan 3 00:10:34 2016 -0500
+
+    Run update once an hour on Heroku
+
+[33mcommit 0b6ea0f285f03d439ba598db4c74d45d5468dc07[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 23:44:41 2016 -0500
+
+    Replace ampersands with the word and
+
+[33mcommit ef1d511b0fb8ac0c9225289016c7a7d94a7729fc[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 23:25:11 2016 -0500
+
+    lower limit for hits to process at once
+
+[33mcommit 7a861fc9a94cdae543e08f5b89a5339836252ab0[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 22:36:21 2016 -0500
+
+    launch real test
+
+[33mcommit 01dc1fa8528c684239e487b50e5df164ea2860e6[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 20:13:32 2016 -0500
+
+    Change phone process to run later for testing
+
+[33mcommit 4c09a18a03a9579622fe51b5c81033e8231eff26[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 18:27:29 2016 -0500
+
+    Change NoneType URL handling on server
+
+[33mcommit d96e994e3b405f6818de004d75386193defb1abe[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 18:18:05 2016 -0500
+
+    Adjust domain check to account for NoneType elements
+
+[33mcommit 57818f88581f6b3c69e568cac627843dedcd2ad3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 17:57:36 2016 -0500
+
+    Uncomment clock processes
+
+[33mcommit 2e1d7f7ffdd684f89c8197444ab8c6b752ea8440[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 17:56:42 2016 -0500
+
+    Start Heroku test
+
+[33mcommit f73489d56f05ecd472b8b140b6911cd2716d4a61[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 13:58:36 2016 -0500
+
+    cancel clock process on server
+
+[33mcommit 794e294c1e40e7f6866b2523efd11925b21394e5[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 13:51:31 2016 -0500
+
+    Heroku update
+
+[33mcommit 090d8416bbc1713d0a6eaab09dd5c66c8841a67c[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 13:31:35 2016 -0500
+
+    Change to run command
+
+[33mcommit 3a9358ae6187c9663e76903a8140ab581e4f3456[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 13:27:20 2016 -0500
+
+    Revise update task commands
+
+[33mcommit a5b8c74ed33934071b0dc1c6164be643475cfefd[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 13:19:55 2016 -0500
+
+    Start clock process testing
+
+[33mcommit 2aad0ecf978e0c38c0fcf42e282fe0c56a7b912a[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 13:08:03 2016 -0500
+
+    Stop clock process on heroku
+    :
+
+[33mcommit 02e07e224de4fd5579e202b31d16ac080a2d089b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jan 2 13:06:39 2016 -0500
+
+    Bug fixes
+
+[33mcommit 59e9b41ba67236d67b0c5b700571d433776d9f9e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 20 18:33:55 2015 -0500
+
+    Start testing database updates stage 1
+
+[33mcommit d6fae998ee4d0489930070312ddeec8d3fbb63a9[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 23:42:59 2015 -0500
+
+    Try to skip empty rows
+
+[33mcommit bf9bc618e8f4b22484f2c3dac4258559e3ac4267[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 23:34:28 2015 -0500
+
+    More changes
+
+[33mcommit ca7f51fbc9beddeb7d482899d53b1c78815d9f50[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 23:18:49 2015 -0500
+
+    More readable
+
+[33mcommit cd2567ba38f57e3924822b95637547fea0fe27fb[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 22:51:33 2015 -0500
+
+    ?
+
+[33mcommit 0258bab3c80d79f85900b6a70dff88277ae50493[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 22:38:04 2015 -0500
+
+    what is going on
+
+[33mcommit a6dafc1b3746a2a56781f3847bc47f931f76abc4[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 22:32:54 2015 -0500
+
+    Print initialization step
+
+[33mcommit 8f13a400191f15a74c1e3f2bd4e74cb3d823ae8a[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 22:23:35 2015 -0500
+
+    Write new locations to file
+
+[33mcommit 9758fc28e9f024d29fb648b0c8c2c60ec16d5143[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 22:01:24 2015 -0500
+
+    oops
+
+[33mcommit 53dd4337a3fbbcc4e17dd50e39c24f56b81e63de[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 21:59:46 2015 -0500
+
+    case sensitivity
+
+[33mcommit d5bcc345677fd186ba8b458426e83ec54b12e474[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 21:54:56 2015 -0500
+
+    Add check that file exists for updatedb
+
+[33mcommit e3edcea4de58aa6fa2b9532a1219adb8d16da63c[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 21:49:01 2015 -0500
+
+    restart heroku
+
+[33mcommit 1bb93b3a348c285fe4c76f969dfb5b87646d0bf4[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 21:47:33 2015 -0500
+
+    remove old data files
+
+[33mcommit 29e294b81479cb068333d3c1a647ddc78a5701ed[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 21:16:55 2015 -0500
+
+    concatenate
+
+[33mcommit 00a987642ba813f72dab77f32e4a815cbff7f35a[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Dec 9 21:13:27 2015 -0500
+
+    Print updates from csv
+
+[33mcommit e9852733cbb0e135d69674b0294121a39d41438b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Dec 8 20:42:24 2015 -0500
+
+    what is going on
+
+[33mcommit 435e591f6c2eabb5b612b73336deee6d461c2c0b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Dec 8 20:33:59 2015 -0500
+
+    Print location writing
+
+[33mcommit b2764e8a817849cc0797a2be6b8b6b4c8ac0e684[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Dec 7 22:51:27 2015 -0500
+
+    stop processes
+
+[33mcommit 728621dd77c21e7858287eddf95bd554257bd776[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Dec 7 22:28:19 2015 -0500
+
+    Adjust clock process to limit phone tasks to running during the day
+
+[33mcommit 224d0a86f8926cab515c1a991b8cca3a553ff36a[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Dec 7 22:10:27 2015 -0500
+
+    Add some more debugging
+
+[33mcommit da5d7ab17d1eeb4415d8ece8a9fe7cd3bef2fb58[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Dec 7 22:03:51 2015 -0500
+
+    Change stats file, clear old data
+
+[33mcommit 5285b38ade9c65dc567493c8b9fef6ab5eddffbd[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Dec 7 21:49:47 2015 -0500
+
+    Fix divide by zero error
+
+[33mcommit e8b727bbd82e874d68fec0c1de6ce42d868711da[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Dec 7 21:40:17 2015 -0500
+
+    fix stage count position
+
+[33mcommit 2288f6fa89c74eb7222279404f60473e7e527ded[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Dec 7 21:32:53 2015 -0500
+
+    update amazon access key and secret key
+
+[33mcommit 51c6e91c96d01e25f2877e06d971b5f09d753bcf[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 15:07:14 2015 -0500
+
+    Fix parameter value
+
+[33mcommit 971168fd1fa0cbe967e6ca8771da7c168970f646[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 14:54:19 2015 -0500
+
+    Restart heroku
+
+[33mcommit 678b7360cb22dcb6a2fab467ff291d746cc9796f[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 14:39:17 2015 -0500
+
+    Change location field names
+
+[33mcommit 380c83907b45ee573778aafd4883f8f2190e7595[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 14:25:35 2015 -0500
+
+    Add basic logging
+
+[33mcommit 4e7cb7468525a5b5b8e198d21ce36b4ad5ca02a3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 14:00:30 2015 -0500
+
+    Rerun Heroku
+
+[33mcommit 2f2a39d7f228be46904799ad5c5edd0ce9866785[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 13:54:21 2015 -0500
+
+    Import some models only
+
+[33mcommit 91d2c431d68994d90ddbd774edc24e5d5ee3066f[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 13:42:42 2015 -0500
+
+    First attempt adding updates to clock processes
+
+[33mcommit 4ceea5794510a9db8da5a3a84d3226ffe227fcbb[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Dec 6 00:13:07 2015 -0500
+
+    Try again
+
+[33mcommit 98a0aea9ceeaa2df5994f0d426faea94686c0498[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Dec 5 23:58:16 2015 -0500
+
+    Add worker to Proc file
+
+[33mcommit f96050a3f1363465e8f056d0570a3a80f51c1bec[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Dec 5 23:54:27 2015 -0500
+
+    Add worker thread
+
+[33mcommit e8fb02a4d6f6524b8827e9748ee929460745cf3d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Dec 5 23:43:36 2015 -0500
+
+    Fix clock process
+
+[33mcommit e967f05f472b2d0b25d31e551bfe9ac1c43534cb[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Dec 5 23:40:27 2015 -0500
+
+    Add clock process for task scheduling
+
+[33mcommit 0bb290aa59de4a8ac07193dc2a0e5fce47008dda[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 20:20:04 2015 -0500
+
+    Add deal data source property to location
+
+[33mcommit 2a1ae16cd3714931663d8f4938fd19e7f1e86f37[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 19:45:27 2015 -0500
+
+    Add some delay to foursquare retrieval
+
+[33mcommit 4d50d57141cfec9537cb53f26121f3bfa354053b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 19:30:03 2015 -0500
+
+    Check that venue exists in foursquare request
+
+[33mcommit 1e257d8e19d268cde7f418c8708cfbc5cba9eb5e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 19:24:24 2015 -0500
+
+    Update reference to include vp.
+
+[33mcommit 1e5ed2fefd6989aee6e6aacb6b3144bf4af63b98[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 17:47:00 2015 -0500
+
+    Add LocationCategory
+
+[33mcommit 6c28547348896646907c4160ddf3a4c5f24851ad[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 17:37:40 2015 -0500
+
+    Remove update data from URLs
+
+[33mcommit 32ecad68685120b393a70a6dfa5c091051222362[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 17:32:41 2015 -0500
+
+    Add command for updating Foursquare data
+
+[33mcommit fd456cc0cef1eb47e8e607e109579a81525b07b1[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 16:52:07 2015 -0500
+
+    Change datelastUpdated to foursquareDateLastUpdated
+
+[33mcommit 7277e683487fb5ab26982509a10d8b2f0bb7f801[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 16:36:27 2015 -0500
+
+    migrations
+
+[33mcommit f16cb109daa427cf1dd6b1255eda33f7e36dbeeb[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Nov 30 16:18:12 2015 -0500
+
+    Update date last updated
+
+[33mcommit 990c6be7cc27c4b23634323945d55180355f04d9[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Nov 29 20:47:41 2015 -0500
+
+    Update requirements.txt
+
+[33mcommit f13f80bc81b3e1f8f24c50f5abe3d1b66afcdf06[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Nov 29 20:44:18 2015 -0500
+
+    Update requirements.txt
+
+[33mcommit 82a9cff1ba2a1dc4ca3bca9a5b5c342f033d1c1e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Nov 29 20:42:30 2015 -0500
+
+    Add mturk code and command for update DB
+
+[33mcommit 29c3a4b3b3d3ca14ea960613376a51e0de7ad5ef[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Thu Nov 5 20:24:55 2015 -0500
+
+    Front end paste box for adding and updating 4square locations
+
+[33mcommit 62752f4e5e32389bf2759d78cf3220b8cc47b49e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Tue Oct 6 19:43:55 2015 -0400
+
+    Add pytz as requirement
+
+[33mcommit 37b51ee56ef367ecfb467047cbce5f52694ec752[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Oct 5 23:47:10 2015 -0400
+
+    Pull location and business hour data from foursquare
+
+[33mcommit 7d35be06b1f94a2f8022d9b8188dcba92da8be35[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Oct 3 16:57:18 2015 -0400
+
+    Change foursquareId to string
+
+[33mcommit 4110d71df8591a2ea0cc5f1952e7ccd83bce67cf[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Oct 3 15:27:52 2015 -0400
+
+    Migration for making supercategory non-nullable
+
+[33mcommit e969da1a837b471b7ee0c1d50629f11b0fdeba68[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Oct 3 15:23:33 2015 -0400
+
+    Remove old views, make supercategory nullable
+
+[33mcommit bbd7cd26be41f8903b75aea52bc1bd8bfd66def1[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Oct 3 14:55:38 2015 -0400
+
+    Add foursquare rating field
+
+[33mcommit bff203a08d5c742b1c07fa165d253c457a8d7d10[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Oct 3 14:52:32 2015 -0400
+
+    Restructure tables for Foursquare data
+
+[33mcommit 17587bfb8f446389c308434cbfcc613321f819ac[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Wed Sep 30 19:43:35 2015 -0400
+
+    Add Foursquare ID to Location
+
+[33mcommit 425b826b6d86f566ccd879032913c90c3fc399b0[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Sep 27 23:55:18 2015 -0400
+
+    Temporarily fix map canvas height
+
+[33mcommit c0a9d788a2bacafc712c0e13bd284adf8963c6a1[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Sep 27 23:46:07 2015 -0400
+
+    add back requirements.txt
+
+[33mcommit 10f0e2854c2379d4ff257d7ac60cc074764e5ea3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Sep 27 23:44:13 2015 -0400
+
+    add back requirements.txt
+
+[33mcommit 866063b541ede26d516facd9e2bfa00d072f29ab[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Sep 27 23:38:04 2015 -0400
+
+    Populate markers on map with successful AJAX call
+
+[33mcommit 9c683cdf61f5f7773af5e375b2428900b8b8c3e6[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Thu Sep 24 22:30:17 2015 -0400
+
+    Request locations within bounds on map
+
+[33mcommit 6b93cc9bf441a280bb28db7e4988bb7024b0a895[m
+Merge: e376a72 da4ed22
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Sep 20 12:42:12 2015 -0600
+
+    Fix merge conflicts
+
+[33mcommit e376a72482ef2ccadacb6ad5973e8a0808844cf3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Sep 20 12:40:39 2015 -0600
+
+    Some styling updates
+
+[33mcommit 98402d9c9ba1211712f8f8f631aa303ba9524e5d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Fri Sep 18 15:20:43 2015 -0600
+
+    Location editor template
+
+[33mcommit 4605603d2320a98214e662c4250b8ebd5950798d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Sep 7 14:59:01 2015 -0400
+
+    Add fixtures, model changes
+
+[33mcommit da4ed22e0624fb0d84a59233dbb1e20c8cdd0da5[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Mon Sep 7 14:59:01 2015 -0400
+
+    Add fixtures, model changes
+
+[33mcommit 2cc3978376ba6eaca5ceea56276108322b807bc6[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Sep 5 17:53:30 2015 -0400
+
+    Remove FIXTURES_DIR from settings
+
+[33mcommit 82f71d11e57569d18ab802ec783c1ebc33e50fe9[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Sep 5 17:49:32 2015 -0400
+
+    Some changes and add fixtures with data
+
+[33mcommit d6340ee4228eeda5c47dd80f03579e7fefe78b2b[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 18:13:42 2015 -0400
+
+    Register location domain objects with Django admin
+
+[33mcommit 3a8a578f81954c144352b19744deb2369a60a3f9[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 18:08:52 2015 -0400
+
+    Remove db view
+
+[33mcommit de075a84bc09e68033f1b3fbde53b53207a7eec7[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 18:06:01 2015 -0400
+
+    Remove Greeting
+
+[33mcommit 2e6afe2bb266a7cbd0b9f06ba03fc120806ef507[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 18:00:14 2015 -0400
+
+    empty commit
+
+[33mcommit 1af9a3205081afee40d511a05a1815e0c18c18aa[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 17:51:07 2015 -0400
+
+    Change to foreign keys
+
+[33mcommit f67159b086332e279582cc5cc22ca7335c398fec[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 17:44:18 2015 -0400
+
+    Change house number to charfield
+
+[33mcommit 7b1081353b547a85e63acead49ac21d1d7415f86[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 17:41:08 2015 -0400
+
+    Move Location to bottom
+
+[33mcommit 1f9504981d497095134fa7b7b57b1fa950e3b88e[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 17:39:05 2015 -0400
+
+    Fix typo
+
+[33mcommit 359e27e560304f24459ddb981428e47a331509d1[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Aug 22 17:35:11 2015 -0400
+
+    Update model for OpenStreetMap
+
+[33mcommit 78650a4495d6a6d0ab965663cd59d5dd25a6d1c2[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 18:14:20 2015 -0400
+
+    Remove Procfile from gitignore
+
+[33mcommit 88053ffd04bee7313f20954d332dfd1b0891c5c7[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 18:12:07 2015 -0400
+
+    Add procfile back
+
+[33mcommit bb7e0dd2ae5dbcb91db29513f33cfd54db81bd44[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 18:10:32 2015 -0400
+
+    Oops
+
+[33mcommit 51aed4ae5923237261d2f964f23a7a4c824f39e8[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 18:09:45 2015 -0400
+
+    What do I do with you Procfile?
+
+[33mcommit 17af6e4498a0b31a2b2bf2abe1c09d6815b2e0d7[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 18:08:07 2015 -0400
+
+    Basic login/logout working
+
+[33mcommit 85fb011bceb200dec006950cb24b4409550b2c22[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 11:18:02 2015 -0400
+
+    Add https to google fonts urls
+
+[33mcommit ea14249bb99d274de3ab300e4fac40c5259fc25c[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 11:15:13 2015 -0400
+
+    Remove README
+
+[33mcommit 9a4a3aa3b1204988abaa6679a4c901fc77ab574d[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 11:11:40 2015 -0400
+
+    Add Procfile back
+
+[33mcommit 5a2760556aef185deeb8e01496f1f423fe1210b6[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sun Jul 19 11:06:54 2015 -0400
+
+    style login page
+
+[33mcommit 0bf9cc85575ffc55d0ee7524f3b991713c6c85d3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jul 18 16:54:45 2015 -0400
+
+    Add some login templates
+    :
+
+[33mcommit 96f0dd775c853978d84a635aba9953d8d3fdebfe[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jul 18 09:18:46 2015 -0400
+
+    Remove port from procfile
+
+[33mcommit 3ba0bcd2943fb0742493de22a71d2a73600c43e8[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jul 18 09:08:03 2015 -0400
+
+    Change project name in manage.py
+
+[33mcommit 5d86f12a45869ddf1459f4495fe207cf1c7b1051[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jul 18 09:05:59 2015 -0400
+
+    Change project name in procfile
+
+[33mcommit b41cebe2e47dbcc8eccc20c4c64adebb6363d471[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Sat Jul 18 09:03:56 2015 -0400
+
+    Move viceprice files
+
+[33mcommit f3e6cb96a452d867fca08a29adb9f6ec55bb96c3[m
+Author: Michelle Shu <shu.michelle.w@gmail.com>
+Date:   Fri Jul 17 20:39:44 2015 -0400
+
+    Demo
+
+[33mcommit 1c56814c41aa35e169065397febec6ea7fe7b332[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Thu Jun 25 20:45:49 2015 +0100
+
+    fix script loading sequence to fix dropdown
+
+[33mcommit 84830d740e956bff9bc06b7e7b8852404675a2ad[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Thu Jun 25 12:57:25 2015 +0100
+
+    fix db route rendering
+
+[33mcommit 5d7407ba58d1b254e35d6350f243d87a8b308a2b[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Thu Jun 25 12:34:27 2015 +0100
+
+    Add collectstatic to local deploy
+
+[33mcommit cb04873fa092e674702300b760cf9c29ebb1cd1f[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Thu Jun 25 12:33:17 2015 +0100
+
+    correct links on home page
+
+[33mcommit 5c8de38182eabc06a34c8df122b064c30c91bb38[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Thu Jun 25 06:24:43 2015 -0400
+
+    requirements.txt
+
+[33mcommit a568c41644fa3e8bed6ffbc1aac8e990097c276b[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Thu Jun 25 06:18:49 2015 -0400
+
+    cleanup css
+
+[33mcommit 0bdab7f331ec1ff1dae4c21ee69b1329fc4b040a[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Thu Jun 25 06:16:49 2015 -0400
+
+    css test
+
+[33mcommit 9cfa363b06a4506e4be6b0120cd4c154fd1aa148[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Thu Jun 25 06:12:14 2015 -0400
+
+    cleanup settings
+
+[33mcommit 6a1faeee8ae891b853121c9a7726d6559455007d[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Thu Jun 25 06:12:06 2015 -0400
+
+    add jquery
+
+[33mcommit c9a7961c259c2dc4e2c879742b6b8db219977d3b[m
+Author: Rhys Elsmore <me@rhys.io>
+Date:   Thu Jun 25 18:35:18 2015 +1000
+
+    improved setup doc, improved env var
+
+[33mcommit 9cc0d84e93360cc9cb416b61b0633baba5a731ae[m
+Author: Nick Tassone <ntassone@gmail.com>
+Date:   Fri May 15 09:40:57 2015 -0400
+
+    updated language logo for new ui
+
+[33mcommit 5f86e082b82bf94b9dcff17d26cc10b617ff536b[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Fri May 15 12:50:04 2015 +0100
+
+    first pass at adding the UI.  Still needs jQuery and fix for assets
+
+[33mcommit 6f4f2eb2a655fbbdba9bdc716c9d08dcb83858f9[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 19:06:42 2015 +0200
+
+    update getting started settings for 1.8
+
+[33mcommit 2e07fa5119d4d9ae0c4de471cebeaa794e34bb94[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 18:58:14 2015 +0200
+
+    update settings.py
+
+[33mcommit b5b05dfa991e68558ac286b77b67edbd583012e9[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 18:57:54 2015 +0200
+
+    django-postgrespool
+
+[33mcommit b8aee320aa9d61cf3a6965381fea91a3d0bf95a4[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 18:41:55 2015 +0200
+
+    dj-database-url
+
+[33mcommit 592dd43bd9c250f304219dcac9a91090298d67c5[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 18:40:49 2015 +0200
+
+    update wsgi.py to use whitenoise
+
+[33mcommit 9db30687a55e075910af9b3bbdf97ee5b529cbc9[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 18:40:42 2015 +0200
+
+    add psycopg2
+
+[33mcommit 018e127eaaabd9c8424ef2117a3563db042aef15[m
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 18:27:28 2015 +0200
+
+    use whitenoise
+
+[33mcommit 9e2d9d4ff478c8232bb3eb5a6a572d6057a58f7e[m
+Merge: 0dce6fd ff69f09
+Author: Kenneth Reitz <me@kennethreitz.org>
+Date:   Tue May 12 17:44:30 2015 +0200
+
+    Merge pull request #5 from rhcarvalho/fix-db-config
+    
+    Fix database config
+
+[33mcommit ff69f09e58e6439833a5eb3ea6e90366bd71b0f3[m
+Author: Rodolfo Carvalho <rhcarvalho@gmail.com>
+Date:   Wed Apr 29 14:47:38 2015 +0200
+
+    Remove duplication in database settings
+
+[33mcommit 87258e4a1793ead17164167d7fb17d6788013514[m
+Author: Rodolfo Carvalho <rhcarvalho@gmail.com>
+Date:   Wed Apr 29 14:19:14 2015 +0200
+
+    Replace syncdb with migrate
+
+[33mcommit 236784a418c2dfe62c1800cf59dbe6234677e5a7[m
+Author: Rodolfo Carvalho <rhcarvalho@gmail.com>
+Date:   Wed Apr 29 14:16:52 2015 +0200
+
+    Use SQLite when DATABASE_URL is not set
+
+[33mcommit 7312b0a3c28bf42612bdab35fb7f2ab67e864de6[m
+Author: Rodolfo Carvalho <rhcarvalho@gmail.com>
+Date:   Wed Apr 29 14:16:04 2015 +0200
+
+    Add new line at EOF
+
+[33mcommit 0dce6fd0f7f9430567faf26095a1c10189fcec01[m
+Merge: d177fae 50e48ae
+Author: Jon Mountjoy <jon@heroku.com>
+Date:   Tue Apr 21 10:38:14 2015 +0100
+
+    Merge pull request #4 from heroku/upgraded_dependencies
+    
+    Upgraded dependencies
+
+[33mcommit 50e48ae5e467f8b907dc5b16e2682d8083c5839a[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Tue Apr 21 10:35:07 2015 +0100
+
+    add Windows Procfile
+
+[33mcommit 9ade8e415d360872c873a08f915bf522aac36de3[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Tue Apr 21 09:36:23 2015 +0100
+
+    upgrade Django version and other dependencies
+
+[33mcommit f2e49ebc633ebb82b71bddc754dbc5eb3451dbe4[m
+Author: Jon Mountjoy <tech@jonmountjoy.com>
+Date:   Tue Apr 21 09:17:08 2015 +0100
+
+    use 2.7.9 and not 2.7.8
+
+[33mcommit d177faef975f1b025827b563c363e3e0875caf86[m
+Author: Jon Mountjoy <jon@heroku.com>
+Date:   Mon Aug 25 13:54:56 2014 +0100
+
+    Update README.md
+
+[33mcommit 9b0dc25b18e337564ac6ac66a7aaef0c4fd79aff[m
+Author: Kenneth Reitz <me@kennethreitz.com>
+Date:   Thu Aug 14 12:20:00 2014 -0400
+
+    db page
+
+[33mcommit 96d095e2bc77a744a73ae754949afd5f60a1e122[m
+Author: Kenneth Reitz <me@kennethreitz.com>
+Date:   Thu Aug 14 12:04:24 2014 -0400
+
+    single view
+
+[33mcommit 84e9761833c86388c892ac11682a5d48e2fe778e[m
+Author: Kenneth Reitz <me@kennethreitz.com>
+Date:   Tue Aug 12 14:45:27 2014 -0400
+
+    no app.json
+
+[33mcommit 4b1bf18c5ccee332e7489f02cd5ab568d95e1f2a[m
+Author: Kenneth Reitz <me@kennethreitz.com>
+Date:   Tue Aug 12 14:18:14 2014 -0400
+
+    dummy static file
+
+[33mcommit 749c56e45b61b34869d1377b594b0a57a7f64ae5[m
+Author: Kenneth Reitz <me@kennethreitz.com>
+Date:   Tue Aug 12 14:17:50 2014 -0400
+
+    reorder settings around a bit
+
+[33mcommit 8b4c1553ecefae1aed4270e3d999bfe42a27e35a[m
+Author: Kenneth Reitz <me@kennethreitz.com>
+Date:   Tue Aug 12 14:12:00 2014 -0400
+
+    app.json
+
+[33mcommit 2c6c755fbd5617d7bb64dc2c0ada13910593f2b9[m
+Author: Kenneth Reitz <me@kennethreitz.com>
+Date:   Tue Aug 12 13:55:48 2014 -0400
+
+    readme
+
+[33mcommit 15e88c753ee660b4d92dc2e19636593e4920d198[m
+Author: Jon Mountjoy <jon@heroku.com>
+Date:   Tue Jul 22 19:05:30 2014 +0100
+
+    add .gitignore
+
+[33mcommit 6ba7fc387e9bc5efd768729ce8a0a69dfce217dc[m
+Author: Jon Mountjoy <jon@heroku.com>
+Date:   Thu Jul 17 11:45:37 2014 +0100
+
+    mm
+
+[33mcommit 1db9cf142de56cf2a74f56bc0b70b4234103c284[m
+Author: Jon Mountjoy <jon@heroku.com>
+Date:   Thu Jul 17 11:33:36 2014 +0100
+
+    created with 'django-admin.py startproject hellodjango .'

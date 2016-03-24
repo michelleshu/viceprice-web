@@ -1,24 +1,33 @@
 <div class='left-side-bar'>
-				<div class='search-div'>
-					<p>SEARCH</p>
-					<form method="get" action="/search" id="search">
-						<input name="q" type="text" size="40" />
-					</form>
-				</div>
+	<div class='search-div'>
+		<p>SEARCH</p>
+			<form method="get" action="/search" id="search">
+				<input name="q" type="text" size="40" />
+			</form>
+	</div>
 				
-				<div class='hours-div'>
-					<p>HOURS</p>
-				      <output for="day" id="day_output">Sat</output>
-					  	<div class="slider">
-					  	<input type="range" id="day" value="1" step="1" min="1" max="7" oninput="outputUpdate(value)">
-						</div>
-					  <output for="time" id="time_output">8:00 AM</output>
-					  <input type="range" id="time" value="8" step="1" min="8" max="38" oninput="outputUpdate(value)">
-				</div>
-		
-		  	<div class="about-contact-us">
-					<a href="url">About</a>
-					<a href="url">Contact Us</a>
-					<a href="url">Owner?</a>
-		  	</div>
+	<div class='hours-div'>
+		<p>HOURS</p>
+			<output for="day" id="day_output">Sat</output>
+			<div class="slider">
+			<input type="range" id="day" value="1" step="1" min="1" max="7" oninput="outputUpdate(value)">
+			</div>
+			<output for="time" id="time_output">8:00 AM</output>
+			<input type="range" id="time" value="8" step="1" min="8" max="38" oninput="outputUpdate(value)">
+	</div>
+
+	<div class="about-contact-us">
+		<a href="url">About</a>
+		<a href="url">Contact Us</a>
+		<a href="url">Owner?</a>
+	</div>
+</div> 
+
+<div class="zooming-bar">
+	<ul>
+	<li><img src="../static/img/neighborhood.png" id="neighboor-zoom"/> </li>
+	<li><img src="../static/img/zoom-in.png" id="zoom-in"/> </li>
+    <li><img src="../static/img/zoom-out.png" id="zoom-out"/> </li>
+    </ul>
 </div>
+
