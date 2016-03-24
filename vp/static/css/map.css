@@ -1,0 +1,19 @@
+.map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.pin {
+  width: 25px;
+  height: 25px;
+  border-radius: 50% 50% 50% 10%;
+  border:solid white 3.5px;
+  background: #89849b;
+  position: absolute;
+  transform: rotateY(30deg);
+  left: 50%;
+  top: 50%;
+  margin: -20px 0 0 -20px;
+}
