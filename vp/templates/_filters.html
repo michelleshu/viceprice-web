@@ -1,71 +1,24 @@
 <div class='left-side-bar'>
-  <div class='search-div'>
-    <p>SEARCH</p>
-    <form method="get" action="/search" id="search">
-      <input name="q" type="text" size="40" />
-    </form>
-  </div>
-  <div class='hours-div'>
-    <p>HOURS</p>
-        <output for="day" id="day_output">Sat</output>
-        <div class="slider">
-        <input type="range" id="day" value="1" step="1" min="1" max="7" oninput="outputUpdate(value)">
-      </div>
-      <output for="time" id="time_output">8:00 AM</output>
-      <input type="range" id="time" value="8" step="1" min="8" max="38" oninput="outputUpdate(value)">
-  </div>
-  <div class='location-div'>
-    <p> LOCATION:</p>
-    <br/><br/>
-  </div>
-   <div class='venues-div'>
-          <p> VENUES: </p>
-      </div>
-          <input type="checkbox" id="dive" checked>
-          <label class="tiles" for="dive" style="margin-left:18%;"><i class="v-icon"></i>
-          <span class="label">Dive Bar</span></label>
-
-          <input type="checkbox" id="gay" checked>
-          <label class="tiles" for="gay" style="margin-left:5%;"><i class="v-icon"></i>
-          <span class="label">Gay Bar</span></label>
-
-          <input type="checkbox" id="hotel" checked>
-          <label class="tiles" for="hotel" style="margin-left:18%;"><i class="v-icon"></i>
-          <span class="label">Hotel</span></label>
-
-          <input type="checkbox" id="general" checked>
-          <label class="tiles" for="general" style="margin-left:5%;"><i class="v-icon"></i>
-          <span class="label">General</span></label>
-
-          <input type="checkbox" id="fancy" checked>
-          <label class="tiles" for="fancy" style="margin-left:18%;"><i class="v-icon"></i>
-          <span class="label">Fancy</span></label>
-
-          <input type="checkbox" id="sports" checked>
-          <label class="tiles" for="sports" style="margin-left:5%;"><i class="v-icon"></i>
-          <span class="label">Sports</span></label>
-
-          <input type="checkbox" id="pub" checked>
-          <label class="tiles" for="pub" style="margin-left:18%;"><i class="v-icon"></i>
-          <span class="label">Pub</span></label>
-
-          <input type="checkbox" id="nightclub" checked>
-          <label class="tiles" for="nightclub"style="margin-left:5%;"><i class="v-icon"></i>
-          <span class="label">Nightclub</span></label>
-
-          <input type="checkbox" id="piano" value="Hi" checked>
-          <label class="tiles" for="piano" style="margin-left:18%;"><i class="v-icon"></i>
-          <span class="label">Piano</span></label>
-
-          <input type="checkbox" id="hookah" checked>
-          <label class="tiles" for="hookah" style="margin-left:5%;"><i class="v-icon"></i>
-          <span class="label">Hookah</span></label>
-
-
-</div>
-
-<div class="about-contact-us">
-    <a href="url">About</a>
-    <a href="url">Contact Us</a>
-    <a href="url">Owner?</a>
+				<div class='search-div'>
+					<p>SEARCH</p>
+					<form method="get" action="/search" id="search">
+						<input name="q" type="text" size="40" />
+					</form>
+				</div>
+				
+				<div class='hours-div'>
+					<p>HOURS</p>
+				      <output for="day" id="day_output">Sat</output>
+					  	<div class="slider">
+					  	<input type="range" id="day" value="1" step="1" min="1" max="7" oninput="outputUpdate(value)">
+						</div>
+					  <output for="time" id="time_output">8:00 AM</output>
+					  <input type="range" id="time" value="8" step="1" min="8" max="38" oninput="outputUpdate(value)">
+				</div>
+		
+		  	<div class="about-contact-us">
+					<a href="url">About</a>
+					<a href="url">Contact Us</a>
+					<a href="url">Owner?</a>
+		  	</div>
 </div>
