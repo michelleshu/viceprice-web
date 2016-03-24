@@ -11,22 +11,23 @@
 {% block content %}
     <div class="container happy-hour-entry-container">
         <div class="row">
-            <div class="progress-bar-complete"></div>
+            <div class="number-complete u-pull-right">50/100</div>
             <div class="progress-bar-incomplete"></div>
+            <div class="progress-bar-complete"></div>
         </div>
         <div class="row">
             <div class="ten columns">
-                <h5>Location: {{location.name}}</h5>
+                <h5>Location: <span id="location-name"></span></h5>
             </div>
             <div class="two columns">
-                <button class="button-primary">Skip</button>
+                <button class="button-primary skip-button">Skip</button>
             </div>
         </div>
         <div class="row">
-            <h5>Website: <a href="{{location.website}}" target="_blank">{{location.website}}</a></h5>
+            <h5>Website: <a id="location-website" target="_blank"></a></h5>
         </div>
         <div class="row">
-            <h5>Phone Number: {{location.phone_number}}</h5>
+            <h5>Phone Number: <span id="location-phone-number"></span></h5>
         </div>
         <div class="deal-section">
             <hr/>
