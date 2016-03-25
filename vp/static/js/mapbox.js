@@ -95,13 +95,13 @@ var geoJsonData;
         else
             {   
                 dcnLayer.resetStyle(lastLayer);
-                lastLayer.on({mousemove:mousemove, mouseout:mouseout});
+                lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
                 document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
                 id=parseInt(lastLayer.feature.id)-1;
                 css[id].style.display="block";
             }    
         //Onclick: disable hover effect, remove label
-        e.target.off({mousemove:false, mouseout:false});
+        e.target.off({mousemove:false, mouseout:false,click:false});
         e.target.setStyle({fillOpacity: 0});
         id=parseInt(e.target.feature.id)-1;
         css[id].style.display="none";
@@ -176,10 +176,10 @@ var zoom
 
 $("#neighboor-zoom").click(function() {
   //zoom out to dc level
-    map.setView([38.907557, -77.028130],13);
+    map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
     //reset polygon style
     dcnLayer.resetStyle(lastLayer);
-    lastLayer.on({mousemove:mousemove, mouseout:mouseout});
+    lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
     document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
     id=parseInt(lastLayer.feature.id)-1;
     css[id].style.display="block";
