@@ -202,7 +202,6 @@ def submit_happy_hour_data(request):
             type = DEAL_TYPES[detail.get("dealType")]
 
             dealDetail = DealDetail(deal=newdeal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("dealValue"))
-
             dealDetail.save()
 
         location.deals.add(newdeal)
