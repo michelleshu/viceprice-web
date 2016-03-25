@@ -149,25 +149,25 @@ def get_location_that_needs_happy_hour(request):
     }
     return JsonResponse(response)
 
-# @csrf_exempt
+@csrf_exempt
 def submit_happy_hour_data(request):
     data = json.loads(request.body)
-   
+
     DRINK_CATEGORIES = {
         "beer": 1,
         "wine": 2,
         "liquor": 3
     }
- 
+
     DEAL_TYPES = {
         "price": 1,
         "percent-off": 2,
         "price-off": 3
     }
-   
+
     location_id = data.get('location_id')
     location = Location.objects.get(id = location_id)
-  
+
     deals = data.get('deals')
     # loop over all the deals posted to the server
     for deal in deals:
@@ -185,41 +185,34 @@ def submit_happy_hour_data(request):
         deal_hour = BusinessHour.objects.create(time_periods, deal.get('daysOfWeek'))
         #save the deal_hour
         deal_hour.save()
-        
-        #instantiate a new deal objec and fill in as needed
+
+        #instantiate a new deal object and fill in as needed
         newdeal = Deal()
-        #set the Deal's deal_hour to the BuinessHour object from before (deah_hour)
+        #set the Deal's deal_hour to the BuinessHour object from before (deal_hour)
         newdeal.dealHour = deal_hour
         #dummy for description
-        newdeal.description = "sdf"
-#         deal = Deal(deal_hour=deal_hour, description="")
+        newdeal.description = ""
         #try to save the deal
         newdeal.save()
-        print "nice"
         deal_detail_data = deal.get('dealDetails')
-        deal_details = []
-       
+
         for detail in deal_detail_data:
             drink_names = detail.get("names")
             category = DRINK_CATEGORIES[detail.get("category")]
             type = DEAL_TYPES[detail.get("dealType")]
-            
+
             dealDetail = DealDetail(deal=newdeal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("dealValue"))
-            print "nice"
-#             dealDetail = DealDetail()
-#             dealDetail.deal = newdeal
-#            
-#             dealDetail.drinkName = drink_names
-#             dealDetail.drinkCategory = category
-#             dealDetail.type = type
-#             dealDetail.value = detail.get("dealValue")
-#             #deal_details can currently save because the Deal is having errors while saving. 
-          
+
             dealDetail.save()
-          
+
+        location.deals.add(newdeal)
+
+    location.dealDataManuallyReviewed = timezone.now()
+    location.save()
+
     return HttpResponse("success")
 
-
+@csrf_exempt
 def submit_locations_to_upload(request):
     data = request.POST
 
