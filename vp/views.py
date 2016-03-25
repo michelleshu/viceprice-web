@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail
 import json
 import pprint
-
+import pdb
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():
@@ -109,9 +109,9 @@ def upload_data_view(request):
 
 def fetch_locations(request):
     locations = Location.objects.all()
-    jsons=[]
+    jsons = []
     for location in locations:
-        json = {"type": "Feature","geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]},"properties": {"name": location.name, "website":location.website, "phone": location.formattedPhoneNumber, "neighborhood":location.neighborhood, "icon": {"className": "pin","iconSize": ""}}}
+        json = {"type": "Feature", "geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]}, "properties": {"name": location.name, "website":location.website, "phone": location.formattedPhoneNumber, "neighborhood":location.neighborhood, "icon": {"className": "pin", "iconSize": ""}}}
         jsons.append(json)
     return JsonResponse({'json':jsons})
 
@@ -150,54 +150,74 @@ def get_location_that_needs_happy_hour(request):
     return JsonResponse(response)
 
 # @csrf_exempt
-# def submit_happy_hour_data(request):
-#     data = request.POST
-#
-#     DRINK_CATEGORIES = {
-#         "beer": 1,
-#         "wine": 2,
-#         "liquor": 3
-#     }
-#
-#     DEAL_TYPES = {
-#         "price": 1,
-#         "percent-off": 2,
-#         "price-off": 3
-#     }
-#
-#     location_id = data.get('location_id')
-#     location = Location.objects.get(id = location_id)
-#
-#     deals = data.get('deals')
-#     for deal in deals:
-#         time_period_data = deal.get('timePeriods')
-#         time_periods = []
-#
-#         for tp_data in time_period_data:
-#             time_periods.append({
-#                 'start': tp_data.get("startTime"),
-#                 'end': tp_data.get("endTime"),
-#                 'until_close': tp_data.get("untilClose")
-#             })
-#
-#         deal_hour = BusinessHour.objects.create(time_periods, deal.get('daysOfWeek'))
-#         deal_hour.save()
-#
+def submit_happy_hour_data(request):
+    data = json.loads(request.body)
+   
+    DRINK_CATEGORIES = {
+        "beer": 1,
+        "wine": 2,
+        "liquor": 3
+    }
+ 
+    DEAL_TYPES = {
+        "price": 1,
+        "percent-off": 2,
+        "price-off": 3
+    }
+   
+    location_id = data.get('location_id')
+    location = Location.objects.get(id = location_id)
+  
+    deals = data.get('deals')
+    # loop over all the deals posted to the server
+    for deal in deals:
+        time_period_data = deal.get('timePeriods')
+        time_periods = []
+        #loop over all the time periods for a deal
+        for tp_data in time_period_data:
+            #push the time periods to the time_periods array
+            time_periods.append({
+                    'start': tp_data.get("startTime"),
+                 'end': tp_data.get("endTime"),
+                 'until_close': tp_data.get("untilClose")
+             })
+        #pass the time_periods array and the 'daysOfWeek' array from the request body to a BusinessHour object
+        deal_hour = BusinessHour.objects.create(time_periods, deal.get('daysOfWeek'))
+        #save the deal_hour
+        deal_hour.save()
+        
+        #instantiate a new deal objec and fill in as needed
+        newdeal = Deal()
+        #set the Deal's deal_hour to the BuinessHour object from before (deah_hour)
+        newdeal.dealHour = deal_hour
+        #dummy for description
+        newdeal.description = "sdf"
 #         deal = Deal(deal_hour=deal_hour, description="")
-#         deal.save()
-#
-#         deal_detail_data = deal.get('dealDetails')
-#         deal_details = []
-#
-#         for detail in deal_detail_data:
-#             drink_names = detail.get("names")
-#             category = DRINK_CATEGORIES[detail.get("category")]
-#             type = DEAL_TYPES[detail.get("type")]
-#
-#             deal_details.append(DealDetail(deal=deal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("value"))
-#     )
-#
-#     return HttpResponse("success")
+        #try to save the deal
+        newdeal.save()
+        print "nice"
+        deal_detail_data = deal.get('dealDetails')
+        deal_details = []
+       
+        for detail in deal_detail_data:
+            drink_names = detail.get("names")
+            category = DRINK_CATEGORIES[detail.get("category")]
+            type = DEAL_TYPES[detail.get("dealType")]
+            
+            dealDetail = DealDetail(deal=newdeal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("dealValue"))
+            print "nice"
+#             dealDetail = DealDetail()
+#             dealDetail.deal = newdeal
+#            
+#             dealDetail.drinkName = drink_names
+#             dealDetail.drinkCategory = category
+#             dealDetail.type = type
+#             dealDetail.value = detail.get("dealValue")
+#             #deal_details can currently save because the Deal is having errors while saving. 
+          
+            dealDetail.save()
+          
+    return HttpResponse("success")
 
 
 def submit_locations_to_upload(request):
