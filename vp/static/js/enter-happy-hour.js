@@ -245,8 +245,9 @@ var submit_happy_hour_data = function(data) {
     $.ajax({
         type: "POST",
         url: "/submit_happy_hour_data/",
-        data: data,
+        data: JSON.stringify(data),
         success: function(data) {
+        	console.log(data);
             get_location_that_needs_happy_hour();
         },
         error: function() {
