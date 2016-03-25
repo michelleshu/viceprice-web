@@ -36,10 +36,10 @@ class BusinessHourManager(models.Manager):
             start_time = tf['start']
             end_time = tf.get('end')
             until_close = tf.get('until_close')
-
             if until_close == None:
                 until_close = False
-
+            if until_close:
+                end_time = None
             time_frame = TimeFrame(startTime = start_time, endTime = end_time, untilClose = until_close, businessHour = business_hour)
             time_frame.save()
 

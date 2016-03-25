@@ -23,19 +23,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
 
 # Database configuration
-#    default = os.environ.get('DATABASE_URL')
-#)}
-
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'd2hagb6iknui5q',
-         'USER': 'mhgtvtfoppbwmo',
-         'PASSWORD': 'PbOrR4zCUlsOCelbNY-blp_UF2',
-         'HOST': 'ec2-107-20-153-141.compute-1.amazonaws.com',
-         'PORT': '5432',
-     },
+    'default': dj_database_url.config(default = os.environ.get('DATABASE_URL'))
 }
+
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': 'd2hagb6iknui5q',
+#          'USER': 'mhgtvtfoppbwmo',
+#          'PASSWORD': 'PbOrR4zCUlsOCelbNY-blp_UF2',
+#          'HOST': 'ec2-107-20-153-141.compute-1.amazonaws.com',
+#          'PORT': '5432',
+#      },
+# }
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
