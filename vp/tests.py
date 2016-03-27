@@ -46,29 +46,29 @@ class AddLocationsToUpdateTest(TestCase):
     unexpired_date = timezone.now()
 
     def setUp(self):
-        location1 = Location.objects.create(name = "No Update Needed", mturkLastUpdateCompleted = self.unexpired_date)
+        location1 = Location.objects.create(name = "No Update Needed", mturkDateLastUpdated = self.unexpired_date)
         location2 = Location.objects.create(
             name = "Needs Update Stage 1",
             formattedAddress = "Address",
             formattedPhoneNumber = "Phone Number",
             website = "Website",
-            mturkLastUpdateCompleted = self.expired_date
+            mturkDateLastUpdated = self.expired_date
         )
-        location3 = Location.objects.create(name = "No Update Needed", mturkLastUpdateCompleted = self.unexpired_date)
-        location4 = Location.objects.create(name = "No Update Needed", mturkLastUpdateCompleted = self.unexpired_date)
+        location3 = Location.objects.create(name = "No Update Needed", mturkDateLastUpdated = self.unexpired_date)
+        location4 = Location.objects.create(name = "No Update Needed", mturkDateLastUpdated = self.unexpired_date)
         location5 = Location.objects.create(
             name = "Needs Update Stage 0",
             formattedAddress = "Address",
             formattedPhoneNumber = "Phone Number",
-            mturkLastUpdateCompleted = self.expired_date
+            mturkDateLastUpdated = self.expired_date
         )
-        location6 = Location.objects.create(name = "No Update Needed", mturkLastUpdateCompleted = self.unexpired_date)
+        location6 = Location.objects.create(name = "No Update Needed", mturkDateLastUpdated = self.unexpired_date)
         location7 = Location.objects.create(
             name = "Needs Update Stage 1",
             formattedAddress = "Address",
             formattedPhoneNumber = "Phone Number",
             website = "Website",
-            mturkLastUpdateCompleted = self.expired_date
+            mturkDateLastUpdated = self.expired_date
         )
 
         MTurkLocationInfo.objects.create(name = "No Update Needed", location = location3, stage = MTURK_STAGE[FIND_WEBSITE])
@@ -164,258 +164,6 @@ class GetLocationInfoTest(TestCase):
             self.assertEqual(location_info.name, "No Info")
 
 
-# Test creation of HIT layouts
-# Manually check the layout appearance on development sandbox
-# Then the HITs on Amazon can be deleted using the management command disablehits
-class HITCreationTest(TestCase):
-
-    conn = connection.MTurkConnection(
-        aws_access_key_id = settings.AWS_ACCESS_KEY,
-        aws_secret_access_key = settings.AWS_SECRET_KEY,
-        host = settings.MTURK_HOST)
-
-    def setUp(self):
-        location = Location.objects.create(
-            name = "Liberty Lounge",
-            formattedAddress = "3257 Stanton Rd SE,\nWashington, DC 20020",
-            website = "http://www.justinhinh.com",
-            formattedPhoneNumber = "(202)790-4414"
-        )
-
-        MTurkLocationInfo.objects.create(
-            location = location,
-            name = location.name,
-            address = location.formattedAddress,
-            phone_number = location.formattedPhoneNumber,
-            website = location.website,
-            stage = 0
-        )
-
-        mturk_utilities.register_hit_types(self.conn)
-
-    # Stage 0: Find URL HIT
-    def test_stage_0(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
-
-    def test_stage_1(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
-
-    def test_stage_2(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
-        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
-            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
-            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
-            "***7|||18:00|||20:00|||Sunday Description"
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
-
-    def test_stage_3(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]
-        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
-            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
-            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
-            "***7|||18:00|||20:00|||Sunday Description"
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB_2])
-
-    def test_stage_4(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_PHONE])
-
-    def test_stage_5(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
-
-
-# Test evaluation and update of completed HIT assignments
-class HITUpdateTest(TestCase):
-
-    conn = connection.MTurkConnection(
-        aws_access_key_id = settings.AWS_ACCESS_KEY,
-        aws_secret_access_key = settings.AWS_SECRET_KEY,
-        host = settings.MTURK_HOST)
-
-    def setUp(self):
-        location = Location.objects.create(
-            name = "Liberty Lounge",
-            formattedAddress = "3257 Stanton Rd SE,\nWashington, DC 20020",
-            website = "http://www.justinhinh.com",
-            formattedPhoneNumber = "(202)790-4414",
-            mturkDateLastUpdated = timezone.now()
-        )
-
-        MTurkLocationInfo.objects.create(
-            location = location,
-            name = location.name,
-            address = location.formattedAddress,
-            phone_number = location.formattedPhoneNumber,
-            website = location.website,
-            stage = 0
-        )
-
-        mturk_utilities.register_hit_types(self.conn)
-
-    def print_status(self):
-        mturk_locations = MTurkLocationInfo.objects.all()
-        for mturk_location in mturk_locations:
-            print(mturk_location.name)
-
-            if mturk_location.stage != None:
-                print('  Stage: ' + str(mturk_location.stage))
-            if mturk_location.website != None:
-                print('  Website: ' + mturk_location.website)
-            if mturk_location.hit_id != None:
-                print('  HIT ID: ' + str(mturk_location.hit_id))
-            if mturk_location.deals != None:
-                print('  Deals: ' + mturk_location.deals)
-            if mturk_location.attempts != None:
-                print('  Attempts: ' + str(mturk_location.attempts))
-            if mturk_location.confirmations != None:
-                print('  Confirmations: ' + str(mturk_location.confirmations))
-            if mturk_location.comments != None:
-                print('  Comments: ' + mturk_location.comments)
-
-    # Stage 0: Find URL HIT
-    def test_stage_0(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.add_mturk_stat(mturk_location, FIND_WEBSITE)
-        mturk_location.website = None
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
-
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
-        raw_input("Respond at workersandbox.mturk.com...")
-
-        mturk_update_website_tasks.update()
-        print("Updated")
-        self.print_status()
-
-    # Stage 1: Find web happy hour
-    def test_stage_1(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.add_mturk_stat(mturk_location, FIND_HAPPY_HOUR_WEB)
-        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
-
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
-        raw_input("Respond at workersandbox.mturk.com...")
-
-        mturk_update_website_tasks.update()
-        print("Updated")
-        self.print_status()
-
-    # Stage 2: Confirm web happy hour
-    def test_stage_2(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_WEB)
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]
-        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
-            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
-            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
-            "***7|||18:00|||20:00|||Sunday Description"
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
-
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
-        raw_input("Respond at workersandbox.mturk.com...")
-
-        mturk_update_website_tasks.update()
-        print("Updated")
-        self.print_status()
-
-    # Stage 3: Confirm web happy hour 2
-    def test_stage_3(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_WEB_2)
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]
-        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
-            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
-            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
-            "***7|||18:00|||20:00|||Sunday Description"
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB_2])
-
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
-        raw_input("Respond at workersandbox.mturk.com...")
-
-        mturk_update_website_tasks.update()
-        print("Updated")
-        self.print_status()
-
-
-    # Stage 4: Find phone happy hour
-    def test_stage_4(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.add_mturk_stat(mturk_location, FIND_HAPPY_HOUR_PHONE)
-        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_PHONE])
-
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
-        raw_input("Respond at workersandbox.mturk.com...")
-
-        mturk_update_phone_tasks.update()
-        print("Updated")
-        self.print_status()
-
-
-    #Stage 5: Confirm phone happy hour
-    def test_stage_5(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_PHONE)
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE]
-        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
-            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
-            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
-            "***7|||18:00|||20:00|||Sunday Description"
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE])
-
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
-        raw_input("Respond at workersandbox.mturk.com...")
-
-        mturk_update_phone_tasks.update()
-        print("Updated")
-        self.print_status()
-
-    #Stage 6: Confirm phone happy hour 2
-    def test_stage_6(self):
-        mturk_location = MTurkLocationInfo.objects.get(name = "Liberty Lounge")
-        mturk_utilities.add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_PHONE_2)
-        mturk_location.stage = MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE_2]
-        mturk_location.deals = "***1|||17:00|||19:00|||Monday Description***2|||16:00|||19:00|||Tuesday Description" + \
-            "***3|||17:00|||20:00|||Wednesday Description***4|||20:00|||22:00|||Thursday Description" + \
-            "***5|||16:00|||19:00|||Friday Description***6|||17:00|||19:00|||Saturday Description" + \
-            "***7|||18:00|||20:00|||Sunday Description"
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_PHONE_2])
-
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
-        raw_input("Respond at workersandbox.mturk.com...")
-
-        mturk_update_phone_tasks.update()
-        print("Updated")
-        self.print_status()
-
-
 # Test ProcessFindWebsite for Stage 0: Find URL of MTurk
 class ProcessFindWebsiteTest(TestCase):
     def setUp(self):
@@ -428,15 +176,15 @@ class ProcessFindWebsiteTest(TestCase):
 
         assignment1 = MockAssignment()
         assignment1.add_answer(WEBSITE_FOUND, 'yes')
-        assignment1.add_answer(WEBSITE, 'http://www.libertylounge.com')
+        assignment1.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com')
 
         assignment2 = MockAssignment()
         assignment2.add_answer(WEBSITE_FOUND, 'yes')
-        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com')
+        assignment2.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com')
 
         assignment3 = MockAssignment()
         assignment3.add_answer(WEBSITE_FOUND, 'yes')
-        assignment3.add_answer(WEBSITE, 'http://www.libertylounge.com')
+        assignment3.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com')
 
         assignments = [ assignment1, assignment2, assignment3 ]
 
@@ -453,23 +201,23 @@ class ProcessFindWebsiteTest(TestCase):
 
         assignment1 = MockAssignment()
         assignment1.add_answer(WEBSITE_FOUND, 'yes')
-        assignment1.add_answer(WEBSITE, 'http://www.libertylounge2.com')
+        assignment1.add_answer(WEBSITE_FIELD, 'http://www.libertylounge2.com')
 
         assignment2 = MockAssignment()
         assignment2.add_answer(WEBSITE_FOUND, 'yes')
-        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com')
+        assignment2.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com')
 
         assignment3 = MockAssignment()
         assignment3.add_answer(WEBSITE_FOUND, 'yes')
-        assignment3.add_answer(WEBSITE, 'http://www.libertylounge.com')
+        assignment3.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com')
 
         assignment4 = MockAssignment()
         assignment4.add_answer(WEBSITE_FOUND, 'yes')
-        assignment4.add_answer(WEBSITE, 'http://www.libertylounge2.com')
+        assignment4.add_answer(WEBSITE_FIELD, 'http://www.libertylounge2.com')
 
         assignment5 = MockAssignment()
         assignment5.add_answer(WEBSITE_FOUND, 'yes')
-        assignment5.add_answer(WEBSITE, 'http://www.libertylounge.com')
+        assignment5.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com')
 
         assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
 
@@ -486,19 +234,19 @@ class ProcessFindWebsiteTest(TestCase):
 
         assignment1 = MockAssignment()
         assignment1.add_answer(WEBSITE_FOUND, 'no')
-        assignment1.add_answer(WEBSITE, None)
+        assignment1.add_answer(WEBSITE_FIELD, None)
 
         assignment2 = MockAssignment()
         assignment2.add_answer(WEBSITE_FOUND, 'yes')
-        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com')
+        assignment2.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com')
 
         assignment3 = MockAssignment()
         assignment3.add_answer(WEBSITE_FOUND, 'no')
-        assignment3.add_answer(WEBSITE, None)
+        assignment3.add_answer(WEBSITE_FIELD, None)
 
         assignment4 = MockAssignment()
         assignment4.add_answer(WEBSITE_FOUND, 'no')
-        assignment4.add_answer(WEBSITE, None)
+        assignment4.add_answer(WEBSITE_FIELD, None)
 
         assignments = [ assignment1, assignment2, assignment3, assignment4 ]
 
@@ -515,23 +263,23 @@ class ProcessFindWebsiteTest(TestCase):
 
         assignment1 = MockAssignment()
         assignment1.add_answer(WEBSITE_FOUND, 'yes')
-        assignment1.add_answer(WEBSITE, 'www.libertylounge.com')
+        assignment1.add_answer(WEBSITE_FIELD, 'www.libertylounge.com')
 
         assignment2 = MockAssignment()
         assignment2.add_answer(WEBSITE_FOUND, 'yes')
-        assignment2.add_answer(WEBSITE, 'http://www.libertylounge.com/')
+        assignment2.add_answer(WEBSITE_FIELD, 'http://www.libertylounge.com/')
 
         assignment3 = MockAssignment()
         assignment3.add_answer(WEBSITE_FOUND, 'yes')
-        assignment3.add_answer(WEBSITE, 'libertylounge.com/')
+        assignment3.add_answer(WEBSITE_FIELD, 'libertylounge.com/')
 
         assignment4 = MockAssignment()
         assignment4.add_answer(WEBSITE_FOUND, 'yes')
-        assignment4.add_answer(WEBSITE, 'https://libertylounge.com')
+        assignment4.add_answer(WEBSITE_FIELD, 'https://libertylounge.com')
 
         assignment5 = MockAssignment()
         assignment5.add_answer(WEBSITE_FOUND, 'yes')
-        assignment5.add_answer(WEBSITE, 'www.libertylounge.net')
+        assignment5.add_answer(WEBSITE_FIELD, 'www.libertylounge.net')
 
         assignments = [ assignment1, assignment2, assignment3, assignment4, assignment5 ]
 
