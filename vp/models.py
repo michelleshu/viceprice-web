@@ -87,7 +87,7 @@ class Location(models.Model):
     website = models.CharField(max_length=256, null=True)
     dealDataSource = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
-    mturkDateLastUpdated = models.DateTimeField(default=timezone.make_aware(datetime(year=2016, month=1, day=1), timezone.get_current_timezone()))
+    mturkDateLastUpdated = models.DateTimeField(null=True)
     comments = models.CharField(max_length=1000, null=True)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)

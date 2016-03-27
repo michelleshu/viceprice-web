@@ -36,13 +36,13 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
     # Get at most max_new_locations locations that have either just been added or expired
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
 
-    #new_locations = Location.objects.filter(Q(id__gte=2343) & Q(id__lte=2412) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
+    new_locations = Location.objects.filter(Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None))[0:max_new_locations]
 
-    test_ids = [2862, 2500, 2538, 2485, 2529, 2449, 3040, 3138, 2733, 2502, 2831, 3175, 2480, 3169, 2892, 2372, 2860,
-                2624, 2925, 2900, 3043, 2717, 2781, 2748, 2574]
-
-    new_locations = Location.objects.filter(Q(id__in=test_ids) &
-                    Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
+    # test_ids = [2862, 2500, 2538, 2485, 2529, 2449, 3040, 3138, 2733, 2502, 2831, 3175, 2480, 3169, 2892, 2372, 2860,
+    #             2624, 2925, 2900, 3043, 2717, 2781, 2748, 2574]
+    #
+    # new_locations = Location.objects.filter(Q(id__in=test_ids) &
+    #                 Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
 
     # new_locations = Location.objects.filter(
     #     mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
