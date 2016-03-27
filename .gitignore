@@ -6,5 +6,5 @@ db.sqlite3
 .foreman
 .idea/workspace.xml
 env/development.env
-vp_virtualenv/
+vp_virtualenvr/
 

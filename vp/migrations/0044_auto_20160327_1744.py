@@ -11,9 +11,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='location',
-            name='neighborhood',
-            field=models.CharField(max_length=256, null=True),
+        migrations.RemoveField(
+            model_name='dealdetail',
+            name='type',
         ),
+        migrations.AddField(
+            model_name='dealdetail',
+            name='detailType',
+            field=models.IntegerField(default=3),
+        )
     ]
