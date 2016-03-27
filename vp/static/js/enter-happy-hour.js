@@ -1,4 +1,5 @@
 var isMouseDown = false;
+var happyHourBodyHTML = "";
 var dealTemplateHTML = "";
 var dealDetailTemplateHTML = "";
 var locationID;
@@ -33,6 +34,7 @@ $(document).ready(function() {
 
     dealTemplateHTML = $(".deal-section").html();
     dealDetailTemplateHTML = $(".deal-detail-section").html();
+    happyHourBodyHTML = $(".happy-hour-entry-container").html();
 
     // Load data for location
     get_location_that_needs_happy_hour();
@@ -42,28 +44,29 @@ $(document).ready(function() {
     .mouseup(function() {
         isMouseDown = false;
     });
+});
 
-    $(".skip-button").click(function() {
-        get_location_that_needs_happy_hour();
-    })
+$(document).on("click", ".skip-button", function() {
+    clear_inputs();
+    get_location_that_needs_happy_hour();
+});
 
-    $(".submit-button").click(function() {
-        var deals = $(".deal-section");
-        var dealData = [];
+$(document).on("click", ".submit-button", function() {
+    var deals = $(".deal-section");
+    var dealData = [];
 
-        for (var i = 0; i < deals.length; i++) {
-            dealData.push(getDealInfo($(deals[i])));
-        }
+    for (var i = 0; i < deals.length; i++) {
+        dealData.push(getDealInfo($(deals[i])));
+    }
 
-        submit_happy_hour_data({
-            'deals': dealData,
-            'location_id': locationID
-        });
-
-        return {
-            'deals': dealData
-        };
+    submit_happy_hour_data({
+        'deals': dealData,
+        'location_id': locationID
     });
+
+    return {
+        'deals': dealData
+    };
 });
 
 $(document).on("mousedown", ".day-of-week-buttons button", function() {
@@ -241,16 +244,20 @@ var get_location_that_needs_happy_hour = function() {
 };
 
 var submit_happy_hour_data = function(data) {
-    console.log(data);
     $.ajax({
         type: "POST",
         url: "/submit_happy_hour_data/",
-        data: data,
+        data: JSON.stringify(data),
         success: function(data) {
+            clear_inputs();
             get_location_that_needs_happy_hour();
         },
         error: function() {
             alert("Failed to submit happy hour data");
         }
-    })
-}
+    });
+};
+
+var clear_inputs = function(data) {
+    $(".happy-hour-entry-container").html(happyHourBodyHTML);
+};
