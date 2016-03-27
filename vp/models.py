@@ -72,7 +72,7 @@ class DealDetail(models.Model):
     deal = models.ForeignKey(Deal)
     drinkName = models.CharField(max_length=1000)
     drinkCategory = models.IntegerField()
-    type = models.IntegerField()
+    detailType = models.IntegerField()
     value = models.FloatField()
 
 # Information about a location
