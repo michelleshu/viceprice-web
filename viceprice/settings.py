@@ -23,18 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
 
 # Database configuration
-#    default = os.environ.get('DATABASE_URL')
-#)}
+
+DEVELOPMENT_DB_URL = "postgres://mhgtvtfoppbwmo:PbOrR4zCUlsOCelbNY-blp_UF2@ec2-107-20-153-141.compute-1.amazonaws.com:5432/d2hagb6iknui5q"
+database_url = os.environ.get('DATABASE_URL')
+if database_url == None:
+    database_url = DEVELOPMENT_DB_URL
 
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'd2hagb6iknui5q',
-         'USER': 'mhgtvtfoppbwmo',
-         'PASSWORD': 'PbOrR4zCUlsOCelbNY-blp_UF2',
-         'HOST': 'ec2-107-20-153-141.compute-1.amazonaws.com',
-         'PORT': '5432',
-     },
+    'default': dj_database_url.config(default = database_url)
 }
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -69,7 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 )
 
 ROOT_URLCONF = 'viceprice.urls'
@@ -115,6 +111,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'vp', 'static'),
 )
+
+ROLLBAR = {
+    'access_token': '31db6b1bdb5c4757abcd5a97e6301098',
+    'environment': 'development' if DEBUG else 'production',
+    'branch': 'master',
+    'root': os.getcwd(),
+}
 
 # Foursquare
 FOURSQUARE_CLIENT_ID = os.environ.get('FOURSQUARE_CLIENT_ID')
