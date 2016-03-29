@@ -231,6 +231,7 @@ var get_location_that_needs_happy_hour = function() {
             $("#location-website").html(data["location_website"]);
             $("#location-website").attr("href", data["location_website"]);
             $("#location-phone-number").html(data["location_phone_number"]);
+            $("#location-address").html(data["location_address"]);
 
             var numberRemaining = data["remaining_count"];
             var formattedRemaining = (TOTAL_LOCATIONS - data["remaining_count"]) + "/" + TOTAL_LOCATIONS;
