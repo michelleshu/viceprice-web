@@ -52,6 +52,11 @@ class BusinessHourManager(models.Manager):
 class BusinessHour(models.Model):
     objects = BusinessHourManager()
 
+class ActiveHour(models.Model):
+    dayofweek = models.IntegerField()
+    start = models.TimeField(null=True)
+    end = models.TimeField(null=True)
+    
 class DayOfWeek(models.Model):
     day = models.IntegerField()
     businessHour = models.ForeignKey(BusinessHour, related_name='days_of_week', null=True)
@@ -64,8 +69,9 @@ class TimeFrame(models.Model):
 
 # Information about a deal at a location
 class Deal(models.Model):
-    dealHour = models.OneToOneField(BusinessHour)
+#     dealHour = models.OneToOneField(BusinessHour)
     description = models.CharField(max_length=2000)
+    activeHours = models.ManyToManyField(ActiveHour)
 
 # Details about a particular drink and price
 class DealDetail(models.Model):
