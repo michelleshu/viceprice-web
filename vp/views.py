@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail
+from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
 import pdb
@@ -167,44 +167,32 @@ def submit_happy_hour_data(request):
     }
 
     location_id = data.get('location_id')
-    location = Location.objects.get(id = location_id)
+    location = Location.objects.get(id=location_id)
 
     deals = data.get('deals')
     # loop over all the deals posted to the server
     for deal in deals:
-        time_period_data = deal.get('timePeriods')
-        time_periods = []
-        #loop over all the time periods for a deal
-        for tp_data in time_period_data:
-            #push the time periods to the time_periods array
-            time_periods.append({
-                    'start': tp_data.get("startTime"),
-                 'end': tp_data.get("endTime"),
-                 'until_close': tp_data.get("untilClose")
-             })
-        #pass the time_periods array and the 'daysOfWeek' array from the request body to a BusinessHour object
-        deal_hour = BusinessHour.objects.create(time_periods, deal.get('daysOfWeek'))
-        #save the deal_hour
-        deal_hour.save()
-
-        #instantiate a new deal object and fill in as needed
+        # loop over all the time periods for a deal
         newdeal = Deal()
-        #set the Deal's deal_hour to the BuinessHour object from before (deal_hour)
-        newdeal.dealHour = deal_hour
-        #dummy for description
-        newdeal.description = ""
-        #try to save the deal
         newdeal.save()
+        for day in deal.get('daysOfWeek'):
+            for tp_data in deal.get('timePeriods'):
+                # push the time periods to the time_periods array
+                activeHour = ActiveHour()
+                activeHour.dayofweek = day
+                activeHour.start = tp_data.get("startTime")
+                activeHour.end = tp_data.get("endTime")
+                activeHour.save()
+                pdb.set_trace()
+                newdeal.activeHours.add(activeHour)
+        newdeal.description = ""
         deal_detail_data = deal.get('dealDetails')
-
         for detail in deal_detail_data:
             drink_names = detail.get("names")
             category = DRINK_CATEGORIES[detail.get("category")]
             type = DEAL_TYPES[detail.get("dealType")]
-
             dealDetail = DealDetail(deal=newdeal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("dealValue"))
             dealDetail.save()
-
         location.deals.add(newdeal)
 
     location.dealDataManuallyReviewed = timezone.now()
