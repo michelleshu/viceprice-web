@@ -129,9 +129,33 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   color:#7d7f80;
 }
 
+.location-details-div {
+  padding: 0.5rem 0 1rem 0;
+}
+
 .location-details-div i {
   font-size: 1rem;
   color: #c8a45e;
+}
+
+.location-detail {
+  height: 1.4rem;
+  overflow: hidden;
+  padding: 0.3rem 0;
+}
+
+#location-address, #location-phone-number, #location-website {
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 0.75rem;
+  color: #5b5b5b;
+  position: relative;
+  bottom: 0.1rem;
+  left: 0.3rem;
+}
+
+a#location-website {
+color: #c8a45e;
+cursor: pointer;
 }
 
 .reviews-div li{
