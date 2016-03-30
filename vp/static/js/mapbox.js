@@ -95,13 +95,13 @@ var geoJsonData;
         else
             {   
                 dcnLayer.resetStyle(lastLayer);
-                lastLayer.on({mousemove:mousemove, mouseout:mouseout});
+                lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
                 document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
                 id=parseInt(lastLayer.feature.id)-1;
                 css[id].style.display="block";
             }    
         //Onclick: disable hover effect, remove label
-        e.target.off({mousemove:false, mouseout:false});
+        e.target.off({mousemove:false, mouseout:false,click:false});
         e.target.setStyle({fillOpacity: 0});
         id=parseInt(e.target.feature.id)-1;
         css[id].style.display="none";
@@ -110,7 +110,7 @@ var geoJsonData;
         neighborhood=e.target.feature.properties.name;
         
         //OnClick: zoom into Polygon and show related markers
-        map.fitBounds(e.target.getBounds());
+        map.fitBounds(getBounds(e.target));
         myLayer.setGeoJSON(geoJsonData);
         myLayer.setFilter(function(f) {
             return f.properties["neighborhood"] === neighborhood;
@@ -146,10 +146,19 @@ var geoJsonData;
                  f.id == 13 ? L.latLng(38.911011, -77.031959): 
                  f.id == 14 ? L.latLng(38.918115, -77.030865): 
                  f.id == 15 ? L.latLng(38.872020, -77.012171): 
-                 f.id == 16 ? L.latLng(38.858346, -76.996716):
+                 f.id == 16 ? L.latLng(38.889849, -76.943152):
+                 f.id == 17 ? L.latLng(38.900487, -76.986962):
                   l.getBounds().getCenter();
           }
         
+          function getBounds(e){
+            return e.feature.id == 1? L.latLngBounds([38.927309, -77.109718],[38.985176, -77.003803]):
+                   e.feature.id == 3? L.latLngBounds([38.913442, -77.090021],[38.938577, -77.044096]):
+                   e.feature.id == 5? L.latLngBounds([38.902295, -77.046826],[38.960317, -76.939709]):
+                   e.feature.id == 11? L.latLngBounds([38.894218, -77.060449],[38.907131, -77.036954]):
+                   e.feature.id == 17? L.latLngBounds([38.886004, -77.018576],[38.914693, -76.965533]):
+                   e.getBounds();
+          }
         //label css (customized to each neighborhood based on the polgon size, location etc)
     function getHTML(e,d) {
     return e == 1 ? "<div class='map_labels' style='font-size:18px;margin-top:30%; '>" + d +"<div class='bar_num_labels' id='01'>( 16 ) <div/></div>" : //north DC
@@ -168,7 +177,7 @@ var geoJsonData;
             e == 14 ? "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"<div class='bar_num_labels' id='14'>( 40 )<div/></div>" :  //u street
             e == 15 ? "<div class='map_labels' style='font-size:14px;margin-rigth:50%;'>" + d +"<div class='bar_num_labels' id='15'>( 10 )<div/></div>" : //Waterfront
             e == 16 ? "<div class='map_labels' style='font-size:18px;text-align:left;'>" + d +"<div class='bar_num_labels' id='16'>( 2 )<div/></div>" : //South east
-                    "<div class='map_labels' style='font-size:12px;'>" + d +"<div class='bar_num_labels' id='17' >( 27 )<div/></div>"; //h street 
+                    "<div class='map_labels' style='font-size:11px; margin-bottom:0;'>" + d +"<div class='bar_num_labels' id='17' style='font-size:10px;'>( 27 )</div></div>"; //h street 
             }
 
 /******Zoom in / Zoom out and Neighborhood Zoom functions******/
@@ -176,10 +185,10 @@ var zoom
 
 $("#neighboor-zoom").click(function() {
   //zoom out to dc level
-    map.setView([38.907557, -77.028130],13);
+    map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
     //reset polygon style
     dcnLayer.resetStyle(lastLayer);
-    lastLayer.on({mousemove:mousemove, mouseout:mouseout});
+    lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
     document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
     id=parseInt(lastLayer.feature.id)-1;
     css[id].style.display="block";
