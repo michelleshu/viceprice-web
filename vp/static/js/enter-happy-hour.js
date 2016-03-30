@@ -230,6 +230,7 @@ var get_location_that_needs_happy_hour = function() {
             $("#location-name").html(data["location_name"]);
             $("#location-website").html(data["location_website"]);
             $("#location-website").attr("href", data["location_website"]);
+            $("#location-google-link").attr("href", "http://www.google.com/search?q=site:" + data["location_website"] + "+Happy+Hours");
             $("#location-phone-number").html(data["location_phone_number"]);
             $("#location-address").html(data["location_address"]);
 

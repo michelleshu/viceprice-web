@@ -52,6 +52,11 @@ class BusinessHourManager(models.Manager):
 class BusinessHour(models.Model):
     objects = BusinessHourManager()
 
+class ActiveHour(models.Model):
+    dayofweek = models.IntegerField()
+    start = models.TimeField(null=True)
+    end = models.TimeField(null=True)
+    
 class DayOfWeek(models.Model):
     day = models.IntegerField()
     businessHour = models.ForeignKey(BusinessHour, related_name='days_of_week', null=True)
@@ -64,8 +69,9 @@ class TimeFrame(models.Model):
 
 # Information about a deal at a location
 class Deal(models.Model):
-    dealHour = models.OneToOneField(BusinessHour)
+#     dealHour = models.OneToOneField(BusinessHour)
     description = models.CharField(max_length=2000)
+    activeHours = models.ManyToManyField(ActiveHour)
 
 # Details about a particular drink and price
 class DealDetail(models.Model):
@@ -87,7 +93,7 @@ class Location(models.Model):
     website = models.CharField(max_length=256, null=True)
     dealDataSource = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
-    mturkDateLastUpdated = models.DateTimeField(default=timezone.make_aware(datetime(year=2016, month=1, day=1), timezone.get_current_timezone()))
+    mturkDateLastUpdated = models.DateTimeField(null=True)
     comments = models.CharField(max_length=1000, null=True)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)
