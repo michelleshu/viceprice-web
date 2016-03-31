@@ -1,9 +1,9 @@
-from apscheduler.schedulers.blocking import BlockingScheduler
-from rq import Queue
-from worker import conn
-from vp.management.commands import updatemturkweb, updatemturkphone
-import pytz
-import logging
+# from apscheduler.schedulers.blocking import BlockingScheduler
+# from rq import Queue
+# from worker import conn
+# from vp.management.commands import updatemturkweb, updatemturkphone
+# import pytz
+# import logging
 
 # sched = BlockingScheduler()
 # logging.basicConfig()
