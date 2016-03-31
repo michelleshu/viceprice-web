@@ -21,11 +21,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
-            model_name='location',
-            name='neighborhood',
-            field=models.CharField(max_length=256, null=True),
-        ),
-        migrations.AddField(
             model_name='deal',
             name='activeHours',
             field=models.ForeignKey(related_name='deal', to='vp.ActiveHour', null=True),
