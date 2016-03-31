@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
-import pdb
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():
@@ -201,7 +200,6 @@ def submit_happy_hour_data(request):
                 activeHour.start = tp_data.get("startTime")
                 activeHour.end = tp_data.get("endTime")
                 activeHour.save()
-                pdb.set_trace()
                 newdeal.activeHours.add(activeHour)
         newdeal.description = ""
         deal_detail_data = deal.get('dealDetails')
