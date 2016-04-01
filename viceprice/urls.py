@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^submit_happy_hour_data/$', vp.views.submit_happy_hour_data, name='submit_happy_hour_data'),
     url(r'^upload_data/$', vp.views.upload_data_view, name='upload_data'),
     url(r'^submit_locations_to_upload/$', vp.views.submit_locations_to_upload, name='submit_locations_to_upload'),
+    url(r'^skip_location/$', vp.views.skip_locations, name='skip_locations'),
 
     # Map
     url(r'^get_locations_within_bounds/$', vp.views.get_locations_within_bounds, name='get_locations_within_bounds'),
