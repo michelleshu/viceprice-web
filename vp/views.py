@@ -224,9 +224,7 @@ def submit_happy_hour_data(request):
                 activeHour.dayofweek = day
                 activeHour.start = tp_data.get("startTime")
                 activeHour.end = tp_data.get("endTime")
-                print "-----------"
-                print activeHour.end
-                print "-----------"
+              
                 if activeHour.end == "":
                     activeHour.end = None
                 activeHour.save()
