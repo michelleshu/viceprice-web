@@ -59,7 +59,7 @@ $(document).on("click", ".skip-button", function() {
             get_location_that_needs_happy_hour();
         },
         error: function() {
-            alert("Failed to submit happy hour data");
+            alert("Failed to skip location; contact the dev team. Reload page for a new location");
         }
     });
 });

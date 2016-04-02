@@ -73,7 +73,7 @@ class TimeFrame(models.Model):
 class DealDetail(models.Model):
     drinkName = models.CharField(max_length=1000)
     drinkCategory = models.IntegerField()
-    type = models.IntegerField()
+    detailType = models.IntegerField()
     value = models.FloatField()
     
     # Information about a deal at a location
@@ -104,7 +104,7 @@ class Location(models.Model):
     yelpId = models.CharField(max_length=50, null=True)
     dealDataManuallyReviewed = models.DateTimeField(null=True)
     neighborhood=models.CharField(max_length=256, null=True)
-    skipped=models.BooleanField(default=False)
+    data_entry_skipped=models.BooleanField(default=False)
 
 # Track the time and cost of MTurk stage
 class MTurkLocationInfoStat(models.Model):

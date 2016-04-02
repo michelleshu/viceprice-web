@@ -123,7 +123,7 @@ def fetch_locations(request):
                 detail = {"detail_id":d.id,
                           "drinkName": d.drinkName,
                           "drinkCategory":d.drinkCategory,
-                          "detaiType":d.type,
+                          "detaiType":d.detailType,
                           "value":d.value}
                 details.append(detail)
             deals = {"deal_id" : d.id,
@@ -174,15 +174,16 @@ def enter_happy_hour_view(request):
 
     return render_to_response('enter_happy_hour.html', context)
 
-def skip_locations(request):
+def flag_location_as_skipped(request):
     data = json.loads(request.body)
     location_id = data.get('location_id')
     location = Location.objects.get(id=location_id)
-    location.skipped = True
+    location.data_entry_skipped = True
     location.save()
-    return HttpResponse("success")   
+    return HttpResponse("success")  
+ 
 def get_location_that_needs_happy_hour(request):
-    locations = Location.objects.filter(skipped = False).order_by('?')
+    locations = Location.objects.filter(data_entry_skipped = False, dealDataManuallyReviewed=None).order_by('?')
     selected = locations.first()
 
     response = {
@@ -235,7 +236,7 @@ def submit_happy_hour_data(request):
             drink_names = detail.get("names")
             category = DRINK_CATEGORIES[detail.get("category")]
             type = DEAL_TYPES[detail.get("dealType")]
-            dealDetail = DealDetail(drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("dealValue"))
+            dealDetail = DealDetail(drinkName=drink_names, drinkCategory=category, detailType=type, value=detail.get("dealValue"))
             dealDetail.save()
             newdeal.dealDetails.add(dealDetail)
         location.deals.add(newdeal)

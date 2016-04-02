@@ -66,6 +66,7 @@ function getStyle(feature) {
 }
 
 function onEachFeature(feature, layer) {
+	console.log(feature)
 	// add neighborhood names to each polygon
 	var label = L.marker(labelLocation(layer, feature), {
 		icon : L.divIcon({
@@ -190,79 +191,9 @@ function getBounds(e) {
 // label css (customized to each neighborhood based on the polgon size, location
 // etc)
 function getHTML(e, d) {
-	return e == 1 ? "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
-			+ d + "<div class='bar_num_labels' id='01'>( 16 ) <div/></div>"
-			: // north DC
-			e == 2 ? "<div class='map_labels' style='font-size:18px;margin-left:30%;'>"
-					+ d
-					+ "<div class='bar_num_labels' id='02'>( 5 ) <div/></div>"
-					: // west dc
-					e == 3 ? "<div class='map_labels' style='font-size:16px;'>"
-							+ d
-							+ "<div class='bar_num_labels' id='03'>( 33 ) <div/></div>"
-							: // Friendship Heights
-							e == 4 ? "<div class='map_labels' style='font-size:14px;'>"
-									+ d
-									+ "<div class='bar_num_labels' id='04'>( 44 ) <div/></div>"
-									: // Adams Morgan
-									e == 5 ? "<div class='map_labels' style='font-size:18px;margin-right:30%;'>"
-											+ d
-											+ "<div class='bar_num_labels' id='05'>( 24 ) <div/></div>"
-											: // East dc
-											e == 6 ? "<div class='map_labels' style='font-size:16px;'>"
-													+ d
-													+ "<div class='bar_num_labels' id='06'>( 18 )<div/></div>"
-													: // shaw
-													e == 7 ? "<div class='map_labels' style='font-size:16px;'>"
-															+ d
-															+ "<div class='bar_num_labels' id='07'>( 38 )<div/></div>"
-															: // Capitol Hill
-															e == 8 ? "<div class='map_labels' style='font-size:16px;margin-top:15%;'>"
-																	+ d
-																	+ "<div class='bar_num_labels' id='08'>( 115 )<div/></div>"
-																	: // downtown
-																	e == 9 ? "<div class='map_labels' style='font-size:14px;'>"
-																			+ d
-																			+ "<div class='bar_num_labels' id='09'>( 20 )<div/></div>"
-																			: // Columbia
-																				// Heights
-																			e == 10 ? "<div class='map_labels' style='font-size:14px;width:50px;margin-left:30%;margin-top:10%;'>"
-																					+ d
-																					+ "<div class='bar_num_labels' id='10'>( 76 )<div/></div>"
-																					: // Dupont
-																						// Circle
-																					e == 11 ? "<div class='map_labels' style='font-size:16px;'>"
-																							+ d
-																							+ "<div class='bar_num_labels' id='11'>( 40 )<div/></div>"
-																							: // foggy
-																								// bottom
-																							e == 12 ? "<div class='map_labels' style='font-size:16px;'>"
-																									+ d
-																									+ "<div class='bar_num_labels' id='12'>( 28 )<div/></div>"
-																									: // georgetown
-																									e == 13 ? "<div class='map_labels' style='font-size:12px;width:50px;margin-top:0;margin-left:30%;'>"
-																											+ d
-																											+ "<div class='bar_num_labels' id='13'>( 21 )<div/></div>"
-																											: // Logan
-																												// Circle
-																											e == 14 ? "<div class='map_labels' style='font-size:14px;margin-top:10%;'>"
-																													+ d
-																													+ "<div class='bar_num_labels' id='14'>( 40 )<div/></div>"
-																													: // u
-																														// street
-																													e == 15 ? "<div class='map_labels' style='font-size:14px;margin-rigth:50%;'>"
-																															+ d
-																															+ "<div class='bar_num_labels' id='15'>( 10 )<div/></div>"
-																															: // Waterfront
-																															e == 16 ? "<div class='map_labels' style='font-size:18px;text-align:left;'>"
-																																	+ d
-																																	+ "<div class='bar_num_labels' id='16'>( 2 )<div/></div>"
-																																	: // South
-																																		// east
-																																	"<div class='map_labels' style='font-size:11px; margin-bottom:0;'>"
-																																			+ d
-																																			+ "<div class='bar_num_labels' id='17' style='font-size:10px;'>( 27 )</div></div>"; // h
-																																																								// street
+	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
+			+ d + "<div class='bar_num_labels' id='"+e+"'> <div/></div>"
+																										// street
 }
 
 /** ****Zoom in / Zoom out and Neighborhood Zoom functions***** */
