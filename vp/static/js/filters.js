@@ -91,7 +91,7 @@ function outputUpdate(num) {
 
 	time = $("#time_output").text()
 	time.replace(/\\*.\w\M/, "")
-	updateData(time);
+	fetchData(time);
 }
 
 function time_format(d) {
@@ -102,12 +102,11 @@ function time_format(d) {
 }
 
 function setData() {
-
+		 var d = new Date();
+		 var formatted_time = time_format(d);
+		 fetchData(formatted_time);
 }
 function format_two_digits(n) {
 	return n < 10 ? '0' + n : n;
-}
-function updateData(time) {
-	fetchData(time)
 }
 setData();
