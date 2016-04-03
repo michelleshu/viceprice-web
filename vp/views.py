@@ -8,10 +8,9 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail
+from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
-import pdb
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():
@@ -108,12 +107,53 @@ def upload_data_view(request):
     return render_to_response('upload_data.html', context)
 
 def fetch_locations(request):
-    locations = Location.objects.all()
-    jsons = []
+    time = request.GET.get('time')
+    locations = Location.objects.filter(deals__activeHours__start__lte=time, deals__activeHours__end__gte=time).distinct().prefetch_related('deals__dealDetails')
+    container = []
+    barLocations = []
+    dealInfo = []
     for location in locations:
-        json = {"type": "Feature", "geometry": {"type": "Point", "coordinates": [location.longitude, location.latitude]}, "properties": {"name": location.name, "website":location.website, "phone": location.formattedPhoneNumber, "neighborhood":location.neighborhood, "icon": {"className": "pin", "iconSize": ""}}}
-        jsons.append(json)
-    return JsonResponse({'json':jsons})
+        dealList = []
+        dealSet = location.deals.all()
+        for d in dealSet:
+            dealDetails = d.dealDetails.all()
+            details = []
+            for d in dealDetails:
+                detail = {"detail_id":d.id,
+                          "drinkName": d.drinkName,
+                          "drinkCategory":d.drinkCategory,
+                          "detaiType":d.detailType,
+                          "value":d.value}
+                details.append(detail)
+            deals = {"deal_id" : d.id,
+                    "details": details }
+            dealList.append(deals)
+        dealData = {
+        "locationid": location.id,
+        "deals": dealList}
+        dealInfo.append(dealData)
+        addressCityIndex = location.formattedAddress.find("Washington,")
+        abbreviatedAddress = location.formattedAddress[:addressCityIndex]
+        locationData = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [location.longitude, location.latitude]
+            },
+            "properties": {
+                "name": location.name,
+                "website":location.website,
+                "phone": location.formattedPhoneNumber,
+                "fullAddress": location.formattedAddress,
+                "abbreviatedAddress": abbreviatedAddress,
+                "neighborhood":location.neighborhood,
+                "icon": {"className": "pin", "iconSize": ""}
+            }
+        }
+        barLocations.append(locationData)
+    container.append(barLocations)
+    container.append(dealInfo)
+    return JsonResponse({'json':barLocations,'deals':dealInfo})
 
 def sandbox(request):
     context = {}
@@ -125,9 +165,7 @@ def home(request):
     context.update(csrf(request))
     return render_to_response('home.html', context)
 
-
 # Manual Happy Hour Entry
-
 @login_required(login_url='/login/')
 def enter_happy_hour_view(request):
     context = {}
@@ -135,9 +173,16 @@ def enter_happy_hour_view(request):
 
     return render_to_response('enter_happy_hour.html', context)
 
-
+def flag_location_as_skipped(request):
+    data = json.loads(request.body)
+    location_id = data.get('location_id')
+    location = Location.objects.get(id=location_id)
+    location.data_entry_skipped = True
+    location.save()
+    return HttpResponse("success")  
+ 
 def get_location_that_needs_happy_hour(request):
-    locations = Location.objects.filter(dealDataManuallyReviewed=None).order_by('?')
+    locations = Location.objects.filter(data_entry_skipped = False, dealDataManuallyReviewed=None).order_by('?')
     selected = locations.first()
 
     response = {
@@ -145,14 +190,14 @@ def get_location_that_needs_happy_hour(request):
         'location_id': selected.id,
         'location_name': selected.name,
         'location_website': selected.website,
-        'location_phone_number': selected.formattedPhoneNumber
+        'location_phone_number': selected.formattedPhoneNumber,
+        'location_address': selected.formattedAddress
     }
     return JsonResponse(response)
 
 @csrf_exempt
 def submit_happy_hour_data(request):
     data = json.loads(request.body)
-
     DRINK_CATEGORIES = {
         "beer": 1,
         "wine": 2,
@@ -164,48 +209,36 @@ def submit_happy_hour_data(request):
         "percent-off": 2,
         "price-off": 3
     }
-
     location_id = data.get('location_id')
-    location = Location.objects.get(id = location_id)
-
+    location = Location.objects.get(id=location_id)
     deals = data.get('deals')
     # loop over all the deals posted to the server
     for deal in deals:
-        time_period_data = deal.get('timePeriods')
-        time_periods = []
-        #loop over all the time periods for a deal
-        for tp_data in time_period_data:
-            #push the time periods to the time_periods array
-            time_periods.append({
-                    'start': tp_data.get("startTime"),
-                 'end': tp_data.get("endTime"),
-                 'until_close': tp_data.get("untilClose")
-             })
-        #pass the time_periods array and the 'daysOfWeek' array from the request body to a BusinessHour object
-        deal_hour = BusinessHour.objects.create(time_periods, deal.get('daysOfWeek'))
-        #save the deal_hour
-        deal_hour.save()
-
-        #instantiate a new deal object and fill in as needed
+        # loop over all the time periods for a deal
         newdeal = Deal()
-        #set the Deal's deal_hour to the BuinessHour object from before (deal_hour)
-        newdeal.dealHour = deal_hour
-        #dummy for description
-        newdeal.description = ""
-        #try to save the deal
         newdeal.save()
+        for day in deal.get('daysOfWeek'):
+            for tp_data in deal.get('timePeriods'):
+                # push the time periods to the time_periods array
+                activeHour = ActiveHour()
+                activeHour.dayofweek = day
+                activeHour.start = tp_data.get("startTime")
+                activeHour.end = tp_data.get("endTime")
+              
+                if activeHour.end == "":
+                    activeHour.end = None
+                activeHour.save()
+                newdeal.activeHours.add(activeHour)
+        newdeal.description = ""
         deal_detail_data = deal.get('dealDetails')
-
         for detail in deal_detail_data:
             drink_names = detail.get("names")
             category = DRINK_CATEGORIES[detail.get("category")]
             type = DEAL_TYPES[detail.get("dealType")]
-
-            dealDetail = DealDetail(deal=newdeal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("dealValue"))
+            dealDetail = DealDetail(drinkName=drink_names, drinkCategory=category, detailType=type, value=detail.get("dealValue"))
             dealDetail.save()
-
+            newdeal.dealDetails.add(dealDetail)
         location.deals.add(newdeal)
-
     location.dealDataManuallyReviewed = timezone.now()
     location.save()
 
