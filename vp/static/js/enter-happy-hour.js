@@ -47,8 +47,21 @@ $(document).ready(function() {
 });
 
 $(document).on("click", ".skip-button", function() {
-    clear_inputs();
-    get_location_that_needs_happy_hour();
+	var json = {
+        'location_id': locationID
+    }
+    $.ajax({
+        type: "POST",
+        url: "/skip_location/",
+        data: JSON.stringify(json),
+        success: function(data) {
+            clear_inputs();
+            get_location_that_needs_happy_hour();
+        },
+        error: function() {
+            alert("Failed to skip location; contact the dev team. Reload page for a new location");
+        }
+    });
 });
 
 $(document).on("click", ".submit-button", function() {

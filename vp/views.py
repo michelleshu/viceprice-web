@@ -107,13 +107,34 @@ def upload_data_view(request):
     return render_to_response('upload_data.html', context)
 
 def fetch_locations(request):
-    locations = Location.objects.all()
-    jsons = []
+    time = request.GET.get('time')
+    locations = Location.objects.filter(deals__activeHours__start__lte=time, deals__activeHours__end__gte=time).distinct().prefetch_related('deals__dealDetails')
+    container = []
+    barLocations = []
+    dealInfo = []
     for location in locations:
+        dealList = []
+        dealSet = location.deals.all()
+        for d in dealSet:
+            dealDetails = d.dealDetails.all()
+            details = []
+            for d in dealDetails:
+                detail = {"detail_id":d.id,
+                          "drinkName": d.drinkName,
+                          "drinkCategory":d.drinkCategory,
+                          "detaiType":d.detailType,
+                          "value":d.value}
+                details.append(detail)
+            deals = {"deal_id" : d.id,
+                    "details": details }
+            dealList.append(deals)
+        dealData = {
+        "locationid": location.id,
+        "deals": dealList}
+        dealInfo.append(dealData)
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
-
-        json = {
+        locationData = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -129,8 +150,10 @@ def fetch_locations(request):
                 "icon": {"className": "pin", "iconSize": ""}
             }
         }
-        jsons.append(json)
-    return JsonResponse({'json':jsons})
+        barLocations.append(locationData)
+    container.append(barLocations)
+    container.append(dealInfo)
+    return JsonResponse({'json':barLocations,'deals':dealInfo})
 
 def sandbox(request):
     context = {}
@@ -142,9 +165,7 @@ def home(request):
     context.update(csrf(request))
     return render_to_response('home.html', context)
 
-
 # Manual Happy Hour Entry
-
 @login_required(login_url='/login/')
 def enter_happy_hour_view(request):
     context = {}
@@ -152,9 +173,16 @@ def enter_happy_hour_view(request):
 
     return render_to_response('enter_happy_hour.html', context)
 
-
+def flag_location_as_skipped(request):
+    data = json.loads(request.body)
+    location_id = data.get('location_id')
+    location = Location.objects.get(id=location_id)
+    location.data_entry_skipped = True
+    location.save()
+    return HttpResponse("success")  
+ 
 def get_location_that_needs_happy_hour(request):
-    locations = Location.objects.filter(dealDataManuallyReviewed=None).order_by('?')
+    locations = Location.objects.filter(data_entry_skipped = False, dealDataManuallyReviewed=None).order_by('?')
     selected = locations.first()
 
     response = {
@@ -170,7 +198,6 @@ def get_location_that_needs_happy_hour(request):
 @csrf_exempt
 def submit_happy_hour_data(request):
     data = json.loads(request.body)
-
     DRINK_CATEGORIES = {
         "beer": 1,
         "wine": 2,
@@ -182,10 +209,8 @@ def submit_happy_hour_data(request):
         "percent-off": 2,
         "price-off": 3
     }
-
     location_id = data.get('location_id')
     location = Location.objects.get(id=location_id)
-
     deals = data.get('deals')
     # loop over all the deals posted to the server
     for deal in deals:
@@ -199,6 +224,9 @@ def submit_happy_hour_data(request):
                 activeHour.dayofweek = day
                 activeHour.start = tp_data.get("startTime")
                 activeHour.end = tp_data.get("endTime")
+              
+                if activeHour.end == "":
+                    activeHour.end = None
                 activeHour.save()
                 newdeal.activeHours.add(activeHour)
         newdeal.description = ""
@@ -207,10 +235,10 @@ def submit_happy_hour_data(request):
             drink_names = detail.get("names")
             category = DRINK_CATEGORIES[detail.get("category")]
             type = DEAL_TYPES[detail.get("dealType")]
-            dealDetail = DealDetail(deal=newdeal, drinkName=drink_names, drinkCategory=category, type=type, value=detail.get("dealValue"))
+            dealDetail = DealDetail(drinkName=drink_names, drinkCategory=category, detailType=type, value=detail.get("dealValue"))
             dealDetail.save()
+            newdeal.dealDetails.add(dealDetail)
         location.deals.add(newdeal)
-
     location.dealDataManuallyReviewed = timezone.now()
     location.save()
 
