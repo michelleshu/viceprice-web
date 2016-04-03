@@ -79,11 +79,7 @@ class DealType(enum.Enum):
 class DealDetail(models.Model):
     drinkName = models.CharField(max_length=1000)
     drinkCategory = models.IntegerField()
-<<<<<<< HEAD
     detailType = enum.EnumField(DealType, default=DealType.price_off)
-=======
-    detailType = models.IntegerField()
->>>>>>> 7166ab858c706b90a9a52831bd79d0e6e925ce8c
     value = models.FloatField()
     
     # Information about a deal at a location
