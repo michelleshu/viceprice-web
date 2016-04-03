@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.utils import timezone
+from django_enumfield import enum
 
 MONDAY = 'Monday'
 TUESDAY = 'Tuesday'
@@ -69,11 +70,16 @@ class TimeFrame(models.Model):
 
 
 
+class DealType(enum.Enum):
+    price = 1
+    percent_off = 2
+    price_off = 3
+
 # Details about a particular drink and price
 class DealDetail(models.Model):
     drinkName = models.CharField(max_length=1000)
     drinkCategory = models.IntegerField()
-    detailType = models.IntegerField()
+    detailType = enum.EnumField(DealType, default=DealType.price_off)
     value = models.FloatField()
     
     # Information about a deal at a location
