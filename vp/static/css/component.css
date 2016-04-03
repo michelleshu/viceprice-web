@@ -8,7 +8,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   }
 
 /* Leftside bar*/
-.left-side-bar  { position:fixed;float:left; width:16.6666%; max-width:200px; background-color:rgb(35, 40, 43); top:0; bottom:0; left:0;} 
+.left-side-bar  { position:fixed;float:left; width:16.6666%;  background-color:rgb(35, 40, 43); top:0; bottom:0; left:0;}
 
 .search-div, .hours-div{
   display:block;
@@ -45,20 +45,23 @@ a {font-size:60%; font-family: Arial, sans-serif;padding-left:1%;}
 a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
-.zooming-bar { position: fixed; float:right; width: 2%; height:10%; background-color: #c8a45e;top:0; margin-left:15.8%;}
+.zooming-bar { position: fixed; float:right; width: 22px; height:85px; background-color: #c8a45e;top:0; margin-left:16.6666%;}
 .zooming-bar li{ list-style-type: none;text-align: center;}
-.zooming-bar img{width:80%;height:80%;margin-top:15%;cursor: pointer;}
+.zooming-bar img{width:20px;height:20px;margin-top:15%;cursor: pointer;}
 /* Rightside bar*/
 .right-side-bar {position:absolute; float:left; width:25.0000%; max-width:300px; background-color:#fbfbfb;opacity:0.95; top:0; right:0;  }
 
-.bar-info-div, .specials-div, .reviews-div{
+.specials-div, .location-details-div, .reviews-div {
   display:block;
   width:90%;
-  margin-left: 5%;
-  padding-top:5%;
-  padding-bottom:5%;
+  margin-left: 1rem;
+  padding-top: 0.5rem;
   border-bottom:1px solid #cacaca;
   position: relative;
+}
+
+.location-details-div {
+  padding-bottom: 0.5rem;
 }
 
 .right-side-bar h1{
@@ -67,6 +70,17 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   font-family: Montserrat, Arial, sans-serif;
   font-weight: bold;
   padding-bottom: 2%;
+}
+
+.right-side-bar #location-name {
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #c8a45e;
+  margin: 1rem 1rem 0 1rem;
+}
+
+.right-side-bar #specials-time-frame {
+  color: #c8a45e;
+  margin-top: 0;
 }
 
 .right-side-bar h2{
@@ -93,28 +107,56 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 .right-side-bar p{
-  font-size:80%;
+  font-size: 0.75rem;
   color:#7d7f80;
   font-family: Montserrat, Arial, sans-serif;
   }
 
-.specials-div ul{
-  font-size:80%;
+.specials-div ul {
+  font-size: 0.75rem;
   color:#c8a45e;
   font-family: Montserrat, Arial, sans-serif;
-  padding-left:5%;
-  padding-bottom: 5%;
-  } 
+  margin-left: 1rem;
+ }
 
-  .specials-div li{
+.specials-div li {
   color:#c8a45e;
   font-family: Montserrat, Arial, sans-serif;
   padding-bottom: 2%;
-  }  
+}
 
-  .specials-div li:first-line{
-    color:#7d7f80;
-  }
+.specials-div li:first-line {
+  color:#7d7f80;
+}
+
+.location-details-div {
+  padding: 0.5rem 0 1rem 0;
+}
+
+.location-details-div i {
+  font-size: 1rem;
+  color: #c8a45e;
+}
+
+.location-detail {
+  height: 1.4rem;
+  overflow: hidden;
+  padding: 0.3rem 0;
+}
+
+#location-address, #location-phone-number, #location-website {
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 0.75rem;
+  color: #5b5b5b;
+  position: relative;
+  bottom: 0.1rem;
+  left: 0.3rem;
+}
+
+a#location-website {
+color: #c8a45e;
+cursor: pointer;
+}
 
 .reviews-div li{
   list-style-type: none;
@@ -139,11 +181,11 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 .marker-cluster-large{
   /*background-color: rgba(181, 226, 140, 0.6);*/
   background-color:rgba(222, 204, 161,0.6);
-  
+
   }
 
-.marker-cluster-small div, 
-.marker-cluster-medium div , 
+.marker-cluster-small div,
+.marker-cluster-medium div ,
 .marker-cluster-large div  {
   /*background-color: rgba(110, 204, 57, 0.6);*/
   background-color:rgba(200, 164, 57,0.6);
@@ -156,7 +198,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 .leaflet-oldie .marker-cluster-small div, .leaflet-oldie .marker-cluster-medium div, .leaflet-oldie .marker-cluster-large div {
   background-color: rgb(110, 204, 57);
-  } 
+  }
 
 .marker-cluster {
   background-clip: padding-box;
@@ -182,7 +224,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   -moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
   -o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
   transition: transform 0.3s ease-out, opacity 0.3s ease-in;
-  } 
+  }
 
   /****tooltip css****/
   .tooltip{
@@ -191,14 +233,14 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   }
 
   .tooltip h1{
-    font-family: Montserrat; 
+    font-family: Montserrat;
     font-size:10%;
     color:#5b5b5b;
     font-weight:bold;
   }
 
   .tooltip p{
-    font-family: Montserrat; 
+    font-family: Montserrat;
     color:#7d7f80;
     font-size:5%;
   }
@@ -267,7 +309,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
         border: 0;
         background-image: linear-gradient(to bottom, #c8a45e 0, #c8a45e 100%); /* W3C */
       }
-      
+
       #day_output,#time_output {
         display: block;
         font-size:70%;

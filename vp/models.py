@@ -53,6 +53,11 @@ class BusinessHourManager(models.Manager):
 class BusinessHour(models.Model):
     objects = BusinessHourManager()
 
+class ActiveHour(models.Model):
+    dayofweek = models.IntegerField()
+    start = models.TimeField(null=True)
+    end = models.TimeField(null=True)
+    
 class DayOfWeek(models.Model):
     day = models.IntegerField()
     businessHour = models.ForeignKey(BusinessHour, related_name='days_of_week', null=True)
@@ -63,10 +68,7 @@ class TimeFrame(models.Model):
     untilClose = models.BooleanField(default=False)
     businessHour = models.ForeignKey(BusinessHour, related_name='time_frames', null=True)
 
-# Information about a deal at a location
-class Deal(models.Model):
-    dealHour = models.OneToOneField(BusinessHour)
-    description = models.CharField(max_length=2000)
+
 
 class DealType(enum.Enum):
     price = 1
@@ -75,11 +77,22 @@ class DealType(enum.Enum):
 
 # Details about a particular drink and price
 class DealDetail(models.Model):
-    deal = models.ForeignKey(Deal)
     drinkName = models.CharField(max_length=1000)
     drinkCategory = models.IntegerField()
+<<<<<<< HEAD
     detailType = enum.EnumField(DealType, default=DealType.price_off)
+=======
+    detailType = models.IntegerField()
+>>>>>>> 7166ab858c706b90a9a52831bd79d0e6e925ce8c
     value = models.FloatField()
+    
+    # Information about a deal at a location
+class Deal(models.Model):
+#     dealHour = models.OneToOneField(BusinessHour)
+    description = models.CharField(max_length=2000)
+    activeHours = models.ManyToManyField(ActiveHour)
+    dealDetails = models.ManyToManyField(DealDetail)
+    
 
 # Information about a location
 class Location(models.Model):
@@ -93,7 +106,7 @@ class Location(models.Model):
     website = models.CharField(max_length=256, null=True)
     dealDataSource = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
-    mturkDateLastUpdated = models.DateTimeField(default=timezone.make_aware(datetime(year=2016, month=1, day=1), timezone.get_current_timezone()))
+    mturkDateLastUpdated = models.DateTimeField(null=True)
     comments = models.CharField(max_length=1000, null=True)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)
@@ -101,6 +114,7 @@ class Location(models.Model):
     yelpId = models.CharField(max_length=50, null=True)
     dealDataManuallyReviewed = models.DateTimeField(null=True)
     neighborhood=models.CharField(max_length=256, null=True)
+    data_entry_skipped=models.BooleanField(default=False)
 
 # Track the time and cost of MTurk stage
 class MTurkLocationInfoStat(models.Model):
