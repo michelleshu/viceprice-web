@@ -137,9 +137,7 @@ def fetch_locations(request):
         dealInfo.append(dealData)
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
-        neighborhooddata = {
-              "type": "Feature"
-                            }
+    
         locationData = {
             "type": "Feature",
             "geometry": {
