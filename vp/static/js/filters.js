@@ -90,7 +90,7 @@ function outputUpdate(num) {
 		document.querySelector('#time_output').value = "11:00 PM";
 
 	time = $("#time_output").text()
-	time.replace(/\\*.\w\M/, "")
+	time = time.replace(/\\*.\w\M/, "")
 	fetchData(time);
 }
 
