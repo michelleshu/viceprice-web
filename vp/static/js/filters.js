@@ -1,112 +1,56 @@
-$(".tiles").hover(function() {
-	$(this).addClass('hoverBg');
-}, function() {
-	$(this).removeClass('hoverBg');
-});
+//Must match DAYS_OF_WEEK in constants.py; todo: unify constants.py DAYS_OF_WEEK and enter-happy-hour.js getDaysOfWeek
+var DAYS_OF_WEEK = [
+	null, //1-based indexing
+	'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+]
 
-$("input:checkbox").click(function() {
-	var ischecked = $(this).is(':checked');
-	if (!ischecked) {
-		$("label[for='" + $(this).attr('id') + "']").removeClass('hoverBg');
-	}
-});
+var HOURS_IN_DAY = 24, MINUTES_IN_HOUR = 60;
+var MIN_HOUR = 8, MAX_HOUR = 3 + HOURS_IN_DAY;
 
-function outputUpdate(num) {
-	if (num == 1)
-		document.querySelector('#day_output').value = "Sat";
-	else if (num == 2)
-		document.querySelector('#day_output').value = "Sun";
-	else if (num == 3)
-		document.querySelector('#day_output').value = "Mon";
-	else if (num == 4)
-		document.querySelector('#day_output').value = "Tues";
-	else if (num == 5)
-		document.querySelector('#day_output').value = "Wed";
-	else if (num == 6)
-		document.querySelector('#day_output').value = "Thurs";
-	else if (num == 7)
-		document.querySelector('#day_output').value = "Fri";
-	else if (num == 8)
-		document.querySelector('#time_output').value = "8:00 AM";
-	else if (num == 9)
-		document.querySelector('#time_output').value = "8:30 AM";
-	else if (num == 10)
-		document.querySelector('#time_output').value = "9:00 AM";
-	else if (num == 11)
-		document.querySelector('#time_output').value = "9:30 AM";
-	else if (num == 12)
-		document.querySelector('#time_output').value = "10:00 AM";
-	else if (num == 13)
-		document.querySelector('#time_output').value = "10:30 AM";
-	else if (num == 14)
-		document.querySelector('#time_output').value = "11:00 AM";
-	else if (num == 15)
-		document.querySelector('#time_output').value = "11:30 AM";
-	else if (num == 16)
-		document.querySelector('#time_output').value = "12:00 PM";
-	else if (num == 17)
-		document.querySelector('#time_output').value = "12:30 PM";
-	else if (num == 18)
-		document.querySelector('#time_output').value = "1:00 PM";
-	else if (num == 19)
-		document.querySelector('#time_output').value = "1:30 PM";
-	else if (num == 20)
-		document.querySelector('#time_output').value = "2:00 PM";
-	else if (num == 21)
-		document.querySelector('#time_output').value = "2:30 PM";
-	else if (num == 22)
-		document.querySelector('#time_output').value = "3:00 PM";
-	else if (num == 23)
-		document.querySelector('#time_output').value = "3:30 PM";
-	else if (num == 24)
-		document.querySelector('#time_output').value = "4:00 PM";
-	else if (num == 25)
-		document.querySelector('#time_output').value = "4:30 PM";
-	else if (num == 26)
-		document.querySelector('#time_output').value = "5:00 PM";
-	else if (num == 27)
-		document.querySelector('#time_output').value = "5:30 PM";
-	else if (num == 28)
-		document.querySelector('#time_output').value = "6:00 PM";
-	else if (num == 29)
-		document.querySelector('#time_output').value = "6:30 PM";
-	else if (num == 30)
-		document.querySelector('#time_output').value = "7:00 PM";
-	else if (num == 31)
-		document.querySelector('#time_output').value = "7:30 PM";
-	else if (num == 32)
-		document.querySelector('#time_output').value = "8:00 PM";
-	else if (num == 33)
-		document.querySelector('#time_output').value = "8:30 PM";
-	else if (num == 34)
-		document.querySelector('#time_output').value = "9:00 PM";
-	else if (num == 35)
-		document.querySelector('#time_output').value = "9:30 PM";
-	else if (num == 36)
-		document.querySelector('#time_output').value = "10:00 PM";
-	else if (num == 37)
-		document.querySelector('#time_output').value = "10:30 PM";
-	else if (num == 38)
-		document.querySelector('#time_output').value = "11:00 PM";
+$(function() {
+	var selectedTime = moment();
+	var selectedDay = _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")); //momentjs day of week indexes do not match ours; map to our index
+	var throttledFetchData = _.debounce(function() {
+		fetchData(selectedTime.format("HH:mm"), selectedDay);
+	}, 100);
 
-	time = $("#time_output").text()
-	time = time.replace(/\\*.\w\M/, "")
-	fetchData(time);
-}
+	var initializeTimeFilter = function() {
+		var timeFilter = $('#time');
+		timeFilter.attr('step', MINUTES_IN_HOUR / 2);
+		timeFilter.attr('min', MIN_HOUR * MINUTES_IN_HOUR);
+		timeFilter.attr('max', MAX_HOUR * MINUTES_IN_HOUR);
 
-function time_format(d) {
-	hours = format_two_digits(d.getHours());
-	minutes = format_two_digits(d.getMinutes());
-	seconds = format_two_digits(d.getSeconds());
-	return hours + ":" + minutes + ":" + seconds;
-}
+		var now = selectedTime;
+		var nowTotalMinutes = now.hours() * MINUTES_IN_HOUR + now.minutes();
+		if(nowTotalMinutes < timeFilter.attr('min')) nowTotalMinutes += HOURS_IN_DAY * MINUTES_IN_HOUR;
+		timeFilter.val(nowTotalMinutes);
 
-function setData() {
-		 var d = new Date();
-		 var formatted_time = time_format(d);
-		 fetchData(formatted_time);
-}
-function format_two_digits(n) {
-	return n < 10 ? '0' + n : n;
-}
-setData();
+		timeFilter.on('input', function(event){
+			var totalMinutes = timeFilter.val();
+			var hours = totalMinutes / MINUTES_IN_HOUR;
+			if(hours > 24) hours -= 24;
+			var minutes = totalMinutes % MINUTES_IN_HOUR;
+			selectedTime = moment({hours: hours, minutes: minutes});
+
+			$('#time_output').text(selectedTime.format("hh:mm A"))
+			throttledFetchData();
+		});
+		timeFilter.trigger('input');
+	};
+
+	var initializeDayFilter = function() {
+		var dayFilter = $('#day');
+		dayFilter.val(selectedDay);
+
+		dayFilter.on('input', function(event) {
+			selectedDay = dayFilter.val();
+
+			$('#day_output').val(DAYS_OF_WEEK[selectedDay]);
+			throttledFetchData();
+		});
+		dayFilter.trigger('input');
+	};
+
+	initializeDayFilter();
+	initializeTimeFilter();
+})

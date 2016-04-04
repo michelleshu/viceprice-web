@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F
-from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour, DealType
+from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
 
@@ -111,7 +111,7 @@ def upload_data_view(request):
 def fetch_locations(request):
     time = request.GET.get('time')
     day = request.GET.get('day')
-    locations = Location.objects.filter(Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gte = time) | Q(deals__activeHours__end__lte = F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
+    locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day), Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gte=time) | Q(deals__activeHours__end__lte=F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
     container = []
     barLocations = []
     dealInfo = []
