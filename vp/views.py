@@ -126,7 +126,7 @@ def fetch_locations(request):
                 detail = {"detail_id":d.id,
                           "drinkName": d.drinkName,
                           "drinkCategory":d.drinkCategory,
-                          "detaiType":DealType.price,
+                          "detaiType":d.dealDetail,
                           "value":d.value}
                 details.append(detail)
             deals = {"deal_id" : d.id,
