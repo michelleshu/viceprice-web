@@ -42,7 +42,7 @@ myLayer.on('layeradd', function(e) {
 var geoJsonData;
 
 function fetchData(time) {
-	$.get("../fetch?time=" + time, function(data) {
+	$.get("../fetch/?time=" + time, function(data) {
 		geoJsonData = data.json;
 	});
 }
