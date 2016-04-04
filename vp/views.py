@@ -111,11 +111,10 @@ def upload_data_view(request):
 def fetch_locations(request):
     time = request.GET.get('time')
     day = request.GET.get('day')
-    locations = Location.objects.filter(Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gte = time) | Q(deals__activeHours__end__lte = F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
+    locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day), Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gte=time) | Q(deals__activeHours__end__lte=F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
     container = []
     barLocations = []
     dealInfo = []
-    
     for location in locations:
         dealList = []
         dealSet = location.deals.all()
