@@ -8,9 +8,11 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q, F
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
+
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():
@@ -108,10 +110,12 @@ def upload_data_view(request):
 
 def fetch_locations(request):
     time = request.GET.get('time')
-    locations = Location.objects.filter(deals__activeHours__start__lte=time, deals__activeHours__end__gte=time).distinct().prefetch_related('deals__dealDetails')
+    day = request.GET.get('day')
+    locations = Location.objects.filter(Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gte = time) | Q(deals__activeHours__end__lte = F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
     container = []
     barLocations = []
     dealInfo = []
+    
     for location in locations:
         dealList = []
         dealSet = location.deals.all()
@@ -122,7 +126,7 @@ def fetch_locations(request):
                 detail = {"detail_id":d.id,
                           "drinkName": d.drinkName,
                           "drinkCategory":d.drinkCategory,
-                          "detaiType":d.detailType,
+                          "detaiType":DealType.price,
                           "value":d.value}
                 details.append(detail)
             deals = {"deal_id" : d.id,
@@ -153,7 +157,7 @@ def fetch_locations(request):
         barLocations.append(locationData)
     container.append(barLocations)
     container.append(dealInfo)
-    return JsonResponse({'json':barLocations,'deals':dealInfo})
+    return JsonResponse({'json':barLocations, 'deals':dealInfo})
 
 def sandbox(request):
     context = {}
@@ -182,7 +186,7 @@ def flag_location_as_skipped(request):
     return HttpResponse("success")  
  
 def get_location_that_needs_happy_hour(request):
-    locations = Location.objects.filter(data_entry_skipped = False, dealDataManuallyReviewed=None).order_by('?')
+    locations = Location.objects.filter(data_entry_skipped=False, dealDataManuallyReviewed=None).order_by('?')
     selected = locations.first()
 
     response = {
