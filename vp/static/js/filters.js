@@ -28,40 +28,27 @@ function mapDayValue(num) {
 		document.querySelector('#day_output').value = "Fri";
 }
 
-function time_format(d) {
-	hours = format_two_digits(d.getHours());
-	minutes = format_two_digits(d.getMinutes());
-	seconds = format_two_digits(d.getSeconds());
-	return hours + ":" + minutes + ":" + seconds;
-}
-
-function setData() {
-		 var d = new Date();
-		 var formatted_time = time_format(d);
-		 fetchData(formatted_time);
-}
-function format_two_digits(n) {
-	return n < 10 ? '0' + n : n;
-}
-setData();
-
 $(function() {
 	var HOURS_IN_DAY = 24, MINUTES_IN_HOUR = 60;
 	var MIN_HOUR = 8, MAX_HOUR = 3 + HOURS_IN_DAY;
+
+	var throttledFetchData = _.debounce(fetchData, 100);
+
 	var initializeFilters = function() {
 		var timeFilter = $('#time');
 		timeFilter[0].step = MINUTES_IN_HOUR / 2;
 		timeFilter[0].min = MIN_HOUR * MINUTES_IN_HOUR;
 		timeFilter[0].max = MAX_HOUR * MINUTES_IN_HOUR;
+
 		timeFilter.on('input', function(event){
 			var totalMinutes = parseInt(timeFilter[0].value);
 			var hours = totalMinutes / MINUTES_IN_HOUR;
+			if(hours > 24) hours -= 24;
 			var minutes = totalMinutes % MINUTES_IN_HOUR;
-			var time = new Date();
-			time.setHours(hours, minutes);
+			var time = moment({hours: hours, minutes: minutes});
 
-			$('#time_output').text(moment(time).format("hh:mm A"))
-			fetchData(moment(time).format("hh:mm"));
+			$('#time_output').text(time.format("hh:mm A"))
+			throttledFetchData(moment(time).format("HH:mm"));
 		});
 	}
 
