@@ -115,7 +115,6 @@ def fetch_locations(request):
     container = []
     barLocations = []
     dealInfo = []
-    
     for location in locations:
         dealList = []
         dealSet = location.deals.all()
@@ -126,7 +125,7 @@ def fetch_locations(request):
                 detail = {"detail_id":d.id,
                           "drinkName": d.drinkName,
                           "drinkCategory":d.drinkCategory,
-                          "detaiType":DealType.price,
+                          "detaiType":d.dealDetail,
                           "value":d.value}
                 details.append(detail)
             deals = {"deal_id" : d.id,
@@ -138,6 +137,9 @@ def fetch_locations(request):
         dealInfo.append(dealData)
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
+        neighborhooddata = {
+              "type": "Feature"
+                            }
         locationData = {
             "type": "Feature",
             "geometry": {
