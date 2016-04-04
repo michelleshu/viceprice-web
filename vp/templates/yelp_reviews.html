@@ -1,0 +1,30 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<image src="https://s3-media2.fl.yelpcdn.com/assets/srv0/developer_pages/5cb298e8a186/assets/img/yelp-logo-xsmall@2x.png"></image>
+<h2>Reviews</h2>
+Overall Rating: <image src="{{api.rating_img_url}}"></image><br>
+<image src="{{api.image_url}}"></image><br>
+<hr>
+{% for location in yelp_api %}
+<hr>
+{{location.0}}: {{location.1}}
+<hr>
+{% endfor %}
+<!-- {{yelp_api.snippet_text}} -->
+<hr>
+
+<!-- Overall Rating: <image src="{{yelp_api.rating_img_url}}"></image><br>
+<image src="{{yelp_api.image_url}}"></image><br>
+<hr>
+{% for }
+{{yelp_api.reviews.0.excerpt}}
+<hr>
+{{yelp_api.snippet_text}}
+<hr>

@@ -34,5 +34,6 @@ urlpatterns = patterns('',
     # Other Data
     url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch'),
     url(r'^sandbox/$', vp.views.sandbox, name = 'sandbox'),
-    url(r'^home/$', vp.views.home, name = 'home')
+    url(r'^home/$', vp.views.home, name = 'home'),
+    url(r'yelpreviews/$', vp.views.yelp_reviews, name = 'yelp_reviews'),
 )

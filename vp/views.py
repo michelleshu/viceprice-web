@@ -1,5 +1,5 @@
 from django.core.context_processors import csrf
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
+from yelpapi import YelpAPI
+
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():
@@ -259,3 +261,21 @@ def submit_locations_to_upload(request):
         location.save()
 
     return HttpResponse("Success")
+
+def yelp_reviews(request):
+    yelp_consumer_key = 'qb1ivrC4lSrb6Mn1VfBGZA'
+    yelp_consumer_secret = 'U3YAVX-WFKbEwX654yuMlci0DeE'
+    yelp_token = 'Z3h1UrobDEPqu3ra4ytPifkEYHrkB3Hf'
+    yelp_token_secret = 'Uaq61tq7630mCjGoYuU0yx8AlR4'
+
+    yelp_api = YelpAPI(yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret)
+
+    locations = ['young-chow-asian-washington', 'royal-thai-cuisine-and-bar-washington', 'ping-pong-dim-sum-washington-10', 'paragon-thai-restaurant-washington', 'cactus-cantina-washington', 'cleveland-park-bar-and-grill-washington-2', 'spices-asian-restaurant-and-sushi-bar-washington', 'nanny-o-briens-irish-pub-washington', 'the-airedale-washington', 'the-coupe-washington', 'petes-new-haven-style-apizza-arlington', 'eden-dc-washington', 'olivias-diner-washington', 'nooshi-washington', 'vidalia-washington', 'bub-and-pops-washington', 'pizzeria-paradiso-washington', 'bertuccis-washington-3']
+
+    reviews = []
+    for location in locations:
+        response = yelp_api.business_query(id=location)
+        reviews.append((response['name'], response['reviews'][0]['excerpt']))
+
+
+    return render(request, 'yelp_reviews.html', {'yelp_api': reviews, 'api': response})
