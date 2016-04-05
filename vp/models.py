@@ -82,12 +82,10 @@ class DealDetail(models.Model):
     drinkName = models.CharField(max_length=1000)
     drinkCategory = models.IntegerField()
     detailType = models.IntegerField()
-#     detailType = enum.EnumField(DealType, default=DealType.price_off)
     value = models.FloatField()
     
     # Information about a deal at a location
 class Deal(models.Model):
-#     dealHour = models.OneToOneField(BusinessHour)
     description = models.CharField(max_length=2000)
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
