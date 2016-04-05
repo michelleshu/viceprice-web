@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Q, F
+from django.db.models import Q, F, Count
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
@@ -112,6 +112,11 @@ def fetch_locations(request):
     time = request.GET.get('time')
     day = request.GET.get('day')
     locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day), Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gte=time) | Q(deals__activeHours__end__lte=F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
+    neighborhoods = locations.values('neighborhood').annotate(total=Count('neighborhood'))
+    neighborhooddata = []
+    for nh in neighborhoods:
+        neighborhood={"neighborhood" : nh.get('neighborhood'), "count" : nh.get('total')}
+        neighborhooddata.append(neighborhood)
     container = []
     barLocations = []
     dealInfo = []
@@ -155,9 +160,7 @@ def fetch_locations(request):
             }
         }
         barLocations.append(locationData)
-    container.append(barLocations)
-    container.append(dealInfo)
-    return JsonResponse({'json':barLocations, 'deals':dealInfo})
+    return JsonResponse({'json':barLocations, 'deals':dealInfo, 'neighborhoods':neighborhooddata})
 
 def sandbox(request):
     context = {}
