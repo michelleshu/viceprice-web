@@ -53,4 +53,5 @@ $(function() {
 
 	initializeDayFilter();
 	initializeTimeFilter();
+	
 })
