@@ -136,6 +136,11 @@ YELP_CONSUMER_SECRET = os.environ.get('YELP_CONSUMER_SECRET')
 YELP_TOKEN = os.environ.get('YELP_TOKEN')
 YELP_TOKEN_SECRET = os.environ.get('YELP_TOKEN_SECRET')
 
+# Facebook
+FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')
+FACEBOOK_APP_SECRET = os.environ.get('FACEBOOK_APP_SECRET')
+FACEBOOK_APP_TOKEN = os.environ.get('FACEBOOK_APP_TOKEN')
+
 MTURK_HIT_TYPES = {
     FIND_WEBSITE: {
         TITLE: 'Find the website for a business',

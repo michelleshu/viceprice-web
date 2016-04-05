@@ -9,6 +9,8 @@ django-postgrespool==0.3.0
 django-toolbelt==0.0.1
 djangorestframework==3.2.4
 easygui==0.97.4
+facebook-sdk==1.0.0
+facepy==1.0.6
 funcsigs==0.4
 futures==3.0.5
 gunicorn==19.3.0
