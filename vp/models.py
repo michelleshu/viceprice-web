@@ -28,49 +28,10 @@ class LocationCategory(models.Model):
     facebookCategoryId = models.CharField(max_length=256, null=True)
     parentCategory = models.ForeignKey('self', null=True)
 
-# A BusinessHour is a combination of days of week and open time frames for those days
-class BusinessHourManager(models.Manager):
-    def create(self, time_frames_data, days_of_week):
-        business_hour = BusinessHour()
-        business_hour.save()
-
-        for tf in time_frames_data:
-            # Convert times from military time strings to time objects
-            start_time = tf['start']
-            end_time = tf.get('end')
-            until_close = tf.get('until_close')
-            if until_close == None:
-                until_close = False
-            if until_close:
-                end_time = None
-            time_frame = TimeFrame(startTime = start_time, endTime = end_time, untilClose = until_close, businessHour = business_hour)
-            time_frame.save()
-
-        for d in days_of_week:
-            d = DayOfWeek(day = d, businessHour = business_hour)
-            d.save()
-
-        return business_hour
-
-class BusinessHour(models.Model):
-    objects = BusinessHourManager()
-
 class ActiveHour(models.Model):
     dayofweek = models.IntegerField()
     start = models.TimeField(null=True)
     end = models.TimeField(null=True)
-    
-class DayOfWeek(models.Model):
-    day = models.IntegerField()
-    businessHour = models.ForeignKey(BusinessHour, related_name='days_of_week', null=True)
-
-class TimeFrame(models.Model):
-    startTime = models.TimeField()
-    endTime = models.TimeField(null=True)
-    untilClose = models.BooleanField(default=False)
-    businessHour = models.ForeignKey(BusinessHour, related_name='time_frames', null=True)
-
-
 
 class DealType(enum.Enum):
     price = 1
@@ -97,10 +58,17 @@ class Location(models.Model):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     locationCategories = models.ManyToManyField(LocationCategory)
-    businessHours = models.ManyToManyField(BusinessHour)
+    activeHours = models.ManyToManyField(ActiveHour)
+    city = models.CharField(max_length=100, null=True)
+    state = models.CharField(max_length=50, null=True)
+    street = models.CharField(max_length=256, null=True)
+    zip = models.CharField(max_length=10, null=True)
     formattedAddress = models.CharField(max_length=512, null=True)
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
+    coverPhotoSource = models.CharField(max_length=256, null=True)
+    coverXOffset = models.IntegerField(null=True)
+    coverYOffset = models.IntegerField(null=True)
     dealDataSource = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
     mturkDateLastUpdated = models.DateTimeField(null=True)
