@@ -19,7 +19,6 @@ map.setMaxBounds(bounds);
 var myLayer = L.mapbox.featureLayer().addTo(map);
 
 myLayer.on('layeradd', function(e) {
-<<<<<<< HEAD
     var marker = e.layer,
         feature = marker.feature;
 
@@ -44,27 +43,6 @@ myLayer.on('layeradd', function(e) {
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"])
     })
-=======
-	var marker = e.layer, feature = marker.feature;
-
-	// Create custom popup content
-	var popupContent = '<h1>' + feature.properties.name + '<\/h1>';
-
-	marker.bindPopup(popupContent, {
-		closeButton : false,
-		minWidth : 320
-	});
-
-	// Populate sidebar data on marker click
-	marker.on('click', function() {
-		var locationProperties = this.feature.properties;
-		$("#location-name").html(locationProperties["name"]);
-		$("#location-address").html(locationProperties["abbreviatedAddress"]);
-		$("#location-phone-number").html(locationProperties["phone"]);
-		$("#location-website").html(locationProperties["website"]);
-		$("#location-website").attr("href", locationProperties["website"])
-	})
->>>>>>> 321d16a25693b871b27bb9278f06511a8cdf4b77
 });
 
 var geoJsonData;
@@ -140,7 +118,6 @@ function onEachFeature(feature, layer) {
 }
 
 function click(e) {
-<<<<<<< HEAD
      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
      $(".sliding").animate({ right: "0"} , 700);
@@ -172,45 +149,6 @@ function click(e) {
         return f.properties["neighborhood"] === neighborhood;
     });
     return false;
-=======
-	css = document.getElementsByClassName("label");
-
-	if (lastLayer === undefined) {
-	}// do nothign
-	else {
-		dcnLayer.resetStyle(lastLayer);
-		lastLayer.on({
-			mousemove : mousemove,
-			mouseout : mouseout,
-			click : click
-		});
-		document.getElementById(lastLayer.feature.id).style.color = "#c8a45e";
-		id = parseInt(lastLayer.feature.id) - 1;
-		css[id].style.display = "block";
-	}
-	// Onclick: disable hover effect, remove label
-	e.target.off({
-		mousemove : false,
-		mouseout : false,
-		click : false
-	});
-	e.target.setStyle({
-		fillOpacity : 0
-	});
-	id = parseInt(e.target.feature.id) - 1;
-	css[id].style.display = "none";
-
-	lastLayer = e.target;
-	neighborhood = e.target.feature.properties.name;
-
-	// OnClick: zoom into Polygon and show related markers
-	map.fitBounds(getBounds(e.target));
-	myLayer.setGeoJSON(geoJsonData);
-	myLayer.setFilter(function(f) {
-		return f.properties["neighborhood"] === neighborhood;
-	});
-	return false;
->>>>>>> 321d16a25693b871b27bb9278f06511a8cdf4b77
 }
 
 function mousemove(e) {
@@ -235,7 +173,6 @@ function mouseout(e) {
 	document.getElementById(e.target.feature.id).style.color = "#c8a45e";
 }
 
-<<<<<<< HEAD
 function labelLocation (l,f){
     //had to manually adjust the label location of few polygons
     return f.id == 3 ? L.latLng(38.927526, -77.070867): //Freindship Heights
@@ -247,15 +184,6 @@ function labelLocation (l,f){
          f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
          f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
           l.getBounds().getCenter();
-=======
-function labelLocation(l, f) {
-	// had to manually adjust the label location of few polygons
-	return f.id == 10 ? L.latLng(38.912624, -77.042739) : f.id == 13 ? L
-			.latLng(38.911011, -77.031959) : f.id == 14 ? L.latLng(38.918115,
-			-77.030865) : f.id == 15 ? L.latLng(38.872020, -77.012171)
-			: f.id == 16 ? L.latLng(38.889849, -76.943152) : f.id == 17 ? L
-					.latLng(38.900487, -76.986962) : l.getBounds().getCenter();
->>>>>>> 321d16a25693b871b27bb9278f06511a8cdf4b77
 }
 
 function getBounds(e) {
@@ -270,8 +198,8 @@ function getBounds(e) {
 							-76.965533 ]) : e.getBounds();
 }
 
-<<<<<<< HEAD
-//label css (customized to each neighborhood based on the polgon size, location etc)
+/*
+//label css (customized to each neighborhood based on the polygon size, location etc)
 function getHTML(e,d) {
     return e == 1 ? "<div class='map_labels' style='font-size:18px;'>North DC<div class='bar_num_labels' id='01'>( 16 ) <div/></div>" : //north DC
         e == 2  ?   "<div class='map_labels' style='font-size:18px;'>West DC<div class='bar_num_labels' id='02' >( 5 ) <div/></div>" :  //west dc
@@ -289,22 +217,16 @@ function getHTML(e,d) {
         e == 14 ? "<div class='map_labels' style='font-size:14px;'>U Street<div class='bar_num_labels' id='14'>( 40 )<div/></div>" :  //u street
         e == 15 ? "<div class='map_labels' style='font-size:14px;'>Waterfront<div class='bar_num_labels' id='15'>( 10 )<div/></div>" : //Waterfront
         e == 16 ? "<div class='map_labels' style='font-size:18px;'>East of The River<div class='bar_num_labels' id='16'>( 2 )<div/></div>" : //South east
-                  "<div class='map_labels' style='font-size:11px;'>H Street<div class='bar_num_labels' id='17'>( 27 )</div></div>"; //h street
-=======
-// label css (customized to each neighborhood based on the polgon size, location
-// etc)
+*/
 function getHTML(e, d) {
-	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
+	return  "<div class='map_labels' style='font-size:18px;'>"
 			+ d + "<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> <div/></div>"
-																										// street
->>>>>>> 321d16a25693b871b27bb9278f06511a8cdf4b77
 }
 
 /** ****Zoom in / Zoom out and Neighborhood Zoom functions***** */
 var zoom;
 
 $("#neighboor-zoom").click(function() {
-<<<<<<< HEAD
      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
      $(".sliding").animate({ right: "0"} , 700);
@@ -321,28 +243,6 @@ $("#neighboor-zoom").click(function() {
      myLayer.setFilter(function(f) {
             return false;
         });
-=======
-	// zoom out to dc level
-	map.setView([ 38.907557, -77.028130 ], 13, {
-		zoom : {
-			animate : true
-		}
-	});
-	// reset polygon style
-	dcnLayer.resetStyle(lastLayer);
-	lastLayer.on({
-		mousemove : mousemove,
-		mouseout : mouseout,
-		click : click
-	});
-	document.getElementById(lastLayer.feature.id).style.color = "#c8a45e";
-	id = parseInt(lastLayer.feature.id) - 1;
-	css[id].style.display = "block";
-	// remove all markers
-	myLayer.setFilter(function(f) {
-		return false;
-	});
->>>>>>> 321d16a25693b871b27bb9278f06511a8cdf4b77
 });
 
 $("#zoom-in").click(function() {
@@ -351,7 +251,6 @@ $("#zoom-in").click(function() {
 });
 
 $("#zoom-out").click(function() {
-<<<<<<< HEAD
    zoom=map.getZoom();
   map.setZoom(zoom-1);
 });
@@ -366,9 +265,4 @@ map.on('move', function() {
      $menu_visible=false;
     }
 });
-=======
-	zoom = map.getZoom();
-	map.setZoom(zoom - 1);
-});
 
->>>>>>> 321d16a25693b871b27bb9278f06511a8cdf4b77
