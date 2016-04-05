@@ -1,4 +1,4 @@
-﻿-- Show aggregate category count
+-- Show aggregate category count
 select lc."id", lc."name", lc."isBaseCategory", lc."parentCategory_id", count(*) as "count"
 from "vp_location" l
 join "vp_location_locationCategories" llc
