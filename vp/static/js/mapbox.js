@@ -199,7 +199,7 @@ function getBounds(e) {
 // etc)
 function getHTML(e, d) {
 	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
-			+ d + "<div class='bar_num_labels' neighborhood='"+d+"' id='"+e+"'> <div/></div>"
+			+ d + "<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> <div/></div>"
 																										// street
 }
 
