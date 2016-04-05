@@ -6,6 +6,7 @@ import urllib
 import urlparse
 import subprocess
 import warnings
+import time
 
 
 class Command(BaseCommand):
@@ -26,22 +27,51 @@ class Command(BaseCommand):
                                           stdout = subprocess.PIPE,
                                           stderr = subprocess.PIPE).communicate()[0]
 
-        try:
-            access_token = urlparse.parse_qs(str(oauth_response))['access_token'][0]
-            graph = facebook.GraphAPI(access_token)
-            args = {'fields': 'category, category_list' }
-            page = graph.get_object('creme14th', **args)
-            print(page['category'])
+        access_token = urlparse.parse_qs(str(oauth_response))['access_token'][0]
+        graph = facebook.GraphAPI(access_token)
+        inaccessible_locations = []
 
-            #base_category = LocationCategory.objects.get_or_create(name=)
+        for location in Location.objects.order_by('id').all():
+            if location.facebookId != None and location.facebookId != "":
+                try:
+                    args = {'fields': 'category, category_list' }
 
-            for subcategory in page['category_list']:
-                print subcategory['id']
-                print subcategory['name']
+                    try:
+                        page = graph.get_object(location.facebookId, **args)
+                    except:
+                        inaccessible_locations.append(location.name)
+                        continue
 
-        except KeyError:
-            print('Unable to grab an access token')
-            exit()
+                    base_category, created = LocationCategory.objects.get_or_create(
+                        name = page['category'],
+                        isBaseCategory = True
+                    )
+                    if created:
+                        base_category.save()
+
+                    location.locationCategories.clear()
+                    location.locationCategories.add(base_category)
+
+                    for category in page['category_list']:
+                        sub_category, created = LocationCategory.objects.get_or_create(
+                            name = category['name'],
+                            facebookCategoryId = category['id'],
+                            isBaseCategory = False,
+                            parentCategory = base_category
+                        )
+                        if created:
+                            sub_category.save()
+
+                        location.locationCategories.add(sub_category)
+
+                    location.save()
+
+                except KeyError:
+                    print('Unable to access Facebook data')
+                    continue
+
+                # Pause so Facebook doesn't kick us off
+                time.sleep(1)
 
 
     def handle(self, *args, **options):
