@@ -1,4 +1,5 @@
 /** ***MapBox**** */
+
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(
 		39.004460, -77.158084), bounds = L.latLngBounds(southWest, northEast);
@@ -40,13 +41,19 @@ myLayer.on('layeradd', function(e) {
 });
 
 var geoJsonData;
-
+var neighborhoods
 function fetchData(time, dayIndex) {
 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
 		geoJsonData = data.json;
+		neighborhoods = data.neighborhoods;
+		updateHappyHours();
 	});
 }
-
+function updateHappyHours(){
+	$(neighborhoods).each(function(index,data){
+	    $("div[neighborhood='"+data.neighborhood+"']").text(data.count)
+	});
+}
 /** *DC Neighborhoods** */
 var dcnLayer = L.geoJson(dcn, {
 	style : getStyle,
@@ -192,7 +199,7 @@ function getBounds(e) {
 // etc)
 function getHTML(e, d) {
 	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
-			+ d + "<div class='bar_num_labels' id='"+e+"'> <div/></div>"
+			+ d + "<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> <div/></div>"
 																										// street
 }
 
@@ -231,3 +238,4 @@ $("#zoom-out").click(function() {
 	zoom = map.getZoom();
 	map.setZoom(zoom - 1);
 });
+
