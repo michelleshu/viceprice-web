@@ -24,7 +24,9 @@ DAY_OF_WEEK = {
 
 class LocationCategory(models.Model):
     name = models.CharField(max_length=256, null=False)
-    superCategory = models.ForeignKey('self', null=True)
+    isBaseCategory = models.BooleanField(default=True)
+    facebookCategoryId = models.CharField(max_length=256, null=True)
+    parentCategory = models.ForeignKey('self', null=True)
 
 # A BusinessHour is a combination of days of week and open time frames for those days
 class BusinessHourManager(models.Manager):
