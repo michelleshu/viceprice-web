@@ -119,8 +119,7 @@ def fetch_locations(request):
         neighborhooddata.append(neighborhood)
     container = []
     barLocations = []
-    dealInfo = []
-    dealInfo2 = {}
+    dealInfo = {}
     for location in locations:
         dealList = []
         dealSet = location.deals.all()
@@ -143,7 +142,7 @@ def fetch_locations(request):
                 deals["hours"] = activehour    
             dealList = deals
         dealData = dealList
-        dealInfo2[location.id] = dealData
+        dealInfo[location.id] = dealData
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
     
@@ -165,7 +164,7 @@ def fetch_locations(request):
             }
         }
         barLocations.append(locationData)
-    return JsonResponse({'json':barLocations, 'deals':dealInfo2, 'neighborhoods':neighborhooddata})
+    return JsonResponse({'json':barLocations, 'deals':dealInfo, 'neighborhoods':neighborhooddata})
 
 def sandbox(request):
     context = {}
