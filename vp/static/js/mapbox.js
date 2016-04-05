@@ -26,11 +26,15 @@ myLayer.on('layeradd', function(e) {
 
     marker.bindPopup(popupContent,{
         closeButton: false,
-        minWidth: 320
+        minWidth: 200
     });
 
     // Populate sidebar data on marker click
     marker.on('click', function() {
+        $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
+        $(".right-side-bar").show("slide", { direction: "right" }, 700);
+        $(".sliding").animate({ right: "25%"} , 700);
+        $menu_visible=true
         var locationProperties = this.feature.properties;
         $("#location-name").html(locationProperties["name"]);
         $("#location-address").html(locationProperties["abbreviatedAddress"]);
@@ -101,6 +105,10 @@ function onEachFeature(feature, layer) {
 }
 
 function click(e) {
+     $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+     $(".sliding").animate({ right: "0"} , 700);
+     $menu_visible=false;
     css=document.getElementsByClassName("label");
 
     if(lastLayer === undefined){}//do nothign
@@ -154,12 +162,14 @@ function mouseout(e) {
 
 function labelLocation (l,f){
     //had to manually adjust the label location of few polygons
-    return f.id == 10 ? L.latLng(38.912624, -77.042739):
-         f.id == 13 ? L.latLng(38.911011, -77.031959):
-         f.id == 14 ? L.latLng(38.918115, -77.030865):
-         f.id == 15 ? L.latLng(38.872020, -77.012171):
-         f.id == 16 ? L.latLng(38.889849, -76.943152):
-         f.id == 17 ? L.latLng(38.900487, -76.986962):
+    return f.id == 3 ? L.latLng(38.927526, -77.070867): //Freindship Heights
+         f.id == 2 ? L.latLng(38.930150, -77.093441): //East DC
+         f.id == 10 ? L.latLng(38.910328, -77.042245): //Dupont Circle
+         f.id == 13 ? L.latLng(38.911111, -77.031433): //Logan Circle
+         f.id == 14 ? L.latLng(38.916820, -77.030761): //u street
+         f.id == 15 ? L.latLng(38.872020, -77.012171): //Waterfront
+         f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
+         f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
           l.getBounds().getCenter();
 }
 
@@ -174,29 +184,33 @@ function getBounds(e){
 
 //label css (customized to each neighborhood based on the polgon size, location etc)
 function getHTML(e,d) {
-    return e == 1 ? "<div class='map_labels' style='font-size:18px;margin-top:30%; '>" + d +"<div class='bar_num_labels' id='01'>( 16 ) <div/></div>" : //north DC
-       e == 2  ?"<div class='map_labels' style='font-size:18px;margin-left:30%;'>" + d +"<div class='bar_num_labels' id='02'>( 5 ) <div/></div>" :  //west dc
-       e == 3  ? "<div class='map_labels' style='font-size:16px;'>" + d +"<div class='bar_num_labels' id='03'>( 33 ) <div/></div>" :  //Friendship Heights
-        e == 4  ? "<div class='map_labels' style='font-size:14px;'>" + d +"<div class='bar_num_labels' id='04'>( 44 ) <div/></div>" :  //Adams Morgan
-        e == 5  ?"<div class='map_labels' style='font-size:18px;margin-right:30%;'>" + d +"<div class='bar_num_labels' id='05'>( 24 ) <div/></div>" :  //East dc
-        e == 6  ? "<div class='map_labels' style='font-size:16px;'>" + d +"<div class='bar_num_labels' id='06'>( 18 )<div/></div>" :  //shaw
-        e == 7  ? "<div class='map_labels' style='font-size:16px;'>" + d +"<div class='bar_num_labels' id='07'>( 38 )<div/></div>" :  //Capitol Hill
-        e == 8 ? "<div class='map_labels' style='font-size:16px;margin-top:15%;'>" + d +"<div class='bar_num_labels' id='08'>( 115 )<div/></div>" :  //downtown
-        e == 9 ? "<div class='map_labels' style='font-size:14px;'>" + d +"<div class='bar_num_labels' id='09'>( 20 )<div/></div>" :  //Columbia Heights
-        e == 10 ? "<div class='map_labels' style='font-size:14px;width:50px;margin-left:30%;margin-top:10%;'>" + d +"<div class='bar_num_labels' id='10'>( 76 )<div/></div>" :  //Dupont Circle
-        e == 11 ? "<div class='map_labels' style='font-size:16px;'>" + d +"<div class='bar_num_labels' id='11'>( 40 )<div/></div>" :  //foggy bottom
-        e == 12 ? "<div class='map_labels' style='font-size:16px;'>" + d +"<div class='bar_num_labels' id='12'>( 28 )<div/></div>" :  //georgetown
-        e == 13 ? "<div class='map_labels' style='font-size:12px;width:50px;margin-top:0;margin-left:30%;'>" + d +"<div class='bar_num_labels' id='13'>( 21 )<div/></div>" :  //Logan Circle
-        e == 14 ? "<div class='map_labels' style='font-size:14px;margin-top:10%;'>" + d +"<div class='bar_num_labels' id='14'>( 40 )<div/></div>" :  //u street
-        e == 15 ? "<div class='map_labels' style='font-size:14px;margin-rigth:50%;'>" + d +"<div class='bar_num_labels' id='15'>( 10 )<div/></div>" : //Waterfront
-        e == 16 ? "<div class='map_labels' style='font-size:18px;text-align:left;'>" + d +"<div class='bar_num_labels' id='16'>( 2 )<div/></div>" : //South east
-                "<div class='map_labels' style='font-size:11px; margin-bottom:0;'>" + d +"<div class='bar_num_labels' id='17' style='font-size:10px;'>( 27 )</div></div>"; //h street
+    return e == 1 ? "<div class='map_labels' style='font-size:18px;'>North DC<div class='bar_num_labels' id='01'>( 16 ) <div/></div>" : //north DC
+        e == 2  ?   "<div class='map_labels' style='font-size:18px;'>West DC<div class='bar_num_labels' id='02' >( 5 ) <div/></div>" :  //west dc
+        e == 3  ?   "<div class='map_labels' style='font-size:16px;'>Friendship Heights<div class='bar_num_labels' id='03' style='text-align:right;'>( 33 ) </div></div>" :  //Friendship Heights
+        e == 4  ?   "<div class='map_labels' style='font-size:12px;'>Adams <br/>Morgan<div class='bar_num_labels' id='04'>( 44 ) <div/></div>" :  //Adams Morgan
+        e == 5  ?  "<div class='map_labels' style='font-size:18px;'>East DC<div class='bar_num_labels' id='05'>( 24 ) <div/></div>" :  //East dc
+        e == 6  ?  "<div class='map_labels' style='font-size:16px;'>Shaw<div class='bar_num_labels' id='06'>( 18 )<div/></div>" :  //shaw
+        e == 7  ?  "<div class='map_labels' style='font-size:16px;'>Capitol Hill<div class='bar_num_labels' id='07'>( 38 )<div/></div>" :  //Capitol Hill
+        e == 8 ?  "<div class='map_labels' style='font-size:16px;'>Downtown<div class='bar_num_labels' id='08'>( 115 )<div/></div>" :  //downtown
+        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' id='09'>( 20 )<div/></div>" :  //Columbia Heights
+        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' id='10'>( 76 )<div/></div>" :  //Dupont Circle
+        e == 11 ? "<div class='map_labels' style='font-size:13px;'>Foggy Bottom<div class='bar_num_labels' id='11'>( 40 )<div/></div>" :  //foggy bottom
+        e == 12 ? "<div class='map_labels' style='font-size:16px;'>Georgetown<div class='bar_num_labels' id='12'>( 28 )<div/></div>" :  //georgetown
+        e == 13 ? "<div class='map_labels' style='font-size:12px;'>Logan <br/> Circle<div class='bar_num_labels' id='13'>( 21 )<div/></div>" :  //Logan Circle
+        e == 14 ? "<div class='map_labels' style='font-size:14px;'>U Street<div class='bar_num_labels' id='14'>( 40 )<div/></div>" :  //u street
+        e == 15 ? "<div class='map_labels' style='font-size:14px;'>Waterfront<div class='bar_num_labels' id='15'>( 10 )<div/></div>" : //Waterfront
+        e == 16 ? "<div class='map_labels' style='font-size:18px;'>East of The River<div class='bar_num_labels' id='16'>( 2 )<div/></div>" : //South east
+                  "<div class='map_labels' style='font-size:11px;'>H Street<div class='bar_num_labels' id='17'>( 27 )</div></div>"; //h street
 }
 
 /******Zoom in / Zoom out and Neighborhood Zoom functions******/
 var zoom;
 
 $("#neighboor-zoom").click(function() {
+     $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+     $(".sliding").animate({ right: "0"} , 700);
+     $menu_visible=false;
   //zoom out to dc level
     map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
     //reset polygon style
@@ -219,4 +233,15 @@ $("#zoom-in").click(function() {
 $("#zoom-out").click(function() {
    zoom=map.getZoom();
   map.setZoom(zoom-1);
+});
+
+map.on('move', function() {
+    zoom = map.getZoom();
+
+    if (zoom == 13) {
+      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+     $(".sliding").animate({ right: "0"} , 700);
+     $menu_visible=false;
+    }
 });
