@@ -5,7 +5,6 @@ join "vp_location_locationCategories" llc
 on l."id" = llc."location_id"
 join "vp_locationcategory" lc
 on llc."locationcategory_id" = lc."id"
-where lc."parentCategory_id" != 26
 group by lc."id", lc."name", lc."isBaseCategory", lc."parentCategory_id"
 order by "count" desc
 
