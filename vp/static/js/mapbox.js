@@ -37,15 +37,38 @@ myLayer.on('layeradd', function(e) {
 		$("#location-phone-number").html(locationProperties["phone"]);
 		$("#location-website").html(locationProperties["website"]);
 		$("#location-website").attr("href", locationProperties["website"])
+		$("#specials-time-frame").html(convertToStandard(deals[locationProperties["locationid"]].hours.start) +" - "+ convertToStandard(deals[locationProperties["locationid"]].hours.end))
 	})
 });
 
+function convertToStandard(time){
+	var parts = time.split(':'),
+	hour = parts[0],
+	minutes = parts[1],
+	converted = hour+":"+minutes;
+	console.log(hour)
+	console.log(minutes)
+	if (hour > 12) {
+		converted = (hour - 12) + ':' + minutes + ' pm';
+	} else if (hour == 0) {
+		converted = 12 + ':' + minutes + ' am';
+	} else if (hour == 12) {
+		converted += ' pm';
+	} else {
+		converted += ' am';
+	}
+	return converted;
+}
+
+
 var geoJsonData;
-var neighborhoods
+var neighborhoods;
+var deals;
 function fetchData(time, dayIndex) {
 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
 		geoJsonData = data.json;
 		neighborhoods = data.neighborhoods;
+		deals = data.deals;
 		updateHappyHours();
 	});
 }

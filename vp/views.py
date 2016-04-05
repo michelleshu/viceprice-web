@@ -120,26 +120,30 @@ def fetch_locations(request):
     container = []
     barLocations = []
     dealInfo = []
+    dealInfo2 = {}
     for location in locations:
         dealList = []
         dealSet = location.deals.all()
         for d in dealSet:
             dealDetails = d.dealDetails.all()
             details = []
-            for d in dealDetails:
-                detail = {"detail_id":d.id,
-                          "drinkName": d.drinkName,
-                          "drinkCategory":d.drinkCategory,
-                          "detaiType":d.detailType,
-                          "value":d.value}
+            activehours = d.activeHours.all()
+            for dd in dealDetails:
+                detail = {"detail_id":dd.id,
+                          "drinkName": dd.drinkName,
+                          "drinkCategory":dd.drinkCategory,
+                          "detaiType":dd.detailType,
+                          "value":dd.value}
                 details.append(detail)
             deals = {"deal_id" : d.id,
                     "details": details }
-            dealList.append(deals)
-        dealData = {
-        "locationid": location.id,
-        "deals": dealList}
-        dealInfo.append(dealData)
+            for ah in activehours:
+                activehour = {"start" : ah.start,
+                    "end": ah.end }
+                deals["hours"] = activehour    
+            dealList = deals
+        dealData = dealList
+        dealInfo2[location.id] = dealData
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
     
@@ -150,6 +154,7 @@ def fetch_locations(request):
                 "coordinates": [location.longitude, location.latitude]
             },
             "properties": {
+                "locationid": location.id,
                 "name": location.name,
                 "website":location.website,
                 "phone": location.formattedPhoneNumber,
@@ -160,7 +165,7 @@ def fetch_locations(request):
             }
         }
         barLocations.append(locationData)
-    return JsonResponse({'json':barLocations, 'deals':dealInfo, 'neighborhoods':neighborhooddata})
+    return JsonResponse({'json':barLocations, 'deals':dealInfo2, 'neighborhoods':neighborhooddata})
 
 def sandbox(request):
     context = {}
