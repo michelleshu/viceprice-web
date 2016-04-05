@@ -19,25 +19,30 @@ map.setMaxBounds(bounds);
 var myLayer = L.mapbox.featureLayer().addTo(map);
 
 myLayer.on('layeradd', function(e) {
-	var marker = e.layer, feature = marker.feature;
+    var marker = e.layer,
+        feature = marker.feature;
 
-	// Create custom popup content
-	var popupContent = '<h1>' + feature.properties.name + '<\/h1>';
+    // Create custom popup content
+    var popupContent =  '<h1>' + feature.properties.name + '<\/h1>';
 
-	marker.bindPopup(popupContent, {
-		closeButton : false,
-		minWidth : 320
-	});
+    marker.bindPopup(popupContent,{
+        closeButton: false,
+        minWidth: 200
+    });
 
-	// Populate sidebar data on marker click
-	marker.on('click', function() {
-		var locationProperties = this.feature.properties;
-		$("#location-name").html(locationProperties["name"]);
-		$("#location-address").html(locationProperties["abbreviatedAddress"]);
-		$("#location-phone-number").html(locationProperties["phone"]);
-		$("#location-website").html(locationProperties["website"]);
-		$("#location-website").attr("href", locationProperties["website"])
-	})
+    // Populate sidebar data on marker click
+    marker.on('click', function() {
+        $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
+        $(".right-side-bar").show("slide", { direction: "right" }, 700);
+        $(".sliding").animate({ right: "25%"} , 700);
+        $menu_visible=true
+        var locationProperties = this.feature.properties;
+        $("#location-name").html(locationProperties["name"]);
+        $("#location-address").html(locationProperties["abbreviatedAddress"]);
+        $("#location-phone-number").html(locationProperties["phone"]);
+        $("#location-website").html(locationProperties["website"]);
+        $("#location-website").attr("href", locationProperties["website"])
+    })
 });
 
 var geoJsonData;
@@ -113,43 +118,37 @@ function onEachFeature(feature, layer) {
 }
 
 function click(e) {
-	css = document.getElementsByClassName("label");
+     $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+     $(".sliding").animate({ right: "0"} , 700);
+     $menu_visible=false;
+    css=document.getElementsByClassName("label");
 
-	if (lastLayer === undefined) {
-	}// do nothign
-	else {
-		dcnLayer.resetStyle(lastLayer);
-		lastLayer.on({
-			mousemove : mousemove,
-			mouseout : mouseout,
-			click : click
-		});
-		document.getElementById(lastLayer.feature.id).style.color = "#c8a45e";
-		id = parseInt(lastLayer.feature.id) - 1;
-		css[id].style.display = "block";
-	}
-	// Onclick: disable hover effect, remove label
-	e.target.off({
-		mousemove : false,
-		mouseout : false,
-		click : false
-	});
-	e.target.setStyle({
-		fillOpacity : 0
-	});
-	id = parseInt(e.target.feature.id) - 1;
-	css[id].style.display = "none";
+    if(lastLayer === undefined){}//do nothign
+    else
+        {
+            dcnLayer.resetStyle(lastLayer);
+            lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
+            document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
+            id=parseInt(lastLayer.feature.id)-1;
+            css[id].style.display="block";
+        }
+    //Onclick: disable hover effect, remove label
+    e.target.off({mousemove:false, mouseout:false,click:false});
+    e.target.setStyle({fillOpacity: 0});
+    id=parseInt(e.target.feature.id)-1;
+    css[id].style.display="none";
 
-	lastLayer = e.target;
-	neighborhood = e.target.feature.properties.name;
+    lastLayer=e.target;
+    neighborhood=e.target.feature.properties.name;
 
-	// OnClick: zoom into Polygon and show related markers
-	map.fitBounds(getBounds(e.target));
-	myLayer.setGeoJSON(geoJsonData);
-	myLayer.setFilter(function(f) {
-		return f.properties["neighborhood"] === neighborhood;
-	});
-	return false;
+    //OnClick: zoom into Polygon and show related markers
+    map.fitBounds(getBounds(e.target));
+    myLayer.setGeoJSON(geoJsonData);
+    myLayer.setFilter(function(f) {
+        return f.properties["neighborhood"] === neighborhood;
+    });
+    return false;
 }
 
 function mousemove(e) {
@@ -174,13 +173,17 @@ function mouseout(e) {
 	document.getElementById(e.target.feature.id).style.color = "#c8a45e";
 }
 
-function labelLocation(l, f) {
-	// had to manually adjust the label location of few polygons
-	return f.id == 10 ? L.latLng(38.912624, -77.042739) : f.id == 13 ? L
-			.latLng(38.911011, -77.031959) : f.id == 14 ? L.latLng(38.918115,
-			-77.030865) : f.id == 15 ? L.latLng(38.872020, -77.012171)
-			: f.id == 16 ? L.latLng(38.889849, -76.943152) : f.id == 17 ? L
-					.latLng(38.900487, -76.986962) : l.getBounds().getCenter();
+function labelLocation (l,f){
+    //had to manually adjust the label location of few polygons
+    return f.id == 3 ? L.latLng(38.927526, -77.070867): //Freindship Heights
+         f.id == 2 ? L.latLng(38.930150, -77.093441): //East DC
+         f.id == 10 ? L.latLng(38.910328, -77.042245): //Dupont Circle
+         f.id == 13 ? L.latLng(38.911111, -77.031433): //Logan Circle
+         f.id == 14 ? L.latLng(38.916820, -77.030761): //u street
+         f.id == 15 ? L.latLng(38.872020, -77.012171): //Waterfront
+         f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
+         f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
+          l.getBounds().getCenter();
 }
 
 function getBounds(e) {
@@ -195,38 +198,45 @@ function getBounds(e) {
 							-76.965533 ]) : e.getBounds();
 }
 
-// label css (customized to each neighborhood based on the polgon size, location
-// etc)
+
+//label css (customized to each neighborhood based on the polygon size, location etc)
+//some neghoborhoods has a customized css style (is there a better way to write this function)
+function getHTML(e,d) {
+	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 16 ) <div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
+        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 33 ) <div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
+        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 20 ) <div/></div>" :  //Columbia Heights
+        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 76 ) <div/></div>":  //Dupont Circle
+        e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 44 ) <div/></div>" :  //Adams Morgan
+        e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 21 ) <div/></div>" :  //Logan Circle
+        (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 40 ) <div/></div>":  //u street(40), Waterfront(10)
+        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 27 )<div/></div>" //foggy bottom(40) and h street (27)
+        }
+/*
 function getHTML(e, d) {
 	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
 			+ d + "<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> <div/></div>"
-																										// street
-}
+}*/
 
-/** ****Zoom in / Zoom out and Neighborhood Zoom functions***** */
+/****Zoom in / Zoom out and Neighborhood Zoom functions***** */
 var zoom;
 
 $("#neighboor-zoom").click(function() {
-	// zoom out to dc level
-	map.setView([ 38.907557, -77.028130 ], 13, {
-		zoom : {
-			animate : true
-		}
-	});
-	// reset polygon style
-	dcnLayer.resetStyle(lastLayer);
-	lastLayer.on({
-		mousemove : mousemove,
-		mouseout : mouseout,
-		click : click
-	});
-	document.getElementById(lastLayer.feature.id).style.color = "#c8a45e";
-	id = parseInt(lastLayer.feature.id) - 1;
-	css[id].style.display = "block";
-	// remove all markers
-	myLayer.setFilter(function(f) {
-		return false;
-	});
+     $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+     $(".sliding").animate({ right: "0"} , 700);
+     $menu_visible=false;
+  //zoom out to dc level
+    map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
+    //reset polygon style
+    dcnLayer.resetStyle(lastLayer);
+    lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
+    document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
+    id=parseInt(lastLayer.feature.id)-1;
+    css[id].style.display="block";
+    //remove all markers
+     myLayer.setFilter(function(f) {
+            return false;
+        });
 });
 
 $("#zoom-in").click(function() {
@@ -235,7 +245,18 @@ $("#zoom-in").click(function() {
 });
 
 $("#zoom-out").click(function() {
-	zoom = map.getZoom();
-	map.setZoom(zoom - 1);
+   zoom=map.getZoom();
+  map.setZoom(zoom-1);
+});
+
+map.on('move', function() {
+    zoom = map.getZoom();
+
+    if (zoom == 13) {
+      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+     $(".sliding").animate({ right: "0"} , 700);
+     $menu_visible=false;
+    }
 });
 
