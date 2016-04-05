@@ -46,8 +46,6 @@ function convertToStandard(time){
 	hour = parts[0],
 	minutes = parts[1],
 	converted = hour+":"+minutes;
-	console.log(hour)
-	console.log(minutes)
 	if (hour > 12) {
 		converted = (hour - 12) + ':' + minutes + ' pm';
 	} else if (hour == 0) {
