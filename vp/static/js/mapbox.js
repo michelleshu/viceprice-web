@@ -198,32 +198,26 @@ function getBounds(e) {
 							-76.965533 ]) : e.getBounds();
 }
 
-/*
-//label css (customized to each neighborhood based on the polygon size, location etc)
-function getHTML(e,d) {
-    return e == 1 ? "<div class='map_labels' style='font-size:18px;'>North DC<div class='bar_num_labels' id='01'>( 16 ) <div/></div>" : //north DC
-        e == 2  ?   "<div class='map_labels' style='font-size:18px;'>West DC<div class='bar_num_labels' id='02' >( 5 ) <div/></div>" :  //west dc
-        e == 3  ?   "<div class='map_labels' style='font-size:16px;'>Friendship Heights<div class='bar_num_labels' id='03' style='text-align:right;'>( 33 ) </div></div>" :  //Friendship Heights
-        e == 4  ?   "<div class='map_labels' style='font-size:12px;'>Adams <br/>Morgan<div class='bar_num_labels' id='04'>( 44 ) <div/></div>" :  //Adams Morgan
-        e == 5  ?  "<div class='map_labels' style='font-size:18px;'>East DC<div class='bar_num_labels' id='05'>( 24 ) <div/></div>" :  //East dc
-        e == 6  ?  "<div class='map_labels' style='font-size:16px;'>Shaw<div class='bar_num_labels' id='06'>( 18 )<div/></div>" :  //shaw
-        e == 7  ?  "<div class='map_labels' style='font-size:16px;'>Capitol Hill<div class='bar_num_labels' id='07'>( 38 )<div/></div>" :  //Capitol Hill
-        e == 8 ?  "<div class='map_labels' style='font-size:16px;'>Downtown<div class='bar_num_labels' id='08'>( 115 )<div/></div>" :  //downtown
-        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' id='09'>( 20 )<div/></div>" :  //Columbia Heights
-        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' id='10'>( 76 )<div/></div>" :  //Dupont Circle
-        e == 11 ? "<div class='map_labels' style='font-size:13px;'>Foggy Bottom<div class='bar_num_labels' id='11'>( 40 )<div/></div>" :  //foggy bottom
-        e == 12 ? "<div class='map_labels' style='font-size:16px;'>Georgetown<div class='bar_num_labels' id='12'>( 28 )<div/></div>" :  //georgetown
-        e == 13 ? "<div class='map_labels' style='font-size:12px;'>Logan <br/> Circle<div class='bar_num_labels' id='13'>( 21 )<div/></div>" :  //Logan Circle
-        e == 14 ? "<div class='map_labels' style='font-size:14px;'>U Street<div class='bar_num_labels' id='14'>( 40 )<div/></div>" :  //u street
-        e == 15 ? "<div class='map_labels' style='font-size:14px;'>Waterfront<div class='bar_num_labels' id='15'>( 10 )<div/></div>" : //Waterfront
-        e == 16 ? "<div class='map_labels' style='font-size:18px;'>East of The River<div class='bar_num_labels' id='16'>( 2 )<div/></div>" : //South east
-*/
-function getHTML(e, d) {
-	return  "<div class='map_labels' style='font-size:18px;'>"
-			+ d + "<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> <div/></div>"
-}
 
-/** ****Zoom in / Zoom out and Neighborhood Zoom functions***** */
+//label css (customized to each neighborhood based on the polygon size, location etc)
+//some neghoborhoods has a customized css style (is there a better way to write this function)
+function getHTML(e,d) {
+	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 16 ) <div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
+        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 33 ) <div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
+        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 20 ) <div/></div>" :  //Columbia Heights
+        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 76 ) <div/></div>":  //Dupont Circle
+        e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 44 ) <div/></div>" :  //Adams Morgan
+        e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 21 ) <div/></div>" :  //Logan Circle
+        (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 40 ) <div/></div>":  //u street(40), Waterfront(10)
+        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 27 )<div/></div>" //foggy bottom(40) and h street (27)
+        }
+/*
+function getHTML(e, d) {
+	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
+			+ d + "<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> <div/></div>"
+}*/
+
+/****Zoom in / Zoom out and Neighborhood Zoom functions***** */
 var zoom;
 
 $("#neighboor-zoom").click(function() {

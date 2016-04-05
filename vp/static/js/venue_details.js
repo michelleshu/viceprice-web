@@ -1,6 +1,7 @@
 /****** sliding menu ********/
 $menu_visible  = false; 
-$(".sliding").click(function(){   
+$(document).on('click', '.sliding', function(){
+console.log('got a click')  
     if ($menu_visible){ 
         $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
         $(".right-side-bar").hide("slide", { direction: "right" }, 700);
