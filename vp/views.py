@@ -12,7 +12,6 @@ from django.db.models import Q, F, Count
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
-
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():

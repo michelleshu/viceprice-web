@@ -49,24 +49,21 @@ myLayer.on('layeradd', function(e) {
 
 function populateDeals(items){
 	$('ul').remove('.dealDetails')
-	var test = "<ul class='dealDetails'>"
+	var ulElement = "<ul class='dealDetails'>"
 	for (item in items){
-		var type;
-		if(item == "beer") type = "Beer"
-		if(item == "liqour") type = "Liqour"
-		if(item == "wine") type = "Wine"
-			test = test + "<li>"+ type + "</li><ul>"
+		var type = item[0].toUpperCase() + item.slice(1)
+			ulElement = ulElement + "<li>"+ type + "</li><ul>"
 			for(details in items[item]){
 				var detailType;
 				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
 				if (items[item][details]['detailType'] == 2) detailType = " % off "
 				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+" off "
-				test = test + "<li>" +  detailType + items[item][details]['drinkName'] + "</li>"
+				ulElement = ulElement + "<li>" +  detailType + items[item][details]['drinkName'] + "</li>"
 			}
-		test = test + "</ul>"
+		ulElement = ulElement + "</ul>"
 	}
-	test = test + "</ul>"
-	return test;
+	ulElement = ulElement + "</ul>"
+	return ulElement;
 }
 
 var geoJsonData;
@@ -78,11 +75,13 @@ function fetchData(time, dayIndex) {
 		neighborhoods = data.neighborhoods;
 		deals = data.deals;
 		updateHappyHours();
+		updateNeighborhoodData();
 	});
 }
 function updateHappyHours(){
+	$('.bar_num_labels').empty();
 	$(neighborhoods).each(function(index,data){
-	    $("div[data-neighborhood='"+data.neighborhood+"']").text(data.count)
+	    $("div[data-neighborhood='"+data.neighborhood+"']").text("(" + data.count + ")")
 	});
 }
 /** *DC Neighborhoods** */
@@ -170,13 +169,15 @@ function click(e) {
 
     //OnClick: zoom into Polygon and show related markers
     map.fitBounds(getBounds(e.target));
-    myLayer.setGeoJSON(geoJsonData);
+    updateNeighborhoodData()
+    return false;
+}
+function updateNeighborhoodData(){
+	myLayer.setGeoJSON(geoJsonData);
     myLayer.setFilter(function(f) {
         return f.properties["neighborhood"] === neighborhood;
     });
-    return false;
 }
-
 function mousemove(e) {
 	var layer = e.target;
 	document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
@@ -228,14 +229,8 @@ function getBounds(e) {
 //label css (customized to each neighborhood based on the polygon size, location etc)
 //some neghoborhoods has a customized css style (is there a better way to write this function)
 function getHTML(e,d) {
-	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 16 ) <div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
-        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 33 ) <div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
-        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 20 ) <div/></div>" :  //Columbia Heights
-        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 76 ) <div/></div>":  //Dupont Circle
-        e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 44 ) <div/></div>" :  //Adams Morgan
-        e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 21 ) <div/></div>" :  //Logan Circle
-        (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 40 ) <div/></div>":  //u street(40), Waterfront(10)
-        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 27 )<div/></div>" //foggy bottom(40) and h street (27)
+	    return "<div class='map_labels' style='font-size:18px;'>"
+	    +d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" 
         }
 /*
 function getHTML(e, d) {
