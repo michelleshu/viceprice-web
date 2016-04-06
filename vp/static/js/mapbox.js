@@ -43,10 +43,31 @@ myLayer.on('layeradd', function(e) {
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"])
         $("#specials-time-frame").html(moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A") +" - "+ moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A"))
+        $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
     })
 });
 
-
+function populateDeals(items){
+	$('ul').remove('.dealDetails')
+	var test = "<ul class='dealDetails'>"
+	for (item in items){
+		var type;
+		if(item == "beer") type = "Beer"
+		if(item == "liqour") type = "Liqour"
+		if(item == "wine") type = "Wine"
+			test = test + "<li>"+ type + "</li><ul>"
+			for(details in items[item]){
+				var detailType;
+				if (items[item][details]['detailType'] == 1) detailType = "$ ";
+				if (items[item][details]['detailType'] == 2) detailType = " % off "
+				if (items[item][details]['detailType'] == 3) detailType = "$ off "
+				test = test + "<li>" + items[item][details]['value'] + detailType + items[item][details]['drinkName'] + "</li>"
+			}
+		test = test + "</ul>"
+	}
+	test = test + "</ul>"
+	return test;
+}
 
 var geoJsonData;
 var neighborhoods;
