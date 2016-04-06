@@ -9,6 +9,11 @@
 {% endblock resources %}
 
 {% block content %}
+    <div class="phone-checkbox-container">
+        <input type="checkbox" id="requires-phone"/>
+        <span>Show locations that require phone call</span>
+    </div>
+    </div>
     <div class="container happy-hour-entry-container">
         <div class="row">
             <div class="number-complete u-pull-right"></div>
@@ -16,11 +21,11 @@
             <div class="progress-bar-complete"></div>
         </div>
         <div class="row">
-            <div class="ten columns">
+            <div class="nine columns">
                 <h5>Location: <span id="location-name"></span></h5>
             </div>
-            <div class="two columns">
-                <button class="button-primary skip-button">Skip</button>
+            <div class="three columns">
+                <button class="button-primary skip-button">Not available on web</button>
             </div>
         </div>
         <div class="row">
