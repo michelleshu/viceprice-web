@@ -50,3 +50,15 @@
 .deal-value {
     width: 60%;
 }
+
+.phone-checkbox-container {
+    margin-right: 26rem;
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+    text-align: right;
+}
+
+#require-phone {
+    margin-top: 0.5rem;
+    margin-right: 1rem;
+}

@@ -193,18 +193,25 @@ def flag_location_as_skipped(request):
     return HttpResponse("success")  
  
 def get_location_that_needs_happy_hour(request):
-    locations = Location.objects.filter(data_entry_skipped=False, dealDataManuallyReviewed=None).order_by('?')
-    selected = locations.first()
+    requiresPhone = request.GET.get("requiresPhone") == "true"
+    total_count = Location.objects.filter(data_entry_skipped=requiresPhone, neighborhood="U Street").count()
+    locations = Location.objects.filter(data_entry_skipped=requiresPhone, dealDataManuallyReviewed=None, neighborhood="U Street").order_by('?')
 
-    response = {
-        'remaining_count': locations.count(),
-        'location_id': selected.id,
-        'location_name': selected.name,
-        'location_website': selected.website,
-        'location_phone_number': selected.formattedPhoneNumber,
-        'location_address': selected.formattedAddress
-    }
-    return JsonResponse(response)
+    if locations.count() > 0:
+        selected = locations.first()
+
+        response = {
+            'total_count': total_count,
+            'remaining_count': locations.count(),
+            'location_id': selected.id,
+            'location_name': selected.name,
+            'location_website': selected.website,
+            'location_phone_number': selected.formattedPhoneNumber,
+            'location_address': selected.formattedAddress
+        }
+        return JsonResponse(response)
+
+    return JsonResponse({})
 
 @csrf_exempt
 def submit_happy_hour_data(request):
