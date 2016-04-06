@@ -42,21 +42,26 @@ myLayer.on('layeradd', function(e) {
         $("#location-phone-number").html(locationProperties["phone"]);
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"])
+        $("#specials-time-frame").html(moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A") +" - "+ moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A"))
     })
 });
 
+
+
 var geoJsonData;
-var neighborhoods
+var neighborhoods;
+var deals;
 function fetchData(time, dayIndex) {
 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
 		geoJsonData = data.json;
 		neighborhoods = data.neighborhoods;
+		deals = data.deals;
 		updateHappyHours();
 	});
 }
 function updateHappyHours(){
 	$(neighborhoods).each(function(index,data){
-	    $("div[neighborhood='"+data.neighborhood+"']").text(data.count)
+	    $("div[data-neighborhood='"+data.neighborhood+"']").text(data.count)
 	});
 }
 /** *DC Neighborhoods** */
