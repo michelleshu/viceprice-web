@@ -62,7 +62,7 @@ class Location(models.Model):
     city = models.CharField(max_length=100, null=True)
     state = models.CharField(max_length=50, null=True)
     street = models.CharField(max_length=256, null=True)
-    zip = models.CharField(max_length=10, null=True)
+    zip = models.CharField(max_length=50, null=True)
     formattedAddress = models.CharField(max_length=512, null=True)
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)

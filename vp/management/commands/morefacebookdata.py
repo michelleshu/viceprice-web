@@ -31,7 +31,7 @@ class Command(BaseCommand):
         graph = facebook.GraphAPI(access_token)
         inaccessible_locations = []
 
-        for location in Location.objects.order_by('id').all()[:10]:
+        for location in Location.objects.all():
             if location.facebookId != None and location.facebookId != "":
                 try:
                     args = {'fields': 'hours, cover, location' }
@@ -59,8 +59,6 @@ class Command(BaseCommand):
                 time.sleep(1)
 
     def save_active_hours(self, location, active_hours):
-        print("save active hours")
-
         location.activeHours.clear()
         if (active_hours.get("mon_1_open") != None and active_hours.get("mon_1_close") != None):
             activeHour = ActiveHour(dayofweek=1, start=active_hours["mon_1_open"], end=active_hours["mon_1_close"])
@@ -81,35 +79,53 @@ class Command(BaseCommand):
             location.activeHours.add(activeHour)
 
         if (active_hours.get("wed_1_open") != None and active_hours.get("wed_1_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=3, start=active_hours["wed_1_open"], end=active_hours["wed_1_close"]))
+            activeHour = ActiveHour(dayofweek=3, start=active_hours["wed_1_open"], end=active_hours["wed_1_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
         if (active_hours.get("wed_2_open") != None and active_hours.get("wed_2_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=3, start=active_hours["wed_2_open"], end=active_hours["wed_2_close"]))
+            activeHour = ActiveHour(dayofweek=3, start=active_hours["wed_2_open"], end=active_hours["wed_2_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
 
         if (active_hours.get("thu_1_open") != None and active_hours.get("thu_1_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=4, start=active_hours["thu_1_open"], end=active_hours["thu_1_close"]))
+            activeHour = ActiveHour(dayofweek=4, start=active_hours["thu_1_open"], end=active_hours["thu_1_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
         if (active_hours.get("thu_2_open") != None and active_hours.get("thu_2_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=4, start=active_hours["thu_2_open"], end=active_hours["thu_2_close"]))
+            activeHour = ActiveHour(dayofweek=4, start=active_hours["thu_2_open"], end=active_hours["thu_2_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
 
         if (active_hours.get("fri_1_open") != None and active_hours.get("fri_1_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=5, start=active_hours["fri_1_open"], end=active_hours["fri_1_close"]))
+            activeHour = ActiveHour(dayofweek=5, start=active_hours["fri_1_open"], end=active_hours["fri_1_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
         if (active_hours.get("fri_2_open") != None and active_hours.get("fri_2_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=5, start=active_hours["fri_2_open"], end=active_hours["fri_2_close"]))
+            activeHour = ActiveHour(dayofweek=5, start=active_hours["fri_2_open"], end=active_hours["fri_2_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
 
         if (active_hours.get("sat_1_open") != None and active_hours.get("sat_1_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=6, start=active_hours["sat_1_open"], end=active_hours["sat_1_close"]))
+            activeHour = ActiveHour(dayofweek=6, start=active_hours["sat_1_open"], end=active_hours["sat_1_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
         if (active_hours.get("sat_2_open") != None and active_hours.get("sat_2_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=6, start=active_hours["sat_2_open"], end=active_hours["sat_2_close"]))
+            activeHour = ActiveHour(dayofweek=6, start=active_hours["sat_2_open"], end=active_hours["sat_2_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
 
         if (active_hours.get("sun_1_open") != None and active_hours.get("sun_1_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=7, start=active_hours["sun_1_open"], end=active_hours["sun_1_close"]))
+            activeHour = ActiveHour(dayofweek=7, start=active_hours["sun_1_open"], end=active_hours["sun_1_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
         if (active_hours.get("sun_2_open") != None and active_hours.get("sun_2_close") != None):
-            location.activeHours.add(ActiveHour(dayofweek=7, start=active_hours["sun_2_open"], end=active_hours["sun_2_close"]))
+            activeHour = ActiveHour(dayofweek=7, start=active_hours["sun_2_open"], end=active_hours["sun_2_close"])
+            activeHour.save()
+            location.activeHours.add(activeHour)
 
         location.save()
 
     def save_address_data(self, location, address):
-        print("save address")
-
         if (address.get("city") != None):
             location.city = address["city"]
         if (address.get("state") != None):
@@ -122,8 +138,6 @@ class Command(BaseCommand):
         location.save()
 
     def save_cover_photo(self, location, cover):
-        print("save cover photo")
-
         if (cover.get("source") != None):
             location.coverPhotoSource = cover["source"]
         if (cover.get("offset_x") != None):
