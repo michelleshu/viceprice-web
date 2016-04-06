@@ -23,12 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
 
 # Database configuration
-
-DEVELOPMENT_DB_URL = "postgres://Jeremy@localhost/vp_local"
-
 database_url = os.environ.get('DATABASE_URL')
-if database_url == None:
-    database_url = DEVELOPMENT_DB_URL
+
 
 DATABASES = {
     'default': dj_database_url.config(default = database_url)
