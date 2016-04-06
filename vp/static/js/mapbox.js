@@ -58,10 +58,10 @@ function populateDeals(items){
 			test = test + "<li>"+ type + "</li><ul>"
 			for(details in items[item]){
 				var detailType;
-				if (items[item][details]['detailType'] == 1) detailType = "$ ";
+				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
 				if (items[item][details]['detailType'] == 2) detailType = " % off "
-				if (items[item][details]['detailType'] == 3) detailType = "$ off "
-				test = test + "<li>" + items[item][details]['value'] + detailType + items[item][details]['drinkName'] + "</li>"
+				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+" off "
+				test = test + "<li>" +  detailType + items[item][details]['drinkName'] + "</li>"
 			}
 		test = test + "</ul>"
 	}

@@ -122,7 +122,7 @@ def fetch_locations(request):
     dealInfo = {}
     for location in locations:
         dealList = []
-        dealSet = location.deals.all()
+        dealSet = location.deals.filter(activeHours__dayofweek=day).all()
         beers = []
         wines =[]
         liqours =[]
