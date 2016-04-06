@@ -12,7 +12,6 @@ from django.db.models import Q, F, Count
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
-
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():
@@ -122,18 +121,37 @@ def fetch_locations(request):
     dealInfo = {}
     for location in locations:
         dealList = []
-        dealSet = location.deals.all()
+        dealSet = location.deals.filter(activeHours__dayofweek=day).all()
+        beers = []
+        wines =[]
+        liqours =[]
         for d in dealSet:
             dealDetails = d.dealDetails.all()
-            details = []
+            details = {}
             activehours = d.activeHours.all()
             for dd in dealDetails:
-                detail = {"detail_id":dd.id,
+                if dd.drinkCategory == 1:
+                    beer = {"detail_id":dd.id,
                           "drinkName": dd.drinkName,
-                          "drinkCategory":dd.drinkCategory,
+                          "detailType":dd.detailType,
+                          "value":dd.value}
+                    beers.append(beer)
+                elif dd.drinkCategory == 2:
+                    wine = {"detail_id":dd.id,
+                          "drinkName": dd.drinkName,
                           "detaiType":dd.detailType,
                           "value":dd.value}
-                details.append(detail)
+                    wines.append(wine)
+                elif dd.drinkCategory == 3:
+                    liqour = {"detail_id":dd.id,
+                          "drinkName": dd.drinkName,
+                          "detailType":dd.detailType,
+                          "value":dd.value}
+                    liqours.append(liqour)
+                details["wine"] = wines
+                details["beer"] = beers
+                details["liqour"] = liqours
+#                 details.append(detail)
             deals = {"deal_id" : d.id,
                     "details": details }
             for ah in activehours:
