@@ -149,6 +149,10 @@ $(document).on("click", ".delete-deal-link", function(event) {
     }
 });
 
+$(document).on("click", "#requires-phone", function(event) {
+    get_location_that_needs_happy_hour();
+});
+
 var getDealInfo = function(dealElement) {
     var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary"));
     var timePeriods = getTimePeriods(dealElement.find(".time-periods"));
