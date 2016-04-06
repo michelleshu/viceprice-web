@@ -10,14 +10,4 @@ class Migration(migrations.Migration):
         ('vp', '0043_auto_20160324_0046'),
     ]
 
-    operations = [
-        migrations.RemoveField(
-            model_name='dealdetail',
-            name='type',
-        ),
-        migrations.AddField(
-            model_name='dealdetail',
-            name='detailType',
-            field=models.IntegerField(default=3),
-        )
-    ]
+  

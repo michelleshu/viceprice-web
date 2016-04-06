@@ -24,7 +24,8 @@ SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
 
 # Database configuration
 
-DEVELOPMENT_DB_URL = "postgres://mhgtvtfoppbwmo:PbOrR4zCUlsOCelbNY-blp_UF2@ec2-107-20-153-141.compute-1.amazonaws.com:5432/d2hagb6iknui5q"
+DEVELOPMENT_DB_URL = "postgres://Jeremy@localhost/vp_local"
+
 database_url = os.environ.get('DATABASE_URL')
 if database_url == None:
     database_url = DEVELOPMENT_DB_URL
