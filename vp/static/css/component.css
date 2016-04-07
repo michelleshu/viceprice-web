@@ -229,25 +229,6 @@ cursor: pointer;
   transition: transform 0.3s ease-out, opacity 0.3s ease-in;
   }
 
-  /****tooltip css****/
-  .tooltip{
-    width:290px;
-    height:60px;
-  }
-
-  .tooltip h1{
-    font-family: Montserrat;
-    font-size:10%;
-    color:#5b5b5b;
-    font-weight:bold;
-  }
-
-  .tooltip p{
-    font-family: Montserrat;
-    color:#7d7f80;
-    font-size:5%;
-  }
-
   /*** Slider ***/
         * {
         -webkit-box-sizing: border-box;
@@ -326,20 +307,52 @@ cursor: pointer;
       #time_output{margin-left: 34%;}
       #day,#time{margin-top: 8%; margin-bottom: 8%;width: 88%;}
 
-  .map_labels{
-  color:white;
-  font-family: Montserrat;
-  text-align:center;
-  }
 
-  .bar_num_labels{
+    /*******Neighborhood labels*********/
+
+    .map_labels{
+    color:white;
+    font-family: Montserrat;
+    text-align:center;
+    }
+
+    .bar_num_labels{
     margin-top: 1px;
-  color:#c8a45e;
-  font-size:11px;
-  font-family: Montserrat;
-  text-align:center;
+    color:#c8a45e;
+    font-size:11px;
+    font-family: Montserrat;
+    text-align:center;
+    }
+
+  /****tooltip css****/
+  
+
+  .tooltip-info li{
+    list-style-type: none;
+    font-size:10px;
+  }
+  
+  .leaflet-container .tooltip-info h1{
+  font-size: 0.85rem;
+  color:#5b5b5b;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-bottom: 0.1rem;
   }
 
+  .leaflet-container .tooltip-info h2, .leaflet-container .tooltip-info h3{
+  display: inline;
+  font-size: 0.70rem;
+  color:#aeaeae;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-right: 1rem;
+  font-weight: normal;
+  }
 
-
-
+  .leaflet-container .tooltip-info p{
+  display: inline;
+  font-size: 0.70rem;
+  color:#5b5b5b;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-right: 1rem;
+  }
+  

@@ -23,11 +23,17 @@ myLayer.on('layeradd', function(e) {
         feature = marker.feature;
 
     // Create custom popup content
-    var popupContent =  '<h1>' + feature.properties.name + '<\/h1>';
+    var popupContent =  '<ul class=\"tooltip-info\">'+
+    					'<li> <h1>' + feature.properties.name + '<\/h1><\/li>'+
+    					'<li> <h2>' + 'General Bar' + '<\/h2> <h3>' + '   12:00 PM - 5:00 PM' + '<\/h3> <\/li>' +
+    					'<li><img src="../static/img/beer.png"\/><p>' + ' $3   ' + '<\/p>' +
+    					'<img src="../static/img/wine.png"\/><p>' + ' $4   ' + '<\/p>' +
+    					'<img src="../static/img/drink.png"\/><p>' + ' $5' + '<\/p><\/li>' +
+    					'<\/ul>';
 
     marker.bindPopup(popupContent,{
         closeButton: false,
-        minWidth: 200
+        minWidth: 150
     });
 
     // Populate sidebar data on marker click
