@@ -11,13 +11,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='dealdetail',
-            name='type',
-        ),
-        migrations.AddField(
-            model_name='dealdetail',
-            name='detailType',
-            field=models.IntegerField(default=3),
-        )
+        # migrations.RemoveField(
+        #     model_name='dealdetail',
+        #     name='type',
+        # ),
+        # migrations.AddField(
+        #     model_name='dealdetail',
+        #     name='detailType',
+        #     field=models.IntegerField(default=3),
+        # )
     ]
