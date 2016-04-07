@@ -1,5 +1,4 @@
-/** ***MapBox**** */
-
+/*****MapBox*****/
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(
 		39.004460, -77.158084), bounds = L.latLngBounds(southWest, northEast);
@@ -15,7 +14,24 @@ L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 		.addTo(map);
 map.setMaxBounds(bounds);
 
-/** *****Creating featureLayer and adding markers data******** */
+/*********create a custom marker ***********/
+var resturnat_marker = L.icon({
+    iconUrl: '../static/img/resturant-marker.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
+var bar_marker = L.icon({
+    iconUrl: '../static/img/bar-marker.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
+/******Creating featureLayer and adding markers data********/
 var myLayer = L.mapbox.featureLayer().addTo(map);
 
 myLayer.on('layeradd', function(e) {
@@ -25,7 +41,7 @@ myLayer.on('layeradd', function(e) {
     // Create custom popup content
     var popupContent =  '<ul class=\"tooltip-info\">'+
     					'<li> <h1>' + feature.properties.name + '<\/h1><\/li>'+
-    					'<li> <h2>' + 'General Bar' + '<\/h2> <h3>' + '   12:00 PM - 5:00 PM' + '<\/h3> <\/li>' +
+    					'<li style="margin-bottom: 0.4rem;"> <h2>' + 'General Bar' + '<\/h2> <h3>' + '   12:00 PM - 5:00 PM' + '<\/h3> <\/li>' +
     					'<li><img src="../static/img/beer.png"\/><p>' + ' $3   ' + '<\/p>' +
     					'<img src="../static/img/wine.png"\/><p>' + ' $4   ' + '<\/p>' +
     					'<img src="../static/img/drink.png"\/><p>' + ' $5' + '<\/p><\/li>' +
@@ -36,6 +52,18 @@ myLayer.on('layeradd', function(e) {
         minWidth: 150
     });
 
+    marker.on('mouseover', function() {
+    marker.openPopup();
+    });
+
+    marker.on('mouseout', function() {
+    marker.closePopup();
+    });
+
+    if(feature.properties.name == "Scion")
+    marker.setIcon(bar_marker);
+	else
+    marker.setIcon(resturnat_marker);
     // Populate sidebar data on marker click
     marker.on('click', function() {
         $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
@@ -208,9 +236,9 @@ function getBounds(e) {
 //label css (customized to each neighborhood based on the polygon size, location etc)
 //some neghoborhoods has a customized css style (is there a better way to write this function)
 function getHTML(e,d) {
-	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 16 ) <div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
-        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 33 ) <div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
-        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 20 ) <div/></div>" :  //Columbia Heights
+	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( Not in Beta ) <div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
+        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> (Not in Beta ) <div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
+        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( Not in Beta ) <div/></div>" :  //Columbia Heights
         e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 76 ) <div/></div>":  //Dupont Circle
         e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 44 ) <div/></div>" :  //Adams Morgan
         e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 21 ) <div/></div>" :  //Logan Circle
