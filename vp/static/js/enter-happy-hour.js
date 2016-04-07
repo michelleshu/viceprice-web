@@ -3,7 +3,6 @@ var happyHourBodyHTML = "";
 var dealTemplateHTML = "";
 var dealDetailTemplateHTML = "";
 var locationID;
-const TOTAL_LOCATIONS = 557;
 var csrftoken = Cookies.get('csrftoken');
 
 $.ajaxSetup({
@@ -150,6 +149,10 @@ $(document).on("click", ".delete-deal-link", function(event) {
     }
 });
 
+$(document).on("click", "#requires-phone", function(event) {
+    get_location_that_needs_happy_hour();
+});
+
 var getDealInfo = function(dealElement) {
     var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary"));
     var timePeriods = getTimePeriods(dealElement.find(".time-periods"));
@@ -237,6 +240,9 @@ var getDaysOfWeek = function(daysOfWeekPrimaryButtons) {
 var get_location_that_needs_happy_hour = function() {
     $.ajax({
         type: "GET",
+        data: {
+            "requiresPhone": $('#requires-phone:checked').length > 0
+        },
         url: "/get_location_that_needs_happy_hour",
         success: function(data) {
             locationID = data["location_id"];
@@ -247,10 +253,11 @@ var get_location_that_needs_happy_hour = function() {
             $("#location-phone-number").html(data["location_phone_number"]);
             $("#location-address").html(data["location_address"]);
 
+            var totalCount = data["total_count"];
             var numberRemaining = data["remaining_count"];
-            var formattedRemaining = (TOTAL_LOCATIONS - data["remaining_count"]) + "/" + TOTAL_LOCATIONS;
+            var formattedRemaining = (totalCount - numberRemaining) + "/" + totalCount;
             $(".number-complete").html(formattedRemaining);
-            $(".progress-bar-complete").css("width", (100 - (numberRemaining/TOTAL_LOCATIONS * 100.0)) + "%");
+            $(".progress-bar-complete").css("width", (100 - (numberRemaining/totalCount * 100.0)) + "%");
         },
         error: function() {
             alert("Failed to retrieve new location to update");

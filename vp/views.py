@@ -12,7 +12,6 @@ from django.db.models import Q, F, Count
 from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
 import json
 import pprint
-
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated():
@@ -119,27 +118,49 @@ def fetch_locations(request):
         neighborhooddata.append(neighborhood)
     container = []
     barLocations = []
-    dealInfo = []
+    dealInfo = {}
     for location in locations:
         dealList = []
-        dealSet = location.deals.all()
+        dealSet = location.deals.filter(activeHours__dayofweek=day).all()
+        beers = []
+        wines =[]
+        liqours =[]
         for d in dealSet:
             dealDetails = d.dealDetails.all()
-            details = []
-            for d in dealDetails:
-                detail = {"detail_id":d.id,
-                          "drinkName": d.drinkName,
-                          "drinkCategory":d.drinkCategory,
-                          "detaiType":d.detailType,
-                          "value":d.value}
-                details.append(detail)
+            details = {}
+            activehours = d.activeHours.all()
+            for dd in dealDetails:
+                if dd.drinkCategory == 1:
+                    beer = {"detail_id":dd.id,
+                          "drinkName": dd.drinkName,
+                          "detailType":dd.detailType,
+                          "value":dd.value}
+                    beers.append(beer)
+                elif dd.drinkCategory == 2:
+                    wine = {"detail_id":dd.id,
+                          "drinkName": dd.drinkName,
+                          "detaiType":dd.detailType,
+                          "value":dd.value}
+                    wines.append(wine)
+                elif dd.drinkCategory == 3:
+                    liqour = {"detail_id":dd.id,
+                          "drinkName": dd.drinkName,
+                          "detailType":dd.detailType,
+                          "value":dd.value}
+                    liqours.append(liqour)
+                details["wine"] = wines
+                details["beer"] = beers
+                details["liqour"] = liqours
+#                 details.append(detail)
             deals = {"deal_id" : d.id,
                     "details": details }
-            dealList.append(deals)
-        dealData = {
-        "locationid": location.id,
-        "deals": dealList}
-        dealInfo.append(dealData)
+            for ah in activehours:
+                activehour = {"start" : ah.start,
+                    "end": ah.end }
+                deals["hours"] = activehour    
+            dealList = deals
+        dealData = dealList
+        dealInfo[location.id] = dealData
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
     
@@ -150,6 +171,7 @@ def fetch_locations(request):
                 "coordinates": [location.longitude, location.latitude]
             },
             "properties": {
+                "locationid": location.id,
                 "name": location.name,
                 "website":location.website,
                 "phone": location.formattedPhoneNumber,
@@ -189,18 +211,25 @@ def flag_location_as_skipped(request):
     return HttpResponse("success")  
  
 def get_location_that_needs_happy_hour(request):
-    locations = Location.objects.filter(data_entry_skipped=False, dealDataManuallyReviewed=None).order_by('?')
-    selected = locations.first()
+    requiresPhone = request.GET.get("requiresPhone") == "true"
+    total_count = Location.objects.filter(data_entry_skipped=requiresPhone, neighborhood="U Street").count()
+    locations = Location.objects.filter(data_entry_skipped=requiresPhone, dealDataManuallyReviewed=None, neighborhood="U Street").order_by('?')
 
-    response = {
-        'remaining_count': locations.count(),
-        'location_id': selected.id,
-        'location_name': selected.name,
-        'location_website': selected.website,
-        'location_phone_number': selected.formattedPhoneNumber,
-        'location_address': selected.formattedAddress
-    }
-    return JsonResponse(response)
+    if locations.count() > 0:
+        selected = locations.first()
+
+        response = {
+            'total_count': total_count,
+            'remaining_count': locations.count(),
+            'location_id': selected.id,
+            'location_name': selected.name,
+            'location_website': selected.website,
+            'location_phone_number': selected.formattedPhoneNumber,
+            'location_address': selected.formattedAddress
+        }
+        return JsonResponse(response)
+
+    return JsonResponse({})
 
 @csrf_exempt
 def submit_happy_hour_data(request):
