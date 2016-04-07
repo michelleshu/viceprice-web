@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Count
-from models import Location, BusinessHour, LocationCategory, TimeFrame, DayOfWeek, Deal, DealDetail, ActiveHour
+from models import Location, LocationCategory, Deal, DealDetail, ActiveHour
 import json
 import pprint
 @login_required(login_url='/login/')
