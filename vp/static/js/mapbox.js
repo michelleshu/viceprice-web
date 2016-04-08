@@ -64,8 +64,9 @@ myLayer.on('layeradd', function(e) {
     marker.setIcon(bar_marker);
 	else
     marker.setIcon(resturnat_marker);
+
     // Populate sidebar data on marker click
-    marker.on('click', function() {
+        marker.on('click', function() {
         $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
         $(".right-side-bar").show("slide", { direction: "right" }, 700);
         $(".sliding").animate({ right: "25%"} , 700);
@@ -76,21 +77,46 @@ myLayer.on('layeradd', function(e) {
         $("#location-phone-number").html(locationProperties["phone"]);
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"])
+        $("#specials-time-frame").html(moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A") +" - "+ moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A"))
+        $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
     })
 });
 
+function populateDeals(items){
+	$('ul').remove('.dealDetails')
+	var ulElement = "<ul class='dealDetails'>"
+	for (item in items){
+		var type = item[0].toUpperCase() + item.slice(1)
+			ulElement = ulElement + "<li>"+ type + "</li><ul>"
+			for(details in items[item]){
+				var detailType;
+				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
+				if (items[item][details]['detailType'] == 2) detailType = " % off "
+				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+" off "
+				ulElement = ulElement + "<li>" +  detailType + items[item][details]['drinkName'] + "</li>"
+			}
+		ulElement = ulElement + "</ul>"
+	}
+	ulElement = ulElement + "</ul>"
+	return ulElement;
+}
+
 var geoJsonData;
-var neighborhoods
+var neighborhoods;
+var deals;
 function fetchData(time, dayIndex) {
 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
 		geoJsonData = data.json;
 		neighborhoods = data.neighborhoods;
+		deals = data.deals;
 		updateHappyHours();
+		updateNeighborhoodData();
 	});
 }
 function updateHappyHours(){
+	$('.bar_num_labels').empty();
 	$(neighborhoods).each(function(index,data){
-	    $("div[neighborhood='"+data.neighborhood+"']").text(data.count)
+	    $("div[data-neighborhood='"+data.neighborhood+"']").text("(" + data.count + ")")
 	});
 }
 /** *DC Neighborhoods** */
@@ -177,13 +203,17 @@ function click(e) {
     neighborhood=e.target.feature.properties.name;
 
     //OnClick: zoom into Polygon and show related markers
-    map.fitBounds(getBounds(e.target));
-    myLayer.setGeoJSON(geoJsonData);
+     map.fitBounds(getBounds(e.target));
+    updateNeighborhoodData()
+    return false;
+	}
+
+	function updateNeighborhoodData(){
+	myLayer.setGeoJSON(geoJsonData);
     myLayer.setFilter(function(f) {
         return f.properties["neighborhood"] === neighborhood;
     });
-    return false;
-}
+	}
 
 function mousemove(e) {
 	var layer = e.target;
@@ -236,15 +266,16 @@ function getBounds(e) {
 //label css (customized to each neighborhood based on the polygon size, location etc)
 //some neghoborhoods has a customized css style (is there a better way to write this function)
 function getHTML(e,d) {
-	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( Not in Beta ) <div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
-        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> (Not in Beta ) <div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
-        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( Not in Beta ) <div/></div>" :  //Columbia Heights
-        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 76 ) <div/></div>":  //Dupont Circle
-        e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 44 ) <div/></div>" :  //Adams Morgan
-        e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'> ( 21 ) <div/></div>" :  //Logan Circle
-        (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 40 ) <div/></div>":  //u street(40), Waterfront(10)
-        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'>( 27 )<div/></div>" //foggy bottom(40) and h street (27)
+	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
+        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
+        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Columbia Heights
+        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //Dupont Circle
+        e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Adams Morgan
+        e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Logan Circle
+        (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //u street(40), Waterfront(10)
+        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/>Not in Beta</div>" //foggy bottom(40) and h street (27)
         }
+
 /*
 function getHTML(e, d) {
 	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
