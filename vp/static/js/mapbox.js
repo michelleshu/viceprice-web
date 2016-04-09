@@ -84,15 +84,19 @@ myLayer.on('layeradd', function(e) {
 
 function populateDeals(items){
 	$('ul').remove('.dealDetails')
-	var ulElement = "<ul class='dealDetails'>"
+	var ulElement = "<ul class=dealDetails> "
 	for (item in items){
 		var type = item[0].toUpperCase() + item.slice(1)
-			ulElement = ulElement + "<li>"+ type + "</li><ul>"
+			var image;
+			if(item == "beer") image = "style=list-style-image:url('../static/img/beer.png');>"
+			if(item == "wine") image = "style=list-style-image:url('../static/img/wine.png');>" 
+			if(item == "liqour") image = "style=list-style-image:url('../static/img/drink.png');>"  
+			ulElement = ulElement + "<ul " +  image +  type
 			for(details in items[item]){
 				var detailType;
 				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
-				if (items[item][details]['detailType'] == 2) detailType = " % off "
-				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+" off "
+				if (items[item][details]['detailType'] == 2) detailType = " % off " + items[item][details]['value']
+				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+ " off "
 				ulElement = ulElement + "<li>" +  detailType + items[item][details]['drinkName'] + "</li>"
 			}
 		ulElement = ulElement + "</ul>"
