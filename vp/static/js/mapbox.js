@@ -41,7 +41,7 @@ myLayer.on('layeradd', function(e) {
     // Create custom popup content
     var popupContent =  '<ul class=\"tooltip-info\">'+
     					'<li> <h1>' + feature.properties.name + '<\/h1><\/li>'+
-    					'<li style="margin-bottom: 0.4rem;"> <h2>' + 'General Bar' + '<\/h2> <h3>' + '   12:00 PM - 5:00 PM' + '<\/h3> <\/li>' +
+    					'<li style="margin-bottom: 0.4rem;"> <h2>' + feature.properties.super_category + '<\/h2> <h3>' + moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A") + ' - ' +  moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") + '<\/h3> <\/li>' +
     					'<li><img src="../static/img/beer.png"\/><p>' + ' $3   ' + '<\/p>' +
     					'<img src="../static/img/wine.png"\/><p>' + ' $4   ' + '<\/p>' +
     					'<img src="../static/img/drink.png"\/><p>' + ' $5' + '<\/p><\/li>' +
@@ -49,7 +49,7 @@ myLayer.on('layeradd', function(e) {
 
     marker.bindPopup(popupContent,{
         closeButton: false,
-        minWidth: 150
+        minWidth: 220
     });
 
     marker.on('mouseover', function() {
@@ -60,7 +60,7 @@ myLayer.on('layeradd', function(e) {
     marker.closePopup();
     });
 
-    if(feature.properties.name == "Scion")
+    if(feature.properties.super_category == "Bar")
     marker.setIcon(bar_marker);
 	else
     marker.setIcon(resturnat_marker);
@@ -277,7 +277,7 @@ function getHTML(e,d) {
         e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Adams Morgan
         e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Logan Circle
         (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //u street(40), Waterfront(10)
-        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/>Not in Beta</div>" //foggy bottom(40) and h street (27)
+        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" //foggy bottom(40) and h street (27)
         }
 
 /*
