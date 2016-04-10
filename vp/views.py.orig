@@ -193,10 +193,14 @@ def fetch_locations(request):
                 "fullAddress": location.formattedAddress,
                 "abbreviatedAddress": abbreviatedAddress,
                 "neighborhood":location.neighborhood,
+<<<<<<< HEAD
+                "super_category":superCat.name,
+=======
                 "coverPhotoSource": location.coverPhotoSource,
                 "coverPhotoXOffset": location.coverXOffset,
                 "coverPhotoYOffset": location.coverYOffset,
-                "super_category":superCat.name
+                "icon": {"className": "pin", "iconSize": ""}
+>>>>>>> 5aee822eba75dbdaad23b18633f33c542b5814ac
             }
         }
         barLocations.append(locationData)

@@ -51,7 +51,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 .zooming-bar img{width:20px;height:20px;margin-top:15%;cursor: pointer;}
 
 /* Rightside bar*/
-.right-side-bar {display:none;position:absolute; float:left; width:25.0000%; background-color:#fbfbfb;opacity:0.95; top:0; right:0;  }
+.right-side-bar {display:none;position:absolute; float:left; width:25.0000%; background-color:#fbfbfb;opacity:0.98; top:0; right:0;  }
 .sliding { position: fixed; float:right; width: 10px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
 
 .specials-div, .location-details-div, .reviews-div {
@@ -76,9 +76,13 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 .right-side-bar #location-name {
+  margin: 1rem 0 0 1rem;
+}
+
+.right-side-bar #venue-category {
   padding-bottom: 0.5rem;
   border-bottom: 2px solid #c8a45e;
-  margin: 1rem 1rem 0 1rem;
+  margin: 0 1rem 0 1rem;
 }
 
 .right-side-bar #specials-time-frame {
@@ -119,13 +123,14 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   font-size: 0.75rem;
   color:#c8a45e;
   font-family: Montserrat, Arial, sans-serif;
-  margin-left: 1rem;
+  margin-left: 0;
  }
 
 .specials-div li {
   color:#c8a45e;
   font-family: Montserrat, Arial, sans-serif;
   padding-bottom: 2%;
+  margin-left: 1rem;
 }
 
 .specials-div li:first-line {
@@ -229,25 +234,6 @@ cursor: pointer;
   transition: transform 0.3s ease-out, opacity 0.3s ease-in;
   }
 
-  /****tooltip css****/
-  .tooltip{
-    width:290px;
-    height:60px;
-  }
-
-  .tooltip h1{
-    font-family: Montserrat;
-    font-size:10%;
-    color:#5b5b5b;
-    font-weight:bold;
-  }
-
-  .tooltip p{
-    font-family: Montserrat;
-    color:#7d7f80;
-    font-size:5%;
-  }
-
   /*** Slider ***/
         * {
         -webkit-box-sizing: border-box;
@@ -326,20 +312,62 @@ cursor: pointer;
       #time_output{margin-left: 34%;}
       #day,#time{margin-top: 8%; margin-bottom: 8%;width: 88%;}
 
-  .map_labels{
-  color:white;
-  font-family: Montserrat;
-  text-align:center;
-  }
 
-  .bar_num_labels{
+    /*******Neighborhood labels*********/
+
+    .map_labels{
+    color:white;
+    font-family: Montserrat;
+    text-align:center;
+    }
+
+    .bar_num_labels{
     margin-top: 1px;
-  color:#c8a45e;
-  font-size:11px;
-  font-family: Montserrat;
-  text-align:center;
+    color:#c8a45e;
+    font-size:11px;
+    font-family: Montserrat;
+    text-align:center;
+    }
+
+  /****tooltip css****/
+  
+
+  .tooltip-info li{
+    list-style-type: none;
+    font-size:10px;
+    margin-left: 0;
+  }
+  
+  .tooltip-info{
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
   }
 
+  .leaflet-container .tooltip-info h1{
+  font-size: 1rem;
+  color:#5b5b5b;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-bottom: 0.1rem;
+  }
 
+  .leaflet-container .tooltip-info h2, .leaflet-container .tooltip-info h3{
+  display: inline;
+  font-size: 0.75rem;
+  color:#aeaeae;
+  font-family: Montserrat, Arial, sans-serif;
+  font-weight: normal;
+  }
 
+  .leaflet-container .tooltip-info h3 {
+      margin-left: 1rem;
+  }
 
+  .leaflet-container .tooltip-info p{
+  display: inline;
+  font-size: 0.75rem;
+  color:#5b5b5b;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-right: 2rem;
+  }
+  
