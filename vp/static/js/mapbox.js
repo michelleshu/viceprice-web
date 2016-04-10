@@ -65,15 +65,6 @@ myLayer.on('layeradd', function(e) {
 				var clipLeft = (locationProperties["coverPhotoXOffset"] * 0.01) * originalWidth;
 				var clipBottom = (originalHeight - clipTop) - 0.37 * (originalWidth - clipLeft);
 
-				console.log("originalHeight", originalHeight);
-				console.log("originalWidth", originalWidth);
-				console.log("Y Offset", locationProperties["coverPhotoYOffset"]);
-				console.log("X Offset", locationProperties["coverPhotoXOffset"]);
-
-				console.log("clipTop", clipTop);
-				console.log("clipLeft", clipLeft);
-				console.log("clipBottom", clipBottom);
-
 				if (clipBottom < 0) {
 					clipTop += clipBottom;
 					clipBottom = 0;
