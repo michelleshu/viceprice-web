@@ -1,5 +1,4 @@
-/** ***MapBox**** */
-
+/*****MapBox*****/
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 var southWest = L.latLng(38.820993, -76.875833), northEast = L.latLng(
 		39.004460, -77.158084), bounds = L.latLngBounds(southWest, northEast);
@@ -15,23 +14,90 @@ L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 		.addTo(map);
 map.setMaxBounds(bounds);
 
-/** *****Creating featureLayer and adding markers data******** */
-var myLayer = L.mapbox.featureLayer().addTo(map);
+/*********create a custom marker ***********/
+var restaurant_marker = L.icon({
+    iconUrl: '../static/img/resturant-marker.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
 
+var restaurant_marker_clicked = L.icon({
+    iconUrl: '../static/img/restaurant-marker-clicked.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
+var bar_marker = L.icon({
+    iconUrl: '../static/img/bar-marker.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
+var bar_marker_clicked = L.icon({
+    iconUrl: '../static/img/bar-marker-clicked.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
+/******Creating featureLayer and adding markers data********/
+var myLayer = L.mapbox.featureLayer().addTo(map);
+var lastMarker;
 myLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = marker.feature;
 
     // Create custom popup content
-    var popupContent =  '<h1>' + feature.properties.name + '<\/h1>';
+    var popupContent =  '<ul class=\"tooltip-info\">'+
+    					'<li> <h1>' + feature.properties.name + '<\/h1><\/li>'+
+    					'<li style="margin-bottom: 0.4rem;"> <h2>' + feature.properties.super_category + '<\/h2> <h3>' + moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A") + ' - ' +  moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") + '<\/h3> <\/li>' +
+    					'<li><img src="../static/img/beer.png"\/><p>' + ' $3   ' + '<\/p>' +
+    					'<img src="../static/img/wine.png"\/><p>' + ' $4   ' + '<\/p>' +
+    					'<img src="../static/img/drink.png"\/><p>' + ' $5' + '<\/p><\/li>' +
+    					'<\/ul>';
 
     marker.bindPopup(popupContent,{
         closeButton: false,
-        minWidth: 200
+        minWidth: 220
     });
 
+    marker.on('mouseover', function() {
+    marker.openPopup();
+    });
+
+    marker.on('mouseout', function() {
+    marker.closePopup();
+    });
+
+    if(feature.properties.super_category == "Bar")
+    marker.setIcon(bar_marker);
+	else
+    marker.setIcon(restaurant_marker);
+
     // Populate sidebar data on marker click
-    marker.on('click', function() {
+        marker.on('click', function() {
+        //highlight marker on onclick
+        if(feature.properties.super_category == "Bar")
+    		marker.setIcon(bar_marker_clicked);
+		else
+    	    marker.setIcon(restaurant_marker_clicked);
+        //reset previous marker
+        if(lastMarker === undefined){} // do nothing
+    	else
+        {	
+    	if(lastMarker.feature.properties.super_category == "Bar")
+    		lastMarker.setIcon(bar_marker);
+    	else
+    		lastMarker.setIcon(restaurant_marker);
+    	}
+    	lastMarker=marker;
         $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
         $(".right-side-bar").show("slide", { direction: "right" }, 700);
         $(".sliding").animate({ right: "25%"} , 700);
@@ -199,16 +265,18 @@ function click(e) {
     neighborhood=e.target.feature.properties.name;
 
     //OnClick: zoom into Polygon and show related markers
-    map.fitBounds(getBounds(e.target));
+     map.fitBounds(getBounds(e.target));
     updateNeighborhoodData()
     return false;
-}
-function updateNeighborhoodData(){
+	}
+
+	function updateNeighborhoodData(){
 	myLayer.setGeoJSON(geoJsonData);
     myLayer.setFilter(function(f) {
         return f.properties["neighborhood"] === neighborhood;
     });
-}
+	}
+
 function mousemove(e) {
 	var layer = e.target;
 	document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
@@ -260,9 +328,16 @@ function getBounds(e) {
 //label css (customized to each neighborhood based on the polygon size, location etc)
 //some neghoborhoods has a customized css style (is there a better way to write this function)
 function getHTML(e,d) {
-	    return "<div class='map_labels' style='font-size:18px;'>"
-	    +d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" 
+	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
+        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
+        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Columbia Heights
+        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //Dupont Circle
+        e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Adams Morgan
+        e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Logan Circle
+        (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //u street(40), Waterfront(10)
+        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" //foggy bottom(40) and h street (27)
         }
+
 /*
 function getHTML(e, d) {
 	return  "<div class='map_labels' style='font-size:18px;margin-top:30%; '>"
