@@ -13,8 +13,18 @@ from models import Location, LocationCategory, Deal, DealDetail, ActiveHour
 from revproxy.views import ProxyView
 import json
 import pprint
-@login_required(login_url='/login/')
+import logging
+
+logger = logging.getLogger(__name__)
+
 def index(request):
+    context = {}
+    context.update(csrf(request))
+    return render_to_response('index.html', context)
+
+
+@login_required(login_url='/login/')
+def data_entry(request):
     if request.user.is_authenticated():
         context = { 'user': request.user }
         context.update(csrf(request));
@@ -24,6 +34,8 @@ def index(request):
 def login_view(request):
     context = {}
     context.update(csrf(request))
+    request.session['next'] = request.GET['next']
+    logger.error(request.session)
     return render_to_response('login.html', context)
 
 def register_view(request):
@@ -31,11 +43,12 @@ def register_view(request):
     context.update(csrf(request))
     return render_to_response('register.html', context)
 
-def authenticate_user(request, onsuccess='/', onfail='/login/'):
+def authenticate_user(request, onsuccess='/data_entry/', onfail='/login/'):
     post = request.POST
     user = authenticate(username=post['username'], password=post['password'])
     if user is not None:
         login(request, user)
+        onsuccess = request.session.get('next', onsuccess)
         return redirect(onsuccess)
     else:
         return redirect(onfail)
