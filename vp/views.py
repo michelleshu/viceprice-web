@@ -312,3 +312,14 @@ def submit_locations_to_upload(request):
 
 class BlogProxyView(ProxyView):
     upstream = 'https://viceprice.wordpress.com/'
+
+    def dispatch(self, request, path):
+        if request.is_secure():
+            scheme = 'https://'
+        else:
+            scheme = 'http://'
+        request_abs_path = scheme + request.get_host() + '/blog/'
+
+        response = ProxyView.dispatch(self, request, path)
+        response.content = response.content.replace(BlogProxyView.upstream, request_abs_path)
+        return response
