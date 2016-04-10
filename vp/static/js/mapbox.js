@@ -37,6 +37,7 @@ myLayer.on('layeradd', function(e) {
         $(".sliding").animate({ right: "25%"} , 700);
         $menu_visible=true
         var locationProperties = this.feature.properties;
+		debugger;
         $("#location-name").html(locationProperties["name"]);
         $("#location-address").html(locationProperties["abbreviatedAddress"]);
         $("#location-phone-number").html(locationProperties["phone"]);
@@ -44,6 +45,11 @@ myLayer.on('layeradd', function(e) {
         $("#location-website").attr("href", locationProperties["website"])
         $("#specials-time-frame").html(moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A") +" - "+ moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A"))
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
+
+		// Add cover photo if applicable
+		if (locationProperties["coverPhotoSource"]) {
+			$("#location-cover-photo").attr("src", locationProperties["coverPhotoSource"]);
+		}
     })
 });
 

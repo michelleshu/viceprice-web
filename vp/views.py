@@ -192,6 +192,9 @@ def fetch_locations(request):
                 "fullAddress": location.formattedAddress,
                 "abbreviatedAddress": abbreviatedAddress,
                 "neighborhood":location.neighborhood,
+                "coverPhotoSource": location.coverPhotoSource,
+                "coverPhotoXOffset": location.coverXOffset,
+                "coverPhotoYOffset": location.coverYOffset,
                 "icon": {"className": "pin", "iconSize": ""}
             }
         }
