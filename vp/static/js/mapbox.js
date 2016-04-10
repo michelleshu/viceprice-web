@@ -55,9 +55,11 @@ myLayer.on('layeradd', function(e) {
         feature = marker.feature;
 
     // Create custom popup content
+	var endTime = deals[feature.properties.locationid].hours.end
+		? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
     var popupContent =  '<ul class=\"tooltip-info\">'+
     					'<li> <h1>' + feature.properties.name + '<\/h1><\/li>'+
-    					'<li style="margin-bottom: 0.4rem;"> <h2>' + feature.properties.super_category + '<\/h2> <h3>' + moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A") + ' - ' +  moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") + '<\/h3> <\/li>' +
+    					'<li style="margin-bottom: 0.4rem;"> <h2>' + feature.properties.super_category + '<\/h2> <h3>' + moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A") + ' - ' + endTime  + '<\/h3> <\/li>' +
     					'<li><img src="../static/img/beer.png"\/><p>' + ' $3   ' + '<\/p>' +
     					'<img src="../static/img/wine.png"\/><p>' + ' $4   ' + '<\/p>' +
     					'<img src="../static/img/drink.png"\/><p>' + ' $5' + '<\/p><\/li>' +
