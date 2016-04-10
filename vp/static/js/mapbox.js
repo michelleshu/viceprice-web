@@ -15,8 +15,16 @@ L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 map.setMaxBounds(bounds);
 
 /*********create a custom marker ***********/
-var resturnat_marker = L.icon({
+var restaurant_marker = L.icon({
     iconUrl: '../static/img/resturant-marker.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
+var restaurant_marker_clicked = L.icon({
+    iconUrl: '../static/img/restaurant-marker-clicked.png',
     iconSize:     [44, 49], // size of the icon
     iconAnchor:   [20, 49],
     popupAnchor:  [3, -49]
@@ -31,9 +39,17 @@ var bar_marker = L.icon({
    
 });
 
+var bar_marker_clicked = L.icon({
+    iconUrl: '../static/img/bar-marker-clicked.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
 /******Creating featureLayer and adding markers data********/
 var myLayer = L.mapbox.featureLayer().addTo(map);
-
+var lastMarker;
 myLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = marker.feature;
@@ -63,10 +79,25 @@ myLayer.on('layeradd', function(e) {
     if(feature.properties.super_category == "Bar")
     marker.setIcon(bar_marker);
 	else
-    marker.setIcon(resturnat_marker);
+    marker.setIcon(restaurant_marker);
 
     // Populate sidebar data on marker click
         marker.on('click', function() {
+        //highlight marker on onclick
+        if(feature.properties.super_category == "Bar")
+    		marker.setIcon(bar_marker_clicked);
+		else
+    	    marker.setIcon(restaurant_marker_clicked);
+        //reset previous marker
+        if(lastMarker === undefined){} // do nothing
+    	else
+        {	
+    	if(lastMarker.feature.properties.super_category == "Bar")
+    		lastMarker.setIcon(bar_marker);
+    	else
+    		lastMarker.setIcon(restaurant_marker);
+    	}
+    	lastMarker=marker;
         $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
         $(".right-side-bar").show("slide", { direction: "right" }, 700);
         $(".sliding").animate({ right: "25%"} , 700);
