@@ -122,7 +122,7 @@ def fetch_locations(request):
     for location in locations:
         dealList = []
         dealSet = location.deals.filter(activeHours__dayofweek=day).all()
-        superCat=location.locationCategories.filter(isBaseCategory = True).all()
+        superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
         beers = []
         wines =[]
         liqours =[]
@@ -179,7 +179,7 @@ def fetch_locations(request):
                 "fullAddress": location.formattedAddress,
                 "abbreviatedAddress": abbreviatedAddress,
                 "neighborhood":location.neighborhood,
-                "super_category":"Bar",
+                "super_category":superCat.name,
             }
         }
         barLocations.append(locationData)
