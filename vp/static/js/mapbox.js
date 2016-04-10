@@ -15,8 +15,16 @@ L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 map.setMaxBounds(bounds);
 
 /*********create a custom marker ***********/
-var resturnat_marker = L.icon({
-    iconUrl: '../static/img/resturant-marker.png',
+var restaurant_marker = L.icon({
+    iconUrl: '../static/img/restaurant-marker.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
+var restaurant_marker_clicked = L.icon({
+    iconUrl: '../static/img/restaurant-marker-clicked.png',
     iconSize:     [44, 49], // size of the icon
     iconAnchor:   [20, 49],
     popupAnchor:  [3, -49]
@@ -31,9 +39,17 @@ var bar_marker = L.icon({
    
 });
 
+var bar_marker_clicked = L.icon({
+    iconUrl: '../static/img/bar-marker-clicked.png',
+    iconSize:     [44, 49], // size of the icon
+    iconAnchor:   [20, 49],
+    popupAnchor:  [3, -49]
+   
+});
+
 /******Creating featureLayer and adding markers data********/
 var myLayer = L.mapbox.featureLayer().addTo(map);
-
+var lastMarker;
 myLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = marker.feature;
@@ -63,10 +79,25 @@ myLayer.on('layeradd', function(e) {
     if(feature.properties.super_category == "Bar")
     marker.setIcon(bar_marker);
 	else
-    marker.setIcon(resturnat_marker);
+    marker.setIcon(restaurant_marker);
 
     // Populate sidebar data on marker click
         marker.on('click', function() {
+        //highlight marker on onclick
+        if(feature.properties.super_category == "Bar")
+    		marker.setIcon(bar_marker_clicked);
+		else
+    	    marker.setIcon(restaurant_marker_clicked);
+        //reset previous marker
+        if(lastMarker === undefined){} // do nothing
+    	else
+        {	
+    	if(lastMarker.feature.properties.super_category == "Bar")
+    		lastMarker.setIcon(bar_marker);
+    	else
+    		lastMarker.setIcon(restaurant_marker);
+    	}
+    	lastMarker=marker;
         $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
         $(".right-side-bar").show("slide", { direction: "right" }, 700);
         $(".sliding").animate({ right: "25%"} , 700);
@@ -77,8 +108,45 @@ myLayer.on('layeradd', function(e) {
         $("#location-phone-number").html(locationProperties["phone"]);
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"])
-        $("#specials-time-frame").html(moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A") +" - "+ moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A"))
+
+		// Populate deal info
+		var startTime = moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A");
+		var endTime = deals[locationProperties["locationid"]].hours.end
+			? moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:m A") : "CLOSE";
+
+        $("#specials-time-frame").html(startTime + " - " + endTime);
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
+
+		// Reset margins for cover photo
+		$("#location-cover-photo").css("-webkit-clip-path", "inset(0px 0px)");
+		$("#location-cover-photo").css("margin-top", "0px");
+		$("#location-cover-photo").css("margin-bottom", "0px");
+		$("#location-cover-photo").removeAttr("src");
+
+		// Add cover photo if applicable
+		if (locationProperties["coverPhotoSource"]) {
+
+			$("#location-cover-photo").attr("src", locationProperties["coverPhotoSource"]);
+
+			$("#location-cover-photo").load(function(){
+				// Resize according to offset and Facebook cover photo proportions
+				var originalWidth = $("#location-cover-photo").width();
+				var originalHeight = $("#location-cover-photo").height();
+
+				var clipTop = (locationProperties["coverPhotoYOffset"] * 0.01) * originalHeight;
+				var clipLeft = (locationProperties["coverPhotoXOffset"] * 0.01) * originalWidth;
+				var clipBottom = (originalHeight - clipTop) - 0.37 * (originalWidth - clipLeft);
+
+				if (clipBottom < 0) {
+					clipTop += clipBottom;
+					clipBottom = 0;
+				}
+
+				$("#location-cover-photo").css("-webkit-clip-path", "inset(" + clipTop + "px 0px "  + clipBottom + "px "  + clipLeft + "px)");
+				$("#location-cover-photo").css("margin-top", "-" + clipTop + "px");
+				$("#location-cover-photo").css("margin-bottom", "-" + clipBottom + "px");
+    		});
+		}
     })
 });
 
