@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Count
 from models import Location, LocationCategory, Deal, DealDetail, ActiveHour
+from revproxy.views import ProxyView
 import json
 import pprint
 @login_required(login_url='/login/')
@@ -157,13 +158,13 @@ def fetch_locations(request):
             for ah in activehours:
                 activehour = {"start" : ah.start,
                     "end": ah.end }
-                deals["hours"] = activehour    
+                deals["hours"] = activehour
             dealList = deals
         dealData = dealList
         dealInfo[location.id] = dealData
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
-    
+
         locationData = {
             "type": "Feature",
             "geometry": {
@@ -208,8 +209,8 @@ def flag_location_as_skipped(request):
     location = Location.objects.get(id=location_id)
     location.data_entry_skipped = True
     location.save()
-    return HttpResponse("success")  
- 
+    return HttpResponse("success")
+
 def get_location_that_needs_happy_hour(request):
     requiresPhone = request.GET.get("requiresPhone") == "true"
     total_count = Location.objects.filter(data_entry_skipped=requiresPhone, neighborhood="U Street").count()
@@ -260,7 +261,7 @@ def submit_happy_hour_data(request):
                 activeHour.dayofweek = day
                 activeHour.start = tp_data.get("startTime")
                 activeHour.end = tp_data.get("endTime")
-              
+
                 if activeHour.end == "":
                     activeHour.end = None
                 activeHour.save()
@@ -295,3 +296,6 @@ def submit_locations_to_upload(request):
         location.save()
 
     return HttpResponse("Success")
+
+class BlogProxyView(ProxyView):
+    upstream = 'https://viceprice.wordpress.com/'

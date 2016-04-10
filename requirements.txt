@@ -6,6 +6,7 @@ dj-static==0.0.6
 Django==1.8.1
 django-enumfield==1.2.1
 django-postgrespool==0.3.0
+django-revproxy==0.9.10
 django-toolbelt==0.0.1
 djangorestframework==3.2.4
 easygui==0.97.4

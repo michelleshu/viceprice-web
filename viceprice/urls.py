@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from vp.views import BlogProxyView
 admin.autodiscover()
 
 import vp.views
@@ -34,5 +35,7 @@ urlpatterns = patterns('',
     # Other Data
     url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch'),
     url(r'^sandbox/$', vp.views.sandbox, name = 'sandbox'),
-    url(r'^home/$', vp.views.home, name = 'home')
+    url(r'^home/$', vp.views.home, name = 'home'),
+
+    url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view())
 )
