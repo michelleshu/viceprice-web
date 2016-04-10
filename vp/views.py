@@ -154,7 +154,7 @@ def fetch_locations(request):
                 elif dd.drinkCategory == 2:
                     wine = {"detail_id":dd.id,
                           "drinkName": dd.drinkName,
-                          "detaiType":dd.detailType,
+                          "detailType":dd.detailType,
                           "value":dd.value}
                     wines.append(wine)
                 elif dd.drinkCategory == 3:
