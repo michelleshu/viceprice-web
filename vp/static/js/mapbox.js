@@ -110,6 +110,37 @@ myLayer.on('layeradd', function(e) {
         $("#location-website").attr("href", locationProperties["website"])
         $("#specials-time-frame").html(moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A") +" - "+ moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A"))
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
+
+		// Reset margins for cover photo
+		$("#location-cover-photo").css("-webkit-clip-path", "inset(0px 0px)");
+		$("#location-cover-photo").css("margin-top", "0px");
+		$("#location-cover-photo").css("margin-bottom", "0px");
+		$("#location-cover-photo").removeAttr("src");
+
+		// Add cover photo if applicable
+		if (locationProperties["coverPhotoSource"]) {
+
+			$("#location-cover-photo").attr("src", locationProperties["coverPhotoSource"]);
+
+			$("#location-cover-photo").load(function(){
+				// Resize according to offset and Facebook cover photo proportions
+				var originalWidth = $("#location-cover-photo").width();
+				var originalHeight = $("#location-cover-photo").height();
+
+				var clipTop = (locationProperties["coverPhotoYOffset"] * 0.01) * originalHeight;
+				var clipLeft = (locationProperties["coverPhotoXOffset"] * 0.01) * originalWidth;
+				var clipBottom = (originalHeight - clipTop) - 0.37 * (originalWidth - clipLeft);
+
+				if (clipBottom < 0) {
+					clipTop += clipBottom;
+					clipBottom = 0;
+				}
+
+				$("#location-cover-photo").css("-webkit-clip-path", "inset(" + clipTop + "px 0px "  + clipBottom + "px "  + clipLeft + "px)");
+				$("#location-cover-photo").css("margin-top", "-" + clipTop + "px");
+				$("#location-cover-photo").css("margin-bottom", "-" + clipBottom + "px");
+    		});
+		}
     })
 });
 
