@@ -16,7 +16,7 @@ map.setMaxBounds(bounds);
 
 /*********create a custom marker ***********/
 var restaurant_marker = L.icon({
-    iconUrl: '../static/img/resturant-marker.png',
+    iconUrl: '../static/img/restaurant-marker.png',
     iconSize:     [44, 49], // size of the icon
     iconAnchor:   [20, 49],
     popupAnchor:  [3, -49]
