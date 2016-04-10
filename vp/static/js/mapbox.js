@@ -114,7 +114,7 @@ myLayer.on('layeradd', function(e) {
 		// Populate deal info
 		var startTime = moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A");
 		var endTime = deals[locationProperties["locationid"]].hours.end
-			? moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:m A") : "CLOSE";
+			? moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
 
         $("#specials-time-frame").html(startTime + " - " + endTime);
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
