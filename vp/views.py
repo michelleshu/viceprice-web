@@ -178,7 +178,6 @@ def fetch_locations(request):
         dealInfo[location.id] = dealData
         addressCityIndex = location.formattedAddress.find("Washington,")
         abbreviatedAddress = location.formattedAddress[:addressCityIndex]
-
         locationData = {
             "type": "Feature",
             "geometry": {
