@@ -135,7 +135,7 @@ def fetch_locations(request):
     dealInfo = {}
     for location in locations:
         dealList = []
-        dealSet = location.deals.filter(activeHours__dayofweek=day).all()
+        dealSet = location.deals.filter(Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gte=time) | Q(activeHours__end__lte=F('activeHours__start'))).all()
 
         superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
         subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
@@ -147,6 +147,7 @@ def fetch_locations(request):
             dealDetails = d.dealDetails.all()
             details = {}
             activehours = d.activeHours.all()
+          
             for dd in dealDetails:
                 if dd.drinkCategory == 1:
                     beer = {"detail_id":dd.id,
