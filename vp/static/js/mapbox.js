@@ -107,12 +107,12 @@ myLayer.on('layeradd', function(e) {
         $("#location-address").html(locationProperties["abbreviatedAddress"]);
         $("#location-phone-number").html(locationProperties["phone"]);
         $("#location-website").html(locationProperties["website"]);
-        $("#location-website").attr("href", locationProperties["website"])
-
+        $("#location-website").attr("href", locationProperties["website"]);
+        $("#venue-category").text(locationProperties["super_category"]);
 		// Populate deal info
 		var startTime = moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A");
 		var endTime = deals[locationProperties["locationid"]].hours.end
-			? moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:m A") : "CLOSE";
+			? moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
 
         $("#specials-time-frame").html(startTime + " - " + endTime);
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
@@ -122,7 +122,7 @@ myLayer.on('layeradd', function(e) {
 		$("#location-cover-photo").css("margin-top", "0px");
 		$("#location-cover-photo").css("margin-bottom", "0px");
 		$("#location-cover-photo").removeAttr("src");
-
+	
 		// Add cover photo if applicable
 		if (locationProperties["coverPhotoSource"]) {
 
@@ -151,25 +151,25 @@ myLayer.on('layeradd', function(e) {
 });
 
 function populateDeals(items){
-	$('ul').remove('.dealDetails')
-	var ulElement = "<ul class=dealDetails> "
+	$('div').remove('.dealDetails')
+	var ulElement = "<div style='list-style: none;' class=dealDetails> "
 	for (item in items){
 		var type = item[0].toUpperCase() + item.slice(1)
 			var image;
-			if(item == "beer") image = "style=list-style-image:url('../static/img/beer.png');>"
-			if(item == "wine") image = "style=list-style-image:url('../static/img/wine.png');>" 
-			if(item == "liqour") image = "style=list-style-image:url('../static/img/drink.png');>"  
-			ulElement = ulElement + "<ul " +  image +  type
+			if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
+			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
+			if(item == "liqour") image =  "<span><img src='../static/img/drink.png'/>"
+			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >" 
 			for(details in items[item]){
 				var detailType;
 				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
 				if (items[item][details]['detailType'] == 2) detailType = " % off " + items[item][details]['value']
 				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+ " off "
-				ulElement = ulElement + "<li>" +  detailType + items[item][details]['drinkName'] + "</li>"
+				ulElement = ulElement + "<li><p>" +  detailType + items[item][details]['drinkName'] + "</p></li>"
 			}
-		ulElement = ulElement + "</ul>"
+		ulElement = ulElement + "</ul></span>"
 	}
-	ulElement = ulElement + "</ul>"
+	ulElement = ulElement + "</div>"
 	return ulElement;
 }
 
