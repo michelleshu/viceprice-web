@@ -171,7 +171,7 @@ function populateDeals(items){
 			for(details in items[item]){
 				var detailType;
 				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
-				if (items[item][details]['detailType'] == 2) detailType = " % off " + items[item][details]['value']
+				if (items[item][details]['detailType'] == 2) detailType = items[item][details]['value'] + "% off " 
 				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+ " off "
 				ulElement = ulElement + "<li><p>" +  detailType + items[item][details]['drinkName'] + "</p></li>"
 			}
