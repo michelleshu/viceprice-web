@@ -136,7 +136,10 @@ def fetch_locations(request):
     for location in locations:
         dealList = []
         dealSet = location.deals.filter(activeHours__dayofweek=day).all()
+
         superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
+        subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
+
         beers = []
         wines =[]
         liqours =[]
@@ -196,7 +199,8 @@ def fetch_locations(request):
                 "coverPhotoSource": location.coverPhotoSource,
                 "coverPhotoXOffset": location.coverXOffset,
                 "coverPhotoYOffset": location.coverYOffset,
-                "super_category":superCat.name
+                "super_category": superCat.name,
+                "subCategories": subCategories
             }
         }
         barLocations.append(locationData)

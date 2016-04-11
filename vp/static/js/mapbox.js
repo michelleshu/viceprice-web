@@ -20,7 +20,7 @@ var restaurant_marker = L.icon({
     iconSize:     [44, 49], // size of the icon
     iconAnchor:   [20, 49],
     popupAnchor:  [3, -49]
-   
+
 });
 
 var restaurant_marker_clicked = L.icon({
@@ -28,7 +28,7 @@ var restaurant_marker_clicked = L.icon({
     iconSize:     [44, 49], // size of the icon
     iconAnchor:   [20, 49],
     popupAnchor:  [3, -49]
-   
+
 });
 
 var bar_marker = L.icon({
@@ -36,7 +36,7 @@ var bar_marker = L.icon({
     iconSize:     [44, 49], // size of the icon
     iconAnchor:   [20, 49],
     popupAnchor:  [3, -49]
-   
+
 });
 
 var bar_marker_clicked = L.icon({
@@ -44,7 +44,7 @@ var bar_marker_clicked = L.icon({
     iconSize:     [44, 49], // size of the icon
     iconAnchor:   [20, 49],
     popupAnchor:  [3, -49]
-   
+
 });
 
 /******Creating featureLayer and adding markers data********/
@@ -91,7 +91,7 @@ myLayer.on('layeradd', function(e) {
         //reset previous marker
         if(lastMarker === undefined){} // do nothing
     	else
-        {	
+        {
     	if(lastMarker.feature.properties.super_category == "Bar")
     		lastMarker.setIcon(bar_marker);
     	else
@@ -104,6 +104,13 @@ myLayer.on('layeradd', function(e) {
         $menu_visible=true
         var locationProperties = this.feature.properties;
         $("#location-name").html(locationProperties["name"]);
+
+		var subCategories = locationProperties["subCategories"];
+		$("#location-categories").html("");
+		for (var i = 0; i < subCategories.length; i++) {
+			$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
+		}
+
         $("#location-address").html(locationProperties["abbreviatedAddress"]);
         $("#location-phone-number").html(locationProperties["phone"]);
         $("#location-website").html(locationProperties["website"]);
