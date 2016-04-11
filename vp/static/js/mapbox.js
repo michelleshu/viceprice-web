@@ -54,7 +54,7 @@ myLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = marker.feature;
 
-    // Create custom popup content
+    // Create custom popup content'
 	var endTime = deals[feature.properties.locationid].hours.end
 		? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
     var popupContent =  '<ul class=\"tooltip-info\">'+
@@ -218,7 +218,6 @@ function getStyle(feature) {
 }
 
 function onEachFeature(feature, layer) {
-	console.log(feature)
 	// add neighborhood names to each polygon
 	var label = L.marker(labelLocation(layer, feature), {
 		icon : L.divIcon({
