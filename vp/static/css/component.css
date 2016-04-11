@@ -119,6 +119,11 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   font-family: Montserrat, Arial, sans-serif;
   }
 
+.right-side-bar .category {
+    font-family: Montserrat;
+    margin-left: 1rem;
+}
+
 .specials-div ul {
   font-size: 0.75rem;
   color:#c8a45e;
@@ -330,14 +335,14 @@ cursor: pointer;
     }
 
   /****tooltip css****/
-  
+
 
   .tooltip-info li{
     list-style-type: none;
     font-size:10px;
     margin-left: 0;
   }
-  
+
   .tooltip-info{
     margin-left: 0;
     margin-right: 0;
@@ -370,4 +375,3 @@ cursor: pointer;
   font-family: Montserrat, Arial, sans-serif;
   margin-right: 2rem;
   }
-  
