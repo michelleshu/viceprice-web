@@ -117,7 +117,6 @@ myLayer.on('layeradd', function(e) {
         $("#location-phone-number").html(locationProperties["phone"]);
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"]);
-        $("#venue-category").text(locationProperties["super_category"]);
 		// Populate deal info
 		var startTime = moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A");
 		var endTime = deals[locationProperties["locationid"]].hours.end
