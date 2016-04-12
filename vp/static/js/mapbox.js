@@ -55,19 +55,14 @@ myLayer.on('layeradd', function(e) {
         feature = marker.feature;
 
     // Create custom popup content'
+    var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A");
 	var endTime = deals[feature.properties.locationid].hours.end
 		? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
-    var popupContent =  '<ul class=\"tooltip-info\">'+
-    					'<li> <h1>' + feature.properties.name + '<\/h1><\/li>'+
-    					'<li style="margin-bottom: 0.4rem;"> <h2>' + feature.properties.super_category + '<\/h2> <h3>' + moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A") + ' - ' + endTime  + '<\/h3> <\/li>' +
-    					'<li><img src="../static/img/beer.png"\/><p>' + ' $3   ' + '<\/p>' +
-    					'<img src="../static/img/wine.png"\/><p>' + ' $4   ' + '<\/p>' +
-    					'<img src="../static/img/drink.png"\/><p>' + ' $5' + '<\/p><\/li>' +
-    					'<\/ul>';
+    var popupContent = dealsPrices(deals[feature.properties.locationid].details,feature.properties,startTime,endTime);
 
     marker.bindPopup(popupContent,{
         closeButton: false,
-        minWidth: 220
+        minWidth: 290
     });
 
     marker.on('mouseover', function() {
@@ -104,6 +99,7 @@ myLayer.on('layeradd', function(e) {
         $(".right-side-bar").show("slide", { direction: "right" }, 700);
         $(".sliding").animate({ right: "25%"} , 700);
         $menu_visible=true
+
         var locationProperties = this.feature.properties;
         $("#location-name").html(locationProperties["name"]);
 
@@ -167,7 +163,8 @@ function populateDeals(items){
 			if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
 			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
 			if(item == "liqour") image =  "<span><img src='../static/img/drink.png'/>"
-			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >" 
+			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >"
+
 			for(details in items[item]){
 				var detailType;
 				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
@@ -179,6 +176,48 @@ function populateDeals(items){
 	}
 	ulElement = ulElement + "</div>"
 	return ulElement;
+}
+
+function dealsPrices(allDeals,properties,startTime,endTime){
+	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li>'
+					+'<li style="margin-bottom: 0.4rem;"> <h2>' + properties.super_category + '</h2> <h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
+  
+    for(deal in allDeals){
+	    if(deal == "beer" && allDeals["beer"].length != 0)
+	    	ulElement = ulElement + '<img src="../static/img/beer.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+		if(deal == "wine" && allDeals["wine"].length != 0)
+	    	ulElement = ulElement +	'<img src="../static/img/wine.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+		if(deal == "liqour" && allDeals["liqour"].length != 0)
+	    	ulElement = ulElement +	'<img src="../static/img/drink.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+	}
+
+    ulElement = ulElement + '</li></ul>';
+    return ulElement;
+}
+
+function lowestPrice(allDeals,deal){
+	var lowestPrice;
+	var prices=[];
+    var prices_off=[];
+    var percent_off=[];
+	for(index in allDeals[deal]){ //look at all the items of type beer
+				if(allDeals[deal][index]["detailType"] == 1) 
+					prices.push(parseFloat(allDeals[deal][index]["value"]));
+				if(allDeals[deal][index]["detailType"] == 3)//price off (2nd highest priority)
+					prices_off.push(parseFloat(allDeals[deal][index]["value"]));
+				if(allDeals[deal][index]["detailType"] == 2)//% off	
+					percent_off.push(parseFloat(allDeals[deal][index]["value"]));
+			}
+			if(prices.length !=0){//price (highest priority) ==> find minumum price
+				lowest_price="$"+Math.min.apply(Math, prices);
+			}
+			else if(prices_off.length !=0){
+				lowest_price="$"+Math.max.apply(Math, prices_off)+" off";
+			}
+			else if(percent_off.length !=0){
+				lowest_price=Math.max.apply(Math, percent_off)+"% off";
+			}
+	return lowest_price;
 }
 
 var geoJsonData;
