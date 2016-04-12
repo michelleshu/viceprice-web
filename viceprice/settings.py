@@ -25,6 +25,11 @@ SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
 # Database configuration
 database_url = os.environ.get('DATABASE_URL')
 
+#Sumaya config
+#DEVELOPMENT_DB_URL = "postgres://catdnlfxohubob:kCb_lR4zUIb4IVYqccmyj83kpi@ec2-54-227-254-13.compute-1.amazonaws.com:5432/d478v5mn7g8jnq"
+#database_url = os.environ.get('DATABASE_URL')
+#if database_url == None:
+#    database_url = DEVELOPMENT_DB_URL'''
 
 DATABASES = {
     'default': dj_database_url.config(default = database_url)
@@ -50,7 +55,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'revproxy',
     'vp'
 )
 
