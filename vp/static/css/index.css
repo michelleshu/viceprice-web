@@ -64,6 +64,10 @@ p {
     color: rgba(255,255,255,.7);
 }
 
+#about h2 {
+  font-size: 4vw;
+}
+
 section {
     padding: 100px 0;
 }
