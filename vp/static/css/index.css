@@ -64,6 +64,10 @@ p {
     color: rgba(255,255,255,.7);
 }
 
+.fb-link {
+  zoom: 1.3;
+}
+
 #about h2 {
   font-size: 4vw;
 }
