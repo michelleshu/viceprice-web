@@ -175,7 +175,6 @@ aside {
 header {
     position: relative;
     width: 100%;
-    min-height: auto;
     text-align: center;
     color: #fff;
     background-image: url(/static/img/index/header.jpg);
@@ -187,10 +186,20 @@ header {
 }
 
 header .header-content {
-    position: relative;
     width: 100%;
-    padding: 100px 15px;
     text-align: center;
+    position: absolute;
+    top: 50%;
+    padding: 0 50px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+header .header-content .header-content-inner {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1000px;
 }
 
 header .header-content .header-content-inner h1 {
@@ -206,37 +215,18 @@ header .header-content .header-content-inner hr {
 
 header .header-content .header-content-inner p {
     margin-bottom: 50px;
-    font-size: 16px;
     font-weight: 300;
     color: rgba(255,255,255,.7);
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 80%;
+    font-size: 18px;
 }
 
-@media(min-width:768px) {
-    header {
-        min-height: 100%;
-    }
-
-    header .header-content {
-        position: absolute;
-        top: 50%;
-        padding: 0 50px;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    header .header-content .header-content-inner {
-        margin-right: auto;
-        margin-left: auto;
-        max-width: 1000px;
-    }
-
-    header .header-content .header-content-inner p {
-        margin-right: auto;
-        margin-left: auto;
-        max-width: 80%;
-        font-size: 18px;
-    }
+.header-content .hero {
+  position:relative;
+  font-size: 5vw;
+  color:#C7A25B;
 }
 
 .section-heading {
