@@ -10,7 +10,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 /* Leftside bar*/
 .left-side-bar  { position:fixed;float:left; width:16.6666%;  background-color:rgb(35, 40, 43); top:0; bottom:0; left:0;}
 
-.search-div, .hours-div{
+.search-div, .hours-div,.legend-div{
   display:block;
   padding-left:10%;
   position:relative;
@@ -28,6 +28,20 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
     font-family: Montserrat, Arial, sans-serif;
     width: 70%;
     padding: 5% 5%;
+}
+
+.legend-img{
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  margin:1rem 1.5rem 0.2rem 1rem; 
+}
+
+.caption {
+  display: block;
+  font-size:80%;
+  color:#aeaeae; 
+  font-family:"Montserrat", Arial, sans-serif;
 }
 
  .left-side-bar p{
