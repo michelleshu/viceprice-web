@@ -56,6 +56,7 @@ myLayer.on('layeradd', function(e) {
 
     // Create custom popup content'
     var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A");
+   
 	var endTime = deals[feature.properties.locationid].hours.end
 		? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
     var popupContent = dealsPrices(deals[feature.properties.locationid].details,feature.properties,startTime,endTime);
