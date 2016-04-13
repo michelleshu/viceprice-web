@@ -158,7 +158,8 @@ myLayer.on('layeradd', function(e) {
     })
 });
 
-function populateDeals(items){
+function populateDeals(item){
+	items = $.extend(true, {}, item);
 	$('div').remove('.dealDetails')
 	var ulElement = "<div style='list-style: none;' class=dealDetails> "
 	for (item in items){
@@ -168,17 +169,54 @@ function populateDeals(items){
 			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
 			if(item == "liqour") image =  "<span><img src='../static/img/drink.png'/>"
 			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >" 
-			for(details in items[item]){
-				var detailType;
-				if (items[item][details]['detailType'] == 1) detailType = "$"+items[item][details]['value'] + " ";
-				if (items[item][details]['detailType'] == 2) detailType = items[item][details]['value'] + "% off " 
-				if (items[item][details]['detailType'] == 3) detailType = "$"+items[item][details]['value']+ " off "
-				ulElement = ulElement + "<li><p>" +  detailType + items[item][details]['drinkName'] + "</p></li>"
+			items[item].sort(function(a, b){
+			    return a.value - b.value;
+			});
+			
+			var group = groupByType(items[item])
+			for(g in group){
+				var dealDetails  =	groupByValue(group[g])
+				for(details in dealDetails){
+					var detailType;
+					if (dealDetails[details]['detailType'] == 1) detailType = "$"+ dealDetails[details]['value'] + " ";
+					if (dealDetails[details]['detailType'] == 2) detailType = dealDetails[details]['value'] + "% off " 
+					if (dealDetails[details]['detailType'] == 3) detailType = "$"+ dealDetails[details]['value']+ " off "
+					ulElement = ulElement + "<li><p>" +  detailType + dealDetails[details]['drinkName'] + "</p></li>"
 			}
+			}
+			
 		ulElement = ulElement + "</ul></span>"
 	}
 	ulElement = ulElement + "</div>"
 	return ulElement;
+}
+
+function groupByValue(item){
+	var stack = item;
+	var dealDetails ={};
+	var e;
+	while(stack.length > 0){
+		e = stack.pop();
+		if(!dealDetails[e.value]){
+			dealDetails[e.value] = e;
+			}
+		else{
+			dealDetails[e.value].drinkName = dealDetails[e.value].drinkName + ", "+ e.drinkName
+			}
+		}
+	return dealDetails
+}
+
+function groupByType(item){
+	var stack = item;
+	var dealDetails ={};
+	var e;
+	while(stack.length > 0){
+		e = stack.pop();
+		if(!dealDetails[e.detailType]) dealDetails[e.detailType] = []
+			dealDetails[e.detailType].push(e)
+			}
+	   return dealDetails
 }
 
 var geoJsonData;
