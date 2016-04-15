@@ -169,7 +169,6 @@ function populateDeals(item){
 			items[item].sort(function(a, b){
 			    return a.value - b.value;
 			});
-			
 			var group = groupByType(items[item])
 			for(g in group){
 				var dealDetails  =	groupByValue(group[g])
@@ -181,7 +180,6 @@ function populateDeals(item){
 					ulElement = ulElement + "<li><p>" +  detailType + dealDetails[details]['drinkName'] + "</p></li>"
 					}
 			}
-			
 		ulElement = ulElement + "</ul></span>"
 	}
 	ulElement = ulElement + "</div>"
@@ -271,7 +269,7 @@ function fetchData(time, dayIndex) {
 	});
 }
 function updateHappyHours(){
-	$('.bar_num_labels').empty();
+	$('.bar_num_labels').text("(None)");
 	$(neighborhoods).each(function(index,data){
 	    $("div[data-neighborhood='"+data.neighborhood+"']").text("(" + data.count + ")")
 	});
@@ -369,8 +367,21 @@ function click(e) {
     myLayer.setFilter(function(f) {
         return f.properties["neighborhood"] === neighborhood;
     });
+   
+    var randPop = randomProperty(myLayer._layers)
+    
+    
 	}
 
+var randomProperty = function (obj) {
+	    var keys = Object.keys(obj)
+	    var randPop = obj[keys[ keys.length * Math.random() << 0]];
+	    if(randPop){
+	    	randPop.openPopup();
+	    }
+	   
+	};	
+	
 function mousemove(e) {
 	var layer = e.target;
 	document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";

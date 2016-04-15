@@ -14,6 +14,7 @@ from revproxy.views import ProxyView
 import json
 import pprint
 import logging
+import collections
 
 logger = logging.getLogger(__name__)
 
@@ -167,9 +168,11 @@ def fetch_locations(request):
                           "detailType":dd.detailType,
                           "value":dd.value}
                     liqours.append(liqour)
-                details["wine"] = wines
-                details["beer"] = beers
-                details["liqour"] = liqours
+            orderedDetails = (("beer", beers),("wine", wines),("liqour",liqours))
+            details = collections.OrderedDict(orderedDetails)
+#             details["wine"] = wines
+#             details["beer"] = beers
+#             details["liqour"] = liqours
 #                 details.append(detail)
             deals = {"deal_id" : d.id,
                     "details": details }
