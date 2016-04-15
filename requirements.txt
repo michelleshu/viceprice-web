@@ -36,3 +36,4 @@ tzlocal==1.2.2
 unicodecsv==0.14.1
 virtualenv==13.1.0
 whitenoise==1.0.6
+yelpapi==1.3
