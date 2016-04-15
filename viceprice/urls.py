@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch'),
     url(r'^sandbox/$', vp.views.sandbox, name = 'sandbox'),
     url(r'^home/$', vp.views.home, name = 'home'),
+    url(r'^yelpReviews/$', vp.views.yelp_reviews, name = 'yelpReviews'),
 
     #Blog site
     url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view())
