@@ -423,8 +423,8 @@ cursor: pointer;
   font-weight: normal;
   }
 
-  .leaflet-container .tooltip-info h3 {
-      margin-left: 1rem;
+  .leaflet-container .tooltip-info h2 {
+      margin-right: 1rem;
   }
 
   .leaflet-container .tooltip-info p{

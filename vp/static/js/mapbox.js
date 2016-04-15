@@ -63,7 +63,7 @@ myLayer.on('layeradd', function(e) {
 
     marker.bindPopup(popupContent,{
         closeButton: false,
-        minWidth: 290
+        minWidth: 340
     });
 
     marker.on('mouseover', function() {
@@ -228,8 +228,13 @@ function groupByType(item){
 }
 
 function dealsPrices(allDeals,properties,startTime,endTime){
-	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li>'
-					+'<li style="margin-bottom: 0.4rem;"> <h2>' + properties.subCategories + '</h2> <h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
+	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li><li style="margin-bottom: 0.4rem;">';
+		if(properties.subCategories[0] === undefined){}
+		else
+			ulElement = ulElement + '<h2>' + properties.subCategories[0] + '</h2>';
+		
+
+		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
   
     for(deal in allDeals){
 	    if(deal == "beer" && allDeals["beer"].length != 0)
