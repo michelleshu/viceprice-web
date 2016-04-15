@@ -12,9 +12,9 @@ from django.db.models import Q, F, Count
 from models import Location, LocationCategory, Deal, DealDetail, ActiveHour
 from revproxy.views import ProxyView
 import json
-import pprint
 import logging
 import collections
+from yelpapi import YelpAPI 
 
 logger = logging.getLogger(__name__)
 
@@ -137,10 +137,8 @@ def fetch_locations(request):
     for location in locations:
         dealList = []
         dealSet = location.deals.filter(Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gt=time) | Q(activeHours__end__lte=F('activeHours__start'))).all()
-
         superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
         subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
-
         beers = []
         wines =[]
         liqours =[]
@@ -170,10 +168,6 @@ def fetch_locations(request):
                     liqours.append(liqour)
             orderedDetails = (("beer", beers),("wine", wines),("liqour",liqours))
             details = collections.OrderedDict(orderedDetails)
-#             details["wine"] = wines
-#             details["beer"] = beers
-#             details["liqour"] = liqours
-#                 details.append(detail)
             deals = {"deal_id" : d.id,
                     "details": details }
             for ah in activehours:
@@ -203,11 +197,37 @@ def fetch_locations(request):
                 "coverPhotoXOffset": location.coverXOffset,
                 "coverPhotoYOffset": location.coverYOffset,
                 "super_category": superCat.name,
-                "subCategories": subCategories
+                "subCategories": subCategories,
             }
         }
         barLocations.append(locationData)
     return JsonResponse({'json':barLocations, 'deals':dealInfo, 'neighborhoods':neighborhooddata})
+
+
+def yelp_reviews(request):
+    locationID=request.GET.get('loc_id')
+    location=Location.objects.filter(id=locationID).all()[0]
+
+    #need to be moved to config
+    yelp_consumer_key = "Piz41a8pB1aBdsTg5jkZDw"
+    yelp_consumer_secret = "dN8L0GIUtqt0Aq-Go5EMQnaVNjc"
+    yelp_token = "QwcesHf454SdQimI92ZVQ8Dhn1HbfHB5"
+    yelp_token_secret = "smLN2bEYWxF3Y7ok19BgdJp3590"
+    
+    yelp_api = YelpAPI(yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret)
+    api_response = yelp_api.business_query(id=location.yelpId)
+
+    responseJson= {
+        "excerpt": api_response['reviews'][0]['excerpt'],
+        "username": api_response['reviews'][0]['user']['name'],
+        "user_img": api_response['reviews'][0]['user']['image_url'],
+        "overall_rating_img": api_response['rating_img_url'],
+        "user_rating_img": api_response['reviews'][0]['rating_image_url'],
+        "review_count": api_response['review_count'],
+        "url": api_response['url']
+    }
+
+    return JsonResponse({'response':responseJson})
 
 def sandbox(request):
     context = {}
