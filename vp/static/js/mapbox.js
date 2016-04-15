@@ -121,6 +121,19 @@ myLayer.on('layeradd', function(e) {
         $("#specials-time-frame").html(startTime + " - " + endTime);
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
 
+        //Yelp Reviews 
+        $.get("/yelpReviews/?loc_id="+locationProperties["locationid"],function(data){
+        	yelp_api_response=data.response;
+        	$("#name").html(yelp_api_response.username);
+        	$("#profile_img").attr("src",yelp_api_response.user_img);
+        	$("#rating_img").attr("src",yelp_api_response.overall_rating_img);
+        	$("#user_rating_img").attr("src",yelp_api_response.user_rating_img);
+        	$("#review_count").html(yelp_api_response.review_count + " reviews");
+        	$("#excerpt").html("\" "+yelp_api_response.excerpt+" \"");
+        	$("#readMore").html(parseInt(yelp_api_response.review_count)-1 + " more reviews ...");
+        	$("#readMore").attr("href",yelp_api_response.url);
+        });
+
 		// Reset margins for cover photo
 		$("#location-cover-photo").css("-webkit-clip-path", "inset(0px 0px)");
 		$("#location-cover-photo").css("margin-top", "0px");
@@ -180,7 +193,7 @@ function populateDeals(items){
 
 function dealsPrices(allDeals,properties,startTime,endTime){
 	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li>'
-					+'<li style="margin-bottom: 0.4rem;"> <h2>' + properties.super_category + '</h2> <h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
+					+'<li style="margin-bottom: 0.4rem;"> <h2>' + properties.subCategories + '</h2> <h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
   
     for(deal in allDeals){
 	    if(deal == "beer" && allDeals["beer"].length != 0)
