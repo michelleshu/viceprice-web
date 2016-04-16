@@ -27,6 +27,11 @@ $(document).ready(function() {
 
         var clipTop = (yOffset * 0.01) * originalHeight;
         var clipLeft = (xOffset * 0.01) * originalWidth;
+
+        // Do not clip narrower than sidebar width
+        clipLeft = Math.min(clipLeft, $(this).width() - $(".right-side-bar").width());
+        if (clipLeft < 0) { clipLeft = 0; }
+
         var clipBottom = (originalHeight - clipTop) - 0.37 * (originalWidth - clipLeft);
 
         if (clipBottom < 0) {
