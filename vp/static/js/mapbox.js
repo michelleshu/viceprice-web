@@ -177,7 +177,7 @@ function populateDeals(item){
 			var image;
 			if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
 			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
-			if(item == "liqour") image =  "<span><img src='../static/img/drink.png'/>"
+			if(item == "liqour") image =  "<span><img src='../static/img/liqour.png'/>"
 			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >" 
 			items[item].sort(function(a, b){
 			    return a.value - b.value;
@@ -228,10 +228,10 @@ function groupByType(item){
 }
 
 function dealsPrices(allDeals,properties,startTime,endTime){
-	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li><li style="margin-bottom: 0.4rem;">';
-		if(properties.subCategories[0] === undefined){}
-		else
+	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li><li id="subCategories">';
+		if(!properties.subCategories[0]){
 			ulElement = ulElement + '<h2>' + properties.subCategories[0] + '</h2>';
+		}
 		
 
 		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
@@ -242,7 +242,7 @@ function dealsPrices(allDeals,properties,startTime,endTime){
 		if(deal == "wine" && allDeals["wine"].length != 0)
 	    	ulElement = ulElement +	'<img src="../static/img/wine.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
 		if(deal == "liqour" && allDeals["liqour"].length != 0)
-	    	ulElement = ulElement +	'<img src="../static/img/drink.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+	    	ulElement = ulElement +	'<img src="../static/img/liqour.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
 	}
 
     ulElement = ulElement + '</li></ul>';

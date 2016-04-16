@@ -195,7 +195,9 @@ cursor: pointer;
   display: inline-block; 
   vertical-align: top;
 }
-
+ #subCategories {
+  margin-bottom: 0.4rem;
+ }
 #profile_img{
   display: inline-block; 
   vertical-align: top;
