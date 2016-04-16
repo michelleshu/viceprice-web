@@ -56,7 +56,7 @@ myLayer.on('layeradd', function(e) {
 
     // Create custom popup content'
     var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A");
-   
+
 	var endTime = deals[feature.properties.locationid].hours.end
 		? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
     var popupContent = dealsPrices(deals[feature.properties.locationid].details,feature.properties,startTime,endTime);
@@ -122,7 +122,7 @@ myLayer.on('layeradd', function(e) {
         $("#specials-time-frame").html(startTime + " - " + endTime);
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
 
-        //Yelp Reviews 
+        //Yelp Reviews
         $.get("/yelpReviews/?loc_id="+locationProperties["locationid"],function(data){
         	yelp_api_response=data.response;
         	$("#name").html(yelp_api_response.username);
@@ -140,30 +140,12 @@ myLayer.on('layeradd', function(e) {
 		$("#location-cover-photo").css("margin-top", "0px");
 		$("#location-cover-photo").css("margin-bottom", "0px");
 		$("#location-cover-photo").removeAttr("src");
-	
+		$("#location-cover-photo").attr("data-x-offset", locationProperties["coverPhotoXOffset"]);
+		$("#location-cover-photo").attr("data-y-offset", locationProperties["coverPhotoYOffset"]);
+
 		// Add cover photo if applicable
 		if (locationProperties["coverPhotoSource"]) {
-
 			$("#location-cover-photo").attr("src", locationProperties["coverPhotoSource"]);
-
-			$("#location-cover-photo").load(function(){
-				// Resize according to offset and Facebook cover photo proportions
-				var originalWidth = $("#location-cover-photo").width();
-				var originalHeight = $("#location-cover-photo").height();
-
-				var clipTop = (locationProperties["coverPhotoYOffset"] * 0.01) * originalHeight;
-				var clipLeft = (locationProperties["coverPhotoXOffset"] * 0.01) * originalWidth;
-				var clipBottom = (originalHeight - clipTop) - 0.37 * (originalWidth - clipLeft);
-
-				if (clipBottom < 0) {
-					clipTop += clipBottom;
-					clipBottom = 0;
-				}
-
-				$("#location-cover-photo").css("-webkit-clip-path", "inset(" + clipTop + "px 0px "  + clipBottom + "px "  + clipLeft + "px)");
-				$("#location-cover-photo").css("margin-top", "-" + clipTop + "px");
-				$("#location-cover-photo").css("margin-bottom", "-" + clipBottom + "px");
-    		});
 		}
     })
 });
@@ -178,7 +160,7 @@ function populateDeals(item){
 			if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
 			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
 			if(item == "liqour") image =  "<span><img src='../static/img/drink.png'/>"
-			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >" 
+			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >"
 			items[item].sort(function(a, b){
 			    return a.value - b.value;
 			});
@@ -188,7 +170,7 @@ function populateDeals(item){
 				for(details in dealDetails){
 					var detailType;
 					if (dealDetails[details]['detailType'] == 1) detailType = "$"+ dealDetails[details]['value'] + " ";
-					if (dealDetails[details]['detailType'] == 2) detailType = dealDetails[details]['value'] + "% off " 
+					if (dealDetails[details]['detailType'] == 2) detailType = dealDetails[details]['value'] + "% off "
 					if (dealDetails[details]['detailType'] == 3) detailType = "$"+ dealDetails[details]['value']+ " off "
 					ulElement = ulElement + "<li><p>" +  detailType + dealDetails[details]['drinkName'] + "</p></li>"
 					}
@@ -230,7 +212,7 @@ function groupByType(item){
 function dealsPrices(allDeals,properties,startTime,endTime){
 	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li>'
 					+'<li style="margin-bottom: 0.4rem;"> <h2>' + properties.subCategories + '</h2> <h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
-  
+
     for(deal in allDeals){
 	    if(deal == "beer" && allDeals["beer"].length != 0)
 	    	ulElement = ulElement + '<img src="../static/img/beer.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
@@ -250,11 +232,11 @@ function lowestPrice(allDeals,deal){
     var prices_off=[];
     var percent_off=[];
 	for(index in allDeals[deal]){ //look at all the items of type beer
-				if(allDeals[deal][index]["detailType"] == 1) 
+				if(allDeals[deal][index]["detailType"] == 1)
 					prices.push(parseFloat(allDeals[deal][index]["value"]));
 				if(allDeals[deal][index]["detailType"] == 3)//price off (2nd highest priority)
 					prices_off.push(parseFloat(allDeals[deal][index]["value"]));
-				if(allDeals[deal][index]["detailType"] == 2)//% off	
+				if(allDeals[deal][index]["detailType"] == 2)//% off
 					percent_off.push(parseFloat(allDeals[deal][index]["value"]));
 			}
 			if(prices.length !=0){//price (highest priority) ==> find minumum price
@@ -380,10 +362,10 @@ function click(e) {
     myLayer.setFilter(function(f) {
         return f.properties["neighborhood"] === neighborhood;
     });
-   
+
     var randPop = randomProperty(myLayer._layers)
-    
-    
+
+
 	}
 
 var randomProperty = function (obj) {
@@ -392,9 +374,9 @@ var randomProperty = function (obj) {
 	    if(randPop){
 	    	randPop.openPopup();
 	    }
-	   
-	};	
-	
+
+	};
+
 function mousemove(e) {
 	var layer = e.target;
 	document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
