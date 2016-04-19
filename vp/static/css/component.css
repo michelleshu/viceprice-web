@@ -402,11 +402,13 @@ cursor: pointer;
       }
 
       #day_output{margin-left: 35%;}
-      #time_output{margin-left: 34%;}
+      #time_output{margin-left: 34%;display:inline-block;vertical-align: top;}
       #day,#time{margin-top: 8%; margin-bottom: 8%;width: 88%;}
 
       .now {
-        margin-left: 37%;
+        display:inline-block;
+        vertical-align: top;
+        margin-left: 7%;
         font-size:70%;
         color:#c8a45e;
         font-family:"Montserrat", Arial, sans-serif;
