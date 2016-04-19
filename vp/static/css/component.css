@@ -401,10 +401,16 @@ cursor: pointer;
         margin-bottom: 5%;
       }
 
-      #day_output{margin-left: 40%;}
+      #day_output{margin-left: 35%;}
       #time_output{margin-left: 34%;}
       #day,#time{margin-top: 8%; margin-bottom: 8%;width: 88%;}
 
+      .now {
+        margin-left: 37%;
+        font-size:70%;
+        color:#c8a45e;
+        font-family:"Montserrat", Arial, sans-serif;
+      }
 
     /*******Neighborhood labels*********/
 
