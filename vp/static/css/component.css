@@ -34,13 +34,13 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  margin:1rem 1.5rem 0.2rem 1rem; 
+  margin:1rem 1.5rem 0.2rem 1rem;
 }
 
 .caption {
   display: block;
   font-size:80%;
-  color:#aeaeae; 
+  color:#aeaeae;
   font-family:"Montserrat", Arial, sans-serif;
 }
 
@@ -66,6 +66,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 /* Rightside bar*/
 .right-side-bar {display:none;position:absolute; float:left; width:25.0000%; background-color:#fbfbfb;opacity:0.98; top:0; right:0;  }
+.right-side-bar { height: 100% }
 .sliding { position: fixed; float:right; width: 10px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
 
 .specials-div, .location-details-div, .reviews-div {
@@ -108,7 +109,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 .right-side-bar h2{
-  display: inline-block; 
+  display: inline-block;
   vertical-align: top;
   width: 70%;
   font-size:100%;
@@ -192,14 +193,14 @@ cursor: pointer;
 }
 
 #rating_img,#review_count {
-  display: inline-block; 
+  display: inline-block;
   vertical-align: top;
 }
  #subCategories {
   margin-bottom: 0.4rem;
  }
 #profile_img{
-  display: inline-block; 
+  display: inline-block;
   vertical-align: top;
   width:50px;
   height: 50px;
@@ -214,13 +215,13 @@ cursor: pointer;
   width:55%;
 }
 #yelp_logo img{
- display: inline-block; 
- vertical-align: top; 
+ display: inline-block;
+ vertical-align: top;
  margin-bottom: 0;
 }
 
 .username{
-  display: inline-block; 
+  display: inline-block;
   vertical-align:center;
   margin-left: 0.5rem;
   margin-top: 1rem;
