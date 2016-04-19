@@ -11,6 +11,10 @@ $(function() {
 	var selectedTime = moment();
 	var selectedDay = _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")); //momentjs day of week indexes do not match ours; map to our index
 	var throttledFetchData = _.debounce(function() {
+		if(selectedTime.format("HH") == moment().format("HH") && selectedDay == _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")))
+			$('.now').text("( Now )");
+		else
+			$('.now').text(" ");
 		fetchData(selectedTime.format("HH:mm"), selectedDay);
 	}, 100);
 
