@@ -157,10 +157,12 @@ function populateDeals(item){
 	for (item in items){
 		var type = item[0].toUpperCase() + item.slice(1)
 			var image;
-			if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
-			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
-			if(item == "liqour") image =  "<span><img src='../static/img/liqour.png'/>"
-			ulElement = ulElement + image  +  type + "<ul  style=padding-left:10px; >" 
+			if (items[item].length != 0) {
+				if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
+				if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
+				if(item == "liqour") image =  "<span><img src='../static/img/liqour.png'/><p id='drink_type'> Cocktails/"
+				ulElement = ulElement + image  +  "<p id='drink_type'>" + type + ": </p><ul  style=padding-left:10px; >" 
+			}
 
 			items[item].sort(function(a, b){
 			    return a.value - b.value;
@@ -212,9 +214,8 @@ function groupByType(item){
 
 function dealsPrices(allDeals,properties,startTime,endTime){
 	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li><li id="subCategories">';
-		if(!properties.subCategories[0]){
+		if(properties.subCategories[0] != undefined)
 			ulElement = ulElement + '<h2>' + properties.subCategories[0] + '</h2>';
-		}
 		
 		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
   
@@ -269,9 +270,10 @@ function fetchData(time, dayIndex) {
 	});
 }
 function updateHappyHours(){
-	$('.bar_num_labels').text("(None)");
+	$('.bar_num_labels').text("(N/A)");
 	$(neighborhoods).each(function(index,data){
-	    $("div[data-neighborhood='"+data.neighborhood+"']").text("(" + data.count + ")")
+		if(data.neighborhood == "U Street")
+	    	$("div[data-neighborhood='"+data.neighborhood+"']").text("(" + data.count + ")")
 	});
 }
 /** *DC Neighborhoods** */

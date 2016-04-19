@@ -16,9 +16,27 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   position:relative;
 }
 
-.search-div {
+.logo {
+  text-align: center;
   padding-top: 15%;
+  font-size:80%;
+  color:#7d7f80;
+  margin-bottom: 20%;
+  font-family:"Montserrat", Arial, sans-serif;
 }
+ .vp {
+  font-size:230%;
+  color:#c8a45e;
+  padding-bottom: 2%;
+  text-align: center;
+ }
+
+ .beta{
+  text-align: center;
+  font-size:100%;
+  color:#c8a45e;
+ }
+ 
 
 #search input[type="text"] {
     background-color:transparent;
@@ -156,7 +174,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   color:#c8a45e;
   font-family: Montserrat, Arial, sans-serif;
   padding-bottom: 2%;
-  margin-left: 1rem;
+  margin-left: 2rem;
 }
 
 .specials-div li:first-line {
@@ -188,8 +206,16 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 a#location-website {
-color: #c8a45e;
+color: #5b5b5b;
 cursor: pointer;
+}
+
+#drink_type{
+  color: #7d7f80;
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 0.9rem;
+  display: inline-block;
+  vertical-align: top;
 }
 
 #rating_img,#review_count {
@@ -208,7 +234,7 @@ cursor: pointer;
 }
 
 .reviews-div hr{
-  margin-top:2rem;
+  margin-top:0;
   margin-bottom: 0;
   border:0;
   border-top:1px solid #c8a45e;
@@ -229,7 +255,7 @@ cursor: pointer;
 
 .review_count {
   float:left;
-  margin-top: 0;
+  margin-top: 0.5rem;
 }
 
 #name {
@@ -391,7 +417,7 @@ cursor: pointer;
     .bar_num_labels{
     margin-top: 1px;
     color:#c8a45e;
-    font-size:11px;
+    font-size:10px;
     font-family: Montserrat;
     text-align:center;
     }
