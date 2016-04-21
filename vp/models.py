@@ -28,7 +28,7 @@ class Deal(models.Model):
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
     dealSource = models.IntegerField(null=False, default=1)
-    comments = models.CharField(max_length=2000)
+    comments = models.CharField(null=True, max_length=2000)
 
 # Information about a location
 class Location(models.Model):
@@ -63,10 +63,13 @@ class MTurkLocationInfoStat(models.Model):
     location = models.ForeignKey(Location)
     dateStarted = models.DateTimeField(null=False)
     dateCompleted = models.DateTimeField(null=True)
-    cost = models.FloatField(null=False)
-    # MTurk Qualification Fields
+    numberOfAssignments = models.IntegerField(null=False)
 
+    # MTurk Qualification Configuration (found in settings.py)
+    maxGetHappyHourAttempts = models.IntegerField(null=False)
+    minConfirmationPercentage = models.IntegerField(null=False)
     usLocaleRequired = models.BooleanField(null=False)
+    costPerAssignment = models.FloatField(null=False)
 
 
 # Track location as it goes through MTurk update process
