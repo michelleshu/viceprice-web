@@ -4,6 +4,8 @@ from datetime import datetime
 from django.utils import timezone
 from django_enumfield import enum
 
+# Days of Week
+
 MONDAY = 'Monday'
 TUESDAY = 'Tuesday'
 WEDNESDAY = 'Wednesday'
@@ -22,6 +24,30 @@ DAY_OF_WEEK = {
     SUNDAY: 7
 }
 
+# Deal Types
+
+PRICE = 'Price'
+PERCENT_OFF = 'Percent Off'
+PRICE_OFF = 'Price Off'
+
+DEAL_TYPES = {
+    PRICE: 1,
+    PERCENT_OFF: 2,
+    PRICE_OFF: 3
+}
+
+# Data Sources
+
+MANUAL = 'Manual'
+MTURK = 'MTurk'
+WEB_SCRAPING = 'Web Scraping'
+
+DATA_SOURCES = {
+    MANUAL: 1,
+    MTURK: 2,
+    WEB_SCRAPING: 3
+}
+
 class LocationCategory(models.Model):
     name = models.CharField(max_length=256, null=False)
     isBaseCategory = models.BooleanField(default=True)
@@ -32,11 +58,6 @@ class ActiveHour(models.Model):
     dayofweek = models.IntegerField()
     start = models.TimeField(null=True)
     end = models.TimeField(null=True)
-
-class DealType(enum.Enum):
-    price = 1
-    percent_off = 2
-    price_off = 3
 
 # Details about a particular drink and price
 class DealDetail(models.Model):
@@ -50,7 +71,7 @@ class Deal(models.Model):
     description = models.CharField(max_length=2000)
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
-    
+    dealSource = models.IntegerField()
 
 # Information about a location
 class Location(models.Model):
@@ -86,10 +107,7 @@ class MTurkLocationInfoStat(models.Model):
     location = models.ForeignKey(Location)
     dateStarted = models.DateTimeField(null=False)
     dateCompleted = models.DateTimeField(null=True)
-    stage = models.IntegerField(null=False)
-    costPerAssignment = models.FloatField(null=False)
-    costForStage = models.FloatField(default=0.0)
-    dataConfirmed = models.BooleanField(default=False)
+    cost = models.FloatField(null=False)
 
 # Track location as it goes through MTurk update process
 class MTurkLocationInfo(models.Model):
@@ -98,7 +116,6 @@ class MTurkLocationInfo(models.Model):
     address = models.CharField(max_length=512, null=True)
     website = models.CharField(max_length=256, null=True)
     phone_number = models.CharField(max_length=30, null=True)
-    stage = models.IntegerField(null=False)
     attempts = models.IntegerField(default=0)
     confirmations = models.IntegerField(default=0)
     deals = models.CharField(max_length=10000, null=True)
