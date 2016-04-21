@@ -270,10 +270,10 @@ function fetchData(time, dayIndex) {
 	});
 }
 function updateHappyHours(){
-	$('.bar_num_labels').text("(N/A)");
+	$('.bar_num_labels').text("N/A");
 	$(neighborhoods).each(function(index,data){
 		if(data.neighborhood == "U Street")
-	    	$("div[data-neighborhood='"+data.neighborhood+"']").text("(" + data.count + ")")
+	    	$("div[data-neighborhood='"+data.neighborhood+"']").text("( " + data.count + " )")
 	});
 }
 /** *DC Neighborhoods** */

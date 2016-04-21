@@ -11,10 +11,16 @@ $(function() {
 	var selectedTime = moment();
 	var selectedDay = _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")); //momentjs day of week indexes do not match ours; map to our index
 	var throttledFetchData = _.debounce(function() {
-		if(selectedTime.format("HH") == moment().format("HH") && selectedDay == _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")))
-			$('.now').text("( Now )");
-		else
-			$('.now').text(" ");
+		var ROUNDING = 30 * 60 * 1000; /*ms*/
+		start = moment();
+		start = moment(Math.round((+start) / ROUNDING) * ROUNDING);
+		if(selectedTime.format("hh:mm") == start.format("hh:mm") && selectedDay == _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd"))){
+			$('.now').css({color:"#c8a45e",cursor:"auto"});
+			$('.now').text("( Right Now )");
+			}
+		else {
+			$('.now').css({color:"rgb(35, 40, 43)"});
+		}
 		fetchData(selectedTime.format("HH:mm"), selectedDay);
 	}, 100);
 
