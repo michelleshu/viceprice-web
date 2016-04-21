@@ -3,7 +3,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.utils import timezone
 from models import Location, MTurkLocationInfo, BusinessHour
-from mturk import mturk_utilities, mturk_update_website_tasks, mturk_update_phone_tasks
+from mturk import mturk_utilities, update_mturk_tasks, mturk_update_phone_tasks
 from boto.mturk import connection
 from mock import MagicMock, mock
 from pprint import pprint

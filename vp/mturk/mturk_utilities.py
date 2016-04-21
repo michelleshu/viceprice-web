@@ -38,9 +38,6 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
 
     new_locations = Location.objects.filter(Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None))[0:max_new_locations]
 
-    # test_ids = [2862, 2500, 2538, 2485, 2529, 2449, 3040, 3138, 2733, 2502, 2831, 3175, 2480, 3169, 2892, 2372, 2860,
-    #             2624, 2925, 2900, 3043, 2717, 2781, 2748, 2574]
-    #
     # new_locations = Location.objects.filter(Q(id__in=test_ids) &
     #                 Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
 
@@ -50,19 +47,12 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
 
-        # If location has no website, start in Stage 0. Otherwise, start in Stage 1.
-        if (location.website == None or location.website == ''):
-            stage = MTURK_STAGE[FIND_WEBSITE]
-        else:
-            stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
-
         mturk_location = MTurkLocationInfo(
             location = location,
             name = location.name,
             address = location.formattedAddress,
             phone_number = location.formattedPhoneNumber,
-            website = location.website,
-            stage = stage
+            website = location.website
         )
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
@@ -71,41 +61,6 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         location.save()
 
         mturk_location.save()
-
-
-# Retrieve in progress website updates
-def get_website_update_mturk_locations():
-
-    website_stages = [
-        MTURK_STAGE[FIND_WEBSITE],
-        MTURK_STAGE[FIND_HAPPY_HOUR_WEB],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]
-    ]
-
-    return list(MTurkLocationInfo.objects.filter(stage__in=website_stages))
-
-
-# Retrieve in progress phone updates
-def get_phone_update_mturk_locations():
-
-    phone_stages = [
-        MTURK_STAGE[FIND_HAPPY_HOUR_PHONE],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE_2]
-    ]
-
-    return list(MTurkLocationInfo.objects.filter(stage__in=phone_stages))
-
-
-# Retrieve completed locations
-def get_complete_mturk_locations():
-    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[COMPLETE])
-
-
-# Retrieve info not found locations
-def get_no_info_mturk_locations():
-    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[NO_INFO])
 
 #endregion
 

@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from boto.mturk import connection
 from vp.models import Location, MTurkLocationInfo
-from vp.mturk import mturk_utilities, mturk_update_phone_tasks, mturk_update_website_tasks
+from vp.mturk import mturk_utilities, mturk_update_phone_tasks, update_mturk_tasks
 from viceprice.constants import *
 
 class Command(BaseCommand):
@@ -92,7 +92,7 @@ class Command(BaseCommand):
         self.print_status()
         raw_input("Respond at workersandbox.mturk.com...")
 
-        mturk_update_website_tasks.update()
+        update_mturk_tasks.update()
         print("Updated")
         self.print_status()
 
@@ -108,7 +108,7 @@ class Command(BaseCommand):
         self.print_status()
         raw_input("Respond at workersandbox.mturk.com...")
 
-        mturk_update_website_tasks.update()
+        update_mturk_tasks.update()
         print("Updated")
         self.print_status()
 
@@ -128,7 +128,7 @@ class Command(BaseCommand):
         self.print_status()
         raw_input("Respond at workersandbox.mturk.com...")
 
-        mturk_update_website_tasks.update()
+        update_mturk_tasks.update()
         print("Updated")
         self.print_status()
 
@@ -148,7 +148,7 @@ class Command(BaseCommand):
         self.print_status()
         raw_input("Respond at workersandbox.mturk.com...")
 
-        mturk_update_website_tasks.update()
+        update_mturk_tasks.update()
         print("Updated")
         self.print_status()
 

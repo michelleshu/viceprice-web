@@ -31,19 +31,6 @@ def update():
                 if (mturk_location.stat == None):
                     add_mturk_stat(mturk_location, FIND_WEBSITE)
 
-            elif (mturk_location.stage == MTURK_STAGE[FIND_HAPPY_HOUR_WEB]):
-                create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
-                if (mturk_location.stat == None):
-                    add_mturk_stat(mturk_location, FIND_HAPPY_HOUR_WEB)
-
-            elif (mturk_location.stage == MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB]):
-                create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB])
-                if (mturk_location.stat == None):
-                    add_mturk_stat(mturk_location, CONFIRM_HAPPY_HOUR_WEB)
-
-            elif (mturk_location.stage == MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]):
-                create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[CONFIRM_HAPPY_HOUR_WEB_2])
-
             mturk_location.save()
 
         else:
@@ -52,41 +39,7 @@ def update():
             if (hit.HITStatus == REVIEWABLE):
                 assignments = conn.get_assignments(hit.HITId)
 
-                # Process assignments depending on current stage of HIT
-                if int(mturk_location.stage) == MTURK_STAGE[FIND_WEBSITE]:
-                    url_agreement_info = process_find_website_hit_assignments(mturk_location, assignments)
-                    agreement_percentage = url_agreement_info[0]
-                    agreed_url = url_agreement_info[1]
 
-                    if (agreement_percentage < MIN_AGREEMENT_PERCENTAGE):
-                        # Extend the HIT as long as possible to get agreement
-                        if len(assignments) < MAX_ASSIGNMENTS_TO_PUBLISH:
-                            conn.extend_hit(hit.HITId, assignments_increment=1)
-                            add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE][PRICE])
-                        # If exceeds max assignment number allowed by Amazon, we must make a new HIT
-                        else:
-                            conn.disable_hit(hit.HITId)
-                            create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE])
-                            add_mturk_stat_cost(mturk_location, settings.MTURK_HIT_TYPES[FIND_WEBSITE][PRICE] * settings.MTURK_HIT_TYPES[FIND_WEBSITE][MAX_ASSIGNMENTS])
-                    else:
-                        # If no URL found, continue to phone stage if possible. Forfeit if not.
-                        if (agreed_url == '' or agreed_url == None):
-                            if (mturk_location.phone_number != None and mturk_location.phone_number != ''):
-                                mturk_location.hit_id = None
-                                mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_PHONE]
-                            else:
-                                mturk_location.stage = MTURK_STAGE[NO_INFO]
-                                mturk_location.update_completed = timezone.now()
-                            complete_mturk_stat(mturk_location, False)
-
-                        else:
-                            mturk_location.website = agreed_url
-                            mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
-                            complete_mturk_stat(mturk_location, False)
-                            create_hit(conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
-                            add_mturk_stat(mturk_location, FIND_HAPPY_HOUR_WEB)
-
-                        approve_and_dispose(conn, hit)
 
                 elif int(mturk_location.stage) == MTURK_STAGE[FIND_HAPPY_HOUR_WEB]:
                     # Get latest assignment
