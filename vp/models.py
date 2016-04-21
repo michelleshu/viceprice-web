@@ -71,7 +71,8 @@ class Deal(models.Model):
     description = models.CharField(max_length=2000)
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
-    dealSource = models.IntegerField()
+    dealSource = models.IntegerField(null=False, default=1)
+    comments = models.CharField(max_length=2000)
 
 # Information about a location
 class Location(models.Model):
@@ -90,10 +91,8 @@ class Location(models.Model):
     coverPhotoSource = models.CharField(max_length=256, null=True)
     coverXOffset = models.IntegerField(null=True)
     coverYOffset = models.IntegerField(null=True)
-    dealDataSource = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
     mturkDateLastUpdated = models.DateTimeField(null=True)
-    comments = models.CharField(max_length=1000, null=True)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)
     twitterHandle = models.CharField(max_length=50, null=True)

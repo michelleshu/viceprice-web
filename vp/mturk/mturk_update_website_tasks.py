@@ -22,7 +22,6 @@ def update():
     # Add new locations that can be updated
     add_mturk_locations_to_update(conn)
 
-
     for mturk_location in locations_to_update:
 
         # If there is no HIT for the location, create one
