@@ -4,50 +4,6 @@ from datetime import datetime
 from django.utils import timezone
 from django_enumfield import enum
 
-# Days of Week
-
-MONDAY = 'Monday'
-TUESDAY = 'Tuesday'
-WEDNESDAY = 'Wednesday'
-THURSDAY = 'Thursday'
-FRIDAY = 'Friday'
-SATURDAY = 'Saturday'
-SUNDAY = 'Sunday'
-
-DAY_OF_WEEK = {
-    MONDAY: 1,
-    TUESDAY: 2,
-    WEDNESDAY: 3,
-    THURSDAY: 4,
-    FRIDAY: 5,
-    SATURDAY: 6,
-    SUNDAY: 7
-}
-
-# Deal Types
-
-PRICE = 'Price'
-PERCENT_OFF = 'Percent Off'
-PRICE_OFF = 'Price Off'
-
-DEAL_TYPES = {
-    PRICE: 1,
-    PERCENT_OFF: 2,
-    PRICE_OFF: 3
-}
-
-# Data Sources
-
-MANUAL = 'Manual'
-MTURK = 'MTurk'
-WEB_SCRAPING = 'Web Scraping'
-
-DATA_SOURCES = {
-    MANUAL: 1,
-    MTURK: 2,
-    WEB_SCRAPING: 3
-}
-
 class LocationCategory(models.Model):
     name = models.CharField(max_length=256, null=False)
     isBaseCategory = models.BooleanField(default=True)
@@ -93,6 +49,7 @@ class Location(models.Model):
     coverYOffset = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
     mturkDateLastUpdated = models.DateTimeField(null=True)
+    mturkDataCollectionFailed = models.BooleanField(default=False)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)
     twitterHandle = models.CharField(max_length=50, null=True)
@@ -107,6 +64,10 @@ class MTurkLocationInfoStat(models.Model):
     dateStarted = models.DateTimeField(null=False)
     dateCompleted = models.DateTimeField(null=True)
     cost = models.FloatField(null=False)
+    # MTurk Qualification Fields
+
+    usLocaleRequired = models.BooleanField(null=False)
+
 
 # Track location as it goes through MTurk update process
 class MTurkLocationInfo(models.Model):
