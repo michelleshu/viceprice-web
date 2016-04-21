@@ -64,12 +64,16 @@ class MTurkLocationInfoStat(models.Model):
     dateStarted = models.DateTimeField(null=False)
     dateCompleted = models.DateTimeField(null=True)
     numberOfAssignments = models.IntegerField(null=False)
+    costPerAssignment = models.FloatField(null=False)
 
-    # MTurk Qualification Configuration (found in settings.py)
+    # Attempts and confirmation settings (found in settings.py)
     maxGetHappyHourAttempts = models.IntegerField(null=False)
     minConfirmationPercentage = models.IntegerField(null=False)
+
+    # MTurk Qualification Configuration (found in settings.py)
+    minPercentagePreviousAssignmentsApproved = models.IntegerField(null=False)
+    minHITsCompleted = models.IntegerField(null=False)
     usLocaleRequired = models.BooleanField(null=False)
-    costPerAssignment = models.FloatField(null=False)
 
 
 # Track location as it goes through MTurk update process
