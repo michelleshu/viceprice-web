@@ -396,22 +396,24 @@ cursor: pointer;
         display: block;
         font-size:70%;
         color:#aeaeae;
-        display: inline;
         font-family: Montserrat, Arial, sans-serif;
-        margin-bottom: 5%;
+
       }
 
-      #day_output{margin-left: 35%;}
-      #time_output{margin-left: 34%;display:inline-block;vertical-align: top;}
-      #day,#time{margin-top: 8%; margin-bottom: 8%;width: 88%;}
+      #day_output{margin-left: 35%; margin-bottom: 5%;}
+      #time_output{margin-left: 34%;margin-bottom: -4%;}
+      #day,#time{margin-bottom: 7%;width: 88%;}
 
       .now {
-        display:inline-block;
-        vertical-align: top;
-        margin-left: 7%;
+        margin-bottom: 0;
+        margin-top: 0;
+        background:none;
+        border:none;
+        margin-left: 25%;
         font-size:70%;
         color:#c8a45e;
         font-family:"Montserrat", Arial, sans-serif;
+        cursor: auto;
       }
 
     /*******Neighborhood labels*********/
