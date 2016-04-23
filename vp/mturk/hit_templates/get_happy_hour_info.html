@@ -20,20 +20,20 @@
         font-size: 16px;
     }
 
-    .happy-hour-entry-container {
+    .question-container {
         margin-top: 3rem;
         font-size: 14px;
     }
 
-    .happy-hour-entry-container h6 {
+    .question-container h6 {
         margin-bottom: 0;
     }
 
-    .happy-hour-entry-container a {
+    .question-container a {
         cursor: pointer;
     }
 
-    .happy-hour-entry-container input, .happy-hour-entry-container select {
+    .question-container input, .question-container select {
         font-size: 14px;
     }
 
@@ -58,111 +58,138 @@
     }
 
     i.fa.fa-minus-circle {
-        color: red;
+        color: #FA6060;
         cursor: pointer;
         font-size: 18px;
         padding: 3px;
+        vertical-align: middle;
+    }
+
+    i.fa.fa-arrow-circle-right {
+        color: #1EAEDB;
+        font-size: 18px;
+        padding: 3px;
+        vertical-align: middle;
     }
 </style>
 
-<div class="container happy-hour-entry-container">
+<div class="container question-container">
     <div class="instructions-section">
         <div class="instructions-header">Instructions Here</div>
-        <div class="instructions-content">LOCATION: ${location-name}</div>
-        <div class="instructions-content">WEBSITE: ${location-website}</div>
+        <div class="instructions-content">Location: ${location-name}</div>
+        <div class="instructions-content">Website: ${location-website}</div>
     </div>
-    <div class="deal-section">
+    <div class="happy-hour-found-question">
         <hr/>
-        <div><i class="fa fa-minus-circle delete-deal-link"></i></div>
-        <div class="row title-row">
-            <div class="seven columns">
-                <h6>DAY(S) OF WEEK (Click and drag to select)</h6>
-            </div>
-            <div class="five columns">
-                <h6>TIME PERIOD</h6>
-            </div>
+        <div class="content-row">
+            <i class="fa fa-arrow-circle-right"></i>
+            <strong>Is happy hour information listed on ${location-name}'s website?</strong>
         </div>
-        <div class="row content-row">
-            <div class="seven columns day-of-week-buttons">
-                <button class="monday-button">M</button>
-                <button class="tuesday-button">T</button>
-                <button class="wednesday-button">W</button>
-                <button class="thursday-button">Th</button>
-                <button class="friday-button">F</button>
-                <button class="saturday-button">S</button>
-                <button class="sunday-button">Su</button>
-            </div>
-            <div class="five columns time-periods">
-                <div class="first-time-period">
-                    <input type="text" class="start-time" placeholder="00:00 AM"/>
-                    <span> to </span>
-                    <input type="text" class="end-time" placeholder="00:00 AM"/>
-                    <input type="checkbox" class="until-close"/>
-                    <span>Til Close</span>
-                </div>
-
-                <div>
-                    <a class="add-time-period-link"> + Add another time period</a>
-                </div>
-
-                <div class="second-time-period hidden">
-                    <i class="fa fa-minus-circle delete-time-period-link"></i>
-                    <input type="text" class="start-time" placeholder="00:00 AM"/>
-                    <span> to </span>
-                    <input type="text" class="end-time" placeholder="00:00 AM"/>
-                    <input type="checkbox" class="until-close"/>
-                    <span>Til Close</span>
-                </div>
-            </div>
-        </div>
-        <div class="row title-row">
+        <div class="row">
             <div class="six columns">
-                <h6>DRINK NAMES</h6>
+                <button class="happy-hours-found">Yes</button>
+                <button class="happy-hours-not-found">No</button>
             </div>
-            <div class="two columns">
-                <h6>CATEGORY</h6>
-            </div>
-            <div class="two columns">
-                <h6>DEAL TYPE</h6>
-            </div>
-            <div class="two columns">
-                <h6>DEAL VALUE</h6>
-            </div>
-        </div>
-        <div class="deal-detail-section">
-            <div class="row content-row">
-                <div class="six columns">
-                    <i class="fa fa-minus-circle delete-deal-detail-link"></i>
-                    <input type="text" class="u-full-width drink-names" placeholder="Corona Light, Miller Lite"/>
-                </div>
-                <div class="two columns">
-                    <select class="u-full-width drink-category">
-                        <option value="beer">Beer</option>
-                        <option value="wine">Wine</option>
-                        <option value="liquor">Liquor</option>
-                    </select>
-                </div>
-                <div class="two columns">
-                    <select class="u-full-width deal-type">
-                        <option value="price">Price</option>
-                        <option value="percent-off">% Off</option>
-                        <option value="price-off">$ Off</option>
-                    </select>
-                </div>
-                <div class="two columns">
-                    <span class="dollar-prefix">$</span>
-                    <input type="text" class="deal-value"/>
-                    <span class="percent-off-suffix hidden">% off</span>
-                    <span class="price-off-suffix hidden"> off</span>
-                </div>
-            </div>
-        </div>
-        <div>
-            <a class="add-deal-detail-link"> + Add another drink special [For the same day]</a>
         </div>
     </div>
-    <div class="row">
-        <a class="add-deal-link"> + Add day [Drink special is at another time]</a>
+    <div class="happy-hour-entry-container hidden">
+        <div class="deal-section">
+            <hr/>
+            <div class="content-row">
+                <i class="fa fa-arrow-circle-right"></i>
+                <strong>Please populate the happy hour information below.</strong>
+            </div>
+            <div><i class="fa fa-minus-circle delete-deal-link"></i></div>
+            <div class="row title-row">
+                <div class="seven columns">
+                    <h6>DAY(S) OF WEEK (Click and drag to select)</h6>
+                </div>
+                <div class="five columns">
+                    <h6>TIME PERIOD</h6>
+                </div>
+            </div>
+            <div class="row content-row">
+                <div class="seven columns day-of-week-buttons">
+                    <button class="monday-button">M</button>
+                    <button class="tuesday-button">T</button>
+                    <button class="wednesday-button">W</button>
+                    <button class="thursday-button">Th</button>
+                    <button class="friday-button">F</button>
+                    <button class="saturday-button">S</button>
+                    <button class="sunday-button">Su</button>
+                </div>
+                <div class="five columns time-periods">
+                    <div class="first-time-period">
+                        <input type="text" class="start-time" placeholder="00:00 AM"/>
+                        <span> to </span>
+                        <input type="text" class="end-time" placeholder="00:00 AM"/>
+                        <input type="checkbox" class="until-close"/>
+                        <span>Til Close</span>
+                    </div>
+
+                    <div>
+                        <a class="add-time-period-link"> + Add another time period</a>
+                    </div>
+
+                    <div class="second-time-period hidden">
+                        <i class="fa fa-minus-circle delete-time-period-link"></i>
+                        <input type="text" class="start-time" placeholder="00:00 AM"/>
+                        <span> to </span>
+                        <input type="text" class="end-time" placeholder="00:00 AM"/>
+                        <input type="checkbox" class="until-close"/>
+                        <span>Til Close</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row title-row">
+                <div class="six columns">
+                    <h6>DRINK NAMES</h6>
+                </div>
+                <div class="two columns">
+                    <h6>CATEGORY</h6>
+                </div>
+                <div class="two columns">
+                    <h6>DEAL TYPE</h6>
+                </div>
+                <div class="two columns">
+                    <h6>DEAL VALUE</h6>
+                </div>
+            </div>
+            <div class="deal-detail-section">
+                <div class="row content-row">
+                    <div class="six columns">
+                        <i class="fa fa-minus-circle delete-deal-detail-link"></i>
+                        <input type="text" class="u-full-width drink-names" placeholder="Corona Light, Miller Lite"/>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width drink-category">
+                            <option value="beer">Beer</option>
+                            <option value="wine">Wine</option>
+                            <option value="liquor">Liquor</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width deal-type">
+                            <option value="price">Price</option>
+                            <option value="percent-off">% Off</option>
+                            <option value="price-off">$ Off</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <span class="dollar-prefix">$</span>
+                        <input type="text" class="deal-value"/>
+                        <span class="percent-off-suffix hidden">% off</span>
+                        <span class="price-off-suffix hidden"> off</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a class="add-deal-detail-link"> + Add another drink special [For the same day]</a>
+            </div>
+        </div>
+        <div class="row">
+            <a class="add-deal-link"> + Add day [Drink special is at another time]</a>
+        </div>
     </div>
 </div>
 
@@ -205,6 +232,18 @@
             $(this).prev().prop("disabled", false).val("");
         }
     });
+
+    $(document).on("click", ".happy-hours-found", function() {
+        $(this).addClass("button-primary");
+        $(".happy-hours-not-found").removeClass("button-primary");
+        $(".happy-hour-entry-container").removeClass("hidden");
+    });
+
+    $(document).on("click", ".happy-hours-not-found", function() {
+        $(this).addClass("button-primary");
+        $(".happy-hours-found").removeClass("button-primary");
+        $(".happy-hour-entry-container").addClass("hidden");
+    })
 
     $(document).on("click", ".add-time-period-link", function() {
         $(this).parent().parent().find(".second-time-period").removeClass("hidden");
