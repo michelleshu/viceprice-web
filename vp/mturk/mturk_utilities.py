@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
 from pprint import pprint
-from vp.models import Location, MTurkLocationInfo, MTurkLocationInfoStat, DayOfWeek, TimeFrame
+from vp.models import Location, MTurkLocationInfo, MTurkLocationInfoStat
 from viceprice.constants import *
 
 '''
