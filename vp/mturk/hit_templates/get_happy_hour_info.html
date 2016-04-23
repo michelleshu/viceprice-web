@@ -1,6 +1,7 @@
 
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" property="stylesheet" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" property="stylesheet" rel="stylesheet" />
 
 <style>
     .hidden {
@@ -9,8 +10,19 @@
         height: 0;
     }
 
+    .instructions-header {
+        margin-bottom: 1rem;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .instructions-content {
+        font-size: 16px;
+    }
+
     .happy-hour-entry-container {
         margin-top: 3rem;
+        font-size: 14px;
     }
 
     .happy-hour-entry-container h6 {
@@ -21,6 +33,10 @@
         cursor: pointer;
     }
 
+    .happy-hour-entry-container input, .happy-hour-entry-container select {
+        font-size: 14px;
+    }
+
     .title-row {
         margin-bottom: 8px;
     }
@@ -29,12 +45,32 @@
         margin-bottom: 16px;
     }
 
+    .start-time, .end-time {
+        width: 24%;
+    }
+
     .deal-value {
-        width: 60%;
+        width: 50%;
+    }
+
+    .drink-names {
+        width: 92%;
+    }
+
+    i.fa.fa-minus-circle {
+        color: red;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 3px;
     }
 </style>
 
 <div class="container happy-hour-entry-container">
+    <div class="instructions-section">
+        <div class="instructions-header">Instructions Here</div>
+        <div class="instructions-content">LOCATION: ${location-name}</div>
+        <div class="instructions-content">WEBSITE: ${location-website}</div>
+    </div>
     <div class="deal-section">
         <hr/>
         <div><i class="fa fa-minus-circle delete-deal-link"></i></div>
@@ -94,9 +130,9 @@
             </div>
         </div>
         <div class="deal-detail-section">
-            <div><i class="fa fa-minus-circle delete-deal-detail-link"></i></div>
             <div class="row content-row">
                 <div class="six columns">
+                    <i class="fa fa-minus-circle delete-deal-detail-link"></i>
                     <input type="text" class="u-full-width drink-names" placeholder="Corona Light, Miller Lite"/>
                 </div>
                 <div class="two columns">
@@ -122,11 +158,11 @@
             </div>
         </div>
         <div>
-            <a class="add-deal-detail-link"> + Add another deal detail</a>
+            <a class="add-deal-detail-link"> + Add another drink special [For the same day]</a>
         </div>
     </div>
     <div class="row">
-        <a class="add-deal-link"> + Add another deal (different day/time period)</a>
+        <a class="add-deal-link"> + Add day [Drink special is at another time]</a>
     </div>
 </div>
 
@@ -164,9 +200,9 @@
 
     $(document).on("change", ".until-close", function() {
         if (this.checked) {
-            $(this).prev().prop("disabled", true).val("");
+            $(this).prev().prop("disabled", true).val("--");
         } else {
-            $(this).prev().prop("disabled", false).val("00:00");
+            $(this).prev().prop("disabled", false).val("");
         }
     });
 
