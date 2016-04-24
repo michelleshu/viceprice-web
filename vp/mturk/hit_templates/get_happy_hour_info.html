@@ -92,13 +92,13 @@
             </div>
         </div>
     </div>
+    <hr/>
+    <div class="happy-hour-header content-row hidden">
+        <i class="fa fa-arrow-circle-right"></i>
+        <strong>Please populate the happy hour information below.</strong>
+    </div>
     <div class="happy-hour-entry-container hidden">
         <div class="deal-section">
-            <hr/>
-            <div class="content-row">
-                <i class="fa fa-arrow-circle-right"></i>
-                <strong>Please populate the happy hour information below.</strong>
-            </div>
             <div><i class="fa fa-minus-circle delete-deal-link"></i></div>
             <div class="row title-row">
                 <div class="seven columns">
@@ -186,6 +186,7 @@
             <div>
                 <a class="add-deal-detail-link"> + Add another drink special [For the same day]</a>
             </div>
+            <hr/>
         </div>
         <div class="row">
             <a class="add-deal-link"> + Add day [Drink special is at another time]</a>
@@ -201,7 +202,6 @@
     var locationID;
 
     $(document).ready(function() {
-
         dealTemplateHTML = $(".deal-section").html();
         dealDetailTemplateHTML = $(".deal-detail-section").html();
         happyHourBodyHTML = $(".happy-hour-entry-container").html();
@@ -237,12 +237,14 @@
         $(this).addClass("button-primary");
         $(".happy-hours-not-found").removeClass("button-primary");
         $(".happy-hour-entry-container").removeClass("hidden");
+        $(".happy-hour-header").removeClass("hidden");
     });
 
     $(document).on("click", ".happy-hours-not-found", function() {
         $(this).addClass("button-primary");
         $(".happy-hours-found").removeClass("button-primary");
         $(".happy-hour-entry-container").addClass("hidden");
+        $(".happy-hour-header").addClass("hidden");
     })
 
     $(document).on("click", ".add-time-period-link", function() {
