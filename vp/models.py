@@ -75,6 +75,8 @@ class MTurkLocationInfoStat(models.Model):
     minHITsCompleted = models.IntegerField(null=False)
     usLocaleRequired = models.BooleanField(null=False)
 
+    happyHourDataFound = models.BooleanField(default=False)
+
 
 # Track location as it goes through MTurk update process
 class MTurkLocationInfo(models.Model):

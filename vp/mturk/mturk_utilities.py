@@ -196,14 +196,19 @@ def within_time_range(time, start_time, end_time):
 
 #region Metadata Collection
 
-def add_mturk_stat(mturk_location, stage_name):
-    hit_type = settings.MTURK_HIT_TYPES[stage_name]
+def add_mturk_stat(mturk_location):
+    hit_type = settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR]
 
     stat = MTurkLocationInfoStat(
-        dateStarted=timezone.now(),
         location=mturk_location.location,
-        costForStage=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS],
-        costPerAssignment=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS]
+        dateStarted=timezone.now(),
+        numberOfAssignments = 1,
+        costPerAssignment=hit_type[PRICE],
+        maxGetHappyHourAttempts=settings.MAX_GET_HAPPY_HOUR_ATTEMPTS,
+        minConfirmationPercentage=settings.MIN_CONFIRMATION_PERCENTAGE,
+        minPercentagePreviousAssignmentsApproved=settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED,
+        minHITsCompleted=settings.MIN_HITS_COMPLETED,
+        usLocaleRequired=settings.US_LOCALE_REQUIRED
     )
     stat.save()
 
@@ -211,11 +216,11 @@ def add_mturk_stat(mturk_location, stage_name):
     mturk_location.save()
 
 
-def complete_mturk_stat(mturk_location, data_confirmed):
+def complete_mturk_stat(mturk_location, data_found):
+    mturk_location.stat.dataFound = data_found
     mturk_location.stat.dateCompleted = timezone.now()
     mturk_location.stat.save()
     mturk_location.stat = None
     mturk_location.save()
-
 
 #endregion
