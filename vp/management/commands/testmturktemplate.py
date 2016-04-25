@@ -27,10 +27,10 @@ class Command(BaseCommand):
 
         mturk_location_info = MTurkLocationInfo.objects.create(
             location = location,
-            name = self.location.name,
-            address = self.location.formattedAddress,
-            phone_number = self.location.formattedPhoneNumber,
-            website = self.location.website
+            name = location.name,
+            address = location.formattedAddress,
+            phone_number = location.formattedPhoneNumber,
+            website = location.website
         )
 
         mturk_location_info.save()
