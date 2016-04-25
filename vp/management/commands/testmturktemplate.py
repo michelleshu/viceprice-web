@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from boto.mturk import connection
 from vp.models import Location, MTurkLocationInfo
-from vp.mturk import mturk_utilities, mturk_update_phone_tasks, update_mturk_tasks
+from vp.mturk import mturk_utilities, update_mturk_tasks
 from viceprice.constants import *
 
 class Command(BaseCommand):

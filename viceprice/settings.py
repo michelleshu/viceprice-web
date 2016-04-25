@@ -161,10 +161,12 @@ MTURK_HIT_TYPES = {
         KEYWORDS: ['data collection', 'copy', 'website'],
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
-        MAX_ASSIGNMENTS: 1,
+        MAX_ASSIGNMENTS: 3,
         PRICE: 0.05,
         BONUS: 0.0,
         DURATION: 3600,
         US_LOCALE_REQUIRED: True
     }
 }
+
+MTURK_TEST_MODE = True
