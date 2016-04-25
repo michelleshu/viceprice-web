@@ -10,6 +10,11 @@
         height: 0;
     }
 
+    button {
+        margin-right: 0.5rem !important;
+        padding: 0 20px !important;
+    }
+
     .instructions-header {
         margin-bottom: 1rem;
         font-size: 18px;
@@ -46,7 +51,7 @@
     }
 
     .start-time, .end-time {
-        width: 24%;
+        width: 30%;
     }
 
     .deal-value {
@@ -101,15 +106,15 @@
         <div class="deal-section">
             <div><i class="fa fa-minus-circle delete-deal-link"></i></div>
             <div class="row title-row">
-                <div class="seven columns">
+                <div class="six columns">
                     <h6>DAY(S) OF WEEK (Click and drag to select)</h6>
                 </div>
-                <div class="five columns">
+                <div class="six columns">
                     <h6>TIME PERIOD</h6>
                 </div>
             </div>
             <div class="row content-row">
-                <div class="seven columns day-of-week-buttons">
+                <div class="six columns day-of-week-buttons">
                     <button class="monday-button">M</button>
                     <button class="tuesday-button">T</button>
                     <button class="wednesday-button">W</button>
@@ -118,7 +123,7 @@
                     <button class="saturday-button">S</button>
                     <button class="sunday-button">Su</button>
                 </div>
-                <div class="five columns time-periods">
+                <div class="six columns time-periods">
                     <div class="first-time-period">
                         <input type="text" class="start-time" placeholder="00:00 AM"/>
                         <span> to </span>
@@ -193,6 +198,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" name="deals-result" id="deals-result"/>
 
 <script type="text/javascript">
     var isMouseDown = false;
@@ -207,10 +213,38 @@
         happyHourBodyHTML = $(".happy-hour-entry-container").html();
 
         // Track mouse up for day of week selection
-        $(document)
-        .mouseup(function() {
+        $(document).mouseup(function() {
             isMouseDown = false;
         });
+
+        // Process happy hour information into one of output fields before submit
+        $("#submitButton").click(function() {
+            // Check whether happy hour found/not found is selected
+            if (!$(".happy-hours-found").hasClass("button-primary") &&
+                !$(".happy-hours-not-found").hasClass("button-primary")) {
+
+                alert("Please select whether or not you found happy hour information");
+                return false;
+            }
+
+            // If a happy hour has been found, process the happy hour data
+            if ($(".happy-hours-found").hasClass("button-primary")) {
+                var result = {
+                    "dealsFound": true,
+                    "dealData": getDeals
+                };
+                $("#deals-result").val(JSON.stringify(result));
+            } else {
+                // If not, return an empty result
+                var result = {
+                    "dealsFound": false,
+                    "dealData": []
+                };
+                $("#deals-result").val(JSON.stringify(result));
+            }
+
+            return true;
+        })
     });
 
     $(document).on("mousedown", ".day-of-week-buttons button", function() {
@@ -295,9 +329,16 @@
         }
     });
 
-    $(document).on("click", "#requires-phone", function(event) {
-        get_location_that_needs_happy_hour();
-    });
+    var getDeals = function() {
+        var deals = $(".deal-section");
+        var dealData = [];
+
+        for (var i = 0; i < deals.length; i++) {
+            dealData.push(getDealInfo($(deals[i])));
+        }
+
+        return dealData;
+    }
 
     var getDealInfo = function(dealElement) {
         var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary"));
