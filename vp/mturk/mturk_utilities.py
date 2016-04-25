@@ -49,12 +49,14 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
             phone_number = location.formattedPhoneNumber,
             website = location.website
         )
+        mturk_location.save()
+
+        add_mturk_stat(mturk_location)
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
         location.mturkDateLastUpdated = timezone.now()
         location.save()
 
-        mturk_location.save()
 
 #endregion
 
@@ -156,7 +158,7 @@ def add_comments(mturk_location, comments):
 
         mturk_location.comments = mturk_location.comments[:999]
         mturk_location.save()
-\
+
 # Approve assignments from HIT and dispose of the HIT
 def approve_and_dispose(conn, hit):
     if (hit.HITStatus == REVIEWABLE):
@@ -168,32 +170,6 @@ def approve_and_dispose(conn, hit):
 
 #endregion
 
-# Check to see whether we are within valid business hours for a location
-def within_business_hours(location_id):
-    now = timezone.localtime(timezone.now())
-    current_day = now.isoweekday()
-    current_time = now.time()
-
-    business_hour_ids = Location.objects.get(id = location_id).businessHours.all().values_list('id', flat=True)
-    today_business_hour_ids = DayOfWeek.objects.filter(
-        day = current_day, businessHour_id__in=business_hour_ids).values_list('businessHour_id', flat=True)
-    today_time_frames = TimeFrame.objects.filter(businessHour_id__in=today_business_hour_ids).all().values('startTime', 'endTime')
-
-    for time_frame in today_time_frames:
-        if (within_time_range(current_time, time_frame['startTime'], time_frame['endTime'])):
-            return True
-
-    return False
-
-
-# Check if we are currently within a certain time range
-def within_time_range(time, start_time, end_time):
-    start_cutoff = (datetime.datetime.combine(datetime.date.today(), start_time) + datetime.timedelta(minutes=30)).time()
-    end_cutoff = (datetime.datetime.combine(datetime.date.today(), end_time) - datetime.timedelta(minutes=30)).time()
-
-    return start_cutoff <= time and end_cutoff >= time
-
-
 #region Metadata Collection
 
 def add_mturk_stat(mturk_location):
@@ -202,7 +178,7 @@ def add_mturk_stat(mturk_location):
     stat = MTurkLocationInfoStat(
         location=mturk_location.location,
         dateStarted=timezone.now(),
-        numberOfAssignments = 1,
+        numberOfAssignments = 0,
         costPerAssignment=hit_type[PRICE],
         maxGetHappyHourAttempts=settings.MAX_GET_HAPPY_HOUR_ATTEMPTS,
         minConfirmationPercentage=settings.MIN_CONFIRMATION_PERCENTAGE,
