@@ -10,7 +10,7 @@
         height: 0;
     }
 
-    button {
+    .question-container button {
         margin-right: 0.5rem !important;
         padding: 0 20px !important;
     }
@@ -62,19 +62,24 @@
         width: 92%;
     }
 
-    i.fa.fa-minus-circle {
-        color: #FA6060;
+    .delete-icon {
         cursor: pointer;
-        font-size: 18px;
+        height: 24px;
+        width: 24px;
         padding: 3px;
         vertical-align: middle;
     }
 
-    i.fa.fa-arrow-circle-right {
-        color: #1EAEDB;
-        font-size: 18px;
+    .arrow-icon {
+        height: 24px;
+        width: 24px;
         padding: 3px;
         vertical-align: middle;
+    }
+
+    #submitButton {
+        float: right;
+        margin-right: 5rem;
     }
 </style>
 
@@ -87,7 +92,7 @@
     <div class="happy-hour-found-question">
         <hr/>
         <div class="content-row">
-            <i class="fa fa-arrow-circle-right"></i>
+            <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
             <strong>Is happy hour information listed on ${name}'s website?</strong>
         </div>
         <div class="row">
@@ -99,12 +104,12 @@
     </div>
     <hr/>
     <div class="happy-hour-header content-row hidden">
-        <i class="fa fa-arrow-circle-right"></i>
+        <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
         <strong>Please populate the happy hour information below.</strong>
     </div>
     <div class="happy-hour-entry-container hidden">
         <div class="deal-section">
-            <div><i class="fa fa-minus-circle delete-deal-link"></i></div>
+            <div><img class="delete-icon delete-deal-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/></div>
             <div class="row title-row">
                 <div class="six columns">
                     <h6>DAY(S) OF WEEK (Click and drag to select)</h6>
@@ -137,7 +142,7 @@
                     </div>
 
                     <div class="second-time-period hidden">
-                        <i class="fa fa-minus-circle delete-time-period-link"></i>
+                        <img class="delete-icon delete-time-period-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
                         <input type="text" class="start-time" placeholder="00:00 AM"/>
                         <span> to </span>
                         <input type="text" class="end-time" placeholder="00:00 AM"/>
@@ -163,7 +168,7 @@
             <div class="deal-detail-section">
                 <div class="row content-row">
                     <div class="six columns">
-                        <i class="fa fa-minus-circle delete-deal-detail-link"></i>
+                        <img class="delete-icon delete-deal-detail-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
                         <input type="text" class="u-full-width drink-names" placeholder="Corona Light, Miller Lite"/>
                     </div>
                     <div class="two columns">
@@ -218,7 +223,9 @@
         });
 
         // Process happy hour information into one of output fields before submit
-        $("#submitButton").click(function() {
+        $("#submitButton").click(function(event) {
+            debugger;
+
             // Check whether happy hour found/not found is selected
             if (!$(".happy-hours-found").hasClass("button-primary") &&
                 !$(".happy-hours-not-found").hasClass("button-primary")) {
@@ -231,7 +238,7 @@
             if ($(".happy-hours-found").hasClass("button-primary")) {
                 var result = {
                     "dealsFound": true,
-                    "dealData": getDeals
+                    "dealData": getDeals()
                 };
                 $("#deals-result").val(JSON.stringify(result));
             } else {
@@ -247,19 +254,33 @@
         })
     });
 
-    $(document).on("mousedown", ".day-of-week-buttons button", function() {
+    $(document).on("click", ".day-of-week-buttons button", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    $(document).on("mousedown", ".day-of-week-buttons button", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         isMouseDown = true;
         $(this).toggleClass("button-primary");
         return false;
     });
 
-    $(document).on("mouseover", ".day-of-week-buttons button", function() {
+    $(document).on("mouseover", ".day-of-week-buttons button", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         if (isMouseDown) {
             $(this).toggleClass("button-primary");
         }
     });
 
-    $(document).on("change", ".until-close", function() {
+    $(document).on("change", ".until-close", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         if (this.checked) {
             $(this).prev().prop("disabled", true).val("--");
         } else {
@@ -267,31 +288,46 @@
         }
     });
 
-    $(document).on("click", ".happy-hours-found", function() {
+    $(document).on("click", ".happy-hours-found", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         $(this).addClass("button-primary");
         $(".happy-hours-not-found").removeClass("button-primary");
         $(".happy-hour-entry-container").removeClass("hidden");
         $(".happy-hour-header").removeClass("hidden");
     });
 
-    $(document).on("click", ".happy-hours-not-found", function() {
+    $(document).on("click", ".happy-hours-not-found", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         $(this).addClass("button-primary");
         $(".happy-hours-found").removeClass("button-primary");
         $(".happy-hour-entry-container").addClass("hidden");
         $(".happy-hour-header").addClass("hidden");
     })
 
-    $(document).on("click", ".add-time-period-link", function() {
+    $(document).on("click", ".add-time-period-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         $(this).parent().parent().find(".second-time-period").removeClass("hidden");
         $(this).addClass("hidden");
     });
 
     $(document).on("click", ".delete-time-period-link", function() {
+        event.preventDefault();
+        event.stopPropagation();
+
         $(this).parent().parent().find(".add-time-period-link").removeClass("hidden");
         $(this).parent().addClass("hidden");
     });
 
-    $(document).on("change", ".deal-type", function() {
+    $(document).on("change", ".deal-type", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         if ($(this).val() == "price") {
             $(this).parent().parent().find(".dollar-prefix").removeClass("hidden");
             $(this).parent().parent().find(".percent-off-suffix").addClass("hidden");
@@ -309,21 +345,33 @@
         }
     });
 
-    $(document).on("click", ".add-deal-detail-link", function() {
+    $(document).on("click", ".add-deal-detail-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         $(this).parent().before("<div class='deal-detail-section'>" + dealDetailTemplateHTML + "</div>");
     });
 
-    $(document).on("click", ".delete-deal-detail-link", function() {
+    $(document).on("click", ".delete-deal-detail-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         if ($(".delete-deal-detail-link").length > 1) {
             $(this).parent().parent().remove();
         }
     })
 
     $(document).on("click", ".add-deal-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         $(this).parent().before("<div class='deal-section'>" + dealTemplateHTML + "</div>");
     });
 
     $(document).on("click", ".delete-deal-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         if ($(".delete-deal-link").length > 1) {
             $(this).parent().parent().remove();
         }
@@ -354,16 +402,16 @@
 
     var getTimePeriods = function(timePeriods) {
         var firstTimePeriod = {
-            'startTime': timePeriods.find(".first-time-period .start-time").val(),
-            'endTime': timePeriods.find(".first-time-period .end-time").val(),
+            'startTime': parseTime(timePeriods.find(".first-time-period .start-time").val()),
+            'endTime': parseTime(timePeriods.find(".first-time-period .end-time").val()),
             'untilClose': timePeriods.find(".first-time-period .until-close").is(":checked")
         };
         var timePeriodResults = [firstTimePeriod];
 
         if (timePeriods.find(".second-time-period").not(".hidden").length == 1) {
             var secondTimePeriod = {
-                'startTime': timePeriods.find(".second-time-period .start-time").val(),
-                'endTime': timePeriods.find(".second-time-period .end-time").val(),
+                'startTime': parseTime(timePeriods.find(".second-time-period .start-time").val()),
+                'endTime': parseTime(timePeriods.find(".second-time-period .end-time").val()),
                 'untilClose': timePeriods.find(".second-time-period .until-close").is(":checked")
             };
             timePeriodResults.push(secondTimePeriod);
@@ -424,7 +472,64 @@
         return days;
     };
 
-    var clear_inputs = function(data) {
-        $(".happy-hour-entry-container").html(happyHourBodyHTML);
-    };
+    // Try to parse time to 24 hour HH:MM format, return null on failure
+   // http://www.timlabonne.com/2013/07/parsing-a-time-string-with-javascript/
+   var parseTime = function(timeStr) {
+       timeStr = timeStr.trim();
+       var time = timeStr.match(/(\d+)(?::(\d\d))?\s*(p?)/i);
+       // Ensure that there are 2 minute digits
+       var colonIndex = timeStr.indexOf(":");
+       if (colonIndex > -1) {
+           if (isNaN(parseInt(timeStr[colonIndex + 1]))
+               || isNaN(parseInt(timeStr[colonIndex + 2]))) {
+               return null;
+           }
+           if (colonIndex > 2) {
+               return null;
+           }
+           if (!isNaN(parseInt(timeStr[colonIndex + 3]))) {
+               return null;
+           }
+       } else {
+           if (timeStr == "0") {
+               return null;
+           }
+       }
+       if (!time) {
+           return null;
+       }
+       var hour = parseInt(time[1], 10);
+       var minute = parseInt(time[2], 10);
+       if (minute < 0 || minute > 59) {
+           return null;
+       }
+       if (isNaN(minute)) {
+           minute = 0;
+       }
+       if ((time[3] === "p" || time[3] === "P") && hour !== 12) {
+           hour += 12;
+       }
+       if (hour < 0 || hour > 23) {
+           return null;
+       }
+       if (timeStr[timeStr.length - 1] !== 'm' &&
+           timeStr[timeStr.length - 1] !== 'M' &&
+           timeStr[timeStr.length - 1] !== '.' &&
+           hour <= 12
+           && hour > 0) {
+           return null;
+       }
+       if (time[3].length === 0 && hour === 12) {
+           hour = 0;
+       }
+       var formattedHour = "" + hour;
+       if (formattedHour.length === 1) {
+           formattedHour = "0" + hour;
+       }
+       var formattedMinute = "" + minute;
+       if (formattedMinute.length === 1) {
+           formattedMinute = "0" + minute;
+       }
+       return formattedHour + ":" + formattedMinute;
+   };
 </script>
