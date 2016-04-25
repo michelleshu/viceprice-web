@@ -26,49 +26,42 @@ class Command(BaseCommand):
         )
 
         mturk_location_info = MTurkLocationInfo.objects.create(
-            location = self.location,
+            location = location,
             name = self.location.name,
             address = self.location.formattedAddress,
             phone_number = self.location.formattedPhoneNumber,
-            website = self.location.website,
-            stage = 0
+            website = self.location.website
         )
 
-        #mturk_utilities.register_hit_types(self.conn)
+        mturk_location_info.save()
 
-        mturk_utilities.add_mturk_stat(mturk_location_info, FIND_HAPPY_HOUR_WEB)
-        mturk_location.stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
-        mturk_location.save()
-        mturk_utilities.create_hit(self.conn, mturk_location, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR_WEB])
+        mturk_utilities.register_hit_types(conn)
+        mturk_utilities.create_hit(conn, mturk_location_info, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR])
 
-        print("HIT " + mturk_location.hit_id + " created.")
-        self.print_status()
+        print("HIT " + mturk_location_info.hit_id + " created.")
+        self.print_status(mturk_location_info)
         raw_input("Respond at workersandbox.mturk.com...")
 
         update_mturk_tasks.update()
         print("Updated")
-        self.print_status()
+        self.print_status(mturk_location_info)
 
-        self.location_info.delete()
-        self.location.delete()
+        mturk_location_info.delete()
+        location.delete()
 
 
-    def print_status(self):
-        mturk_location = self.location_info
+    def print_status(self, mturk_location_info):
+        print(mturk_location_info.name)
 
-        print(mturk_location.name)
-
-        if mturk_location.stage != None:
-            print('  Stage: ' + str(mturk_location.stage))
-        if mturk_location.website != None:
-            print('  Website: ' + mturk_location.website)
-        if mturk_location.hit_id != None:
-            print('  HIT ID: ' + str(mturk_location.hit_id))
-        if mturk_location.deals != None:
-            print('  Deals: ' + mturk_location.deals)
-        if mturk_location.attempts != None:
-            print('  Attempts: ' + str(mturk_location.attempts))
-        if mturk_location.confirmations != None:
-            print('  Confirmations: ' + str(mturk_location.confirmations))
-        if mturk_location.comments != None:
-            print('  Comments: ' + mturk_location.comments)
+        if mturk_location_info.website != None:
+            print('  Website: ' + mturk_location_info.website)
+        if mturk_location_info.hit_id != None:
+            print('  HIT ID: ' + str(mturk_location_info.hit_id))
+        if mturk_location_info.deals != None:
+            print('  Deals: ' + mturk_location_info.deals)
+        if mturk_location_info.attempts != None:
+            print('  Attempts: ' + str(mturk_location_info.attempts))
+        if mturk_location_info.confirmations != None:
+            print('  Confirmations: ' + str(mturk_location_info.confirmations))
+        if mturk_location_info.comments != None:
+            print('  Comments: ' + mturk_location_info.comments)

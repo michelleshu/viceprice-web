@@ -157,8 +157,7 @@ MTURK_HIT_TYPES = {
     FIND_HAPPY_HOUR: {
         TITLE: 'Find happy hour information on a website',
         DESCRIPTION: 'Search a website for information on happy hour deals',
-        ANNOTATION: 'Find info web',
-        HIT_TYPE_ID: os.environ.get('HIT_TYPE_ID_FIND_HAPPY_HOUR'),
+        ANNOTATION: 'Find happy hour info',
         KEYWORDS: ['data collection', 'copy', 'website'],
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
@@ -166,6 +165,6 @@ MTURK_HIT_TYPES = {
         PRICE: 0.05,
         BONUS: 0.0,
         DURATION: 3600,
-        US_LOCALE_REQUIRED: False
+        US_LOCALE_REQUIRED: True
     }
 }
