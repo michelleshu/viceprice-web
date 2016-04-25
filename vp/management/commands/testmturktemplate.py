@@ -46,6 +46,7 @@ class Command(BaseCommand):
         print("Updated")
         self.print_status(mturk_location_info)
 
+        mturk_location_info.stat.delete()
         mturk_location_info.delete()
         location.delete()
 
