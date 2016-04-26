@@ -7,7 +7,8 @@ var map = L.map('map', {
 	center : [ 38.907557, -77.028130 ],
 	minZoom : 13,
 	zoom : 13,
-	zoomControl : false
+	zoomControl : false,
+	attributionControl: false
 });
 
 L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
@@ -217,7 +218,7 @@ function dealsPrices(allDeals,properties,startTime,endTime){
 		if(properties.subCategories[0] != undefined)
 			ulElement = ulElement + '<h2>' + properties.subCategories[0] + '</h2>';
 		
-		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
+		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li class="cheapest_price"> Best Deal: ';
   
     for(deal in allDeals){
 	    if(deal == "beer" && allDeals["beer"].length != 0)
@@ -306,7 +307,7 @@ metroLayer.on('layeradd', function(e) {
     marker.on('mouseout', function() {
     marker.closePopup();
     });
-    
+
 });
 
 /***DC Neighborhoods***/

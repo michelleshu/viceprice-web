@@ -71,10 +71,13 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   border-bottom: 1px solid #7d7f80;
   }
 
-.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-bottom:1%; width: 100%;}
+.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-left:0.5rem; width:16.6666%; }
 
+.attribution{text-align: right;display: inline-block;margin-left: 1rem}
 
-a {font-size:60%; font-family: Arial, sans-serif;padding-left:1%;}
+.attribution a {padding-left:0;}
+
+a {font-size:70%; font-family: Arial, sans-serif;padding-left:0.5rem;}
 a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
@@ -222,9 +225,7 @@ cursor: pointer;
   display: inline-block;
   vertical-align: top;
 }
- #subCategories {
-  margin-bottom: 0.4rem;
- }
+
 #profile_img{
   display: inline-block;
   vertical-align: top;
@@ -476,6 +477,15 @@ cursor: pointer;
   color:#5b5b5b;
   font-family: Montserrat, Arial, sans-serif;
   margin-right: 2rem;
+  }
+
+  .leaflet-container .cheapest_price{
+    color: #5b5b5b;
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: 0.75rem;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0rem;
   }
 
   .leaflet-container .metro_info p{
