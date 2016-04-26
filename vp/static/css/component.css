@@ -108,14 +108,12 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 .right-side-bar h1{
   font-size:120%;
-  color:#5b5b5b;
   font-family: Montserrat, Arial, sans-serif;
   font-weight: bold;
-  padding-bottom: 2%;
 }
 
 .right-side-bar #location-name {
-  margin: 1rem 0 0 1rem;
+  margin: 0 0 0 1rem;
 }
 
 .right-side-bar #venue-category {
@@ -133,12 +131,12 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   display: inline-block;
   vertical-align: top;
   width: 70%;
-  font-size:100%;
-  color:#7d7f80;
-  font-family: Montserrat, Arial, sans-serif;
+  color: #5b5b5b;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 0.2rem;
   height: 1rem;
+  font-family: Montserrat;
+  font-size: 0.8rem;
 }
 
 .right-side-bar h3{
@@ -163,7 +161,9 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 .right-side-bar .category {
     font-family: Montserrat;
-    margin-left: 1rem;
+    font-size: 0.8rem;
+    color: #5b5b5b;
+    display: inline-block;
 }
 
 .specials-div ul {
@@ -176,7 +176,6 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 .specials-div li {
   color:#c8a45e;
   font-family: Montserrat, Arial, sans-serif;
-  padding-bottom: 2%;
   margin-left: 2rem;
 }
 
@@ -202,14 +201,15 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 #location-address, #location-phone-number, #location-website {
   font-family: Montserrat, Arial, sans-serif;
   font-size: 0.75rem;
-  color: #5b5b5b;
+  color: #7d7f80;
   position: relative;
   bottom: 0.1rem;
   left: 0.3rem;
+  padding-left: 0;
 }
 
 a#location-website {
-color: #5b5b5b;
+color: #7d7f80;
 cursor: pointer;
 }
 
@@ -237,6 +237,7 @@ cursor: pointer;
 .reviews-div hr{
   margin-top:0;
   margin-bottom: 0;
+  margin-left: 0.4rem;
   border:0;
   border-top:1px solid #c8a45e;
   width:55%;
@@ -256,7 +257,11 @@ cursor: pointer;
 
 .review_count {
   float:left;
-  margin-top: 0.5rem;
+  margin-top: 0.5rem
+}
+
+.review_count p{
+  margin-left: 0.5rem
 }
 
 #name {
