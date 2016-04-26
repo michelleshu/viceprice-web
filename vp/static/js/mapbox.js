@@ -49,12 +49,16 @@ var bar_marker_clicked = L.icon({
 });
 
 /******Creating featureLayer and adding markers data********/
-var myLayer = L.mapbox.featureLayer().addTo(map);
+var myLayer = L.mapbox.featureLayer();
+var cluster = new L.MarkerClusterGroup({ polygonOptions: {
+        opacity: 0,
+        fillOpacity: 0
+      }});
 var lastMarker;
+
 myLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = marker.feature;
-
     // Create custom popup content'
     var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A");
 
@@ -388,12 +392,12 @@ function click(e) {
     e.target.setStyle({fillOpacity: 0});
     id=parseInt(e.target.feature.id)-1;
     css[id].style.display="none";
-
     lastLayer=e.target;
     neighborhood=e.target.feature.properties.name;
 
     //OnClick: zoom into Polygon and show related markers
-     map.fitBounds(getBounds(e.target));
+    map.fitBounds(getBounds(e.target));
+ 	cluster.clearLayers();
     updateNeighborhoodData()
     return false;
 	}
@@ -410,8 +414,6 @@ function click(e) {
     });
 
     var randPop = randomProperty(myLayer._layers)
-
-
 	}
 
 var randomProperty = function (obj) {
@@ -502,6 +504,7 @@ $("#neighboor-zoom").click(function() {
     map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
     //reset polygon style
     dcnLayer.resetStyle(lastLayer);
+    cluster.clearLayers();
     lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
     document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
     id=parseInt(lastLayer.feature.id)-1;
@@ -528,11 +531,25 @@ $("#zoom-out").click(function() {
 map.on('move', function() {
     zoom = map.getZoom();
 
+
     if (zoom == 13) {
       $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
      $(".sliding").animate({ right: "0"} , 700);
      $menu_visible=false;
     }
+
+    if((zoom == 17) || (zoom ==18))
+    {
+    	cluster.clearLayers();
+    	map.addLayer(myLayer);
+    }
+    else
+    {
+    	map.removeLayer(myLayer);
+    	cluster.addLayer(myLayer);
+    	map.addLayer(cluster);
+    }
+
 });
 
