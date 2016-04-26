@@ -442,11 +442,15 @@ cursor: pointer;
   }
 
   .tooltip-info{
-    margin-left: 0;
+    margin-left: 0.1rem;
     margin-right: 0;
-    margin-bottom: 0;
+    margin-bottom: 0.3rem;
+    margin-top: 0.5rem;
   }
 
+  .leaflet-popup-content{
+    padding: 0.1rem 0.1rem 0.1rem 0.5rem !important;
+  }
   .leaflet-container .tooltip-info h1{
   font-size: 1rem;
   color:#5b5b5b;
@@ -473,3 +477,19 @@ cursor: pointer;
   font-family: Montserrat, Arial, sans-serif;
   margin-right: 2rem;
   }
+
+  .leaflet-container .metro_info p{
+   display: inline;
+  font-size: 0.70rem;
+  color:#5b5b5b;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-right: 0.4rem;
+  }
+
+   .leaflet-container .line{
+    display: inline-block;
+    width:1rem;
+    height:1rem;
+    margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+    vertical-align: bottom;
+   }
