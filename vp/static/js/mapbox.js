@@ -7,7 +7,8 @@ var map = L.map('map', {
 	center : [ 38.907557, -77.028130 ],
 	minZoom : 13,
 	zoom : 13,
-	zoomControl : false
+	zoomControl : false,
+	attributionControl: false
 });
 
 L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
@@ -217,7 +218,7 @@ function dealsPrices(allDeals,properties,startTime,endTime){
 		if(properties.subCategories[0] != undefined)
 			ulElement = ulElement + '<h2>' + properties.subCategories[0] + '</h2>';
 		
-		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li>';
+		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li class="cheapest_price"> Best Deal: ';
   
     for(deal in allDeals){
 	    if(deal == "beer" && allDeals["beer"].length != 0)
@@ -270,13 +271,46 @@ function fetchData(time, dayIndex) {
 	});
 }
 function updateHappyHours(){
-	$('.bar_num_labels').text("N/A");
+	$('.bar_num_labels').text("( 0 )");
 	$(neighborhoods).each(function(index,data){
-		if(data.neighborhood == "U Street")
 	    	$("div[data-neighborhood='"+data.neighborhood+"']").text("( " + data.count + " )")
 	});
 }
-/** *DC Neighborhoods** */
+
+/*** DC Metro Statons ***/
+var metroLayer = L.mapbox.featureLayer().addTo(map);
+
+metroLayer.on('layeradd', function(e) {
+  var marker = e.layer,
+      feature = e.layer.feature;
+  marker.setIcon(L.icon({iconUrl: '../static/img/metro.png',iconSize: [16, 16]}));
+
+  var metroTooltip = "<div class='metro_info'><p>" + feature.properties.NAME+"</p>";
+
+  var lineColor = feature.properties.LINE.split(",");
+
+  for(i in lineColor){
+  	metroTooltip=metroTooltip+"<div class='line' style='background-color:"+lineColor[i]+";'></div>";
+  }
+
+  metroTooltip=metroTooltip+"</div>";
+  
+  marker.bindPopup(metroTooltip,{
+        closeButton: false,
+        minWidth: 90
+    });
+
+  marker.on('mouseover', function() {
+    marker.openPopup();
+    });
+
+    marker.on('mouseout', function() {
+    marker.closePopup();
+    });
+
+});
+
+/***DC Neighborhoods***/
 var dcnLayer = L.geoJson(dcn, {
 	style : getStyle,
 	onEachFeature : onEachFeature
@@ -368,6 +402,11 @@ function click(e) {
 	myLayer.setGeoJSON(geoJsonData);
     myLayer.setFilter(function(f) {
         return f.properties["neighborhood"] === neighborhood;
+    });
+
+    metroLayer.setGeoJSON(metro);
+    metroLayer.setFilter(function(f) {
+    	return f.properties["NEIGHBORHOOD"] === neighborhood;
     });
 
     var randPop = randomProperty(myLayer._layers)
@@ -469,6 +508,9 @@ $("#neighboor-zoom").click(function() {
     css[id].style.display="block";
     //remove all markers
      myLayer.setFilter(function(f) {
+            return false;
+        });
+     metroLayer.setFilter(function(f) {
             return false;
         });
 });
