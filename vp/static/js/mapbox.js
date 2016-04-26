@@ -18,33 +18,33 @@ map.setMaxBounds(bounds);
 /*********create a custom marker ***********/
 var restaurant_marker = L.icon({
     iconUrl: '../static/img/restaurant-marker.png',
-    iconSize:     [44, 49], // size of the icon
-    iconAnchor:   [20, 49],
-    popupAnchor:  [3, -49]
+    iconSize:     [37, 42], // size of the icon
+    iconAnchor:   [17, 42],
+    popupAnchor:  [3, -42]
 
 });
 
 var restaurant_marker_clicked = L.icon({
     iconUrl: '../static/img/restaurant-marker-clicked.png',
-    iconSize:     [44, 49], // size of the icon
-    iconAnchor:   [20, 49],
-    popupAnchor:  [3, -49]
+    iconSize:     [37, 42], // size of the icon
+    iconAnchor:   [17, 42],
+    popupAnchor:  [3, -42]
 
 });
 
 var bar_marker = L.icon({
     iconUrl: '../static/img/bar-marker.png',
-    iconSize:     [44, 49], // size of the icon
-    iconAnchor:   [20, 49],
-    popupAnchor:  [3, -49]
+    iconSize:     [37, 42], // size of the icon
+    iconAnchor:   [17, 42],
+    popupAnchor:  [3, -42]
 
 });
 
 var bar_marker_clicked = L.icon({
     iconUrl: '../static/img/bar-marker-clicked.png',
-    iconSize:     [44, 49], // size of the icon
-    iconAnchor:   [20, 49],
-    popupAnchor:  [3, -49]
+    iconSize:     [37, 42], // size of the icon
+    iconAnchor:   [17, 42],
+    popupAnchor:  [3, -42]
 
 });
 
@@ -112,7 +112,13 @@ myLayer.on('layeradd', function(e) {
 		var subCategories = locationProperties["subCategories"];
 		$("#location-categories").html("");
 		for (var i = 0; i < subCategories.length; i++) {
-			$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
+			if(i == 0)
+				$("#location-categories").append("<div class='category' style='margin-left:1rem;'>" + subCategories[i] + "</div>");
+			else
+				$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
+			
+			if(i != (subCategories.length-1))
+				$("#location-categories").append(" | ");
 		}
 
         $("#location-address").html(locationProperties["abbreviatedAddress"]);
