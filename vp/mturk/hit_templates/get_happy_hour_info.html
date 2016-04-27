@@ -238,8 +238,6 @@
 
         // Process happy hour information into one of output fields before submit
         $("#submitButton").click(function(event) {
-            debugger;
-
             // Check whether happy hour found/not found is selected
             if (!$(".happy-hours-found").hasClass("button-primary") &&
                 !$(".happy-hours-not-found").hasClass("button-primary")) {
@@ -255,6 +253,8 @@
                     "dealData": getDeals()
                 };
                 $("#deals-result").val(JSON.stringify(result));
+
+                return validateDealData(result.dealData);
             } else {
                 // If not, return an empty result
                 var result = {
@@ -262,10 +262,9 @@
                     "dealData": []
                 };
                 $("#deals-result").val(JSON.stringify(result));
+                return true;
             }
-
-            return true;
-        })
+        });
     });
 
     $(document).on("click", ".day-of-week-buttons button", function(event) {
@@ -371,7 +370,7 @@
         event.stopPropagation();
 
         if ($(".delete-deal-detail-link").length > 1) {
-            $(this).parent().parent().remove();
+            $(this).parent().parent().parent().remove();
         }
     })
 
@@ -391,8 +390,55 @@
         }
     });
 
+    var validateDealData = function(dealData) {
+        for (var i = 0; i < dealData.length; i++) {
+            var deal = dealData[i];
+
+            if (!deal.daysOfWeek || deal.daysOfWeek.length == 0) {
+                alert("Please select the days of the week for which each deal applies to. Delete all empty deal sections before submitting.");
+                return false;
+            }
+
+            if (!deal.timePeriods || deal.timePeriods.length == 0) {
+                alert("Please enter a time period for each deal. Delete all empty deal sections before submitting.");
+                return false;
+            }
+            else {
+                for (var j = 0; j < deal.timePeriods.length; j++) {
+                    var timePeriod = deal.timePeriods[j];
+                    if (!timePeriod.startTime) {
+                        alert("Please enter a start time for each time period. Delete all empty time period sections before submitting.");
+                        return false;
+                    }
+                    if (!timePeriod.endTime && !timePeriod.untilClose) {
+                        alert("Please enter an end time or select until close for each time period. Delete all empty time period sections before submitting.");
+                        return false;
+                    }
+                }
+            }
+
+            if (!deal.dealDetails || deal.dealDetails.length == 0) {
+                alert("Please enter drink details for each deal. Delete all empty deal sections before submitting.");
+                return false;
+            }
+            else {
+                for (var j = 0; j < deal.dealDetails.length; j++) {
+                    var dealDetail = deal.dealDetails[j];
+                    if (!dealDetail.names || dealDetail.names == "") {
+                        alert("Please enter drink names for each drink detail. Delete all empty drink detail sections before submitting.");
+                        return false;
+                    }
+                    if (!dealDetail.dealValue || isNaN(dealDetail.dealValue)) {
+                        alert("Please enter a valid numerical value or price for each drink detail. Delete all empty drink detail sections before submitting.");
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
     var getDeals = function() {
-        var deals = $(".deal-section");
+        var deals = $(".deal-section").not(".hidden");
         var dealData = [];
 
         for (var i = 0; i < deals.length; i++) {
@@ -403,8 +449,8 @@
     }
 
     var getDealInfo = function(dealElement) {
-        var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary"));
-        var timePeriods = getTimePeriods(dealElement.find(".time-periods"));
+        var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary").not(".hidden"));
+        var timePeriods = getTimePeriods(dealElement.find(".time-periods").not(".hidden"));
         var dealDetails = getDealDetails(dealElement);
 
         return {
@@ -435,7 +481,7 @@
     };
 
     var getDealDetails = function(dealElement) {
-        var dealDetails = dealElement.find(".deal-detail-section");
+        var dealDetails = dealElement.find(".deal-detail-section").not(".hidden");
         var dealDetailResults = [];
 
         for (var i = 0; i < dealDetails.length; i++) {
