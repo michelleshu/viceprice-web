@@ -222,7 +222,6 @@ def yelp_reviews(request):
         "username": api_response['reviews'][0]['user']['name'],
         "user_img": api_response['reviews'][0]['user']['image_url'],
         "overall_rating_img": api_response['rating_img_url'],
-        "user_rating_img": api_response['reviews'][0]['rating_image_url'],
         "review_count": api_response['review_count'],
         "url": api_response['url']
     }
