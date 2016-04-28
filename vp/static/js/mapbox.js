@@ -1,4 +1,5 @@
 /*****Map Setup*****/
+//mapbox.js v2.4.0: https://www.mapbox.com/mapbox.js/api/v2.4.0/
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 
 var map = L.map('map', {
@@ -460,7 +461,7 @@ function click(e) {
         return f.properties["neighborhood"] === neighborhood;
     });
 
-    metroLayer.setGeoJSON(metro); //load metro station data to metroLayer
+    metroLayer.setGeoJSON(metro); //load metro station data to metroLayer (//metro is defined in dc-metro.js)
     metroLayer.setFilter(function(f) {//filter this layer so it only contains the stations within a specfic neighborhood
     	return f.properties["NEIGHBORHOOD"] === neighborhood;
     });
