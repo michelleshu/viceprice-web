@@ -74,6 +74,16 @@ function fetchData(time, dayIndex) {
 	});
 }
 
+function fetchDay(dayIndex) {
+	$.get("/fetch/?day=" + dayIndex, function(data) {
+		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
+		neighborhoods = data.neighborhoods;
+		deals = data.deals;
+		updateHappyHours();
+		updateNeighborhoodData();
+	});
+}
+
 function updateHappyHours(){
 	$('.bar_num_labels').text("( 0 )"); //this indicates that no venues are avilable wihtin a neighborhood 
 	$(neighborhoods).each(function(index,data){//otherwise, show the number of available venues 

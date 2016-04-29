@@ -125,7 +125,10 @@ def upload_data_view(request):
 def fetch_locations(request):
     time = request.GET.get('time')
     day = request.GET.get('day')
-    locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day), Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gt=time) | Q(deals__activeHours__end__lte=F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
+    if(time == None):
+        locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day)).distinct().prefetch_related('deals__dealDetails')
+    else:
+        locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day), Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gt=time) | Q(deals__activeHours__end__lte=F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
     neighborhoods = locations.values('neighborhood').annotate(total=Count('neighborhood'))
     neighborhooddata = []
     for nh in neighborhoods:
@@ -136,7 +139,10 @@ def fetch_locations(request):
     dealInfo = {}
     for location in locations:
         dealList = []
-        dealSet = location.deals.filter(Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gt=time) | Q(activeHours__end__lte=F('activeHours__start'))).all()
+        if(time == None): 
+            dealSet = location.deals.filter(Q(activeHours__dayofweek=day)).all()
+        else:
+            dealSet = location.deals.filter(Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gt=time) | Q(activeHours__end__lte=F('activeHours__start'))).all()    
         superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
         subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
         beers = []

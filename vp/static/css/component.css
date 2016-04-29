@@ -351,6 +351,17 @@ cursor: pointer;
         outline: none; /* no focus outline */
       }
 
+      input[type="range"]:disabled {
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: red;
+        padding: 1px 2px;
+        border-radius: 14px;
+        background: #232528;
+        box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
+        -webkit-box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
+        outline: none; /* no focus outline */
+      }
+
       input[type="range"]::-moz-range-track {
         border: inherit;
         background: transparent;
@@ -383,6 +394,18 @@ cursor: pointer;
         background-image: -webkit-linear-gradient(top , #c8a45e 0, #c8a45e 100%); /* older mobile safari and android > 2.2 */;
         background-image: linear-gradient(to bottom, #c8a45e 0, #c8a45e 100%); /* W3C */
       }
+
+       input[type="range"]:disabled::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 18px;
+        border: none;
+        border-radius: 12px;
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, grey), color-stop(100%, #decca1)); /* android <= 2.2 */
+        background-image: -webkit-linear-gradient(top , grey 0, grey 100%); /* older mobile safari and android > 2.2 */;
+        background-image: linear-gradient(to bottom, grey 0, grey 100%); /* W3C */
+      }
+
       input[type="range"]::-moz-range-thumb {
         width: 40px;
         border: none;
@@ -417,7 +440,7 @@ cursor: pointer;
         border:none;
         margin-left: 25%;
         font-size:70%;
-        color:#c8a45e;
+        color:rgb(35, 40, 43);
         font-family:"Montserrat", Arial, sans-serif;
         cursor: auto;
       }
@@ -508,3 +531,36 @@ cursor: pointer;
     margin: 0.1rem 0.1rem 0.1rem 0.1rem;
     vertical-align: bottom;
    }
+
+   input[type=checkbox] {
+    display:none;
+}
+
+.today_label{
+  display: block;
+  font-size:70%;
+  color:#aeaeae;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-left: 18%;
+}
+
+input[type=checkbox] + label:before {
+    content: "";  
+    display: inline-block;  
+    width: 15px;  
+    height: 15px;  
+    vertical-align:middle;
+    margin-right: 8px;  
+    background-color: #aaa;  
+    box-shadow: inset 0px 2px 2px rgba(0, 0, 0, .3);
+    border-radius: 4px;  
+}
+
+input[type=checkbox]:checked + label:before {
+    content:"\2714"; /* Tick */
+    color:white;
+    background-color: #666; 
+    text-align:center;
+    line-height:15px;
+    text-shadow:0px 0px 3px #eee;
+}
