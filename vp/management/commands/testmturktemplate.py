@@ -11,44 +11,47 @@ class Command(BaseCommand):
     args ='<site> <stage>'
 
     def handle(self, *args, **options):
-        conn = connection.MTurkConnection(
-            aws_access_key_id = settings.AWS_ACCESS_KEY,
-            aws_secret_access_key = settings.AWS_SECRET_KEY,
-            host = settings.MTURK_HOST
-        )
-
-        location = Location.objects.create(
-            name = "Liberty Lounge TEST",
-            formattedAddress = "3257 Stanton Rd SE,\nWashington, DC 20020",
-            website = "http://www.justinhinh.com",
-            formattedPhoneNumber = "(202)790-4414",
-            mturkDateLastUpdated = timezone.now()
-        )
-
-        mturk_location_info = MTurkLocationInfo.objects.create(
-            location = location,
-            name = location.name,
-            address = location.formattedAddress,
-            phone_number = location.formattedPhoneNumber,
-            website = location.website
-        )
-
-        mturk_location_info.save()
-
-        mturk_utilities.register_hit_types(conn)
-        mturk_utilities.create_hit(conn, mturk_location_info, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR])
-
-        print("HIT " + mturk_location_info.hit_id + " created.")
-        self.print_status(mturk_location_info)
-        raw_input("Respond at workersandbox.mturk.com...")
-
         update_mturk_tasks.update()
-        print("Updated")
-        self.print_status(mturk_location_info)
 
-        mturk_location_info.stat.delete()
-        mturk_location_info.delete()
-        location.delete()
+    # def handle(self, *args, **options):
+    #     conn = connection.MTurkConnection(
+    #         aws_access_key_id = settings.AWS_ACCESS_KEY,
+    #         aws_secret_access_key = settings.AWS_SECRET_KEY,
+    #         host = settings.MTURK_HOST
+    #     )
+    #
+    #     location = Location.objects.create(
+    #         name = "Liberty Lounge TEST",
+    #         formattedAddress = "3257 Stanton Rd SE,\nWashington, DC 20020",
+    #         website = "http://www.justinhinh.com",
+    #         formattedPhoneNumber = "(202)790-4414",
+    #         mturkDateLastUpdated = timezone.now()
+    #     )
+    #
+    #     mturk_location_info = MTurkLocationInfo.objects.create(
+    #         location = location,
+    #         name = location.name,
+    #         address = location.formattedAddress,
+    #         phone_number = location.formattedPhoneNumber,
+    #         website = location.website
+    #     )
+    #
+    #     mturk_location_info.save()
+    #
+    #     mturk_utilities.register_hit_types(conn)
+    #     mturk_utilities.create_hit(conn, mturk_location_info, settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR])
+    #
+    #     print("HIT " + mturk_location_info.hit_id + " created.")
+    #     self.print_status(mturk_location_info)
+    #     raw_input("Respond at workersandbox.mturk.com...")
+    #
+    #     update_mturk_tasks.update()
+    #     print("Updated")
+    #     self.print_status(mturk_location_info)
+    #
+    #     mturk_location_info.stat.delete()
+    #     mturk_location_info.delete()
+    #     location.delete()
 
 
     def print_status(self, mturk_location_info):
