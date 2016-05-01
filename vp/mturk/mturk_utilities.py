@@ -146,18 +146,6 @@ def get_answer(answers, question_id):
     # Return None if not found
     return None
 
-
-# Add comments to MTurkLocationInfo
-def add_comments(mturk_location, comments):
-    if (comments != None and comments != ''):
-        if (mturk_location.comments == None or mturk_location.comments == ''):
-            mturk_location.comments = comments
-        elif comments not in mturk_location.comments:
-            mturk_location.comments = mturk_location.comments + '\n' + comments
-
-        mturk_location.comments = mturk_location.comments[:999]
-        mturk_location.save()
-
 # Approve assignments from HIT and dispose of the HIT
 def approve_and_dispose(conn, hit):
     if (hit.HITStatus == REVIEWABLE):

@@ -48,9 +48,11 @@ def update():
 
                 if len(deal_jsons) > (len(assignments) / 2):
                     match_result = get_match_percentage(deal_jsons)
-                    print(match_result[0])
-                    print(match_result[1])
-                    print(match_result[2][0])
+
+                else:
+                    # Not enough people found a result. Fail the HIT.
+                    if mturk_location.stat != None:
+                        complete_mturk_stat(mturk_location, False)
 
 
 def get_match_percentage(deal_jsons):
