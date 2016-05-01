@@ -31,11 +31,8 @@ SUBMITTED = 'Submitted'
 REJECTED = 'Rejected'
 
 # HIT Result Parameters
-WEBSITE_FOUND = 'website-found'
-WEBSITE_FIELD = 'website'
+DEALS_RESULT = 'deals-result'
 COMMENTS = 'comments'
-HAPPY_HOUR_FOUND = 'happy-hour-found'
-DEALS = 'deals'
 
 # Days of Week
 MONDAY = 'MONDAY'
