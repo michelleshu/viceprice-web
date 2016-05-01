@@ -395,43 +395,37 @@
             var deal = dealData[i];
 
             if (!deal.daysOfWeek || deal.daysOfWeek.length == 0) {
-                alert("Please select the days of the week for which each deal applies to. Delete all empty deal sections before submitting.");
+                alert("Make sure to highlight all days that have a happy hour. Delete all empty sections before submitting.");
                 return false;
             }
 
             if (!deal.timePeriods || deal.timePeriods.length == 0) {
-                alert("Please enter a time period for each deal. Delete all empty deal sections before submitting.");
+                alert("Please enter a time for each deal. Delete all empty sections before submitting.");
                 return false;
             }
             else {
                 for (var j = 0; j < deal.timePeriods.length; j++) {
                     var timePeriod = deal.timePeriods[j];
                     if (!timePeriod.startTime) {
-                        alert("Please enter a start time for each time period. Delete all empty time period sections before submitting.");
+                        alert("Please enter a start time in a valid format. Delete all empty sections before submitting.");
                         return false;
                     }
                     if (!timePeriod.endTime && !timePeriod.untilClose) {
-                        alert("Please enter an end time or select until close for each time period. Delete all empty time period sections before submitting.");
+                        alert("Please enter an end time in a valid format or select til close for each time period. Delete all empty sections before submitting.");
                         return false;
                     }
                 }
             }
 
-            if (!deal.dealDetails || deal.dealDetails.length == 0) {
-                alert("Please enter drink details for each deal. Delete all empty deal sections before submitting.");
-                return false;
-            }
-            else {
-                for (var j = 0; j < deal.dealDetails.length; j++) {
-                    var dealDetail = deal.dealDetails[j];
-                    if (!dealDetail.names || dealDetail.names == "") {
-                        alert("Please enter drink names for each drink detail. Delete all empty drink detail sections before submitting.");
-                        return false;
-                    }
-                    if (!dealDetail.dealValue || isNaN(dealDetail.dealValue)) {
-                        alert("Please enter a valid numerical value or price for each drink detail. Delete all empty drink detail sections before submitting.");
-                        return false;
-                    }
+            for (var j = 0; j < deal.dealDetails.length; j++) {
+                var dealDetail = deal.dealDetails[j];
+                if (!dealDetail.names || dealDetail.names == "") {
+                    alert("Please enter drink names for each row. Delete all empty rows before submitting.");
+                    return false;
+                }
+                if (!dealDetail.dealValue || isNaN(dealDetail.dealValue)) {
+                    alert("Please enter a number for each drink special. Delete all empty rows before submitting.");
+                    return false;
                 }
             }
         }
