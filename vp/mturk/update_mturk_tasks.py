@@ -53,6 +53,11 @@ def update():
                     # Not enough people found a result. Fail the HIT.
                     if mturk_location.stat != None:
                         complete_mturk_stat(mturk_location, False)
+                        approve_and_dispose(conn, hit)
+                        mturk_location.location.mturkDataCollectionFailed = True
+                        mturk_location.location.mturkDateLastUpdated = timezone.now()
+                        mturk_location.location.save()
+                        mturk_location.delete()
 
 
 def get_match_percentage(deal_jsons):
