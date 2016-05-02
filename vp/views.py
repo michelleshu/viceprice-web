@@ -18,10 +18,10 @@ from yelpapi import YelpAPI
 
 logger = logging.getLogger(__name__)
 
-def index(request):
+def about(request):
     context = {}
     context.update(csrf(request))
-    return render_to_response('index.html', context)
+    return render_to_response('about.html', context)
 
 
 @login_required(login_url='/login/')
@@ -239,10 +239,10 @@ def sandbox(request):
     context.update(csrf(request))
     return render_to_response('sandbox.html', context)
 
-def home(request):
+def index(request):
     context = {}
     context.update(csrf(request))
-    return render_to_response('home.html', context)
+    return render_to_response('index.html', context)
 
 # Manual Happy Hour Entry
 @login_required(login_url='/login/')
