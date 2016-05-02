@@ -158,11 +158,18 @@ onClose: function(){}
 </head>
 
 <body id="page-top">
-    <header class="black-overlay">
+    <header class="black-overlay img-responsive">
             <img src="{% static "img/index/streets1.JPG" %}" class="img-responsive" style= "opacity:0.45"border="" alt="">
         <div class="header-content">
-          <h2 style="position:relative; font-size:6rem; color:#C7A25B;" class="bold-font">Discover the best Happy Hours<br><p></p>Washington DC has to offer </h2><br>
-            -->
+          <h2 class="hero bold-font">
+            Discover the best Happy Hours
+            <br><p></p>
+            Washington DC has to offer
+          </h2>
+          <br>
+      </div>
+      <div class="learn-more">Learn more<br /><i class="fa fa-arrow-down"></i></div>
+  </header>
     <!-- Begin MailChimp Signup Form -->
 
 <style type="text/css">
@@ -170,7 +177,7 @@ onClose: function(){}
 	/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
 	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
 </style>
-<div style="position:fixed; padding-top: 28%; padding-right:25%; padding-left:18%" id="mc_embed_signup">
+<div style="position:fixed; z-index: 50;" id="mc_embed_signup">
 <form action="//viceprice.us12.list-manage.com/subscribe/post?u=3cb9f52abfa0cae5e336b9f2c&amp;id=04bd9d748e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
     <div id="mc_embed_signup_scroll">
 
@@ -181,11 +188,9 @@ onClose: function(){}
     </div>
 </form>
             </div>
-        </div>
-    </header>
 
-<div id="about" class="container-fluid">
-    <div style="position:relative; padding-top: 5%; font-size:4rem" class="text-center"><i>"Going out is going to get a lot less expensive"</i><br></br>
+<div id="about" class="container-fluid bg-primary text-primary">
+    <div style="position:relative; margin: 5% 0; font-size:4rem" class="text-center"><h2><strong>VicePrice:</strong> Find your perfect Happy Hour</h2>
                 </div>
 
             <div class="row no-gutter">
@@ -239,7 +244,7 @@ onClose: function(){}
                     <div style="font-size:7rem" class="section-heading"><font color='#FFFFFF'>Who we are</font></div><br></br>
                     <div style="font-size:3rem"><font color='#FFFFFF'>VicePrice&trade; isn't just another Happy Hour website. It's our personal love letter to the people of Washington DC.</font></div><p></p>
 
-                <div style="font-size:3rem"><font color='#C7A25B'>To the unpaid intern who lives with five other roommates in an up and coming neighborhood; to those who brunch twice a week and still wake up for 5am crossfit; and to the Hill staffer doing insider trading on PredictIt before moving onto K Street, we dedicate this site to them, the ones who really run this town. <a href="https://www.linkedin.com/in/justinhinh"><font color='#C7A25B'>- Justin Hinh, Founder &amp; 'Vice' President</a></a></p>
+                <div style="font-size:3rem"><font color='#C7A25B'>To the unpaid intern who lives with five other roommates in an up and coming neighborhood; to those who brunch twice a week and still wake up for 5am crossfit; and to the Hill staffer doing insider trading on PredictIt before moving onto K Street, we dedicate this site to them, the ones who really run this town. <a href="https://www.linkedin.com/in/justinhinh" class="li-link"><font color='#C7A25B'>- Justin Hinh, Founder &amp; 'Vice' President</a></a></p>
                 </div>
             </div>
         </div>
@@ -325,7 +330,7 @@ onClose: function(){}
                         <li>
                         </li>
                         <li>
-                            <a  href="https://www.facebook.com/VicePriceCo/" target="_blank">
+                            <a  href="https://www.facebook.com/VicePriceCo/" class="fb-link" target="_blank">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -334,7 +339,13 @@ onClose: function(){}
                         </li>
 
                     </ul>
-                    <center><p class="copyright text-muted">Copyright &copy; <a href="https://www.linkedin.com/in/justinhinh">Sindustries Incorporated 2016 </a> </p> <a href="mailto:justin@viceprice.co" target="_top">Email Us</a></div></center>
+                    <center class="footer-links">
+                      <p class="copyright text-muted">
+                        Copyright &copy;
+                        <a href="https://www.linkedin.com/in/justinhinh">Sindustries Incorporated 2016</a>
+                        &bull;
+                        <a href="mailto:justin@viceprice.co" target="_top">Contact Us</a></div>
+                      </center>
                 </div>
             </div>
         </div>
@@ -353,14 +364,6 @@ onClose: function(){}
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static "js/index/index.js" %}"></script>
-
-
-
-
-
-
-
-
 
 </body>
 
