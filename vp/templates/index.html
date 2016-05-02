@@ -1,367 +1,43 @@
 {% load staticfiles %}
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <title>VicePrice&trade; - Discover Happy Hours in Washington DC</title>
-	<meta name="description" content="The most complete coverage of Washington DC's happy hours." />
-	<meta name="abstract" content="Washington DC Happy Hours listings" />
-	<meta name="keywords" content=" DC Happy Hours, Happy Hours Washington DC, Washington DC, bars, drinks, happy hours, Washington, DC, Happy, Hours, Happy Hour, Happy Hours in Washington DC, Happy Hours in DC, Restaurants, happy hours near me, happy hours near Washington DC, drink specials near me, drink specials, drink deals" />
-	<meta name="apple-mobile-web-app-title" content="DC Happy Hours">
-	<meta property="og:title" content="viceprice.co/" />
-	<meta property="og:description" content=" Discover Happy Hours in Washington DC" />
-	<meta property="og:url" content="viceprice.co/" />
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="Content-Language" content="English" />
-	<meta name="classification" content="Washington DC Happy Hours" />
+<meta charset=utf-8 />
+<title> VicePrice </title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<!-- css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/component.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/map.css' %}" />
+	<link href='//api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<!-- JS -->
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
+	<script src='//code.jquery.com/jquery-2.2.1.min.js'></script>
+	<script src='//api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+	<script src='{% static "js/cluster.js" %}'></script>
+	<script src='{% static "js/filters.js" %}'></script>
+	<script src='{% static "js/venue_details.js" %}'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	</head>
+	<body>
+		<div class='grid'>
+			<div id='map' class='map' style='position:fixed;'></div>
 
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','//connect.facebook.net/en_US/fbevents.js');
+			{% include '_filters.html' %}
 
-fbq('init', '1688713784674297');
-fbq('track', "PageView");
-fbq('track', 'ViewContent');</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1688713784674297&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
+			{% include '_venue_details.html' %}
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-64483048-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-    <!-- Custom Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
-    <!-- Plugin CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
-
-    <!-- Custom CSS -->
-  	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
- <!-- DIV class for signup popup -->
-     <!-- jQuery -->
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="{% static "js/index/ssp.min.js" %}"></script>
-<script type='text/javascript'>
-$(document).ready(function() {
-$("body").sspopup({
-mode:'mixed',
-animtime: 0.2,
-animation:'perspectivein',
-autoopen: true,
-customfields:'[]',
-facebook_appid:'',
-googleplus_clientid:"",
-googleplus_apikey:"",
-customfieldsmargin:'0px',
-bgcolor:'rgb(38, 44, 48)',
-lockbgcolor:'#000',
-buttonbgcolor:'rgb(199, 162, 91)',
-buttoncolor:'rgb(38, 44, 48)',
-closecolor:'rgb(199, 162, 91)',
-closefontsize:'3rem',
-color:'rgb(199, 162, 91)',
-contentcolor:'rgb(199, 162, 91)',
-fontfamily:'NexaBold',
-contentfontfamily:'NexaLight',
-openwithlink: true,
-contentfontsize:'3rem',
-contentweight:'normal',
-title:'Want Early Access?',
-bottomtitle:'',
-text:'Apply to beta test',
-vspace:'0px',
-hspace:'10px',
-timer: 25000,
-position:'centercenter',
-invalid_address:'INVALID ADDRESS',
-signup_success:'SIGNUP SUCCESSFUL!',
-borderradius:'5rem',
-inputborderradius:'10rem',
-openbottom: false,
-fontsize:'8rem',
-fontweight:'normal',
-double_optin: false,
-update_existing: true,
-replace_interests: false,
-send_welcome: false,
-mailchimp_listid: false,
-once_per_user: false,
-cookie_days:'999',
-once_per_filled: false,
-filled_cookie_days:'999',
-subscribe_text:'Apply',
-placeholder_text:'Email',
-path:'php/handler.php',
-lock: true,
-closewithlayer: true,
-hideclose: false,
-preset:'custom',
-trackform: true,
-media:"",
-mediawidth:"",
-mediaheight:"",
-mediapos:4,
-yaplay:false,
-yinfo:false,
-yloop:false,
-ycontrols:false,
-imgrepeat:false,
-imgopacity:1,
-embed:'',
-elemanimation:'elemscale',
-width: "",
-visible: true,
-redirecturl: "",
-formid: "12345",
-callBack: function(){},
-onSubmit: function(){},
-onShow: function(){},
-onHide: function(){},
-onClose: function(){}
-})
-});
-</script>
-
-<script type="text/javascript">
-    jQuery( document ).ready( function() {
-        jQuery( 'body' ).sspopup({
-            'mode': 'mixed'
-        });
-    });
-</script>
-
-
-</head>
-
-<body id="page-top">
-    <header class="black-overlay">
-            <img src="{% static "img/index/streets1.JPG" %}" class="img-responsive" style= "opacity:0.45"border="" alt="">
-        <div class="header-content">
-          <h2 style="position:relative; font-size:6rem; color:#C7A25B;" class="bold-font">Discover the best Happy Hours<br><p></p>Washington DC has to offer </h2><br>
-            -->
-    <!-- Begin MailChimp Signup Form -->
-
-<style type="text/css">
-	#mc_embed_signup{opacity: 1; clear:left; font:20px 'NexaLight'; width:100%;}
-	/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-</style>
-<div style="position:fixed; padding-top: 28%; padding-right:25%; padding-left:18%" id="mc_embed_signup">
-<form action="//viceprice.us12.list-manage.com/subscribe/post?u=3cb9f52abfa0cae5e336b9f2c&amp;id=04bd9d748e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-    <div id="mc_embed_signup_scroll">
-
-	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email Address" required>
-    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_3cb9f52abfa0cae5e336b9f2c_04bd9d748e" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="Signup" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-    </div>
-</form>
-            </div>
-        </div>
-    </header>
-
-<div id="about" class="container-fluid">
-    <div style="position:relative; padding-top: 5%; font-size:4rem" class="text-center"><i>"Going out is going to get a lot less expensive"</i><br></br>
-                </div>
-
-            <div class="row no-gutter">
-                        <img src="{% static "img/index/map.png" %}" class="img-responsive" border="99" alt="">
-                </div>
-        </div>
-
-<section id="features">
-        <div class="container-fluid">
-            <center><div class="row"class="bold-font" style="font-size:6rem" class="section-heading">How VicePrice&trade; Helps You
-            </div></center>
-        </div>
-        <br></br>
-        <div style="font-size:2rem; padding-right:11%; padding-left:11%" class="container-fluid">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
-                        <h3 style="font-size:3rem" class="bold-font" >Comprehensive</h3>
-                        <p style="font-size:3rem" class="text-muted">We find the bars (there's over 550) - you find the one for you</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                        <h3 style="font-size:3rem" class="bold-font">Filters you want</h3>
-                        <p style="font-size:3rem"class="text-muted"> Filter by drink type, sort by neighborhood, and even use your address or  GPS to find the closest Happy Hours</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                        <h3 style="font-size:3rem" class="bold-font">Accurate</h3>
-                        <p style="font-size:3rem" class="text-muted">No more outdated info! Our slick, new, and effective process makes sure what you see is what you'll get.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
-                        <h3 style="font-size:3rem" class="bold-font">Easy on the eyes</h3>
-                        <p style="font-size:3rem" class="text-muted">Our maps tell you more with less. Death to ugly lists!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-<section class="bg-primary" id="whoweare">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <div style="font-size:7rem" class="section-heading"><font color='#FFFFFF'>Who we are</font></div><br></br>
-                    <div style="font-size:3rem"><font color='#FFFFFF'>VicePrice&trade; isn't just another Happy Hour website. It's our personal love letter to the people of Washington DC.</font></div><p></p>
-
-                <div style="font-size:3rem"><font color='#C7A25B'>To the unpaid intern who lives with five other roommates in an up and coming neighborhood; to those who brunch twice a week and still wake up for 5am crossfit; and to the Hill staffer doing insider trading on PredictIt before moving onto K Street, we dedicate this site to them, the ones who really run this town. <a href="https://www.linkedin.com/in/justinhinh"><font color='#C7A25B'>- Justin Hinh, Founder &amp; 'Vice' President</a></a></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-<section style="background-color: #FFF"; id="earlyaccess">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                  <center>  <div class="page-heading">
-                      <div style="font-size:6rem" class="bold-font"class="earlyaccess">Apply To Beta Test</div>
-                    </div></center>
-                </div>
-            </div>
-         </div>
-                </section>
-
-
-<!--<style type="text/css">
-	#mc_embed_signup{background:#FFF; clear:left; font:20px 'NexaLight'; width:100%;}</style>
---->
-
-
-
-
-<div id="mc_embed_signup">
-<form action="//viceprice.us12.list-manage.com/subscribe/post?u=3cb9f52abfa0cae5e336b9f2c&amp;id=04bd9d748e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-    <div id="mc_embed_signup_scroll">
-
-	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email Address" required>
-    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_3cb9f52abfa0cae5e336b9f2c_04bd9d748e" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="Signup" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-    </div>
-</form>
-</div>
-
-                <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
-                <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
-
-
-<!--<div style="font-size:5rem" id="mc_embed_signup">
-
-<form action="//viceprice.us12.list-manage.com/subscribe/post?u=3cb9f52abfa0cae5e336b9f2c&amp;id=04bd9d748e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-    <div id="mc_embed_signup_scroll">
-
-<div class="indicates-required"></div>
-<div class="mc-field-group form-group col-xs-12 floating-label-form-group controls">
-	<label for="mce-FNAME">Name </label><br>
-	<input type="text" value="" name="FNAME" class="form-control" id="mce-FNAME" placeholder="Your Name">
-</div>
-<div class="mc-field-group form-group col-xs-12 floating-label-form-group controls">
-	<label for="mce-EMAIL">Email
-</label><br>
-	<input type="email" value="" name="EMAIL" class="required email form-control" id="mce-EMAIL" placeholder="Your Email">
-</div>
-        <!--Form asking for City Location-->
-<!--<div class="mc-field-group form-group col-xs-12 floating-label-form-group controls">
-	<label for="mce-MMERGE3">City </label><br>
-	<input type="text" value="" name="MMERGE3" class="form-control" id="mce-MMERGE3" placeholder="Your City">
-</div>
-
-	<div id="mce-responses" class="clear">
-		<div class="response" id="mce-error-response" style="display:none"></div>
-		<div class="response" id="mce-success-response" style="display:none"></div>
-	</div>
-    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_3cb9f52abfa0cae5e336b9f2c_04bd9d748e" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="SEND" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-sub" onClick="ga('send', 'event', { eventCategory: 'Email', eventAction: 'Signup', eventLabel: 'Website Signups'});"></div>
-</form>
-</div>
-<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[1]='FNAME';ftypes[1]='text';fnames[0]='EMAIL';ftypes[0]='email';fnames[3]='MMERGE3';ftypes[3]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
-<!--End mc_embed_signup-->
-            </div>
-        </div>
-    </div>
-
- <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <ul class="list-inline text-center">
-                        <li>
-                        </li>
-                        <li>
-                            <a  href="https://www.facebook.com/VicePriceCo/" target="_blank">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-
-                    </ul>
-                    <center><p class="copyright text-muted">Copyright &copy; <a href="https://www.linkedin.com/in/justinhinh">Sindustries Incorporated 2016 </a> </p> <a href="mailto:justin@viceprice.co" target="_top">Email Us</a></div></center>
-                </div>
-            </div>
-        </div>
-     </center>
-    </footer>
-
-
-
- <!-- Bootstrap Core JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-    <!-- Plugin JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="{% static "js/index/index.js" %}"></script>
-
-
-
-
-
-
-
-
-
-</body>
-
+		</div>
+		<script src='../static/js/dcn.js'></script>
+		<script src='../static/js/dc-metro.js'></script>
+		<script src='{% static "js/mapbox.js" %}'></script>
+		<script src='{% static "js/filters.js" %}'></script>
+	</body>
 </html>
