@@ -10,15 +10,33 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 /* Leftside bar*/
 .left-side-bar  { position:fixed;float:left; width:16.6666%;  background-color:rgb(35, 40, 43); top:0; bottom:0; left:0;}
 
-.search-div, .hours-div{
+.search-div, .hours-div,.legend-div{
   display:block;
   padding-left:10%;
   position:relative;
 }
 
-.search-div {
+.logo {
+  text-align: center;
   padding-top: 15%;
+  font-size:80%;
+  color:#7d7f80;
+  margin-bottom: 20%;
+  font-family:"Montserrat", Arial, sans-serif;
 }
+ .vp {
+  font-size:230%;
+  color:#c8a45e;
+  padding-bottom: 2%;
+  text-align: center;
+ }
+
+ .beta{
+  text-align: center;
+  font-size:100%;
+  color:#c8a45e;
+ }
+ 
 
 #search input[type="text"] {
     background-color:transparent;
@@ -30,6 +48,20 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
     padding: 5% 5%;
 }
 
+.legend-img{
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  margin:1rem 1.5rem 0.2rem 1rem;
+}
+
+.caption {
+  display: block;
+  font-size:80%;
+  color:#aeaeae;
+  font-family:"Montserrat", Arial, sans-serif;
+}
+
  .left-side-bar p{
   width:90%;
   font-size:70%;
@@ -39,10 +71,13 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   border-bottom: 1px solid #7d7f80;
   }
 
-.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-bottom:1%; width: 100%;}
+.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-left:0.5rem; width:16.6666%; }
 
+.attribution{text-align: right;display: inline-block;margin-left: 1rem}
 
-a {font-size:60%; font-family: Arial, sans-serif;padding-left:1%;}
+.attribution a {padding-left:0;}
+
+a {font-size:70%; font-family: Arial, sans-serif;padding-left:0.5rem;}
 a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
@@ -52,6 +87,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 /* Rightside bar*/
 .right-side-bar {display:none;position:absolute; float:left; width:25.0000%; background-color:#fbfbfb;opacity:0.98; top:0; right:0;  }
+.right-side-bar { height: 100%; overflow: scroll; }
 .sliding { position: fixed; float:right; width: 10px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
 
 .specials-div, .location-details-div, .reviews-div {
@@ -59,8 +95,11 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   width:90%;
   margin-left: 1rem;
   padding-top: 0.5rem;
-  border-bottom:1px solid #cacaca;
   position: relative;
+}
+
+.specials-div, .location-details-div {
+ border-bottom:1px solid #cacaca;
 }
 
 .location-details-div {
@@ -69,14 +108,12 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 .right-side-bar h1{
   font-size:120%;
-  color:#5b5b5b;
   font-family: Montserrat, Arial, sans-serif;
   font-weight: bold;
-  padding-bottom: 2%;
 }
 
 .right-side-bar #location-name {
-  margin: 1rem 0 0 1rem;
+  margin: 0 0 0 1rem;
 }
 
 .right-side-bar #venue-category {
@@ -91,12 +128,15 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 .right-side-bar h2{
+  display: inline-block;
+  vertical-align: top;
   width: 70%;
-  padding-bottom: 2%;
-  font-size:100%;
-  color:#7d7f80;
-  font-family: Montserrat, Arial, sans-serif;
-  border-bottom: 1px solid #c8a45e;
+  color: #5b5b5b;
+  margin-top: 0;
+  margin-bottom: 0.2rem;
+  height: 1rem;
+  font-family: Montserrat;
+  font-size: 0.8rem;
 }
 
 .right-side-bar h3{
@@ -121,7 +161,9 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 .right-side-bar .category {
     font-family: Montserrat;
-    margin-left: 1rem;
+    font-size: 0.8rem;
+    color: #5b5b5b;
+    display: inline-block;
 }
 
 .specials-div ul {
@@ -134,8 +176,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 .specials-div li {
   color:#c8a45e;
   font-family: Montserrat, Arial, sans-serif;
-  padding-bottom: 2%;
-  margin-left: 1rem;
+  margin-left: 2rem;
 }
 
 .specials-div li:first-line {
@@ -160,33 +201,86 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 #location-address, #location-phone-number, #location-website {
   font-family: Montserrat, Arial, sans-serif;
   font-size: 0.75rem;
-  color: #5b5b5b;
+  color: #7d7f80;
   position: relative;
   bottom: 0.1rem;
   left: 0.3rem;
+  padding-left: 0;
 }
 
 a#location-website {
-color: #c8a45e;
+color: #7d7f80;
 cursor: pointer;
 }
 
-.reviews-div li{
-  list-style-type: none;
-  font-size:65%;
-  color:#7d7f80;
-  font-family: Montserrat,Arial, sans-serif;
+#drink_type{
+  color: #7d7f80;
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 0.9rem;
+  display: inline-block;
+  vertical-align: top;
 }
 
-.review-hr {
-    display: block;
-    border: 0;
-    margin-left: 15%;
-    margin-bottom: 5%;
-    border-top: 1px solid #c8a45e;
-    width:60%;
-    opacity: 0.50;
+#rating_img,#review_count {
+  display: inline-block;
+  vertical-align: top;
 }
+
+#profile_img{
+  display: inline-block;
+  vertical-align: top;
+  width:50px;
+  height: 50px;
+  margin-top: 1rem;
+}
+
+.reviews-div hr{
+  margin-top:0;
+  margin-bottom: 0;
+  margin-left: 0.4rem;
+  border:0;
+  border-top:1px solid #c8a45e;
+  width:55%;
+}
+#yelp_logo img{
+ display: inline-block;
+ vertical-align: top;
+ margin-bottom: 0;
+}
+
+.username{
+  display: inline-block;
+  vertical-align:center;
+  margin-left: 0.5rem;
+  margin-top: 1rem;
+}
+
+.review_count {
+  float:left;
+  margin-top: 0.5rem
+}
+
+.review_count p{
+  margin-left: 0.5rem
+}
+
+#name {
+  margin-top: 1rem;
+}
+
+#excerpt {
+  margin-top: 0.9rem;
+}
+
+#readMore {
+  float:right;
+  font-family: Montserrat,Arial, sans-serif;
+  font-size: 80%;
+  color: #c8a45e;
+ cursor: pointer;
+ margin-bottom: 0.9rem;
+}
+
 
 /**CLUSTERS COLORS**/
 .marker-cluster-small,
@@ -257,6 +351,17 @@ cursor: pointer;
         outline: none; /* no focus outline */
       }
 
+      input[type="range"]:disabled {
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: red;
+        padding: 1px 2px;
+        border-radius: 14px;
+        background: #232528;
+        box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
+        -webkit-box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
+        outline: none; /* no focus outline */
+      }
+
       input[type="range"]::-moz-range-track {
         border: inherit;
         background: transparent;
@@ -289,6 +394,18 @@ cursor: pointer;
         background-image: -webkit-linear-gradient(top , #c8a45e 0, #c8a45e 100%); /* older mobile safari and android > 2.2 */;
         background-image: linear-gradient(to bottom, #c8a45e 0, #c8a45e 100%); /* W3C */
       }
+
+       input[type="range"]:disabled::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 18px;
+        border: none;
+        border-radius: 12px;
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, grey), color-stop(100%, #decca1)); /* android <= 2.2 */
+        background-image: -webkit-linear-gradient(top , grey 0, grey 100%); /* older mobile safari and android > 2.2 */;
+        background-image: linear-gradient(to bottom, grey 0, grey 100%); /* W3C */
+      }
+
       input[type="range"]::-moz-range-thumb {
         width: 40px;
         border: none;
@@ -308,15 +425,25 @@ cursor: pointer;
         display: block;
         font-size:70%;
         color:#aeaeae;
-        display: inline;
         font-family: Montserrat, Arial, sans-serif;
-        margin-bottom: 5%;
+
       }
 
-      #day_output{margin-left: 40%;}
-      #time_output{margin-left: 34%;}
-      #day,#time{margin-top: 8%; margin-bottom: 8%;width: 88%;}
+      #day_output{margin-left: 35%; margin-bottom: 5%;}
+      #time_output{margin-left: 34%;margin-bottom: -4%;}
+      #day,#time{margin-bottom: 7%;width: 88%;}
 
+      .now {
+        margin-bottom: 0;
+        margin-top: 0;
+        background:none;
+        border:none;
+        margin-left: 25%;
+        font-size:70%;
+        color:rgb(35, 40, 43);
+        font-family:"Montserrat", Arial, sans-serif;
+        cursor: auto;
+      }
 
     /*******Neighborhood labels*********/
 
@@ -329,7 +456,7 @@ cursor: pointer;
     .bar_num_labels{
     margin-top: 1px;
     color:#c8a45e;
-    font-size:11px;
+    font-size:10px;
     font-family: Montserrat;
     text-align:center;
     }
@@ -344,11 +471,15 @@ cursor: pointer;
   }
 
   .tooltip-info{
-    margin-left: 0;
+    margin-left: 0.1rem;
     margin-right: 0;
-    margin-bottom: 0;
+    margin-bottom: 0.3rem;
+    margin-top: 0.5rem;
   }
 
+  .leaflet-popup-content{
+    padding: 0.1rem 0.1rem 0.1rem 0.5rem !important;
+  }
   .leaflet-container .tooltip-info h1{
   font-size: 1rem;
   color:#5b5b5b;
@@ -364,8 +495,8 @@ cursor: pointer;
   font-weight: normal;
   }
 
-  .leaflet-container .tooltip-info h3 {
-      margin-left: 1rem;
+  .leaflet-container .tooltip-info h2 {
+      margin-right: 1rem;
   }
 
   .leaflet-container .tooltip-info p{
@@ -375,3 +506,61 @@ cursor: pointer;
   font-family: Montserrat, Arial, sans-serif;
   margin-right: 2rem;
   }
+
+  .leaflet-container .cheapest_price{
+    color: #5b5b5b;
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: 0.75rem;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0rem;
+  }
+
+  .leaflet-container .metro_info p{
+   display: inline;
+  font-size: 0.70rem;
+  color:#5b5b5b;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-right: 0.4rem;
+  }
+
+   .leaflet-container .line{
+    display: inline-block;
+    width:1rem;
+    height:1rem;
+    margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+    vertical-align: bottom;
+   }
+
+   input[type=checkbox] {
+    display:none;
+}
+
+.today_label{
+  display: block;
+  font-size:70%;
+  color:#aeaeae;
+  font-family: Montserrat, Arial, sans-serif;
+  margin-left: 18%;
+}
+
+input[type=checkbox] + label:before {
+    content: "";  
+    display: inline-block;  
+    width: 15px;  
+    height: 15px;  
+    vertical-align:middle;
+    margin-right: 8px;  
+    background-color: #aaa;  
+    box-shadow: inset 0px 2px 2px rgba(0, 0, 0, .3);
+    border-radius: 4px;  
+}
+
+input[type=checkbox]:checked + label:before {
+    content:"\2714"; /* Tick */
+    color:white;
+    background-color: #666; 
+    text-align:center;
+    line-height:15px;
+    text-shadow:0px 0px 3px #eee;
+}

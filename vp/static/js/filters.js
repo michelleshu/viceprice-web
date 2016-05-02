@@ -3,15 +3,28 @@ var DAYS_OF_WEEK = [
 	null, //1-based indexing
 	'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
 ]
-
+var checked=$("#today").prop('checked');
 var HOURS_IN_DAY = 24, MINUTES_IN_HOUR = 60;
 var MIN_HOUR = 8, MAX_HOUR = 3 + HOURS_IN_DAY;
-
+var selectedDay;
 $(function() {
 	var selectedTime = moment();
-	var selectedDay = _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")); //momentjs day of week indexes do not match ours; map to our index
+	selectedDay = _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")); //momentjs day of week indexes do not match ours; map to our index
 	var throttledFetchData = _.debounce(function() {
-		fetchData(selectedTime.format("HH:mm"), selectedDay);
+		//show the word ("right now") if the user moces the slider to his current time
+		var ROUNDING = 30 * 60 * 1000; /*ms*/
+		start = moment();
+		start = moment(Math.round((+start) / ROUNDING) * ROUNDING);
+		if(selectedTime.format("hh:mm") == start.format("hh:mm") && selectedDay == _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")) && checked){
+			$('.now').css({color:"#c8a45e",cursor:"auto"}); 
+			}
+		else {
+			$('.now').css({color:"rgb(35, 40, 43)"}); //hide the label
+		}
+		if(!checked)//show all happy hours regradless of time
+			fetchDay(selectedDay);	
+		else//show happy hours on selected day 
+			fetchData(selectedTime.format("HH:mm"), selectedDay);
 	}, 100);
 
 	var initializeTimeFilter = function() {
@@ -55,3 +68,17 @@ $(function() {
 	initializeTimeFilter();
 	
 })
+
+$(function () {
+    $('#today').on('change', function () {
+        checked = $(this).prop('checked');
+        if(!checked){
+        document.getElementById("time").disabled = true;
+        $('.now').css({color:"rgb(35, 40, 43)"}); //hide the label
+        fetchDay(selectedDay);
+    	}
+    	else{
+    	document.getElementById("time").disabled = false;
+    	}
+    });
+});
