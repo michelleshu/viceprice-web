@@ -21,14 +21,20 @@ class DealDetail(models.Model):
     drinkCategory = models.IntegerField()
     detailType = models.IntegerField()
     value = models.FloatField()
-    
-    # Information about a deal at a location
+    # mturkDrinkNameOptions = models.ManyToManyField(MTurkDrinkNameOptions)
+
+# Information about a deal at a location
 class Deal(models.Model):
     description = models.CharField(max_length=2000)
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
     dealSource = models.IntegerField(null=False, default=1)
     comments = models.CharField(null=True, max_length=2000)
+    confirmed = models.BooleanField(default=True)
+
+# # Drink names from deal details entered by MTurk Workers
+# class MTurkDrinkNameOptions(models.Model):
+#     name = models.CharField(max_length=1000)
 
 # Information about a location
 class Location(models.Model):
