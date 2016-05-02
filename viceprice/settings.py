@@ -144,7 +144,7 @@ MAX_LOCATIONS_TO_UPDATE = 100
 # MTurk iteration variables
 MAX_ASSIGNMENTS_TO_PUBLISH = 9      # Max total assignments to publish for one HIT
 MAX_GET_HAPPY_HOUR_ATTEMPTS = 3     # Maximum number of attempts to get happy hour info by web before we fail the attempt
-MIN_CONFIRMATION_PERCENTAGE = 70    # Percentage of HIT responses that need to agree before we accept the result
+MIN_AGREEMENT_PERCENTAGE = 70    # Percentage of HIT responses that need to agree before we accept the result
 
 # Days it takes for data to expire
 EXPIRATION_PERIOD = 30

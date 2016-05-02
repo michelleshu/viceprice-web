@@ -41,24 +41,37 @@ def update():
                 for assignment in assignments:
                     if assignment.AssignmentStatus != REJECTED:
                         answers = assignment.answers[0]
-                        deals_result = get_answer(answers, DEALS_RESULT)
-                        comments = get_answer(answers, COMMENTS)
+                        deals_result = json.loads(get_answer(answers, DEALS_RESULT))
 
-                        deal_jsons.append(json.loads(deals_result))
+                        if deals_result["dealsFound"]:
+                            deal_jsons.append(deals_result)
+                            comments.append(get_answer(answers, COMMENTS))
 
+                # Require that at least
                 if len(deal_jsons) > (len(assignments) / 2):
                     match_result = get_match_percentage(deal_jsons)
+
+                    print(match_result[0])
+
+                    # If able to match enough answers, save the HIT results
+                    # if (match_result[0] > settings.MIN_AGREEMENT_PERCENTAGE):
+
 
                 else:
                     # Not enough people found a result. Fail the HIT.
                     if mturk_location.stat != None:
                         complete_mturk_stat(mturk_location, False)
-                        approve_and_dispose(conn, hit)
-                        mturk_location.location.mturkDataCollectionFailed = True
-                        mturk_location.location.mturkDateLastUpdated = timezone.now()
-                        mturk_location.location.save()
-                        mturk_location.delete()
+                        
+                    approve_and_dispose(conn, hit)
+                    mturk_location.location.mturkDataCollectionFailed = True
+                    mturk_location.location.mturkDateLastUpdated = timezone.now()
+                    mturk_location.location.save()
+                    mturk_location.delete()
 
+
+# def save_results(deal_json, matching_deals):
+#     for deal_data in deal_json["dealData"]:
+#         for deal_detail in deal_data["dealDetails"]:
 
 def get_match_percentage(deal_jsons):
     max_match_percentage = 0.0
