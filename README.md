@@ -59,9 +59,8 @@
 * For each Trello item you work on, create a new branch off of master
 * `git checkout -b`
 * Push to remote branch with the same name
-* [github.com](https://github.com/michelleshu/viceprice-web/) ->  Create pull request
+* [github.com](https://github.com/VicePrice/viceprice-web.git) ->  Create pull request
 * Default reviewers:
-    * Jeremy -> Michelle -> Samman -> Sumaya -> Jeremy
 
 ### What does it mean to review?
 * Quick read through code on GitHub
