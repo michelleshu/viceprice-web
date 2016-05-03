@@ -30,13 +30,13 @@ DATABASES = {
 }
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 ADMINS = (
     ('Michelle Shu', 'shu.michelle.w@gmail.com'),
-    ('Justin Hinh', 'justin@viceprice.co')
+    ('Justin Hinh', 'justintsn10@gmail.com')
 )
 
 

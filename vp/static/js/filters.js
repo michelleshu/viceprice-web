@@ -69,16 +69,34 @@ $(function() {
 	
 })
 
+//filter by time option 
 $(function () {
     $('#today').on('change', function () {
         checked = $(this).prop('checked');
         if(!checked){
-        document.getElementById("time").disabled = true;
-        $('.now').css({color:"rgb(35, 40, 43)"}); //hide the label
+        $("#time_output").css({display:"none"}); //hide the time output
+        $(".now").css({display:"none"}); 
+        $(".now").css({color:"rgb(35, 40, 43)"}); //hide the label
+        $("#time").hide();
         fetchDay(selectedDay);
     	}
     	else{
-    	document.getElementById("time").disabled = false;
+    	$("#time_output").css({display:"block"}); 
+    	$(".now").css({display:"block"}); 
+    	$("#time").show();
+    	}
+    });
+});
+
+//filter by neighborhood
+$(function () {
+    $('#nhf').on('change', function () {
+        var nchecked = $(this).prop('checked');
+        if(!nchecked){
+        clearNeighborhood();
+    	}
+    	else{
+    	addNeighborhood();
     	}
     });
 });
