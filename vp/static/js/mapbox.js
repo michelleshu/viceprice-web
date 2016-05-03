@@ -9,6 +9,9 @@ var map = L.map('map', {
 	attributionControl: false//remove attribution from map (added in the left menu instead)
 });
 
+//u street url test (justin)
+//map.fitBounds(L.latLngBounds([38.927309, -77.109718], [38.985176, -77.003803 ]));
+
 // Use styleLayer to add a Mapbox style created in Mapbox Studio
 L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 		.addTo(map);
@@ -467,19 +470,21 @@ function click(e) {
 
 	function updateNeighborhoodData(){
 	myLayer.setGeoJSON(geoJsonData); //load markers data to myLayer
+	metroLayer.setGeoJSON(metro); //load metro station data to metroLayer (//metro is defined in dc-metro.js)
+    if(neighborhood_on){
     myLayer.setFilter(function(f) { //filter this layer so it only contains the markers within a specfic neighborhood
-        return f.properties["neighborhood"] === neighborhood;
-    });
-
-    metroLayer.setGeoJSON(metro); //load metro station data to metroLayer (//metro is defined in dc-metro.js)
+        return f.properties["neighborhood"] === neighborhood;});
     metroLayer.setFilter(function(f) {//filter this layer so it only contains the stations within a specfic neighborhood
-    	return f.properties["NEIGHBORHOOD"] === neighborhood;
-    });
+    	return f.properties["NEIGHBORHOOD"] === neighborhood;});
+	}
+    else{
+    	clearNeighborhood();
+    }
 
-    var randPop = randomProperty(myLayer._layers)
+    //var randPop = randomProperty(myLayer._layers) (This feature was only created to show potential venue partners how we would monetize. No need to use this now for beta/production with end-users)
 	}
 
-var randomProperty = function (obj) {
+	var randomProperty = function (obj) {
 	    var keys = Object.keys(obj)
 	    var randPop = obj[keys[ keys.length * Math.random() << 0]];
 	    if(randPop){
@@ -551,6 +556,38 @@ function getHTML(e,d) {
         "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" //foggy bottom(40) and h street (27)
         }
 
+
+//clear neighborhood
+var neighborhood_on=true;
+function clearNeighborhood(){
+	map.removeLayer(dcnLayer);
+	$(".map_labels").hide();
+	$(".bar_num_labels").hide();
+
+    myLayer.setFilter(function() { 
+        return true;
+    });
+    cluster.clearLayers();
+    cluster.addLayer(myLayer).addTo(map);
+    neighborhood_on=false;	
+}
+
+//add neighborhood
+function addNeighborhood(){
+	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
+	cluster.clearLayers();
+    myLayer.setFilter(function(f) {
+            return false;
+        });
+    metroLayer.setFilter(function(f) {
+            return false;
+        });
+	map.addLayer(dcnLayer);
+	$(".map_labels").show();
+	$(".bar_num_labels").show();
+    neighborhood_on=true;
+}
+
 /****Zoom in/Zoom out and Neighborhood Zoom functions ****/
 var zoom;
 /*If the neighborhood button is clicked, do the following:
@@ -563,14 +600,14 @@ $("#neighboor-zoom").click(function() {
      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
      $(".sliding").animate({ right: "0"} , 700);
      $menu_visible=false;
+
+     if(neighborhood_on){
     //reset polygon style
     dcnLayer.resetStyle(lastLayer);
     lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
     document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
     id=parseInt(lastLayer.feature.id)-1;
     css[id].style.display="block";
-    //zoom out to dc level
-    map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
     //remove all markers
     cluster.clearLayers();
      myLayer.setFilter(function(f) {
@@ -579,6 +616,10 @@ $("#neighboor-zoom").click(function() {
      metroLayer.setFilter(function(f) {
             return false;
         });
+	}
+    //zoom out to dc level
+    map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
+    
 });
 
 $("#zoom-in").click(function() {
@@ -598,13 +639,20 @@ $("#zoom-out").click(function() {
 */
 map.on('move', function() {
     zoom = map.getZoom();
-
     if (zoom == 13) {
      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
      $(".sliding").animate({ right: "0"} , 700);
      $menu_visible=false;
+ 	}
+
+ 	if(!neighborhood_on){
+ 		if(zoom ==13)
+    		metroLayer.setFilter(function(f) {return false;});
+		else
+    	metroLayer.setFilter(function() {return true;});
     }
+
     if((zoom == 17) || (zoom ==18))
     {
     	cluster.clearLayers();

@@ -58,10 +58,11 @@
     zoom: 13,
     zoomControl: false
     });
-
+map.fitBounds(L.latLngBounds([38.927309, -77.109718], [38.985176, -77.003803 ]));
   L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa').addTo(map);
   map.setMaxBounds(bounds);
-    
+  
+  
   /*************************/
   var clusterGroup = new L.MarkerClusterGroup({polygonOptions: {
             fillColor: 'white',
@@ -166,7 +167,7 @@
         lastLayer=e.target;
         neighborhood=e.target.feature.properties.name;
         
-        map.fitBounds(e.target.getBounds());
+        
         myLayer.setGeoJSON(geoJsonData);
         myLayer.setFilter(function(f) {
             return f.properties["neighborhood"] === neighborhood;

@@ -430,7 +430,7 @@ cursor: pointer;
       }
 
       #day_output{margin-left: 35%; margin-bottom: 5%;}
-      #time_output{margin-left: 34%;margin-bottom: -4%;}
+      #time_output{margin-left: 34%;margin-bottom: -4%;display: none;}
       #day,#time{margin-bottom: 7%;width: 88%;}
 
       .now {
@@ -443,6 +443,7 @@ cursor: pointer;
         color:rgb(35, 40, 43);
         font-family:"Montserrat", Arial, sans-serif;
         cursor: auto;
+        display: none;
       }
 
     /*******Neighborhood labels*********/
@@ -536,12 +537,11 @@ cursor: pointer;
     display:none;
 }
 
-.today_label{
+.today_label, .nhf_label{
   display: block;
   font-size:70%;
   color:#aeaeae;
   font-family: Montserrat, Arial, sans-serif;
-  margin-left: 18%;
 }
 
 input[type=checkbox] + label:before {
