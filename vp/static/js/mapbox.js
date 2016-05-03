@@ -197,17 +197,22 @@ myLayer.on('layeradd', function(e) {
         $("#location-phone-number").html(locationProperties["phone"]);
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"]);
-		
+		$(".rev-hr").css("display","block");
+		$(".icon-globe").css("display","inline");
+		$(".icon-phone").css("display","inline");
+		$(".icon-home").css("display","inline");
 		// Populate deal info
         $("#specials-time-frame").html(startTime + " - " + endTime);
         $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
-
+        $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
+        $(".rev").html("Reviews");
         //Yelp Reviews 
         $.get("/yelpReviews/?loc_id="+locationProperties["locationid"],function(data){
         	yelp_api_response=data.response; // refer to yelpReview on views.py for more details
         	$("#rating_img").attr("src",yelp_api_response.overall_rating_img); //overall rating
         	$("#review_count").html(yelp_api_response.review_count + " reviews");// number of reviews 
         	$("#name").html(yelp_api_response.username); //username
+        	$("#profile_img").css("display","inline-block");
         	$("#profile_img").attr("src",yelp_api_response.user_img);
         	$("#excerpt").html("\" "+yelp_api_response.excerpt+" \"");
         	$("#readMore").html(parseInt(yelp_api_response.review_count)-1 + " more reviews ..."); //number of remaining reviews
