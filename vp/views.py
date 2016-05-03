@@ -237,7 +237,7 @@ def sandbox(request):
 def home(request):
     context = {}
     context.update(csrf(request))
-    return render_to_response('home.html', context)
+    return render_to_response('index.html', context)
 
 # Manual Happy Hour Entry
 @login_required(login_url='/login/')
