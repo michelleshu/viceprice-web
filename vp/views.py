@@ -247,7 +247,7 @@ def index(request):
 def TOS(request):
     context = {}
     context.update(csrf(request))
-    return render_to_response('TOS.htm', context)
+    return render_to_response('TOS.html', context)
 
 def home(request):
     context = {}
