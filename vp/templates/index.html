@@ -25,6 +25,102 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link href="css/simplesubscriptionpopup.css" rel="stylesheet">
+    <script type="text/javascript" src="js/ssp.min.js"></script>
+    
+     <!-- DIV class for signup popup -->
+     <!-- jQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="{% static "js/index/ssp.min.js" %}"></script>
+<script type='text/javascript'>
+$(document).ready(function() {
+$("body").sspopup({
+mode:'mailchimp',
+animtime: 0.2,
+animation:'perspectivein',
+autoopen: true,
+customfields:'[]',
+facebook_appid:'',
+googleplus_clientid:"",
+googleplus_apikey:"",
+customfieldsmargin:'0px',
+bgcolor:'rgb(38, 44, 48)',
+lockbgcolor:'#000',
+buttonbgcolor:'rgb(199, 162, 91)',
+buttoncolor:'rgb(38, 44, 48)',
+closecolor:'rgb(199, 162, 91)',
+closefontsize:'3rem',
+color:'rgb(199, 162, 91)',
+contentcolor:'rgb(199, 162, 91)',
+fontfamily:'NexaBold',
+contentfontfamily:'NexaLight',
+openwithlink: true,
+contentfontsize:'3rem',
+contentweight:'normal',
+title:'Want Early Access?',
+bottomtitle:'',
+text:'Apply to beta test',
+vspace:'0px',
+hspace:'10px',
+timer: 0000,
+position:'centercenter',
+invalid_address:'INVALID ADDRESS',
+signup_success:'SIGNUP SUCCESSFUL!',
+borderradius:'5rem',
+inputborderradius:'10rem',
+openbottom: false,
+fontsize:'8rem',
+fontweight:'normal',
+double_optin: false,
+update_existing: true,
+replace_interests: false,
+send_welcome: false,
+mailchimp_listid: 8162f4b0a6,
+once_per_user: false,
+cookie_days:'999',
+once_per_filled: false,
+filled_cookie_days:'999',
+subscribe_text:'Apply',
+placeholder_text:'Email',
+path:'php/handler.php',
+lock: true,
+closewithlayer: true,
+hideclose: false,
+preset:'custom',
+trackform: true,
+media:"",
+mediawidth:"",
+mediaheight:"",
+mediapos:4,
+yaplay:false,
+yinfo:false,
+yloop:false,
+ycontrols:false,
+imgrepeat:false,
+imgopacity:1,
+embed:'',
+elemanimation:'elemscale',
+width: "",
+visible: true,
+redirecturl: "",
+formid: "12345",
+callBack: function(){},
+onSubmit: function(){},
+onShow: function(){},
+onHide: function(){},
+onClose: function(){}
+})
+});
+</script>
+
+<script type="text/javascript">
+    jQuery( document ).ready( function() {
+        jQuery( 'body' ).sspopup({
+            'mode': 'mailchimp'
+        });
+    });
+</script>
+    
 	</head>
 	<body>
 		<div class='grid'>
