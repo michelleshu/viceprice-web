@@ -244,10 +244,16 @@ def index(request):
     context.update(csrf(request))
     return render_to_response('index.html', context)
 
+def TOS(request):
+    context = {}
+    context.update(csrf(request))
+    return render_to_response('TOS.htm', context)
+
 def home(request):
     context = {}
     context.update(csrf(request))
     return render_to_response('index.html', context)
+
 # Manual Happy Hour Entry
 @login_required(login_url='/login/')
 def enter_happy_hour_view(request):
