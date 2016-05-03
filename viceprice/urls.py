@@ -34,6 +34,8 @@ urlpatterns = patterns('',
     url(r'^sandbox/$', vp.views.sandbox, name = 'sandbox'),
     url(r'^about/$', vp.views.about, name = 'about'),
     url(r'^yelpReviews/$', vp.views.yelp_reviews, name = 'yelpReviews'),
+    url(r'^TOS/$', vp.views.TOS, name = 'TOS'),
+    url(r'^Home/$', vp.views.home, name = 'home'),
 
     #Blog site
     url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view())
