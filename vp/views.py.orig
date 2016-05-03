@@ -21,6 +21,16 @@ def index(request):
     context = {}
     context.update(csrf(request))
     return render_to_response('index.html', context)
+    
+def home(request):
+    context = {}
+    context.update(csrf(request))
+    return render_to_response('index.html', context)
+
+def TOS(request):
+    context = {}
+    context.update(csrf(request))
+    return render_to_response('TOS.html', context)
 
 
 @login_required(login_url='/login/')
