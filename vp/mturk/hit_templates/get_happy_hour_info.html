@@ -427,15 +427,23 @@
         event.stopPropagation();
 
         $(this).parent().before("<div class='deal-detail-section'>" + dealDetailTemplateHTML + "</div>");
+
+        // Activate delete buttons
+        $(this).closest(".deal-section").find(".deal-detail-section .delete-deal-detail-link").removeClass("hidden");
     });
 
     $(document).on("click", ".delete-deal-detail-link", function(event) {
         event.preventDefault();
         event.stopPropagation();
 
-        if ($(".delete-deal-detail-link").length > 1) {
-            $(this).parent().parent().parent().remove();
+        // Disable delete if there will only be one deal left
+        var dealDetailSections = $(this).closest(".deal-section").find(".deal-detail-section");
+        if (dealDetailSections.length == 2) {
+            dealDetailSections.find(".delete-deal-detail-link").addClass("hidden");
         }
+
+        $(this).closest(".deal-detail-section").remove();
+
     })
 
     $(document).on("click", ".add-deal-link", function(event) {
