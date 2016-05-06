@@ -495,7 +495,7 @@
                     alert("Please enter drink names for each row. Delete all empty rows before submitting.");
                     return false;
                 }
-                if (!dealDetail.dealValue || isNaN(dealDetail.dealValue)) {
+                if (!dealDetail.dealValue || isNaN(dealDetail.dealValue) || dealDetail.dealValue < 0) {
                     alert("Please enter a number for each drink special. Delete all empty rows before submitting.");
                     return false;
                 }
@@ -602,6 +602,12 @@
    // http://www.timlabonne.com/2013/07/parsing-a-time-string-with-javascript/
    var parseTime = function(timeStr) {
        timeStr = timeStr.trim();
+
+       // Reject if it contains - or decimal
+       if (timeStr.indexOf(".") > -1 || timeStr.indexOf("-") > -1) {
+           return null;
+       }
+
        var time = timeStr.match(/(\d+)(?::(\d\d))?\s*(p?)/i);
        // Ensure that there are 2 minute digits
        var colonIndex = timeStr.indexOf(":");
