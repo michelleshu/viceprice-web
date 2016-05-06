@@ -89,15 +89,24 @@
 
 <div class="container question-container">
     <div class="instructions-section">
-        <div class="instructions-header">Instructions Here</div>
+        <div class="instructions-header">Collect happy hour info from a website</div>
+        <div class="instructions-content">A <b>happy hour</b> is when <b>Beer/Wine/Liquor</b> is offered at a <b>discount</b> during a <b>specific time</b></div>
+        <br>
+        <div class="instructions-content">Example: $4 Budweiser on Mondays-Fridays from 5pm-8pm</div>
+        <br>
+        <div class="instructions-header">Go to the website below and see if the venue offers a happy hour.</div>
+        <div class="instructions-content">Keywords to look for: Specials, Deals, Happy Hour, Menu, Drinks, List, Alcohol, etc</div>
+        <br>
         <div class="instructions-content">Location: ${name}</div>
         <div class="instructions-content">Website: ${website}</div>
+        <br>
+         <div class="instructions-content">Good luck and thanks!</div>
     </div>
     <div class="happy-hour-found-question">
         <hr/>
         <div class="content-row">
             <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
-            <strong>Is happy hour information listed on ${name}'s website?</strong>
+            <strong>Did you find a happy hour? [Must have both time and deal info]</strong>
         </div>
         <div class="row">
             <div class="six columns">
@@ -109,17 +118,23 @@
     <hr/>
     <div class="happy-hour-header content-row hidden">
         <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
-        <strong>Please populate the happy hour information below.</strong>
+        <strong>Enter Happy Hour Info</strong>
     </div>
     <div class="happy-hour-entry-container hidden">
+        <div class="instructions-content">Be careful with happy hours that are on multiple days <b>AND</b> at multiple times.</div>
+        <br>
+        <div class="instructions-content">Example 1: Happy hour is Monday-Wednesday <b>AND</b> Friday-Saturday at 4pm-7pm. In this case the form below is good. You would highlight M-W and F-SA, enter time and deal info, then submit.</div>
+        <br>
+        <div class="instructions-content">Example 2: Happy hour is Monday-Wednesday from <b>4pm-7pm</b>, AND Friday-Saturday from <b>5pm-8pm</b>. In this case you need to do one extra step. First highlight M-W, enter time and deal info. <b>THEN</b> scroll down and click "Add another day". In the next section highlight F-Sa, enter time and deal info, then submit.</div>
+        <br>
         <div class="deal-section">
             <div><img class="delete-icon delete-deal-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/></div>
             <div class="row title-row">
                 <div class="six columns">
-                    <h6>DAY(S) OF WEEK (Click and drag to select)</h6>
+                    <h6>Day(s) happy hour is avaliable [Click/Drag to select]</h6>
                 </div>
                 <div class="six columns">
-                    <h6>TIME PERIOD</h6>
+                    <h6>When is the happy hour?</h6>
                 </div>
             </div>
             <div class="row content-row">
@@ -129,20 +144,20 @@
                     <button class="wednesday-button">W</button>
                     <button class="thursday-button">Th</button>
                     <button class="friday-button">F</button>
-                    <button class="saturday-button">S</button>
+                    <button class="saturday-button">Sa</button>
                     <button class="sunday-button">Su</button>
                 </div>
                 <div class="six columns time-periods">
                     <div class="first-time-period">
-                        <input type="text" class="start-time" placeholder="00:00 AM"/>
+                        <input type="text" class="start-time" placeholder="4:00 PM"/>
                         <span> to </span>
-                        <input type="text" class="end-time" placeholder="00:00 AM"/>
+                        <input type="text" class="end-time" placeholder="7:00 PM"/>
                         <input type="checkbox" class="until-close"/>
                         <span>Til Close</span>
                     </div>
 
                     <div>
-                        <a class="add-time-period-link"> + Add another time period</a>
+                        <a class="add-time-period-link"> + Click here if happy hour is at two different times on the same day</a>
                     </div>
 
                     <div class="second-time-period hidden">
@@ -157,23 +172,23 @@
             </div>
             <div class="row title-row">
                 <div class="six columns">
-                    <h6>DRINK NAMES</h6>
+                    <h6>Drink [One per row]</h6>
                 </div>
                 <div class="two columns">
-                    <h6>CATEGORY</h6>
+                    <h6>Type of Alcohol</h6>
                 </div>
                 <div class="two columns">
-                    <h6>DEAL TYPE</h6>
+                    <h6>Type of Deal</h6>
                 </div>
                 <div class="two columns">
-                    <h6>DEAL VALUE</h6>
+                    <h6>Deal Value</h6>
                 </div>
             </div>
             <div class="deal-detail-section">
                 <div class="row content-row">
                     <div class="six columns">
                         <img class="delete-icon delete-deal-detail-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
-                        <input type="text" class="u-full-width drink-names" placeholder="Corona Light, Miller Lite"/>
+                        <input type="text" class="u-full-width drink-names" placeholder="i.e. Budweiser"/>
                     </div>
                     <div class="two columns">
                         <select class="u-full-width drink-category">
@@ -197,20 +212,76 @@
                     </div>
                 </div>
             </div>
+                        <div class="deal-detail-section">
+                <div class="row content-row">
+                    <div class="six columns">
+                        <img class="delete-icon delete-deal-detail-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
+                        <input type="text" class="u-full-width drink-names" placeholder="i.e. House Wines"/>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width drink-category">
+                            <option value="wine">Wine</option>
+                            <option value="beer">Beer</option>
+                            <option value="liquor">Liquor</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width deal-type">
+                            <option value="price">Price</option>
+                            <option value="percent-off">% Off</option>
+                            <option value="price-off">$ Off</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <span class="dollar-prefix">$</span>
+                        <input type="text" class="deal-value"/>
+                        <span class="percent-off-suffix hidden">% off</span>
+                        <span class="price-off-suffix hidden"> off</span>
+                    </div>
+                </div>
+            </div>
+                        <div class="deal-detail-section">
+                <div class="row content-row">
+                    <div class="six columns">
+                        <img class="delete-icon delete-deal-detail-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
+                        <input type="text" class="u-full-width drink-names" placeholder="i.e. Rails"/>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width drink-category">
+                            <option value="liquor">Liquor</option>
+                            <option value="beer">Beer</option>
+                            <option value="wine">Wine</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width deal-type">
+                            <option value="price">Price</option>
+                            <option value="percent-off">% Off</option>
+                            <option value="price-off">$ Off</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <span class="dollar-prefix">$</span>
+                        <input type="text" class="deal-value"/>
+                        <span class="percent-off-suffix hidden">% off</span>
+                        <span class="price-off-suffix hidden"> off</span>
+                    </div>
+                </div>
+            </div>
             <div>
-                <a class="add-deal-detail-link"> + Add another drink special [For the same day]</a>
+                <a class="add-deal-detail-link"> + Add another drink</a>
             </div>
             <hr/>
         </div>
         <div class="row">
-            <a class="add-deal-link"> + Add day [Drink special is at another time]</a>
+            <a class="add-deal-link"> + Add another day</a>
         </div>
         <hr/>
     </div>
     <div>
         <div class="row content-row">
             <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
-            <strong>Anything else we should know?</strong>
+            <strong>How can we make this hit better?</strong>
         </div>
         <div class="row content-row">
             <input type="text" class="comments" name="comments"/>
