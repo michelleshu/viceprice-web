@@ -47,6 +47,5 @@ class Command(BaseCommand):
         update_mturk_tasks.update()
         print("Updated")
 
-        #mturk_location_info.stat.delete()
-        # mturk_location_info.delete()
-        # location.delete()
+        mturk_location_info.delete()
+        location.delete()
