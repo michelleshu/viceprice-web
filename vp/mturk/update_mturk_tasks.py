@@ -4,6 +4,7 @@ from mturk_utilities import *
 from django.conf import settings
 from django.utils import timezone
 from boto.mturk import connection
+from vp.models import ActiveHour, Deal, DealDetail, MTurkDrinkNameOption
 import json
 
 
@@ -45,23 +46,27 @@ def update():
 
                         if deals_result["dealsFound"]:
                             deal_jsons.append(deals_result)
-                            comments.append(get_answer(answers, COMMENTS))
 
-                # Require that at least
+                            if get_answer(answers, COMMENTS) != None:
+                                comments.append(get_answer(answers, COMMENTS))
+
+                # Require that at least half of responses to contain data
                 if len(deal_jsons) > (len(assignments) / 2):
                     match_result = get_match_percentage(deal_jsons)
 
-                    print(match_result[0])
+                    print(match_result)
 
                     # If able to match enough answers, save the HIT results
-                    # if (match_result[0] > settings.MIN_AGREEMENT_PERCENTAGE):
-
+                    if (match_result[0] > (settings.MIN_AGREEMENT_PERCENTAGE / 100.0)):
+                        print("Matched")
+                        comment_string = ("\n".join(comments))[:1000]
+                        save_results(match_result[1], match_result[2], comment_string)
 
                 else:
                     # Not enough people found a result. Fail the HIT.
                     if mturk_location.stat != None:
                         complete_mturk_stat(mturk_location, False)
-                        
+
                     approve_and_dispose(conn, hit)
                     mturk_location.location.mturkDataCollectionFailed = True
                     mturk_location.location.mturkDateLastUpdated = timezone.now()
@@ -69,9 +74,86 @@ def update():
                     mturk_location.delete()
 
 
-# def save_results(deal_json, matching_deals):
-#     for deal_data in deal_json["dealData"]:
-#         for deal_detail in deal_data["dealDetails"]:
+def save_results(deal_json, matching_deals, comments):
+
+    for i in range(len(deal_json["dealData"])):
+        deal = Deal(
+            description = "",
+            dealSource = DATA_SOURCES[MTURK],
+            comments = comments,
+            confirmed = False
+        )
+        deal.save()
+
+        deal_data = deal_json["dealData"][i]
+
+        for day_of_week in deal_data["daysOfWeek"]:
+            for time_frame in deal_data["timePeriods"]:
+
+                end_time = time_frame["endTime"]
+                if time_frame["untilClose"]:
+                    end_time = None
+
+                print("Active Hour")
+                print(day_of_week)
+                print(time_frame["startTime"])
+                print(end_time)
+                print("\n\n")
+
+                active_hour = ActiveHour(
+                    dayofweek = day_of_week,
+                    start = time_frame["startTime"],
+                    end = end_time
+                )
+
+                active_hour.save()
+                deal.activeHours.add(active_hour)
+
+        for j in range(len(deal_data["dealDetails"])):
+
+            deal_detail_data = deal_data["dealDetails"][j]
+
+            drink_category = DRINK_CATEGORY[BEER]
+            if deal_detail_data["category"] == "wine":
+                drink_category = DRINK_CATEGORY[WINE]
+            elif deal_detail_data["category"] == "liquor":
+                drink_category = DRINK_CATEGORY[LIQUOR]
+
+            deal_detail_type = DEAL_DETAIL_TYPE[PRICE]
+            if deal_detail_data["dealType"] == "percent-off":
+                deal_detail_type = DEAL_DETAIL_TYPE[PERCENT_OFF]
+            elif deal_detail_data["dealType"] == "price-off":
+                deal_detail_type = DEAL_DETAIL_TYPE[PRICE_OFF]
+
+            print("Deal detail")
+            print(drink_category)
+            print(deal_detail_type)
+            print(deal_detail_data["dealValue"])
+
+            deal_detail = DealDetail(
+                drinkName = "",
+                drinkCategory = drink_category,
+                detailType = deal_detail_type,
+                value = deal_detail_data["dealValue"],
+            )
+            deal_detail.save()
+            deal.dealDetails.add(deal_detail)
+
+            # Add drink names submitted by all Turkers.
+            # First response will be in deal_json, remaining will be ordered in matching_deals
+            print("First option names")
+            print(deal_detail_data["names"])
+            drink_name_option = MTurkDrinkNameOption(name = deal_detail_data["names"])
+            drink_name_option.save()
+            deal_detail.mturkDrinkNameOptions.add(drink_name_option)
+
+            for matching_deal in matching_deals:
+                print("Other option name")
+                print(matching_deal[i][j]["names"])
+                drink_name_option = MTurkDrinkNameOption(name = matching_deal[i][j]["names"])
+                drink_name_option.save()
+                deal_detail.mturkDrinkNameOptions.add(drink_name_option)
+
 
 def get_match_percentage(deal_jsons):
     max_match_percentage = 0.0

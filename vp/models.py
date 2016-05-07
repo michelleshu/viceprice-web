@@ -15,13 +15,17 @@ class ActiveHour(models.Model):
     start = models.TimeField(null=True)
     end = models.TimeField(null=True)
 
+# Drink names from deal details entered by MTurk Workers
+class MTurkDrinkNameOption(models.Model):
+    name = models.CharField(max_length=1000)
+
 # Details about a particular drink and price
 class DealDetail(models.Model):
     drinkName = models.CharField(max_length=1000)
     drinkCategory = models.IntegerField()
     detailType = models.IntegerField()
     value = models.FloatField()
-    # mturkDrinkNameOptions = models.ManyToManyField(MTurkDrinkNameOptions)
+    mturkDrinkNameOptions = models.ManyToManyField(MTurkDrinkNameOption)
 
 # Information about a deal at a location
 class Deal(models.Model):
@@ -31,10 +35,6 @@ class Deal(models.Model):
     dealSource = models.IntegerField(null=False, default=1)
     comments = models.CharField(null=True, max_length=2000)
     confirmed = models.BooleanField(default=True)
-
-# # Drink names from deal details entered by MTurk Workers
-# class MTurkDrinkNameOptions(models.Model):
-#     name = models.CharField(max_length=1000)
 
 # Information about a location
 class Location(models.Model):
