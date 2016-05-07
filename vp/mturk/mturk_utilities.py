@@ -155,6 +155,9 @@ def approve_and_dispose(conn, hit):
 
         conn.dispose_hit(hit.HITId)
 
+def extend(conn, hit, assignments = 3):
+    conn.extend_hit(hit.HITId, assignments_increment=3)
+
 #endregion
 
 #region Metadata Collection
