@@ -34,6 +34,7 @@ def update():
         else:
             # Evaluate the corresponding HIT assignments for this location if all assignments are complete
             hit = conn.get_hit(mturk_location.hit_id)[0]
+
             if (hit.HITStatus == REVIEWABLE):
                 assignments = conn.get_assignments(hit.HITId)
                 deal_jsons = []
@@ -54,13 +55,26 @@ def update():
                 if len(deal_jsons) > (len(assignments) / 2):
                     match_result = get_match_percentage(deal_jsons)
 
-                    print(match_result)
-
                     # If able to match enough answers, save the HIT results
-                    if (match_result[0] > (settings.MIN_AGREEMENT_PERCENTAGE / 100.0)):
-                        print("Matched")
+                    if (match_result[0] > (float(settings.MIN_AGREEMENT_PERCENTAGE) / 100.0)) and len(deal_jsons) >= settings.MIN_RESPONSES:
                         comment_string = ("\n".join(comments))[:1000]
                         save_results(match_result[1], match_result[2], comment_string)
+                        approve_and_dispose(conn, hit)
+
+                    # Otherwise, if max number of assignments has not been reached, extend the HIT
+                    elif len(assignments) < settings.MAX_ASSIGNMENTS_TO_PUBLISH:
+                        extend(conn, hit)
+
+                    else:
+                        # Fail the HIT since we cannot exceed max number of assignments on Amazon
+                        if mturk_location.stat != None:
+                            complete_mturk_stat(mturk_location, False)
+
+                        approve_and_dispose(conn, hit)
+                        mturk_location.location.mturkDataCollectionFailed = True
+                        mturk_location.location.mturkDateLastUpdated = timezone.now()
+                        mturk_location.location.save()
+                        mturk_location.delete()
 
                 else:
                     # Not enough people found a result. Fail the HIT.
@@ -94,12 +108,6 @@ def save_results(deal_json, matching_deals, comments):
                 if time_frame["untilClose"]:
                     end_time = None
 
-                print("Active Hour")
-                print(day_of_week)
-                print(time_frame["startTime"])
-                print(end_time)
-                print("\n\n")
-
                 active_hour = ActiveHour(
                     dayofweek = day_of_week,
                     start = time_frame["startTime"],
@@ -125,11 +133,6 @@ def save_results(deal_json, matching_deals, comments):
             elif deal_detail_data["dealType"] == "price-off":
                 deal_detail_type = DEAL_DETAIL_TYPE[PRICE_OFF]
 
-            print("Deal detail")
-            print(drink_category)
-            print(deal_detail_type)
-            print(deal_detail_data["dealValue"])
-
             deal_detail = DealDetail(
                 drinkName = "",
                 drinkCategory = drink_category,
@@ -141,15 +144,11 @@ def save_results(deal_json, matching_deals, comments):
 
             # Add drink names submitted by all Turkers.
             # First response will be in deal_json, remaining will be ordered in matching_deals
-            print("First option names")
-            print(deal_detail_data["names"])
             drink_name_option = MTurkDrinkNameOption(name = deal_detail_data["names"])
             drink_name_option.save()
             deal_detail.mturkDrinkNameOptions.add(drink_name_option)
 
             for matching_deal in matching_deals:
-                print("Other option name")
-                print(matching_deal[i][j]["names"])
                 drink_name_option = MTurkDrinkNameOption(name = matching_deal[i][j]["names"])
                 drink_name_option.save()
                 deal_detail.mturkDrinkNameOptions.add(drink_name_option)
