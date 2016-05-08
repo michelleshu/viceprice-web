@@ -57,7 +57,7 @@ def update():
                     # If able to match enough answers, save the HIT results
                     if (match_result[0] > (float(settings.MIN_AGREEMENT_PERCENTAGE) / 100.0)) and len(deal_jsons) >= settings.MIN_RESPONSES:
                         comment_string = ("\n".join(comments))[:1000]
-                        save_results(match_result[1], match_result[2], comment_string)
+                        save_results(mturk_location.location, match_result[1], match_result[2], comment_string)
 
                         if mturk_location.stat != None:
                             complete_mturk_stat(mturk_location, True)
@@ -95,7 +95,12 @@ def update():
                     mturk_location.delete()
 
 
-def save_results(deal_json, matching_deals, comments):
+def save_results(location, deal_json, matching_deals, comments):
+
+    # Remove old deals
+    previous_deals = location.deals.all()
+    location.deals.remove()
+    previous_deals.delete()
 
     for i in range(len(deal_json["dealData"])):
         deal = Deal(
@@ -105,6 +110,9 @@ def save_results(deal_json, matching_deals, comments):
             confirmed = False
         )
         deal.save()
+
+        location.deals.add(deal)
+        location.save()
 
         deal_data = deal_json["dealData"][i]
 
