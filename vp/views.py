@@ -304,6 +304,7 @@ def get_deal_that_needs_confirmation(request):
             })
 
         response = {
+            'deal_id': deal.id,
             'deal_detail_data': deal_detail_data
         }
 
@@ -361,6 +362,33 @@ def submit_happy_hour_data(request):
     location.save()
 
     return HttpResponse("success")
+
+
+@csrf_exempt
+def submit_drink_names(request):
+    data = json.loads(request.body)
+    deal_id = int(data.get('dealID'))
+    names_selected = data.get('namesSelected')
+
+    deal = Deal.objects.get(id=deal_id)
+
+    for name_selected in names_selected:
+        deal_detail_id = int(name_selected.get('dealDetailID'))
+        deal_detail = DealDetail.objects.get(id=deal_detail_id)
+
+        # Save the name for the deal detail
+        deal_detail.drinkName = name_selected.get('name')
+        mturk_drink_name_options = deal_detail.mturkDrinkNameOptions.all()
+        deal_detail.mturkDrinkNameOptions.remove()
+        mturk_drink_name_options.delete()
+        deal_detail.save()
+
+    # Confirm the deal
+    deal.confirmed = True
+    deal.save()
+
+    return HttpResponse("success")
+
 
 @csrf_exempt
 def submit_locations_to_upload(request):
