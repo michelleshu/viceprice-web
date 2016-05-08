@@ -23,14 +23,6 @@ def about(request):
     context.update(csrf(request))
     return render_to_response('about.html', context)
 
-
-@login_required(login_url='/login/')
-def data_entry(request):
-    if request.user.is_authenticated():
-        context = { 'user': request.user }
-        context.update(csrf(request));
-        return enter_happy_hour_view(request)
-
 # Authentication
 def login_view(request):
     context = {}
@@ -262,6 +254,20 @@ def enter_happy_hour_view(request):
 
     return render_to_response('enter_happy_hour.html', context)
 
+@login_required(login_url='/login/')
+def data_entry(request):
+    if request.user.is_authenticated():
+        context = { 'user': request.user }
+        context.update(csrf(request));
+        return enter_happy_hour_view(request)
+
+@login_required(login_url='/login/')
+def confirm_drink_name(request):
+    if request.user.is_authenticated():
+        context = { 'user': request.user }
+        context.update(csrf(request));
+        return render_to_response("confirm_drink_name.html", context)
+
 def flag_location_as_skipped(request):
     data = json.loads(request.body)
     location_id = data.get('location_id')
@@ -290,6 +296,40 @@ def get_location_that_needs_happy_hour(request):
         return JsonResponse(response)
 
     return JsonResponse({})
+
+def get_deal_that_needs_confirmation(request):
+    deals = Deal.objects.filter(confirmed=False)
+    deals_count = deals.count()
+
+    if deals_count > 0:
+        deal = deals.first()
+        deal_details = list(deal.dealDetails.all())
+
+        deal_detail_data = []
+
+        for deal_detail in deal_details:
+            mturk_drink_name_options = list(deal_detail.mturkDrinkNameOptions.all())
+            mturk_drink_names = []
+
+            for mturk_drink_name_option in mturk_drink_name_options:
+                mturk_drink_names.append(mturk_drink_name_option.name)
+
+            deal_detail_data.append({
+                'id': deal_detail.id,
+                'drink_names': mturk_drink_names
+            })
+
+        response = {
+            'deals_count': deals_count,
+            'deal_id': deal.id,
+            'deal_detail_data': deal_detail_data
+        }
+
+        return JsonResponse(response)
+
+    return JsonResponse({ 'deals_count': 0 })
+
+
 
 @csrf_exempt
 def submit_happy_hour_data(request):
@@ -339,6 +379,33 @@ def submit_happy_hour_data(request):
     location.save()
 
     return HttpResponse("success")
+
+
+@csrf_exempt
+def submit_drink_names(request):
+    data = json.loads(request.body)
+    deal_id = int(data.get('dealID'))
+    names_selected = data.get('namesSelected')
+
+    deal = Deal.objects.get(id=deal_id)
+
+    for name_selected in names_selected:
+        deal_detail_id = int(name_selected.get('dealDetailID'))
+        deal_detail = DealDetail.objects.get(id=deal_detail_id)
+
+        # Save the name for the deal detail
+        deal_detail.drinkName = name_selected.get('name')
+        mturk_drink_name_options = deal_detail.mturkDrinkNameOptions.all()
+        deal_detail.mturkDrinkNameOptions.remove()
+        mturk_drink_name_options.delete()
+        deal_detail.save()
+
+    # Confirm the deal
+    deal.confirmed = True
+    deal.save()
+
+    return HttpResponse("success")
+
 
 @csrf_exempt
 def submit_locations_to_upload(request):

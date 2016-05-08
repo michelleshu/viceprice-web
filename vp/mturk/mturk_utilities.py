@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
 from pprint import pprint
-from vp.models import Location, MTurkLocationInfo, MTurkLocationInfoStat, DayOfWeek, TimeFrame
+from vp.models import Location, MTurkLocationInfo, MTurkLocationInfoStat
 from viceprice.constants import *
 
 '''
@@ -22,90 +22,41 @@ This file contains the main utility functions for adding tasks and retrieving up
 # Add locations to update process that need to be updated
 def add_mturk_locations_to_update(conn, max_to_add = None):
     if (max_to_add == None):
-        max_to_add = MAX_LOCATIONS_TO_UPDATE
+        max_to_add = settings.MAX_LOCATIONS_TO_UPDATE
 
-    currently_updating = MTurkLocationInfo.objects.filter(
-        ~Q(stage = MTURK_STAGE[NO_INFO]) &
-        ~Q(stage = MTURK_STAGE[COMPLETE]) &
-        ~Q(stage = MTURK_STAGE[WRONG_WEBSITE]) &
-        ~Q(stage = MTURK_STAGE[WRONG_PHONE_NUMBER])
-    ).count() # number of updates in progress
+    currently_updating = MTurkLocationInfo.objects.all().count()
 
     max_new_locations = max_to_add - currently_updating
 
     # Get at most max_new_locations locations that have either just been added or expired
-    earliest_unexpired_date = timezone.now() - datetime.timedelta(days=EXPIRATION_PERIOD)
+    earliest_unexpired_date = timezone.now() - datetime.timedelta(days=settings.EXPIRATION_PERIOD)
 
-    new_locations = Location.objects.filter(Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None))[0:max_new_locations]
-
-    # test_ids = [2862, 2500, 2538, 2485, 2529, 2449, 3040, 3138, 2733, 2502, 2831, 3175, 2480, 3169, 2892, 2372, 2860,
-    #             2624, 2925, 2900, 3043, 2717, 2781, 2748, 2574]
-    #
-    # new_locations = Location.objects.filter(Q(id__in=test_ids) &
-    #                 Q(mturkDateLastUpdated__lt=earliest_unexpired_date))[0:max_new_locations]
-
-    # new_locations = Location.objects.filter(
-    #     mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
+    new_locations = []
+    if not settings.MTURK_TEST_MODE:
+        # For tests, only evaluate the MTurkLocationInfos added in test. Do not add new ones here.
+        # Otherwise, in production mode, this is the query for all locations that are to be added to the MTurk update
+        # process.
+        new_locations = Location.objects.filter(Q(neighborhood="Dupont Circle") &
+            (Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None)))[0:max_new_locations]
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
-
-        # If location has no website, start in Stage 0. Otherwise, start in Stage 1.
-        if (location.website == None or location.website == ''):
-            stage = MTURK_STAGE[FIND_WEBSITE]
-        else:
-            stage = MTURK_STAGE[FIND_HAPPY_HOUR_WEB]
 
         mturk_location = MTurkLocationInfo(
             location = location,
             name = location.name,
             address = location.formattedAddress,
             phone_number = location.formattedPhoneNumber,
-            website = location.website,
-            stage = stage
+            website = location.website
         )
+        mturk_location.save()
+
+        add_mturk_stat(mturk_location)
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
         location.mturkDateLastUpdated = timezone.now()
-        location.comments = ""
         location.save()
 
-        mturk_location.save()
-
-
-# Retrieve in progress website updates
-def get_website_update_mturk_locations():
-
-    website_stages = [
-        MTURK_STAGE[FIND_WEBSITE],
-        MTURK_STAGE[FIND_HAPPY_HOUR_WEB],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_WEB_2]
-    ]
-
-    return list(MTurkLocationInfo.objects.filter(stage__in=website_stages))
-
-
-# Retrieve in progress phone updates
-def get_phone_update_mturk_locations():
-
-    phone_stages = [
-        MTURK_STAGE[FIND_HAPPY_HOUR_PHONE],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE],
-        MTURK_STAGE[CONFIRM_HAPPY_HOUR_PHONE_2]
-    ]
-
-    return list(MTurkLocationInfo.objects.filter(stage__in=phone_stages))
-
-
-# Retrieve completed locations
-def get_complete_mturk_locations():
-    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[COMPLETE])
-
-
-# Retrieve info not found locations
-def get_no_info_mturk_locations():
-    return MTurkLocationInfo.objects.filter(stage=MTURK_STAGE[NO_INFO])
 
 #endregion
 
@@ -118,9 +69,9 @@ def register_hit_types(conn):
         hit_type = settings.MTURK_HIT_TYPES[hit_type_name]
 
         min_percentage_qualification = PercentAssignmentsApprovedRequirement(
-            "GreaterThan", MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
+            "GreaterThan", settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
         min_hits_completed_qualification = NumberHitsApprovedRequirement(
-            "GreaterThan", MIN_HITS_COMPLETED, required_to_preview=True)
+            "GreaterThan", settings.MIN_HITS_COMPLETED, required_to_preview=True)
         us_locale_qualification = LocaleRequirement(
             "EqualTo", "US", required_to_preview=True)
 
@@ -145,9 +96,9 @@ def create_hit(conn, mturk_location_info, hit_type):
 
     # Use qualifications: MIN_PERCENTAGE_APPROVED, MIN_HITS_COMPLETED and optionally US_LOCALE_REQUIRED
     min_percentage_qualification = PercentAssignmentsApprovedRequirement(
-        "GreaterThan", MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
+        "GreaterThan", settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
     min_hits_completed_qualification = NumberHitsApprovedRequirement(
-        "GreaterThan", MIN_HITS_COMPLETED, required_to_preview=True)
+        "GreaterThan", settings.MIN_HITS_COMPLETED, required_to_preview=True)
     us_locale_qualification = LocaleRequirement(
         "EqualTo", "US", required_to_preview=True)
 
@@ -196,149 +147,6 @@ def get_answer(answers, question_id):
     # Return None if not found
     return None
 
-
-# Add comments to MTurkLocationInfo
-def add_comments(mturk_location, comments):
-    if (comments != None and comments != ''):
-        if (mturk_location.comments == None or mturk_location.comments == ''):
-            mturk_location.comments = comments
-        elif comments not in mturk_location.comments:
-            mturk_location.comments = mturk_location.comments + '\n' + comments
-
-        mturk_location.comments = mturk_location.comments[:999]
-        mturk_location.save()
-
-
-# Get the agreement percentage among a set of URLs and the URL with the highest agreement percentage
-def get_url_agreement_percentage(urls):
-    domains = []
-    max_agreement_count = 0
-    max_agreed_url = ""
-
-    for url in urls:
-        if (url == None or url == ''):
-            domains.append('')
-
-        else:
-            # Remove whitespace and uppercase characters
-            url = url.strip().lower()
-
-            # Strip backslash from end if it exists
-            if (url[-1] == '/'):
-                url = url[:-1]
-
-            # Add domain after optional http://, https://, www to domains
-            domains.append(url.lstrip("https://www."))
-
-    # For each domain in list, compare to all other domains and calculate number that agree
-    for domain in domains:
-        agreement_count = domains.count(domain)
-        if (agreement_count > max_agreement_count):
-            max_agreement_count = agreement_count
-            if (domain == ''):
-                max_agreed_url = None
-            else:
-                max_agreed_url = "http://www." + domain
-
-            if (max_agreement_count > len(domains) / 2):
-                return ((max_agreement_count * 100.0) / len(domains), max_agreed_url)
-
-    # Return the maximum agreement percentage seen and the url that corresponds to it
-    return ((max_agreement_count * 100.0) / len(domains), max_agreed_url)
-
-
-# Process the assignments from a find website HIT (Stage 0)
-# Return the URL agreement percentage and agreed upon URL
-def process_find_website_hit_assignments(mturk_location, assignments):
-    url_responses = []
-
-    for assignment in assignments:
-
-        if assignment.AssignmentStatus != REJECTED:
-            answers = assignment.answers[0]
-            url_found = get_answer(answers, WEBSITE_FOUND)
-            url = get_answer(answers, WEBSITE_FIELD)
-            comments = get_answer(answers, COMMENTS)
-
-            if (url_found == 'yes'):
-                url_responses.append(url)
-            else:
-                url_responses.append('')
-
-            add_comments(mturk_location, comments)
-
-    return get_url_agreement_percentage(url_responses)
-
-
-# Get whether happy hour was found
-# If not, update happy hour attempt count
-# If we have wrong website, or wrong phone number, update the stage to reflect it and terminate the happy hour
-# acquisition process
-def get_happy_hour_found(mturk_location, assignment):
-    answers = assignment.answers[0]
-    happy_hour_found = get_answer(answers, HAPPY_HOUR_FOUND)
-    comments = get_answer(answers, COMMENTS)
-
-    add_comments(mturk_location, comments)
-
-    if happy_hour_found == "yes":
-        # Happy hours found
-        return True
-
-    elif happy_hour_found == "no":
-        # Happy hours not found, but information source is correct
-        mturk_location.attempts = int(mturk_location.attempts) + 1
-        mturk_location.save()
-        return False
-
-    elif happy_hour_found == "no-response":
-        # No one picked up the phone
-        mturk_location.attempts = int(mturk_location.attempts) + 1
-        mturk_location.save()
-        return False
-
-    elif happy_hour_found == "wrong-website":
-        # Happy hours not found, because we have wrong website
-        mturk_location.stage = MTURK_STAGE[WRONG_WEBSITE]
-        mturk_location.save()
-        return False
-
-    elif happy_hour_found == "wrong-phone-number":
-        # Happy hours not found, because we have wrong phone number
-        mturk_location.stage = MTURK_STAGE[WRONG_PHONE_NUMBER]
-        mturk_location.save()
-        return False
-
-    else:
-        return False
-
-
-# Process the assignment from a find website happy hour info HIT (Stage 1)
-def process_find_happy_hour_info_assignment(mturk_location, assignment):
-    answers = assignment.answers[0]
-    mturk_location.deals = get_answer(answers, DEALS)
-    mturk_location.save()
-    add_comments(mturk_location, get_answer(answers, COMMENTS))
-
-
-# Process the assignment from a confirm website happy hour info HIT (Stage 2/3)
-def process_confirm_happy_hour_info_assignment(mturk_location, assignment):
-    answers = assignment.answers[0]
-    deals = get_answer(answers, DEALS)
-
-    if deals == mturk_location.deals:
-        # If deals hasn't changed, this HIT confirms the previous one.
-        mturk_location.confirmations += 1
-    else:
-        # Otherwise, set confirmations back to 0
-        mturk_location.confirmations = 0
-
-    # Update deals
-    mturk_location.deals = get_answer(answers, DEALS)
-    mturk_location.save()
-    add_comments(mturk_location, get_answer(answers, COMMENTS))
-
-
 # Approve assignments from HIT and dispose of the HIT
 def approve_and_dispose(conn, hit):
     if (hit.HITStatus == REVIEWABLE):
@@ -348,48 +156,29 @@ def approve_and_dispose(conn, hit):
 
         conn.dispose_hit(hit.HITId)
 
+def extend(conn, hit, mturk_location, assignments = 3):
+    conn.extend_hit(hit.HITId, assignments_increment=3)
+
+    if (mturk_location.stat != None):
+        mturk_location.stat.numberOfAssignments += assignments
+        mturk_location.stat.save()
+
 #endregion
-
-# Check to see whether we are within valid business hours for a location based on Foursquare ID
-def within_business_hours(location_id):
-    now = timezone.localtime(timezone.now())
-    current_day = now.isoweekday()
-    current_time = now.time()
-
-    business_hour_ids = Location.objects.get(id = location_id).businessHours.all().values_list('id', flat=True)
-    today_business_hour_ids = DayOfWeek.objects.filter(
-        day = current_day, businessHour_id__in=business_hour_ids).values_list('businessHour_id', flat=True)
-    today_time_frames = TimeFrame.objects.filter(businessHour_id__in=today_business_hour_ids).all().values('startTime', 'endTime')
-
-    for time_frame in today_time_frames:
-        if (within_time_range(current_time, time_frame['startTime'], time_frame['endTime'])):
-            return True
-
-    return False
-
-
-# Check if we are currently within a certain time range
-def within_time_range(time, start_time, end_time):
-    start_cutoff = (datetime.datetime.combine(datetime.date.today(), start_time) + datetime.timedelta(minutes=30)).time()
-    end_cutoff = (datetime.datetime.combine(datetime.date.today(), end_time) - datetime.timedelta(minutes=30)).time()
-
-    if (end_cutoff > BUSINESS_HOUR_CUTOFF or end_cutoff < start_cutoff):
-        end_cutoff = BUSINESS_HOUR_CUTOFF
-
-    return start_cutoff <= time and end_cutoff >= time
-
 
 #region Metadata Collection
 
-def add_mturk_stat(mturk_location, stage_name):
-    hit_type = settings.MTURK_HIT_TYPES[stage_name]
+def add_mturk_stat(mturk_location):
+    hit_type = settings.MTURK_HIT_TYPES[FIND_HAPPY_HOUR]
 
     stat = MTurkLocationInfoStat(
-        dateStarted=timezone.now(),
         location=mturk_location.location,
-        stage=MTURK_STAGE[stage_name],
-        costForStage=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS],
-        costPerAssignment=hit_type[PRICE] * hit_type[MAX_ASSIGNMENTS]
+        dateStarted=timezone.now(),
+        numberOfAssignments = hit_type[MAX_ASSIGNMENTS],
+        costPerAssignment=hit_type[PRICE],
+        minAgreementPercentage=settings.MIN_AGREEMENT_PERCENTAGE,
+        minPercentagePreviousAssignmentsApproved=settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED,
+        minHITsCompleted=settings.MIN_HITS_COMPLETED,
+        usLocaleRequired=settings.US_LOCALE_REQUIRED
     )
     stat.save()
 
@@ -397,17 +186,11 @@ def add_mturk_stat(mturk_location, stage_name):
     mturk_location.save()
 
 
-def add_mturk_stat_cost(mturk_location, additional_cost):
-    mturk_location.stat.costForStage += additional_cost
-    mturk_location.stat.save()
-
-
-def complete_mturk_stat(mturk_location, data_confirmed):
+def complete_mturk_stat(mturk_location, data_found):
+    mturk_location.stat.happyHourDataFound = data_found
     mturk_location.stat.dateCompleted = timezone.now()
-    mturk_location.stat.data_confirmed = data_confirmed
     mturk_location.stat.save()
     mturk_location.stat = None
     mturk_location.save()
-
 
 #endregion

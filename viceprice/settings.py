@@ -138,92 +138,35 @@ FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 FACEBOOK_APP_SECRET = os.environ.get('FACEBOOK_APP_SECRET')
 FACEBOOK_APP_TOKEN = os.environ.get('FACEBOOK_APP_TOKEN')
 
+# Maximum number of locations to update at any given time
+MAX_LOCATIONS_TO_UPDATE = 100
+
+# MTurk iteration variables
+MAX_ASSIGNMENTS_TO_PUBLISH = 9      # Max total assignments to publish for one HIT
+MIN_RESPONSES = 3                   # Min number of responses to accept
+MIN_AGREEMENT_PERCENTAGE = 70       # Percentage of HIT responses that need to agree before we accept the result
+
+# Days it takes for data to expire
+EXPIRATION_PERIOD = 30
+
+# Qualifications required of Turkers
+MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 80
+MIN_HITS_COMPLETED = 100
+
 MTURK_HIT_TYPES = {
-    FIND_WEBSITE: {
-        TITLE: 'Find the website for a business',
-        DESCRIPTION: 'Find the official website for a business',
-        ANNOTATION: 'Find website',
-        KEYWORDS: ['data collection', 'web search', 'find', 'website'],
-        LAYOUT_PARAMETER_NAMES: ['name', 'address'],
-        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_WEBSITE'),
-        MAX_ASSIGNMENTS: 3,
-        PRICE: 0.03,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: False
-    },
-    FIND_HAPPY_HOUR_WEB: {
-        TITLE: 'Find information on a website',
-        DESCRIPTION: 'Search a website for information',
-        ANNOTATION: 'Find info web',
+    FIND_HAPPY_HOUR: {
+        TITLE: 'Find happy hour information on a website',
+        DESCRIPTION: 'Search a website for information on happy hour deals',
+        ANNOTATION: 'Find happy hour info',
         KEYWORDS: ['data collection', 'copy', 'website'],
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
-        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR_WEB'),
-        MAX_ASSIGNMENTS: 1,
+        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
+        MAX_ASSIGNMENTS: 3,
         PRICE: 0.05,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: False
-    },
-    CONFIRM_HAPPY_HOUR_WEB: {
-        TITLE: 'Check the accuracy of information from a website',
-        DESCRIPTION: 'Check the accuracy of information on a website',
-        ANNOTATION: 'Confirm info web',
-        KEYWORDS: ['data collection', 'copy', 'website'],
-        LAYOUT_PARAMETER_NAMES: ['name', 'website', 'deals'],
-        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_WEB'),
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.05,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: False
-    },
-    CONFIRM_HAPPY_HOUR_WEB_2: {
-        TITLE: 'Check the accuracy of information from a website',
-        DESCRIPTION: 'Check the accuracy of information on a website',
-        ANNOTATION: 'Confirm info web',
-        KEYWORDS: ['data collection', 'copy', 'website'],
-        LAYOUT_PARAMETER_NAMES: ['name', 'website', 'deals'],
-        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_WEB'),
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.05,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: False
-    },
-    FIND_HAPPY_HOUR_PHONE: {
-        TITLE: 'Call a business and find out what specials they are offering. [30 cent bonus for successful calls that get info]',
-        DESCRIPTION: 'You will call a business and ask what specials they are offering. You will get a 30 cent bonus for successful calls that get info]',
-        ANNOTATION: 'Find business info',
-        KEYWORDS: ['phone call', 'phone' 'business info', 'specials', 'bonus'],
-        LAYOUT_PARAMETER_NAMES: ['name', 'phone_number'],
-        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR_PHONE'),
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.10,
-        BONUS: 0.30,
+        BONUS: 0.0,
         DURATION: 3600,
         US_LOCALE_REQUIRED: True
-    },
-    CONFIRM_HAPPY_HOUR_PHONE: {
-        TITLE: 'Call a business and find out what specials they are offering. [30 cent bonus for successful calls]',
-        DESCRIPTION: 'You will call a business, ask what specials they have, and see if our info is up to date [30 cent bonus for successful calls]',
-        ANNOTATION: 'Find business info',
-        KEYWORDS: ['phone call', 'phone' 'business info', 'specials'],
-        LAYOUT_PARAMETER_NAMES: ['name', 'phone_number', 'deals'],
-        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_PHONE'),
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.10,
-        BONUS: 0.30,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: True
-    },
-    CONFIRM_HAPPY_HOUR_PHONE_2: {
-        TITLE: 'Call a business and find out what specials they are offering. [30 cent bonus for successful calls]',
-        DESCRIPTION: 'You will call a business, ask what specials they have, and see if our info is up to date [30 cent bonus for successful calls]',
-        ANNOTATION: 'Find business info',
-        KEYWORDS: ['phone call', 'phone' 'business info', 'specials'],
-        LAYOUT_PARAMETER_NAMES: ['name', 'phone_number', 'deals'],
-        LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_CONFIRM_HAPPY_HOUR_PHONE'),
-        MAX_ASSIGNMENTS: 1,
-        PRICE: 0.10,
-        BONUS: 0.30,
-        DURATION: 3600,
-        US_LOCALE_REQUIRED: True
-    },
+    }
 }
+
+MTURK_TEST_MODE = False

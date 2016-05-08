@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block resources %}
+    <link rel="stylesheet" href="{% static 'css/confirm-drink-name.css' %}">
+    <script type="text/javascript" src="{% static 'js/confirm-drink-name.js' %}"></script>
+{% endblock resources %}
+
+{% block content %}
+    <div class="container">
+        <div class="confirm-drink-name-container">
+            <div class="row">
+                <h3>Confirm Drink Names</h3>
+                <h4 class="remaining-count">0 Deals Left To Confirm</h4>
+                <hr/>
+            </div>
+        </div>
+        <div class="row">
+            <input id="submit-button" type="submit"/>
+        </div>
+    </div>
+{% endblock content %}
+
