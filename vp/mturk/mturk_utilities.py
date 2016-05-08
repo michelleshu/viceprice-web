@@ -36,7 +36,8 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         # For tests, only evaluate the MTurkLocationInfos added in test. Do not add new ones here.
         # Otherwise, in production mode, this is the query for all locations that are to be added to the MTurk update
         # process.
-        new_locations = Location.objects.filter(Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None))[0:max_new_locations]
+        new_locations = Location.objects.filter(Q(neighborhood="Dupont Circle") &
+            (Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None)))[0:max_new_locations]
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
@@ -155,8 +156,12 @@ def approve_and_dispose(conn, hit):
 
         conn.dispose_hit(hit.HITId)
 
-def extend(conn, hit, assignments = 3):
+def extend(conn, hit, mturk_location, assignments = 3):
     conn.extend_hit(hit.HITId, assignments_increment=3)
+
+    if (mturk_location.stat != None):
+        mturk_location.stat.numberOfAssignments += assignments
+        mturk_location.stat.save()
 
 #endregion
 
@@ -168,10 +173,9 @@ def add_mturk_stat(mturk_location):
     stat = MTurkLocationInfoStat(
         location=mturk_location.location,
         dateStarted=timezone.now(),
-        numberOfAssignments = 0,
+        numberOfAssignments = hit_type[MAX_ASSIGNMENTS],
         costPerAssignment=hit_type[PRICE],
-        maxGetHappyHourAttempts=settings.MAX_GET_HAPPY_HOUR_ATTEMPTS,
-        minConfirmationPercentage=settings.MIN_CONFIRMATION_PERCENTAGE,
+        minAgreementPercentage=settings.MIN_AGREEMENT_PERCENTAGE,
         minPercentagePreviousAssignmentsApproved=settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED,
         minHITsCompleted=settings.MIN_HITS_COMPLETED,
         usLocaleRequired=settings.US_LOCALE_REQUIRED

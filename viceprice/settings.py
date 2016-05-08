@@ -169,4 +169,4 @@ MTURK_HIT_TYPES = {
     }
 }
 
-MTURK_TEST_MODE = True
+MTURK_TEST_MODE = False

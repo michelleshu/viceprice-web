@@ -73,8 +73,7 @@ class MTurkLocationInfoStat(models.Model):
     costPerAssignment = models.FloatField(null=False)
 
     # Attempts and confirmation settings (found in settings.py)
-    maxGetHappyHourAttempts = models.IntegerField(null=False)
-    minConfirmationPercentage = models.IntegerField(null=False)
+    minAgreementPercentage = models.IntegerField(null=False)
 
     # MTurk Qualification Configuration (found in settings.py)
     minPercentagePreviousAssignmentsApproved = models.IntegerField(null=False)
