@@ -19,7 +19,6 @@ def update():
     register_hit_types(conn)
 
     # Get the website updates in progress
-    # TODO Update for production mode
     locations_to_update = MTurkLocationInfo.objects.all()
 
     # Add new locations that can be updated
