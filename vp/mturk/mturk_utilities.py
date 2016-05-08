@@ -187,7 +187,7 @@ def add_mturk_stat(mturk_location):
 
 
 def complete_mturk_stat(mturk_location, data_found):
-    mturk_location.stat.dataFound = data_found
+    mturk_location.stat.happyHourDataFound = data_found
     mturk_location.stat.dateCompleted = timezone.now()
     mturk_location.stat.save()
     mturk_location.stat = None
