@@ -155,8 +155,8 @@ MIN_HITS_COMPLETED = 100
 
 MTURK_HIT_TYPES = {
     FIND_HAPPY_HOUR: {
-        TITLE: 'Find happy hour information on a website',
-        DESCRIPTION: 'Search a website for information on happy hour deals',
+        TITLE: 'Find information on a website',
+        DESCRIPTION: 'Search a website for information',
         ANNOTATION: 'Find happy hour info',
         KEYWORDS: ['data collection', 'copy', 'website'],
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
