@@ -23,14 +23,6 @@ def index(request):
     context.update(csrf(request))
     return render_to_response('index.html', context)
 
-
-@login_required(login_url='/login/')
-def data_entry(request):
-    if request.user.is_authenticated():
-        context = { 'user': request.user }
-        context.update(csrf(request));
-        return enter_happy_hour_view(request)
-
 # Authentication
 def login_view(request):
     context = {}
@@ -247,6 +239,20 @@ def enter_happy_hour_view(request):
 
     return render_to_response('enter_happy_hour.html', context)
 
+@login_required(login_url='/login/')
+def data_entry(request):
+    if request.user.is_authenticated():
+        context = { 'user': request.user }
+        context.update(csrf(request));
+        return enter_happy_hour_view(request)
+
+@login_required(login_url='/login/')
+def confirm_drink_name(request):
+    if request.user.is_authenticated():
+        context = { 'user': request.user }
+        context.update(csrf(request));
+        return render_to_response("confirm_drink_name.html", context)
+
 def flag_location_as_skipped(request):
     data = json.loads(request.body)
     location_id = data.get('location_id')
@@ -275,6 +281,37 @@ def get_location_that_needs_happy_hour(request):
         return JsonResponse(response)
 
     return JsonResponse({})
+
+def get_deal_that_needs_confirmation(request):
+    deals = Deal.objects.filter(confirmed=False)
+
+    if deals.count() > 0:
+        deal = deals.first()
+        deal_details = list(deal.dealDetails.all())
+
+        deal_detail_data = []
+
+        for deal_detail in deal_details:
+            mturk_drink_name_options = list(deal_detail.mturkDrinkNameOptions.all())
+            mturk_drink_names = []
+
+            for mturk_drink_name_option in mturk_drink_name_options:
+                mturk_drink_names.append(mturk_drink_name_option.name)
+
+            deal_detail_data.append({
+                'id': deal_detail.id,
+                'drink_names': mturk_drink_names
+            })
+
+        response = {
+            'deal_detail_data': deal_detail_data
+        }
+
+        return JsonResponse(response)
+
+    return JsonResponse({})
+
+
 
 @csrf_exempt
 def submit_happy_hour_data(request):

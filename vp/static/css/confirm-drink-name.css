@@ -1,0 +1,11 @@
+.confirm-drink-name-container {
+    margin-top: 5rem;
+}
+
+input[type=radio] {
+    margin-right: 1.5rem;
+}
+
+input[type=text] {
+    width: 50%;
+}
