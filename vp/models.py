@@ -4,24 +4,6 @@ from datetime import datetime
 from django.utils import timezone
 from django_enumfield import enum
 
-MONDAY = 'Monday'
-TUESDAY = 'Tuesday'
-WEDNESDAY = 'Wednesday'
-THURSDAY = 'Thursday'
-FRIDAY = 'Friday'
-SATURDAY = 'Saturday'
-SUNDAY = 'Sunday'
-
-DAY_OF_WEEK = {
-    MONDAY: 1,
-    TUESDAY: 2,
-    WEDNESDAY: 3,
-    THURSDAY: 4,
-    FRIDAY: 5,
-    SATURDAY: 6,
-    SUNDAY: 7
-}
-
 class LocationCategory(models.Model):
     name = models.CharField(max_length=256, null=False)
     isBaseCategory = models.BooleanField(default=True)
@@ -33,10 +15,9 @@ class ActiveHour(models.Model):
     start = models.TimeField(null=True)
     end = models.TimeField(null=True)
 
-class DealType(enum.Enum):
-    price = 1
-    percent_off = 2
-    price_off = 3
+# Drink names from deal details entered by MTurk Workers
+class MTurkDrinkNameOption(models.Model):
+    name = models.CharField(max_length=1000)
 
 # Details about a particular drink and price
 class DealDetail(models.Model):
@@ -44,13 +25,16 @@ class DealDetail(models.Model):
     drinkCategory = models.IntegerField()
     detailType = models.IntegerField()
     value = models.FloatField()
-    
-    # Information about a deal at a location
+    mturkDrinkNameOptions = models.ManyToManyField(MTurkDrinkNameOption)
+
+# Information about a deal at a location
 class Deal(models.Model):
     description = models.CharField(max_length=2000)
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
-    
+    dealSource = models.IntegerField(null=False, default=1)
+    comments = models.CharField(null=True, max_length=2000)
+    confirmed = models.BooleanField(default=True)
 
 # Information about a location
 class Location(models.Model):
@@ -69,10 +53,9 @@ class Location(models.Model):
     coverPhotoSource = models.CharField(max_length=256, null=True)
     coverXOffset = models.IntegerField(null=True)
     coverYOffset = models.IntegerField(null=True)
-    dealDataSource = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal)
     mturkDateLastUpdated = models.DateTimeField(null=True)
-    comments = models.CharField(max_length=1000, null=True)
+    mturkDataCollectionFailed = models.BooleanField(default=False)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)
     twitterHandle = models.CharField(max_length=50, null=True)
@@ -86,10 +69,19 @@ class MTurkLocationInfoStat(models.Model):
     location = models.ForeignKey(Location)
     dateStarted = models.DateTimeField(null=False)
     dateCompleted = models.DateTimeField(null=True)
-    stage = models.IntegerField(null=False)
+    numberOfAssignments = models.IntegerField(null=False)
     costPerAssignment = models.FloatField(null=False)
-    costForStage = models.FloatField(default=0.0)
-    dataConfirmed = models.BooleanField(default=False)
+
+    # Attempts and confirmation settings (found in settings.py)
+    minAgreementPercentage = models.IntegerField(null=False)
+
+    # MTurk Qualification Configuration (found in settings.py)
+    minPercentagePreviousAssignmentsApproved = models.IntegerField(null=False)
+    minHITsCompleted = models.IntegerField(null=False)
+    usLocaleRequired = models.BooleanField(null=False)
+
+    happyHourDataFound = models.BooleanField(default=False)
+
 
 # Track location as it goes through MTurk update process
 class MTurkLocationInfo(models.Model):
@@ -98,10 +90,6 @@ class MTurkLocationInfo(models.Model):
     address = models.CharField(max_length=512, null=True)
     website = models.CharField(max_length=256, null=True)
     phone_number = models.CharField(max_length=30, null=True)
-    stage = models.IntegerField(null=False)
-    attempts = models.IntegerField(default=0)
-    confirmations = models.IntegerField(default=0)
-    deals = models.CharField(max_length=10000, null=True)
     hit_id = models.CharField(max_length=100, null=True)
     comments = models.CharField(max_length=1000, null=True)
     stat = models.ForeignKey(MTurkLocationInfoStat, null=True)

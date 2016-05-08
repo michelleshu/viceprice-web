@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
-from vp.mturk import mturk_update_website_tasks
-import updatedb
+from vp.mturk import update_mturk_tasks
 
 
 class Command(BaseCommand):
@@ -8,9 +7,7 @@ class Command(BaseCommand):
     args = '<site>'
 
     def handle(self, *args, **options):
-        mturk_update_website_tasks.update()
-        updatedb.write_mturk_deals_to_db()
+        update_mturk_tasks.update()
 
 def run():
-    mturk_update_website_tasks.update()
-    updatedb.write_mturk_deals_to_db()
+    update_mturk_tasks.update()

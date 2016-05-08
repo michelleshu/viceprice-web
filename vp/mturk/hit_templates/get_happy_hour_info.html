@@ -1,0 +1,667 @@
+
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" property="stylesheet" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" property="stylesheet" rel="stylesheet" />
+
+<style>
+    .hidden {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    .question-container button {
+        margin-right: 0.5rem !important;
+        padding: 0 20px !important;
+    }
+
+    .instructions-section {
+        margin-bottom: 2rem;
+    }
+
+    .instructions-header {
+        margin-bottom: 2rem;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .instructions-content {
+        font-size: 16px;
+    }
+
+    .question-container {
+        margin-top: 3rem;
+        font-size: 14px;
+    }
+
+    .question-container h6 {
+        margin-bottom: 0;
+    }
+
+    .question-container a {
+        cursor: pointer;
+    }
+
+    .question-container input, .question-container select {
+        font-size: 14px;
+    }
+
+    .title-row {
+        margin-bottom: 8px;
+    }
+
+    .content-row {
+        margin-bottom: 16px;
+    }
+
+    .start-time, .end-time {
+        width: 30%;
+    }
+
+    .deal-value {
+        width: 50%;
+    }
+
+    .drink-names {
+        width: 92%;
+    }
+
+    .delete-icon {
+        cursor: pointer;
+        height: 24px;
+        width: 24px;
+        padding: 3px;
+        vertical-align: middle;
+    }
+
+    .arrow-icon {
+        height: 24px;
+        width: 24px;
+        padding: 3px;
+        vertical-align: middle;
+    }
+
+    .comments {
+        width: 100%;
+    }
+
+    #submitButton {
+        float: right;
+        margin-right: 5rem;
+    }
+</style>
+
+<div class="container question-container">
+    <div class="instructions-section">
+        <div class="instructions-header">
+            Collect happy hour info from a website
+        </div>
+        <div class="instructions-content">
+            A <strong>happy hour</strong> is when <strong>Beer/Wine/Liquor</strong> is offered at a <strong>discount</strong> during a <strong>specific time</strong>
+        </div>
+        <div class="instructions-content">
+            Example: $4 Budweiser on Mondays-Fridays from 5pm-8pm
+        </div>
+    </div>
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <strong>Go to the website below and see if the venue offers a happy hour.</strong>
+        </div>
+        <div class="instructions-content">
+            Keywords to look for: Specials, Deals, Happy Hour, Menu, Drinks, List, Alcohol, etc
+        </div>
+    </div>
+    <div class="instructions-section">
+        <div class="instructions-content">Location: ${name}</div>
+        <div class="instructions-content">Website: <a href="${website}" target="_blank">${website}</a></div>
+    </div>
+    <div class="instructions-section">
+         <div class="instructions-content">Good luck and thanks!</div>
+    </div>
+
+    <div class="happy-hour-found-question">
+        <hr/>
+        <div class="content-row">
+            <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
+            <strong>Did you find a happy hour? [Must have both time and deal info]</strong>
+        </div>
+        <div class="row">
+            <div class="six columns">
+                <button class="happy-hours-found">Yes</button>
+                <button class="happy-hours-not-found">No</button>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="happy-hour-header content-row hidden">
+        <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
+        <strong>Enter Happy Hour Info</strong>
+    </div>
+    <div class="happy-hour-entry-container hidden">
+        <div class="instructions-section">
+            Be careful with happy hours that are on multiple days <strong>AND</strong> at multiple times.
+        </div>
+        <div class="instructions-section">
+            Example 1: Happy hour is Monday-Wednesday <strong>AND</strong> Friday-Saturday at 4pm-7pm. In this case the form below is good. You would highlight M-W and F-SA, enter time and deal info, then submit.
+        </div>
+        <div class="instructions-section">
+            Example 2: Happy hour is Monday-Wednesday from <strong>4pm-7pm</strong>, AND Friday-Saturday from <strong>5pm-8pm</strong>. In this case you need to do one extra step. First highlight M-W, enter time and deal info. <strong>THEN</strong> scroll down and click "Add another day". In the next section highlight F-Sa, enter time and deal info, then submit.
+        </div>
+
+        <div class="deal-section">
+            <div><img class="delete-icon delete-deal-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/></div>
+            <div class="row title-row">
+                <div class="six columns">
+                    <h6>Day(s) happy hour is available [Click/Drag to select]</h6>
+                </div>
+                <div class="six columns">
+                    <h6>When is the happy hour?</h6>
+                </div>
+            </div>
+            <div class="row content-row">
+                <div class="six columns day-of-week-buttons">
+                    <button class="monday-button">M</button>
+                    <button class="tuesday-button">T</button>
+                    <button class="wednesday-button">W</button>
+                    <button class="thursday-button">Th</button>
+                    <button class="friday-button">F</button>
+                    <button class="saturday-button">Sa</button>
+                    <button class="sunday-button">Su</button>
+                </div>
+                <div class="six columns time-periods">
+                    <div class="first-time-period">
+                        <input type="text" class="start-time" placeholder="4:00 PM"/>
+                        <span> to </span>
+                        <input type="text" class="end-time" placeholder="7:00 PM"/>
+                        <input type="checkbox" class="until-close"/>
+                        <span>Til Close</span>
+                    </div>
+
+                    <div>
+                        <a class="add-time-period-link"> + Click here if happy hour is at two different times on the same day</a>
+                    </div>
+
+                    <div class="second-time-period hidden">
+                        <img class="delete-icon delete-time-period-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
+                        <input type="text" class="start-time" placeholder="00:00 AM"/>
+                        <span> to </span>
+                        <input type="text" class="end-time" placeholder="00:00 AM"/>
+                        <input type="checkbox" class="until-close"/>
+                        <span>Til Close</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row title-row">
+                <div class="six columns">
+                    <h6>Drink Name(s)</h6>
+                </div>
+                <div class="two columns">
+                    <h6>Type of Alcohol</h6>
+                </div>
+                <div class="two columns">
+                    <h6>Type of Deal</h6>
+                </div>
+                <div class="two columns">
+                    <h6>Deal Value</h6>
+                </div>
+            </div>
+            <div class="deal-detail-section">
+                <div class="row content-row">
+                    <div class="six columns">
+                        <img class="delete-icon delete-deal-detail-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
+                        <input type="text" class="u-full-width drink-names" placeholder="e.g. Bud Light, Miller Lite"/>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width drink-category">
+                            <option value="beer" selected>Beer</option>
+                            <option value="wine">Wine</option>
+                            <option value="liquor">Liquor</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width deal-type">
+                            <option value="price">Price</option>
+                            <option value="percent-off">% Off</option>
+                            <option value="price-off">$ Off</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <span class="dollar-prefix">$</span>
+                        <input type="text" class="deal-value"/>
+                        <span class="percent-off-suffix hidden">% off</span>
+                        <span class="price-off-suffix hidden"> off</span>
+                    </div>
+                </div>
+            </div>
+            <div class="deal-detail-section">
+                <div class="row content-row">
+                    <div class="six columns">
+                        <img class="delete-icon delete-deal-detail-link" src="http://s31.postimg.org/k8fo522wn/1461628098_close_red.png"/>
+                        <input type="text" class="u-full-width drink-names" placeholder="e.g. House Reds"/>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width drink-category">
+                            <option value="beer">Beer</option>
+                            <option value="wine" selected>Wine</option>
+                            <option value="liquor">Liquor</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <select class="u-full-width deal-type">
+                            <option value="price">Price</option>
+                            <option value="percent-off">% Off</option>
+                            <option value="price-off">$ Off</option>
+                        </select>
+                    </div>
+                    <div class="two columns">
+                        <span class="dollar-prefix">$</span>
+                        <input type="text" class="deal-value"/>
+                        <span class="percent-off-suffix hidden">% off</span>
+                        <span class="price-off-suffix hidden"> off</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a class="add-deal-detail-link"> + Add another drink</a>
+            </div>
+            <hr/>
+        </div>
+        <div class="row">
+            <a class="add-deal-link"> + Add another day</a>
+        </div>
+        <hr/>
+    </div>
+    <div>
+        <div class="row content-row">
+            <img class="arrow-icon" src="http://s31.postimg.org/iuo19r3nb/1461628014_circle_next_arrow_disclosure_glyph.png"/>
+            <strong>How can we make this hit better?</strong>
+        </div>
+        <div class="row content-row">
+            <input type="text" class="comments" name="comments"/>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="deals-result" id="deals-result"/>
+
+<script type="text/javascript">
+    var isMouseDown = false;
+    var happyHourBodyHTML = "";
+    var dealTemplateHTML = "";
+    var dealDetailTemplateHTML = "";
+    var locationID;
+
+    $(document).ready(function() {
+        dealTemplateHTML = $(".deal-section").html();
+        dealDetailTemplateHTML = $(".deal-detail-section").html();
+        happyHourBodyHTML = $(".happy-hour-entry-container").html();
+
+        // Track mouse up for day of week selection
+        $(document).mouseup(function() {
+            isMouseDown = false;
+        });
+
+        // Process happy hour information into one of output fields before submit
+        $("#submitButton").click(function(event) {
+            // Check whether happy hour found/not found is selected
+            if (!$(".happy-hours-found").hasClass("button-primary") &&
+                !$(".happy-hours-not-found").hasClass("button-primary")) {
+
+                alert("Please select whether or not you found happy hour information");
+                return false;
+            }
+
+            // If a happy hour has been found, process the happy hour data
+            if ($(".happy-hours-found").hasClass("button-primary")) {
+                var result = {
+                    "dealsFound": true,
+                    "dealData": getDeals()
+                };
+                $("#deals-result").val(JSON.stringify(result));
+
+                return validateDealData(result.dealData);
+            } else {
+                // If not, return an empty result
+                var result = {
+                    "dealsFound": false,
+                    "dealData": []
+                };
+                $("#deals-result").val(JSON.stringify(result));
+                return true;
+            }
+        });
+    });
+
+    $(document).on("click", ".day-of-week-buttons button", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    $(document).on("mousedown", ".day-of-week-buttons button", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        isMouseDown = true;
+        $(this).toggleClass("button-primary");
+        return false;
+    });
+
+    $(document).on("mouseover", ".day-of-week-buttons button", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (isMouseDown) {
+            $(this).toggleClass("button-primary");
+        }
+    });
+
+    $(document).on("change", ".until-close", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (this.checked) {
+            $(this).prev().prop("disabled", true).val("--");
+        } else {
+            $(this).prev().prop("disabled", false).val("");
+        }
+    });
+
+    $(document).on("click", ".happy-hours-found", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).addClass("button-primary");
+        $(".happy-hours-not-found").removeClass("button-primary");
+        $(".happy-hour-entry-container").removeClass("hidden");
+        $(".happy-hour-header").removeClass("hidden");
+    });
+
+    $(document).on("click", ".happy-hours-not-found", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).addClass("button-primary");
+        $(".happy-hours-found").removeClass("button-primary");
+        $(".happy-hour-entry-container").addClass("hidden");
+        $(".happy-hour-header").addClass("hidden");
+    })
+
+    $(document).on("click", ".add-time-period-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).parent().parent().find(".second-time-period").removeClass("hidden");
+        $(this).addClass("hidden");
+    });
+
+    $(document).on("click", ".delete-time-period-link", function() {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).parent().parent().find(".add-time-period-link").removeClass("hidden");
+        $(this).parent().addClass("hidden");
+    });
+
+    $(document).on("change", ".deal-type", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if ($(this).val() == "price") {
+            $(this).parent().parent().find(".dollar-prefix").removeClass("hidden");
+            $(this).parent().parent().find(".percent-off-suffix").addClass("hidden");
+            $(this).parent().parent().find(".price-off-suffix").addClass("hidden");
+        }
+        else if ($(this).val() == "percent-off") {
+            $(this).parent().parent().find(".dollar-prefix").addClass("hidden");
+            $(this).parent().parent().find(".percent-off-suffix").removeClass("hidden");
+            $(this).parent().parent().find(".price-off-suffix").addClass("hidden");
+        }
+        else if ($(this).val() == "price-off") {
+            $(this).parent().parent().find(".dollar-prefix").removeClass("hidden");
+            $(this).parent().parent().find(".percent-off-suffix").addClass("hidden");
+            $(this).parent().parent().find(".price-off-suffix").removeClass("hidden");
+        }
+    });
+
+    $(document).on("click", ".add-deal-detail-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).parent().before("<div class='deal-detail-section'>" + dealDetailTemplateHTML + "</div>");
+
+        // Activate delete buttons
+        $(this).closest(".deal-section").find(".deal-detail-section .delete-deal-detail-link").removeClass("hidden");
+    });
+
+    $(document).on("click", ".delete-deal-detail-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Disable delete if there will only be one deal left
+        var dealDetailSections = $(this).closest(".deal-section").find(".deal-detail-section");
+        if (dealDetailSections.length == 2) {
+            dealDetailSections.find(".delete-deal-detail-link").addClass("hidden");
+        }
+
+        $(this).closest(".deal-detail-section").remove();
+
+    })
+
+    $(document).on("click", ".add-deal-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).parent().before("<div class='deal-section'>" + dealTemplateHTML + "</div>");
+    });
+
+    $(document).on("click", ".delete-deal-link", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if ($(".delete-deal-link").length > 1) {
+            $(this).parent().parent().remove();
+        }
+    });
+
+    var validateDealData = function(dealData) {
+        for (var i = 0; i < dealData.length; i++) {
+            var deal = dealData[i];
+
+            if (!deal.daysOfWeek || deal.daysOfWeek.length == 0) {
+                alert("Make sure to highlight all days that have a happy hour. Delete all empty sections before submitting.");
+                return false;
+            }
+
+            if (!deal.timePeriods || deal.timePeriods.length == 0) {
+                alert("Please enter a time for each deal. Delete all empty sections before submitting.");
+                return false;
+            }
+            else {
+                for (var j = 0; j < deal.timePeriods.length; j++) {
+                    var timePeriod = deal.timePeriods[j];
+                    if (!timePeriod.startTime) {
+                        alert("Please enter a start time in a valid format. Delete all empty sections before submitting.");
+                        return false;
+                    }
+                    if (!timePeriod.endTime && !timePeriod.untilClose) {
+                        alert("Please enter an end time in a valid format or select til close for each time period. Delete all empty sections before submitting.");
+                        return false;
+                    }
+                }
+            }
+
+            for (var j = 0; j < deal.dealDetails.length; j++) {
+                var dealDetail = deal.dealDetails[j];
+                if (!dealDetail.names || dealDetail.names == "") {
+                    alert("Please enter drink names for each row. Delete all empty rows before submitting.");
+                    return false;
+                }
+                if (!dealDetail.dealValue || isNaN(dealDetail.dealValue) || dealDetail.dealValue < 0) {
+                    alert("Please enter a number for each drink special. Delete all empty rows before submitting.");
+                    return false;
+                }
+            }
+        }
+    }
+
+    var getDeals = function() {
+        var deals = $(".deal-section").not(".hidden");
+        var dealData = [];
+
+        for (var i = 0; i < deals.length; i++) {
+            dealData.push(getDealInfo($(deals[i])));
+        }
+
+        return dealData;
+    }
+
+    var getDealInfo = function(dealElement) {
+        var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary").not(".hidden"));
+        var timePeriods = getTimePeriods(dealElement.find(".time-periods").not(".hidden"));
+        var dealDetails = getDealDetails(dealElement);
+
+        return {
+            "daysOfWeek": daysOfWeek,
+            "timePeriods": timePeriods,
+            "dealDetails": dealDetails
+        }
+    };
+
+    var getTimePeriods = function(timePeriods) {
+        var firstTimePeriod = {
+            'startTime': parseTime(timePeriods.find(".first-time-period .start-time").val()),
+            'endTime': parseTime(timePeriods.find(".first-time-period .end-time").val()),
+            'untilClose': timePeriods.find(".first-time-period .until-close").is(":checked")
+        };
+        var timePeriodResults = [firstTimePeriod];
+
+        if (timePeriods.find(".second-time-period").not(".hidden").length == 1) {
+            var secondTimePeriod = {
+                'startTime': parseTime(timePeriods.find(".second-time-period .start-time").val()),
+                'endTime': parseTime(timePeriods.find(".second-time-period .end-time").val()),
+                'untilClose': timePeriods.find(".second-time-period .until-close").is(":checked")
+            };
+            timePeriodResults.push(secondTimePeriod);
+        }
+
+        return timePeriodResults;
+    };
+
+    var getDealDetails = function(dealElement) {
+        var dealDetails = dealElement.find(".deal-detail-section").not(".hidden");
+        var dealDetailResults = [];
+
+        for (var i = 0; i < dealDetails.length; i++) {
+            var detail = $(dealDetails[i]);
+            dealDetailResults.push({
+                'names': detail.find(".drink-names").val(),
+                'category': detail.find(".drink-category").val(),
+                'dealType': detail.find(".deal-type").val(),
+                'dealValue': parseFloat(detail.find(".deal-value").val())
+            });
+        }
+
+        return dealDetailResults;
+    };
+
+    var getDaysOfWeek = function(daysOfWeekPrimaryButtons) {
+        var days = [];
+        for (var i = 0; i < daysOfWeekPrimaryButtons.length; i++) {
+            var button = daysOfWeekPrimaryButtons[i];
+            if ($(button).hasClass("monday-button")) {
+                days.push(1);
+                continue;
+            }
+            if ($(button).hasClass("tuesday-button")) {
+                days.push(2);
+                continue;
+            }
+            if ($(button).hasClass("wednesday-button")) {
+                days.push(3);
+                continue;
+            }
+            if ($(button).hasClass("thursday-button")) {
+                days.push(4);
+                continue;
+            }
+            if ($(button).hasClass("friday-button")) {
+                days.push(5);
+                continue;
+            }
+            if ($(button).hasClass("saturday-button")) {
+                days.push(6);
+                continue;
+            }
+            if ($(button).hasClass("sunday-button")) {
+                days.push(7);
+            }
+        }
+        return days;
+    };
+
+    // Try to parse time to 24 hour HH:MM format, return null on failure
+   // http://www.timlabonne.com/2013/07/parsing-a-time-string-with-javascript/
+   var parseTime = function(timeStr) {
+       timeStr = timeStr.trim();
+
+       // Reject if it contains - or decimal
+       if (timeStr.indexOf(".") > -1 || timeStr.indexOf("-") > -1) {
+           return null;
+       }
+
+       var time = timeStr.match(/(\d+)(?::(\d\d))?\s*(p?)/i);
+       // Ensure that there are 2 minute digits
+       var colonIndex = timeStr.indexOf(":");
+       if (colonIndex > -1) {
+           if (isNaN(parseInt(timeStr[colonIndex + 1]))
+               || isNaN(parseInt(timeStr[colonIndex + 2]))) {
+               return null;
+           }
+           if (colonIndex > 2) {
+               return null;
+           }
+           if (!isNaN(parseInt(timeStr[colonIndex + 3]))) {
+               return null;
+           }
+       } else {
+           if (timeStr == "0") {
+               return null;
+           }
+       }
+       if (!time) {
+           return null;
+       }
+       var hour = parseInt(time[1], 10);
+       var minute = parseInt(time[2], 10);
+       if (minute < 0 || minute > 59) {
+           return null;
+       }
+       if (isNaN(minute)) {
+           minute = 0;
+       }
+       if ((time[3] === "p" || time[3] === "P") && hour !== 12) {
+           hour += 12;
+       }
+       if (hour < 0 || hour > 23) {
+           return null;
+       }
+       if (timeStr[timeStr.length - 1] !== 'm' &&
+           timeStr[timeStr.length - 1] !== 'M' &&
+           timeStr[timeStr.length - 1] !== '.' &&
+           hour <= 12
+           && hour > 0) {
+           return null;
+       }
+       if (time[3].length === 0 && hour === 12) {
+           hour = 0;
+       }
+       var formattedHour = "" + hour;
+       if (formattedHour.length === 1) {
+           formattedHour = "0" + hour;
+       }
+       var formattedMinute = "" + minute;
+       if (formattedMinute.length === 1) {
+           formattedMinute = "0" + minute;
+       }
+       return formattedHour + ":" + formattedMinute;
+   };
+</script>
