@@ -22,7 +22,7 @@ def update():
     locations_to_update = MTurkLocationInfo.objects.all()
 
     # Add new locations that can be updated
-    add_mturk_locations_to_update(conn, max_to_add=2)
+    add_mturk_locations_to_update(conn)
 
     for mturk_location in locations_to_update:
 
