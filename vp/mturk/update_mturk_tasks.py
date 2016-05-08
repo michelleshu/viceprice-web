@@ -7,7 +7,6 @@ from boto.mturk import connection
 from vp.models import ActiveHour, Deal, DealDetail, MTurkDrinkNameOption
 import json
 
-
 # Check for HIT completion for all in-progress website tasks and update as necessary
 def update():
 
