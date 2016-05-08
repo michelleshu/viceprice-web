@@ -61,25 +61,32 @@ var get_deal_that_needs_confirmation = function() {
         success: function(data) {
             var dealDetailData = data["deal_detail_data"];
             dealID = data["deal_id"];
+            var dealsCount = data["deals_count"];
 
-            itemIDs = [];
+            if (dealsCount == 0) {
+                $(".remaining-count").html("No Deals Left to Confirm!");
+            }
+            else {
+                $(".remaining-count").html(dealsCount + " Deals Left to Confirm");
 
-            for (var i = 0; i < dealDetailData.length; i++) {
-                var dealDetailID = dealDetailData[i]["id"];
-                itemIDs.push(dealDetailID);
-                var dealDetailDrinkNames = dealDetailData[i]["drink_names"];
-                var drinkNamesOptions = "";
+                itemIDs = [];
+                for (var i = 0; i < dealDetailData.length; i++) {
+                    var dealDetailID = dealDetailData[i]["id"];
+                    itemIDs.push(dealDetailID);
+                    var dealDetailDrinkNames = dealDetailData[i]["drink_names"];
+                    var drinkNamesOptions = "";
 
-                for (var j = 0; j < dealDetailDrinkNames.length; j++) {
-                    drinkNamesOptions += "<div class='row'><input type='radio' name='" + dealDetailID +
-                        "' value='" + dealDetailDrinkNames[j] + "'/>" +
-                        "<span class='drink-name-label'>" + dealDetailDrinkNames[j] + "</span></div>";
+                    for (var j = 0; j < dealDetailDrinkNames.length; j++) {
+                        drinkNamesOptions += "<div class='row'><input type='radio' name='" + dealDetailID +
+                            "' value='" + dealDetailDrinkNames[j] + "'/>" +
+                            "<span class='drink-name-label'>" + dealDetailDrinkNames[j] + "</span></div>";
+                    }
+
+                    $(".confirm-drink-name-container").append("<div class='deal-data'>" + drinkNamesOptions +
+                        "<div class='row'><input type='radio' name='" + dealDetailID +
+                        "' value='custom' selected/><input type='text' name='" + dealDetailID + "'/></row></div><hr/>"
+                    );
                 }
-
-                $(".confirm-drink-name-container").append("<div class='deal-data'>" + drinkNamesOptions +
-                    "<div class='row'><input type='radio' name='" + dealDetailID +
-                    "' value='custom' selected/><input type='text' name='" + dealDetailID + "'/></row></div><hr/>"
-                );
             }
         },
         error: function(){

@@ -284,8 +284,9 @@ def get_location_that_needs_happy_hour(request):
 
 def get_deal_that_needs_confirmation(request):
     deals = Deal.objects.filter(confirmed=False)
+    deals_count = deals.count()
 
-    if deals.count() > 0:
+    if deals_count > 0:
         deal = deals.first()
         deal_details = list(deal.dealDetails.all())
 
@@ -304,13 +305,14 @@ def get_deal_that_needs_confirmation(request):
             })
 
         response = {
+            'deals_count': deals_count,
             'deal_id': deal.id,
             'deal_detail_data': deal_detail_data
         }
 
         return JsonResponse(response)
 
-    return JsonResponse({})
+    return JsonResponse({ 'deals_count': 0 })
 
 
 
