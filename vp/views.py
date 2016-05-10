@@ -131,10 +131,11 @@ def fetch_locations(request):
     dealInfo = {}
     for location in locations:
         dealList = []
+        dealSet = location.deals.filter(Q(dealSource = 1) & Q(confirmed = True))
         if(time == None): 
-            dealSet = location.deals.filter(Q(activeHours__dayofweek=day) & Q(dealSource = 1) & Q(confirmed = True)).all()
+            dealSet = dealSet.filter(Q(activeHours__dayofweek=day)).all()
         else:
-            dealSet = location.deals.filter((Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gt=time) | Q(activeHours__end__lte=F('activeHours__start'))) & Q(dealSource = 1) & Q(confirmed = True)).all()
+            dealSet = dealSet.filter(Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gt=time) | Q(activeHours__end__lte=F('activeHours__start'))).all()
         superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
         subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
         beers = []
