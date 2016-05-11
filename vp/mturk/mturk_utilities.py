@@ -182,7 +182,7 @@ def add_mturk_stat(mturk_location):
         minAgreementPercentage=settings.MIN_AGREEMENT_PERCENTAGE,
         minPercentagePreviousAssignmentsApproved=settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED,
         minHITsCompleted=settings.MIN_HITS_COMPLETED,
-        localeRequired=settings.LOCALE_REQUIRED
+        localeRequired=hit_type[LOCALE_REQUIRED]
     )
     stat.save()
 
