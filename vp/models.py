@@ -78,7 +78,7 @@ class MTurkLocationInfoStat(models.Model):
     # MTurk Qualification Configuration (found in settings.py)
     minPercentagePreviousAssignmentsApproved = models.IntegerField(null=False)
     minHITsCompleted = models.IntegerField(null=False)
-    usLocaleRequired = models.BooleanField(null=False)
+    localeRequired = models.CharField(null=True, max_length=3)
 
     happyHourDataFound = models.BooleanField(default=False)
 
