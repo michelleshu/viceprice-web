@@ -155,17 +155,17 @@ MIN_HITS_COMPLETED = 100
 
 MTURK_HIT_TYPES = {
     FIND_HAPPY_HOUR: {
-        TITLE: 'Find information on a website',
-        DESCRIPTION: 'Search a website for information',
-        ANNOTATION: 'Find happy hour info',
-        KEYWORDS: ['data collection', 'copy', 'website'],
+        TITLE: 'Find, copy, and paste information from a website',
+        DESCRIPTION: 'You will be given a url. Go to it and search for a specific deal offered by the business.',
+        ANNOTATION: 'Find info',
+        KEYWORDS: ['survey', 'data', 'website', 'search', 'data collection', 'url', 'simple', 'data entry', 'copy and paste', 'website search', 'find', 'listings', 'web', 'information', 'info', 'entry'],
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.05,
+        PRICE: 0.15,
         BONUS: 0.0,
         DURATION: 3600,
-        US_LOCALE_REQUIRED: True
+        LOCALE_REQUIRED: 'US'
     }
 }
 
