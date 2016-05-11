@@ -36,8 +36,12 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         # For tests, only evaluate the MTurkLocationInfos added in test. Do not add new ones here.
         # Otherwise, in production mode, this is the query for all locations that are to be added to the MTurk update
         # process.
-        new_locations = Location.objects.filter(Q(neighborhood="Dupont Circle") &
-            (Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None)))[0:max_new_locations]
+
+        # Test locations
+        new_locations = Location.objects.filter(Q(id__in=[2723, 2624, 2698, 2513, 2717, 2719, 2665, 2695, 2663, 2725, 2718, 2724, 2631, 2605, 2713]) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))
+
+        # new_locations = Location.objects.filter(Q(neighborhood="Dupont Circle") &
+        #     (Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None)))[0:max_new_locations]
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
@@ -78,7 +82,7 @@ def register_hit_types(conn):
         qualifications = Qualifications()
         qualifications.add(min_percentage_qualification)
         qualifications.add(min_hits_completed_qualification)
-        if hit_type[US_LOCALE_REQUIRED]:
+        if hit_type[LOCALE_REQUIRED]:
             qualifications.add(us_locale_qualification)
 
         hit_type[HIT_TYPE_ID] = conn.register_hit_type(
@@ -94,19 +98,19 @@ def register_hit_types(conn):
 # Read layout parameters from MTurkLocationInfo object and create a HIT
 def create_hit(conn, mturk_location_info, hit_type):
 
-    # Use qualifications: MIN_PERCENTAGE_APPROVED, MIN_HITS_COMPLETED and optionally US_LOCALE_REQUIRED
+    # Use qualifications: MIN_PERCENTAGE_APPROVED, MIN_HITS_COMPLETED and optionally LOCALE_REQUIRED
     min_percentage_qualification = PercentAssignmentsApprovedRequirement(
         "GreaterThan", settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
     min_hits_completed_qualification = NumberHitsApprovedRequirement(
         "GreaterThan", settings.MIN_HITS_COMPLETED, required_to_preview=True)
-    us_locale_qualification = LocaleRequirement(
-        "EqualTo", "US", required_to_preview=True)
 
     qualifications = Qualifications()
     qualifications.add(min_percentage_qualification)
     qualifications.add(min_hits_completed_qualification)
-    if hit_type[US_LOCALE_REQUIRED]:
-        qualifications.add(us_locale_qualification)
+    if hit_type[LOCALE_REQUIRED] != None:
+        locale_qualification = LocaleRequirement(
+            "EqualTo", hit_type[LOCALE_REQUIRED], required_to_preview=True)
+        qualifications.add(locale_qualification)
 
     layout_parameter_names = hit_type[LAYOUT_PARAMETER_NAMES]
 
@@ -178,7 +182,7 @@ def add_mturk_stat(mturk_location):
         minAgreementPercentage=settings.MIN_AGREEMENT_PERCENTAGE,
         minPercentagePreviousAssignmentsApproved=settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED,
         minHITsCompleted=settings.MIN_HITS_COMPLETED,
-        usLocaleRequired=settings.US_LOCALE_REQUIRED
+        localeRequired=settings.LOCALE_REQUIRED
     )
     stat.save()
 
