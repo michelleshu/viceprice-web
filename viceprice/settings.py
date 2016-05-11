@@ -165,7 +165,7 @@ MTURK_HIT_TYPES = {
         PRICE: 0.15,
         BONUS: 0.0,
         DURATION: 3600,
-        LOCALE_REQUIRED: 'US'
+        LOCALE_REQUIRED: 'IN'
     }
 }
 
