@@ -50,6 +50,7 @@ class Location(models.Model):
     formattedAddress = models.CharField(max_length=512, null=True)
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
+    happyHourWebsite = models.CharField(max_length=256, null=True)
     coverPhotoSource = models.CharField(max_length=256, null=True)
     coverXOffset = models.IntegerField(null=True)
     coverYOffset = models.IntegerField(null=True)
