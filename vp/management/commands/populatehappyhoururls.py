@@ -18,8 +18,9 @@ class Command(BaseCommand):
                     print('Zero or multiple locations returned: ' + str(location_name))
                     continue
 
-                locations.first().happyHourWebsite= row[1]
-                locations.first().save()
+                location = locations.first()
+                location.happyHourWebsite = row[1]
+                location.save()
 
 
     def handle(self, *args, **options):
