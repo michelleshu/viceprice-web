@@ -188,6 +188,7 @@ def fetch_locations(request):
                 "locationid": location.id,
                 "name": location.name,
                 "website":location.website,
+                "happyHourWebsite":location.happyHourWebsite,
                 "phone": location.formattedPhoneNumber,
                 "fullAddress": location.formattedAddress,
                 "abbreviatedAddress": abbreviatedAddress,

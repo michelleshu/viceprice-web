@@ -195,8 +195,17 @@ myLayer.on('layeradd', function(e) {
 
         $("#location-address").html(locationProperties["abbreviatedAddress"]);
         $("#location-phone-number").html(locationProperties["phone"]);
+        
+        if (locationProperties["happyHourWebsite"]){
+            $("#location-website").html(locationProperties["happyHourWebsite"]);
+            $("#location-website").attr("href", locationProperties["happyHourWebsite"]);  
+        }
+        else { 
         $("#location-website").html(locationProperties["website"]);
         $("#location-website").attr("href", locationProperties["website"]);
+            
+        }
+        
 		$(".rev-hr").css("display","block");
 		$(".icon-globe").css("display","inline");
 		$(".icon-phone").css("display","inline");
