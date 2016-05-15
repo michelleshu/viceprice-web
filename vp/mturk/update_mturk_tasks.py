@@ -1,14 +1,17 @@
 __author__ = 'michelleshu'
 
 from mturk_utilities import *
+import django
 from django.conf import settings
 from django.utils import timezone
 from boto.mturk import connection
-from vp.models import ActiveHour, Deal, DealDetail, MTurkDrinkNameOption
+from vp.models import ActiveHour, Location, Deal, DealDetail, MTurkDrinkNameOption
 import json
 
 # Check for HIT completion for all in-progress website tasks and update as necessary
 def update():
+
+    django.setup()
 
     conn = connection.MTurkConnection(
         aws_access_key_id = settings.AWS_ACCESS_KEY,
