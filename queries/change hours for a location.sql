@@ -6,5 +6,5 @@ on dah."activehour_id" = ah."id"
 where ld."location_id" = 2805
 
 update "vp_activehour" ah
-set "start" = '16:00'
+set "end" = '19:00'
 where ah."id" IN (3773, 3772, 3771, 3770, 3769, 3768, 3767)
