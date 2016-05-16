@@ -198,11 +198,11 @@ myLayer.on('layeradd', function(e) {
         
         if (locationProperties["happyHourWebsite"]){
             $("#location-website").html(locationProperties["happyHourWebsite"]);
-            $("#location-website").attr("href", locationProperties["happyHourWebsite"]);  
+            $("#location-website").attr("href", locationProperties['Data Source']);  
         }
         else { 
         $("#location-website").html(locationProperties["website"]);
-        $("#location-website").attr("href", locationProperties["website"]);
+        $("#location-website").attr("href", locationProperties['Data Source']);
             
         }
         
