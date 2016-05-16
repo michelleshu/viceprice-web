@@ -196,13 +196,15 @@ myLayer.on('layeradd', function(e) {
         $("#location-address").html(locationProperties["abbreviatedAddress"]);
         $("#location-phone-number").html(locationProperties["phone"]);
         
+        ///This is to show users where we got our data from
+        
         if (locationProperties["happyHourWebsite"]){
-            $("#location-website").html(locationProperties['Data Source']);
-            $("#location-website").attr("href", locationProperties["happyHourWebsite"]);  
+            $("#location-website").html(locationProperties["happyHourWebsite"]);
+            $("#location-website").attr("Source of Info", locationProperties["happyHourWebsite"]);  
         }
         else { 
-        $("#location-website").html(locationProperties['Data Source']);
-        $("#location-website").attr("href", locationProperties["website"]);
+        $("#location-website").html(locationProperties["website"]);
+        $("#location-website").attr("Source of Info", locationProperties["website"]);
             
         }
         
