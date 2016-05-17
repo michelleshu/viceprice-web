@@ -41,5 +41,5 @@ urlpatterns = patterns('',
     url(r'^home/$', vp.views.home, name = 'home'),
 
     #Blog site
-    url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view())
+    #url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view())
 )
