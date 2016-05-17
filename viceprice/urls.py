@@ -41,7 +41,7 @@ urlpatterns = patterns('',
     url(r'^home/$', vp.views.home, name = 'home'),
 
     #Blog site
-    url(r'^blog/$', vp.blog, name = 'blog')
+    url(r'^blog/$', vp.views.blog, name = 'blog')
         
     #hidden redirect to viceprice.wordpress.com                   
     #(?P<path>.*)$', BlogProxyView.as_view()
