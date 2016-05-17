@@ -233,10 +233,10 @@ def sandbox(request):
     context.update(csrf(request))
     return render_to_response('sandbox.html', context)
 
-def blog(request):
-    context = {}
-    context.update(csrf(request))
-    return render_to_response('blog.html', context)
+#def blog(request):
+#    context = {}
+#    context.update(csrf(request))
+#    return render_to_response('blog.html', context)
 
 def index(request):
     context = {}
