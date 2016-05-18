@@ -285,8 +285,8 @@ def flag_location_as_skipped(request):
 
 def get_location_that_needs_happy_hour(request):
     requiresPhone = request.GET.get("requiresPhone") == "true"
-    total_count = Location.objects.filter(data_entry_skipped=requiresPhone, neighborhood="Shaw").count()
-    locations = Location.objects.filter(data_entry_skipped=requiresPhone, dealDataManuallyReviewed=None, neighborhood="Shaw").order_by('?')
+    total_count = Location.objects.filter(data_entry_skipped=requiresPhone, neighborhood="Columbia Heights").count()
+    locations = Location.objects.filter(data_entry_skipped=requiresPhone, dealDataManuallyReviewed=None, neighborhood="Columbia Heights").order_by('?')
 
     if locations.count() > 0:
         selected = locations.first()
