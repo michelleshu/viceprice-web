@@ -298,7 +298,7 @@ function groupByType(item){
  1) The venue anme
  2) Venue sub category
  3) Happy Hour start and end time 
- 4) The cheapest deals (for wine, liqour and beer)*/  
+ 4) The cheapest deals (for wine, liquor and beer)*/  
 function dealsPrices(allDeals,properties,startTime,endTime){
 	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li><li id="subCategories">';
 		//if a venue contains one or more subcategories display one of them
@@ -313,7 +313,7 @@ function dealsPrices(allDeals,properties,startTime,endTime){
 	    	ulElement = ulElement + '<img src="../static/img/beer.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
 		if(deal == "wine" && allDeals["wine"].length != 0)
 	    	ulElement = ulElement +	'<img src="../static/img/wine.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
-		if(deal == "liquor" && allDeals["liqour"].length != 0)
+		if(deal == "liquor" && allDeals["liquor"].length != 0)
 	    	ulElement = ulElement +	'<img src="../static/img/liquor.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
 	}
 
@@ -326,7 +326,7 @@ function lowestPrice(allDeals,deal){
 	var prices=[]; //$
     var prices_off=[]; //$ off
     var percent_off=[]; //% off
-	for(index in allDeals[deal]){ //look at all the items of type (beer,wine or liqour)
+	for(index in allDeals[deal]){ //look at all the items of type (beer,wine or liquor)
 				if(allDeals[deal][index]["detailType"] == 1)//$
 					prices.push(parseFloat(allDeals[deal][index]["value"]));
 				if(allDeals[deal][index]["detailType"] == 2)//% off
