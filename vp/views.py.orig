@@ -149,7 +149,7 @@ def fetch_locations(request):
         superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
         beers = []
         wines =[]
-        liqours =[]
+        liquors =[]
         for d in dealSet:
             dealDetails = d.dealDetails.all()
             details = {}
@@ -168,14 +168,14 @@ def fetch_locations(request):
                           "value":dd.value}
                     wines.append(wine)
                 elif dd.drinkCategory == 3:
-                    liqour = {"detail_id":dd.id,
+                    liquor = {"detail_id":dd.id,
                           "drinkName": dd.drinkName,
                           "detailType":dd.detailType,
                           "value":dd.value}
-                    liqours.append(liqour)
+                    liquor.append(liquor)
                 details["wine"] = wines
                 details["beer"] = beers
-                details["liqour"] = liqours
+                details["liquor"] = liquors
 #                 details.append(detail)
             deals = {"deal_id" : d.id,
                     "details": details }

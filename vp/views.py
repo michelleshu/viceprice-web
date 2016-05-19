@@ -140,7 +140,7 @@ def fetch_locations(request):
         subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
         beers = []
         wines =[]
-        liqours =[]
+        liquors =[]
         for d in dealSet:
             dealDetails = d.dealDetails.all()
             details = {}
@@ -160,12 +160,12 @@ def fetch_locations(request):
                           "value":dd.value}
                     wines.append(wine)
                 elif dd.drinkCategory == 3:
-                    liqour = {"detail_id":dd.id,
+                    liquor = {"detail_id":dd.id,
                           "drinkName": dd.drinkName,
                           "detailType":dd.detailType,
                           "value":dd.value}
-                    liqours.append(liqour)
-            orderedDetails = (("beer", beers),("wine", wines),("liqour",liqours))
+                    liquors.append(liquor)
+            orderedDetails = (("beer", beers),("wine", wines),("liquor",liquors))
             details = collections.OrderedDict(orderedDetails)
             deals = {"deal_id" : d.id,
                     "details": details }
