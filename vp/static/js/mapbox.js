@@ -242,7 +242,7 @@ function populateDeals(item){
 			if (items[item].length != 0) {
 				if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
 				if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
-				if(item == "liqour") image =  "<span><img src='../static/img/liqour.png'/><p id='drink_type'> Cocktails/"
+				if(item == "liquor") image =  "<span><img src='../static/img/liquor.png'/><p id='drink_type'> Cocktails/"
 				ulElement = ulElement + image  +  "<p id='drink_type'>" + type + ": </p><ul  style=padding-left:10px; >" 
 			}
 
@@ -307,14 +307,14 @@ function dealsPrices(allDeals,properties,startTime,endTime){
 		
 		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li class="cheapest_price"> Best Deal: ';
   	
-  	//Display the cheapest deals for wine, beer and liqour (if such data exists)
+  	//Display the cheapest deals for wine, beer and liquor (if such data exists)
     for(deal in allDeals){
 	    if(deal == "beer" && allDeals["beer"].length != 0)
 	    	ulElement = ulElement + '<img src="../static/img/beer.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
 		if(deal == "wine" && allDeals["wine"].length != 0)
 	    	ulElement = ulElement +	'<img src="../static/img/wine.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
-		if(deal == "liqour" && allDeals["liqour"].length != 0)
-	    	ulElement = ulElement +	'<img src="../static/img/liqour.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+		if(deal == "liquor" && allDeals["liqour"].length != 0)
+	    	ulElement = ulElement +	'<img src="../static/img/liquor.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
 	}
 
     ulElement = ulElement + '</li></ul>';
