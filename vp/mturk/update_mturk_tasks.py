@@ -172,9 +172,9 @@ def save_results(location, deal_json, matching_deals, comments):
                 deal_detail.mturkDrinkNameOptions.add(drink_name_option)
 
 
-# Combine same category/time deal details that are separate
+# Combine names from same category/time deal details that are entered separately
 # e.g. Heineken $4 MWF 4-7 PM and Budweiser $4 MWF 4-7 PM becomes Heineken, Budweiser $4 MWF 4-7PM
-def combine_deal_details(deal_json):
+def combine_deal_detail_drink_names(deal_json):
 
     for i in range(len(deal_json["dealData"])):
         deal_details = deal_json["dealData"][i]["dealDetails"]
@@ -200,110 +200,199 @@ def combine_deal_details(deal_json):
     return deal_json
 
 
-def get_match_percentage(deal_jsons):
-    # Standardize by combining matching deal details from within responses
+# Merge deal JSON data entered by multiple Turkers into a list of objects for each deal/deal detail combination:
+# [
+#    {
+#        daysOfWeek:
+#        timePeriods:
+#        dealDetailOptions: [
+#            {
+#                names:
+#                category:
+#                dealType:
+#                dealValue:
+#            }, ...
+#        ]
+#    }, ...
+def merge_deal_jsons(deal_jsons):
     for i in range(len(deal_jsons)):
-        deal_jsons[i] = combine_deal_details(deal_jsons[i])
+        deal_jsons[i] = combine_deal_detail_drink_names(deal_jsons[1])
 
-    max_match_percentage = 0.0
-    max_matches_deal_json = None
-    max_matches_matching_deals = None
+    results = []
 
-    for i in range(0, len(deal_jsons)):
+    for i in range(len(deal_jsons)):
+        deal_json = deal_jsons[i]
 
-        current_deal_json = deal_jsons[i]
-        current_matching_deals = []
+        for deal_data in deal_json["dealData"]:
 
-        for j in range(0, len(deal_jsons)):
-            if i != j:
-                matching_deals = deals_responses_match(current_deal_json, deal_jsons[j])
+            # If we have already considered this deal data, skip it
+            if len(get_matching_time_frame_deals(results, deal_data)) > 0:
+                continue
 
-                if matching_deals != None:
-                    current_matching_deals.append(matching_deals)
+            # Otherwise, try to find matching deal data from all deal jsons after it
+            matching_deals = get_matching_time_frame_deals(deal_jsons[i + 1:], deal_data)
 
-        match_percentage = float(len(current_matching_deals) + 1) / float(len(deal_jsons))
+            result = {
+                "daysOfWeek": deal_data["daysOfWeek"],
+                "timePeriods": deal_data["timePeriods"],
+                "dealDetailOptions": deal_data["dealDetails"]
+            }
 
-        if match_percentage > max_match_percentage:
-            max_match_percentage = match_percentage
-            max_matches_deal_json = current_deal_json
-            max_matches_matching_deals = current_matching_deals
+            for matching_deal in matching_deals:
+                for deal_detail in matching_deal["dealDetails"]:
+                    result["dealDetailOptions"].append(deal_detail)
 
-    return (max_match_percentage, max_matches_deal_json, max_matches_matching_deals)
+            results.append(result)
+
+    return results
+
+
+# Helper method to retrieve all instances matching the time frame of deal_to_find in deal_detail_array
+# Returns matching index in deal_data_array if match is found, otherwise returns None
+def get_matching_time_frame_deals(deal_data_array, deal_to_find):
+
+    matching_deals = []
+
+    for deal_data in deal_data_array:
+
+        if (len(deal_data["daysOfWeek"]) != len(deal_to_find["daysOfWeek"])):
+            continue
+
+        for j in range(0, len(deal_to_find["daysOfWeek"])):
+            if deal_data["daysfWeek"][j] != deal_to_find["daysOfWeek"][j]:
+                continue
+
+        if (len(deal_data["timePeriods"]) != len(deal_to_find["timePeriods"])):
+            continue
+
+        if len(deal_to_find["timePeriods"]) == 1:
+            if (deal_to_find["timePeriods"][0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) or \
+                (deal_to_find["timePeriods"][0]["endTime"] != deal_data["timePeriods"][0]["endTime"]):
+                continue
+
+        else: # length = 2
+            if (deal_to_find["timePeriods"][0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) and \
+                (deal_to_find["timePeriods"][0]["startTime"] != deal_data["timePeriods"][1]["startTime"]):
+                continue
+
+            if (deal_to_find["timePeriods"][1]["endTime"] != deal_data["timePeriods"][0]["endTime"]) and \
+                (deal_to_find["timePeriods"][1]["endTime"] != deal_data["timePeriods"][1]["endTime"]):
+                continue
+
+        # Add match
+        matching_deals.append(deal_data)
+
+    return matching_deals
+
+
+
+
+
+
+# def get_match_percentages(deal_jsons):
+#     # Standardize by combining matching deal details from within responses
+#     for i in range(len(deal_jsons)):
+#         deal_jsons[i] = combine_deal_details(deal_jsons[i])
+#
+#     max_match_percentage = 0.0
+#     max_matches_deal_json = None
+#     max_matches_matching_deals = None
+#
+#     for i in range(0, len(deal_jsons)):
+#
+#         current_deal_json = deal_jsons[i]
+#         current_matching_deals = []
+#
+#         for j in range(0, len(deal_jsons)):
+#             if i != j:
+#                 matching_deals = deals_responses_match(current_deal_json, deal_jsons[j])
+#
+#                 if matching_deals != None:
+#                     current_matching_deals.append(matching_deals)
+#
+#         match_percentage = float(len(current_matching_deals) + 1) / float(len(deal_jsons))
+#
+#         if match_percentage > max_match_percentage:
+#             max_match_percentage = match_percentage
+#             max_matches_deal_json = current_deal_json
+#             max_matches_matching_deals = current_matching_deals
+#
+#     return (max_match_percentage, max_matches_deal_json, max_matches_matching_deals)
 
 
 # Check to see if two sets of deals from two different Turkers match.
 # Matching requires that for every deal detail, the price, deal type and drink category are the same
 # And the time ranges match up as well.
-def deals_responses_match(deal_json_a, deal_json_b):
-    matching_deal_responses = []
-
-    if len(deal_json_a["dealData"]) == len(deal_json_b["dealData"]):
-
-        for deal_data in deal_json_a["dealData"]:
-            deal_details_b = get_deal_details_for_time_frame(deal_data["daysOfWeek"], deal_data["timePeriods"], deal_json_b)
-
-            if deal_details_b != None:
-                matches = deal_details_set_match(deal_data["dealDetails"], deal_details_b)
-
-                if matches != None:
-                    matching_deal_responses.append(matches)
-
-    if len(matching_deal_responses) == len(deal_json_a["dealData"]):
-        return matching_deal_responses
-
-    return None
+# def deals_responses_match(deal_json_a, deal_json_b):
+#     matching_deal_responses = []
+#
+#     if len(deal_json_a["dealData"]) == len(deal_json_b["dealData"]):
+#
+#         for deal_data in deal_json_a["dealData"]:
+#             deal_details_b = get_deal_details_for_time_frame(deal_data["daysOfWeek"], deal_data["timePeriods"], deal_json_b)
+#
+#             if deal_details_b != None:
+#                 matches = deal_details_set_match(deal_data["dealDetails"], deal_details_b)
+#
+#                 if matches != None:
+#                     matching_deal_responses.append(matches)
+#
+#     if len(matching_deal_responses) == len(deal_json_a["dealData"]):
+#         return matching_deal_responses
+#
+#     return None
 
 
 # Retrieve the deal details that match a certain days of week/time frame combination
-def get_deal_details_for_time_frame(days_of_week, time_periods, deal_json):
-
-    for deal_data in deal_json["dealData"]:
-
-        if len(deal_data["daysOfWeek"]) != len(days_of_week):
-            continue
-
-        for i in range(0, len(days_of_week)):
-            if (deal_data["daysOfWeek"][i] != days_of_week[i]):
-                continue
-
-        if len(deal_data["timePeriods"]) != len(time_periods):
-            continue
-
-        if len(time_periods) == 1:
-            if (time_periods[0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) or \
-                (time_periods[0]["endTime"] != deal_data["timePeriods"][0]["endTime"]):
-                continue
-
-        else: # length = 2
-            if (time_periods[0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) and \
-                (time_periods[0]["startTime"] != deal_data["timePeriods"][1]["startTime"]):
-                continue
-
-            if (time_periods[1]["endTime"] != deal_data["timePeriods"][0]["endTime"]) and \
-                (time_periods[1]["endTime"] != deal_data["timePeriods"][1]["endTime"]):
-                continue
-
-        return deal_data["dealDetails"]
-
-    return None
+# def get_deal_details_for_time_frame(days_of_week, time_periods, deal_json):
+#
+#     for deal_data in deal_json["dealData"]:
+#
+#         if len(deal_data["daysOfWeek"]) != len(days_of_week):
+#             continue
+#
+#         for i in range(0, len(days_of_week)):
+#             if (deal_data["daysOfWeek"][i] != days_of_week[i]):
+#                 continue
+#
+#         if len(deal_data["timePeriods"]) != len(time_periods):
+#             continue
+#
+#         if len(time_periods) == 1:
+#             if (time_periods[0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) or \
+#                 (time_periods[0]["endTime"] != deal_data["timePeriods"][0]["endTime"]):
+#                 continue
+#
+#         else: # length = 2
+#             if (time_periods[0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) and \
+#                 (time_periods[0]["startTime"] != deal_data["timePeriods"][1]["startTime"]):
+#                 continue
+#
+#             if (time_periods[1]["endTime"] != deal_data["timePeriods"][0]["endTime"]) and \
+#                 (time_periods[1]["endTime"] != deal_data["timePeriods"][1]["endTime"]):
+#                 continue
+#
+#         return deal_data["dealDetails"]
+#
+#     return None
 
 
 # If deal details set from A completely matches deal details set from B,
 # return the deal details from B in order corresponding to those from A
-def deal_details_set_match(deal_details_a, deal_details_b):
-    matches = []
-
-    if (len(deal_details_a) == len(deal_details_b)):
-        for deal_detail in deal_details_a:
-            for match_candidate in deal_details_b:
-                if (deal_details_match(deal_detail, match_candidate)):
-                    # Match found - save it
-                    matches.append(match_candidate)
-
-    if len(matches) == len(deal_details_a):
-        return matches
-
-    return None
+# def deal_details_set_match(deal_details_a, deal_details_b):
+#     matches = []
+#
+#     if (len(deal_details_a) == len(deal_details_b)):
+#         for deal_detail in deal_details_a:
+#             for match_candidate in deal_details_b:
+#                 if (deal_details_match(deal_detail, match_candidate)):
+#                     # Match found - save it
+#                     matches.append(match_candidate)
+#
+#     if len(matches) == len(deal_details_a):
+#         return matches
+#
+#     return None
 
 
 def deal_details_match(deal_detail_a, deal_detail_b):
