@@ -55,36 +55,39 @@ def update():
 
                 # Require that at least half of responses to contain data
                 if len(deal_jsons) > (len(assignments) / 2):
-                    match_result = get_match_percentage(deal_jsons)
+                    merged = merge_deal_jsons(deal_jsons)
+
+                    print("Merged")
+                    print(merged)
 
                     # If able to match enough answers, save the HIT results
-                    if (match_result[0] > (float(settings.MIN_AGREEMENT_PERCENTAGE) / 100.0)) and len(deal_jsons) >= settings.MIN_RESPONSES:
-                        comment_string = ("\n".join(comments))[:1000]
-                        save_results(mturk_location.location, match_result[1], match_result[2], comment_string)
-
-                        if mturk_location.stat != None:
-                            complete_mturk_stat(mturk_location, True)
-
-                        approve_and_dispose(conn, hit)
-                        mturk_location.location.mturkDataCollectionFailed = False
-                        mturk_location.location.mturkDateLastUpdated = timezone.now()
-                        mturk_location.location.save()
-                        mturk_location.delete()
-
-                    # Otherwise, if max number of assignments has not been reached, extend the HIT
-                    elif len(assignments) < settings.MAX_ASSIGNMENTS_TO_PUBLISH:
-                        extend(conn, hit, mturk_location)
-
-                    else:
-                        # Fail the HIT since we cannot exceed max number of assignments on Amazon
-                        if mturk_location.stat != None:
-                            complete_mturk_stat(mturk_location, False)
-
-                        approve_and_dispose(conn, hit)
-                        mturk_location.location.mturkDataCollectionFailed = True
-                        mturk_location.location.mturkDateLastUpdated = timezone.now()
-                        mturk_location.location.save()
-                        mturk_location.delete()
+                    # if (match_result[0] > (float(settings.MIN_AGREEMENT_PERCENTAGE) / 100.0)) and len(deal_jsons) >= settings.MIN_RESPONSES:
+                    #     comment_string = ("\n".join(comments))[:1000]
+                    #     save_results(mturk_location.location, match_result[1], match_result[2], comment_string)
+                    #
+                    #     if mturk_location.stat != None:
+                    #         complete_mturk_stat(mturk_location, True)
+                    #
+                    #     approve_and_dispose(conn, hit)
+                    #     mturk_location.location.mturkDataCollectionFailed = False
+                    #     mturk_location.location.mturkDateLastUpdated = timezone.now()
+                    #     mturk_location.location.save()
+                    #     mturk_location.delete()
+                    #
+                    # # Otherwise, if max number of assignments has not been reached, extend the HIT
+                    # elif len(assignments) < settings.MAX_ASSIGNMENTS_TO_PUBLISH:
+                    #     extend(conn, hit, mturk_location)
+                    #
+                    # else:
+                    #     # Fail the HIT since we cannot exceed max number of assignments on Amazon
+                    #     if mturk_location.stat != None:
+                    #         complete_mturk_stat(mturk_location, False)
+                    #
+                    #     approve_and_dispose(conn, hit)
+                    #     mturk_location.location.mturkDataCollectionFailed = True
+                    #     mturk_location.location.mturkDateLastUpdated = timezone.now()
+                    #     mturk_location.location.save()
+                    #     mturk_location.delete()
 
                 else:
                     # Not enough people found a result. Fail the HIT.
@@ -230,7 +233,13 @@ def merge_deal_jsons(deal_jsons):
                 continue
 
             # Otherwise, try to find matching deal data from all deal jsons after it
-            matching_deals = get_matching_time_frame_deals(deal_jsons[i + 1:], deal_data)
+            matching_deals = []
+            for deal_json in deal_jsons[i + 1:]:
+                matching_deal_data_candidates = deal_json["dealData"]
+                matches_for_deal_json = get_matching_time_frame_deals(matching_deal_data_candidates, deal_data)
+
+                for match in matches_for_deal_json:
+                    matching_deals.append(match)
 
             result = {
                 "daysOfWeek": deal_data["daysOfWeek"],
@@ -259,7 +268,7 @@ def get_matching_time_frame_deals(deal_data_array, deal_to_find):
             continue
 
         for j in range(0, len(deal_to_find["daysOfWeek"])):
-            if deal_data["daysfWeek"][j] != deal_to_find["daysOfWeek"][j]:
+            if deal_data["daysOfWeek"][j] != deal_to_find["daysOfWeek"][j]:
                 continue
 
         if (len(deal_data["timePeriods"]) != len(deal_to_find["timePeriods"])):
@@ -283,10 +292,6 @@ def get_matching_time_frame_deals(deal_data_array, deal_to_find):
         matching_deals.append(deal_data)
 
     return matching_deals
-
-
-
-
 
 
 # def get_match_percentages(deal_jsons):
