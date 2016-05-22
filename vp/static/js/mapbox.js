@@ -199,7 +199,7 @@ myLayer.on('layeradd', function(e) {
         ///--This is to show users where we got our data from-->
         
         if (locationProperties["happyHourWebsite"]){
-            $("#location-website").html("Where we got our deal info");
+            $("#location-website").html("Source of Info");
             $("#location-website").attr("href", locationProperties["happyHourWebsite"]);  
         }
         else { 
