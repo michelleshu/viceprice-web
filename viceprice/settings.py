@@ -166,10 +166,10 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.15,
+        PRICE: 0.10,
         BONUS: 0.0,
         DURATION: 3600,
-        LOCALE_REQUIRED: 'IN'
+        LOCALE_REQUIRED: 'US'
     }
 }
 
