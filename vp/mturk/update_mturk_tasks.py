@@ -100,11 +100,6 @@ def update():
 
 def save_results(location, deals_data, comments):
 
-    # Remove old deals
-    previous_deals = location.deals.all()
-    location.deals.remove()
-    previous_deals.delete()
-
     for deal_data in deals_data:
         deal = Deal(
             description = "",

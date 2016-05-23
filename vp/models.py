@@ -54,7 +54,7 @@ class Location(models.Model):
     coverPhotoSource = models.CharField(max_length=256, null=True)
     coverXOffset = models.IntegerField(null=True)
     coverYOffset = models.IntegerField(null=True)
-    deals = models.ManyToManyField(Deal)
+    deals = models.ManyToManyField(Deal, related_name="location")
     mturkDateLastUpdated = models.DateTimeField(null=True)
     mturkDataCollectionFailed = models.BooleanField(default=False)
     facebookId = models.CharField(max_length=50, null=True)
