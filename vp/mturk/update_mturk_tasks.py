@@ -55,39 +55,36 @@ def update():
 
                 # Require that at least half of responses to contain data
                 if len(deal_jsons) > (len(assignments) / 2):
-                    merged = merge_deal_jsons(deal_jsons)
+                    confirmed_deals = get_confirmed_deals(deal_jsons)
 
-                    print("Merged")
-                    print(merged)
+                    # If able to match any deal details, save the HIT results
+                    if len(deal_jsons) >= settings.MIN_RESPONSES and len(confirmed_deals) > 0:
+                        comment_string = ("\n".join(comments))[:1000]
+                        save_results(mturk_location.location, confirmed_deals, comment_string)
 
-                    # If able to match enough answers, save the HIT results
-                    # if (match_result[0] > (float(settings.MIN_AGREEMENT_PERCENTAGE) / 100.0)) and len(deal_jsons) >= settings.MIN_RESPONSES:
-                    #     comment_string = ("\n".join(comments))[:1000]
-                    #     save_results(mturk_location.location, match_result[1], match_result[2], comment_string)
-                    #
-                    #     if mturk_location.stat != None:
-                    #         complete_mturk_stat(mturk_location, True)
-                    #
-                    #     approve_and_dispose(conn, hit)
-                    #     mturk_location.location.mturkDataCollectionFailed = False
-                    #     mturk_location.location.mturkDateLastUpdated = timezone.now()
-                    #     mturk_location.location.save()
-                    #     mturk_location.delete()
-                    #
-                    # # Otherwise, if max number of assignments has not been reached, extend the HIT
-                    # elif len(assignments) < settings.MAX_ASSIGNMENTS_TO_PUBLISH:
-                    #     extend(conn, hit, mturk_location)
-                    #
-                    # else:
-                    #     # Fail the HIT since we cannot exceed max number of assignments on Amazon
-                    #     if mturk_location.stat != None:
-                    #         complete_mturk_stat(mturk_location, False)
-                    #
-                    #     approve_and_dispose(conn, hit)
-                    #     mturk_location.location.mturkDataCollectionFailed = True
-                    #     mturk_location.location.mturkDateLastUpdated = timezone.now()
-                    #     mturk_location.location.save()
-                    #     mturk_location.delete()
+                        if mturk_location.stat != None:
+                            complete_mturk_stat(mturk_location, True)
+
+                        approve_and_dispose(conn, hit)
+                        mturk_location.location.mturkDataCollectionFailed = False
+                        mturk_location.location.mturkDateLastUpdated = timezone.now()
+                        mturk_location.location.save()
+                        mturk_location.delete()
+
+                    # Otherwise, if max number of assignments has not been reached, extend the HIT
+                    elif len(assignments) < settings.MAX_ASSIGNMENTS_TO_PUBLISH:
+                        extend(conn, hit, mturk_location)
+
+                    else:
+                        # Fail the HIT since we cannot exceed max number of assignments on Amazon
+                        if mturk_location.stat != None:
+                            complete_mturk_stat(mturk_location, False)
+
+                        approve_and_dispose(conn, hit)
+                        mturk_location.location.mturkDataCollectionFailed = True
+                        mturk_location.location.mturkDateLastUpdated = timezone.now()
+                        mturk_location.location.save()
+                        mturk_location.delete()
 
                 else:
                     # Not enough people found a result. Fail the HIT.
@@ -101,14 +98,14 @@ def update():
                     mturk_location.delete()
 
 
-def save_results(location, deal_json, matching_deals, comments):
+def save_results(location, deals_data, comments):
 
     # Remove old deals
     previous_deals = location.deals.all()
     location.deals.remove()
     previous_deals.delete()
 
-    for i in range(len(deal_json["dealData"])):
+    for deal_data in deals_data:
         deal = Deal(
             description = "",
             dealSource = DATA_SOURCES[MTURK],
@@ -119,8 +116,6 @@ def save_results(location, deal_json, matching_deals, comments):
 
         location.deals.add(deal)
         location.save()
-
-        deal_data = deal_json["dealData"][i]
 
         for day_of_week in deal_data["daysOfWeek"]:
             for time_frame in deal_data["timePeriods"]:
@@ -163,14 +158,9 @@ def save_results(location, deal_json, matching_deals, comments):
             deal_detail.save()
             deal.dealDetails.add(deal_detail)
 
-            # Add drink names submitted by all Turkers.
-            # First response will be in deal_json, remaining will be ordered in matching_deals
-            drink_name_option = MTurkDrinkNameOption(name = deal_detail_data["names"])
-            drink_name_option.save()
-            deal_detail.mturkDrinkNameOptions.add(drink_name_option)
-
-            for matching_deal in matching_deals:
-                drink_name_option = MTurkDrinkNameOption(name = matching_deal[i][j]["names"])
+            # Add drink names options submitted by all Turkers
+            for names_option in deal_detail_data["namesOptions"]:
+                drink_name_option = MTurkDrinkNameOption(name = names_option)
                 drink_name_option.save()
                 deal_detail.mturkDrinkNameOptions.add(drink_name_option)
 
@@ -203,7 +193,50 @@ def combine_deal_detail_drink_names(deal_json):
     return deal_json
 
 
-# Merge deal JSON data entered by multiple Turkers into a list of objects for each deal/deal detail combination:
+# Get confirmed portions of deals (includes any individual deal detail for which there is enough agreement beyond Turkers)
+def get_confirmed_deals(deal_jsons):
+    responses_count = len(deal_jsons)
+    merged_deals = merge_deal_jsons(deal_jsons)
+
+    confirmed_deals = []
+
+    for deal in merged_deals:
+
+        confirmed_deal = {
+            "daysOfWeek": deal["daysOfWeek"],
+            "timePeriods": deal["timePeriods"],
+            "dealDetails": []
+        }
+
+        deal_detail_options = deal["dealDetailOptions"]
+
+        for i in range(len(deal_detail_options)):
+
+            matched_count = 1
+
+            deal_detail = {
+                "category": deal_detail_options[i]["category"],
+                "dealType": deal_detail_options[i]["dealType"],
+                "dealValue": deal_detail_options[i]["dealValue"],
+                "namesOptions": [deal_detail_options[i]["names"]]
+            }
+
+            for j in range(i + 1, len(deal_detail_options)):
+                if deal_details_match(deal_detail, deal_detail_options[j]):
+                    deal_detail["namesOptions"].append(deal_detail_options[j]["names"])
+                    matched_count += 1
+
+            if (float(matched_count) / float(responses_count) * 100.0) >= settings.MIN_AGREEMENT_PERCENTAGE:
+                confirmed_deal["dealDetails"].append(deal_detail)
+
+        if len(confirmed_deal["dealDetails"]) > 0:
+            confirmed_deals.append(confirmed_deal)
+
+    return confirmed_deals
+
+
+# Merge deal JSON data entered by multiple Turkers into a list of objects for each deal/deal detail combination in
+# the following format:
 # [
 #    {
 #        daysOfWeek:
@@ -219,7 +252,7 @@ def combine_deal_detail_drink_names(deal_json):
 #    }, ...
 def merge_deal_jsons(deal_jsons):
     for i in range(len(deal_jsons)):
-        deal_jsons[i] = combine_deal_detail_drink_names(deal_jsons[1])
+        deal_jsons[i] = combine_deal_detail_drink_names(deal_jsons[i])
 
     results = []
 
@@ -248,7 +281,9 @@ def merge_deal_jsons(deal_jsons):
             }
 
             for matching_deal in matching_deals:
-                for deal_detail in matching_deal["dealDetails"]:
+
+                for deal_detail_index in range(len(matching_deal["dealDetails"])):
+                    deal_detail = matching_deal["dealDetails"][deal_detail_index]
                     result["dealDetailOptions"].append(deal_detail)
 
             results.append(result)
@@ -292,112 +327,6 @@ def get_matching_time_frame_deals(deal_data_array, deal_to_find):
         matching_deals.append(deal_data)
 
     return matching_deals
-
-
-# def get_match_percentages(deal_jsons):
-#     # Standardize by combining matching deal details from within responses
-#     for i in range(len(deal_jsons)):
-#         deal_jsons[i] = combine_deal_details(deal_jsons[i])
-#
-#     max_match_percentage = 0.0
-#     max_matches_deal_json = None
-#     max_matches_matching_deals = None
-#
-#     for i in range(0, len(deal_jsons)):
-#
-#         current_deal_json = deal_jsons[i]
-#         current_matching_deals = []
-#
-#         for j in range(0, len(deal_jsons)):
-#             if i != j:
-#                 matching_deals = deals_responses_match(current_deal_json, deal_jsons[j])
-#
-#                 if matching_deals != None:
-#                     current_matching_deals.append(matching_deals)
-#
-#         match_percentage = float(len(current_matching_deals) + 1) / float(len(deal_jsons))
-#
-#         if match_percentage > max_match_percentage:
-#             max_match_percentage = match_percentage
-#             max_matches_deal_json = current_deal_json
-#             max_matches_matching_deals = current_matching_deals
-#
-#     return (max_match_percentage, max_matches_deal_json, max_matches_matching_deals)
-
-
-# Check to see if two sets of deals from two different Turkers match.
-# Matching requires that for every deal detail, the price, deal type and drink category are the same
-# And the time ranges match up as well.
-# def deals_responses_match(deal_json_a, deal_json_b):
-#     matching_deal_responses = []
-#
-#     if len(deal_json_a["dealData"]) == len(deal_json_b["dealData"]):
-#
-#         for deal_data in deal_json_a["dealData"]:
-#             deal_details_b = get_deal_details_for_time_frame(deal_data["daysOfWeek"], deal_data["timePeriods"], deal_json_b)
-#
-#             if deal_details_b != None:
-#                 matches = deal_details_set_match(deal_data["dealDetails"], deal_details_b)
-#
-#                 if matches != None:
-#                     matching_deal_responses.append(matches)
-#
-#     if len(matching_deal_responses) == len(deal_json_a["dealData"]):
-#         return matching_deal_responses
-#
-#     return None
-
-
-# Retrieve the deal details that match a certain days of week/time frame combination
-# def get_deal_details_for_time_frame(days_of_week, time_periods, deal_json):
-#
-#     for deal_data in deal_json["dealData"]:
-#
-#         if len(deal_data["daysOfWeek"]) != len(days_of_week):
-#             continue
-#
-#         for i in range(0, len(days_of_week)):
-#             if (deal_data["daysOfWeek"][i] != days_of_week[i]):
-#                 continue
-#
-#         if len(deal_data["timePeriods"]) != len(time_periods):
-#             continue
-#
-#         if len(time_periods) == 1:
-#             if (time_periods[0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) or \
-#                 (time_periods[0]["endTime"] != deal_data["timePeriods"][0]["endTime"]):
-#                 continue
-#
-#         else: # length = 2
-#             if (time_periods[0]["startTime"] != deal_data["timePeriods"][0]["startTime"]) and \
-#                 (time_periods[0]["startTime"] != deal_data["timePeriods"][1]["startTime"]):
-#                 continue
-#
-#             if (time_periods[1]["endTime"] != deal_data["timePeriods"][0]["endTime"]) and \
-#                 (time_periods[1]["endTime"] != deal_data["timePeriods"][1]["endTime"]):
-#                 continue
-#
-#         return deal_data["dealDetails"]
-#
-#     return None
-
-
-# If deal details set from A completely matches deal details set from B,
-# return the deal details from B in order corresponding to those from A
-# def deal_details_set_match(deal_details_a, deal_details_b):
-#     matches = []
-#
-#     if (len(deal_details_a) == len(deal_details_b)):
-#         for deal_detail in deal_details_a:
-#             for match_candidate in deal_details_b:
-#                 if (deal_details_match(deal_detail, match_candidate)):
-#                     # Match found - save it
-#                     matches.append(match_candidate)
-#
-#     if len(matches) == len(deal_details_a):
-#         return matches
-#
-#     return None
 
 
 def deal_details_match(deal_detail_a, deal_detail_b):
