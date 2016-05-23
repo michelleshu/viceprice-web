@@ -154,8 +154,8 @@ MIN_AGREEMENT_PERCENTAGE = 70       # Percentage of HIT responses that need to a
 EXPIRATION_PERIOD = 30
 
 # Qualifications required of Turkers
-MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 1 #90
-MIN_HITS_COMPLETED = 1 #100
+MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED = 90
+MIN_HITS_COMPLETED = 100
 
 MTURK_HIT_TYPES = {
     FIND_HAPPY_HOUR: {
@@ -166,10 +166,10 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.15,
+        PRICE: 0.10,
         BONUS: 0.0,
         DURATION: 3600,
-        LOCALE_REQUIRED: 'IN'
+        LOCALE_REQUIRED: 'US'
     }
 }
 
