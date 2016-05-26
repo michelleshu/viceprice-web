@@ -1,6 +1,6 @@
 <?php
 define( '_MAILCHIMP_APIKEY', 'd9b9f506552fc7ea1bd19c7e6e5fcd1a-us12' ); // ADD YOUR MAILCHIMP API KEY
-define( '_MAILCHIMP_LISTID', '8162f4b0a6' ); // ADD YOUR MAILCHIMP LIST ID
+define( '_MAILCHIMP_LISTID', '04bd9d748e' ); // ADD YOUR MAILCHIMP LIST ID
 define( '_EMAIL', 'justin@viceprice.co' ); // SPECIFY YOUR OWN EMAIL ADDRESS
 $special_header = 'false'; // SET IT TO 'false' IF YOU HAVE ANY ISSUES WITH GETTING THE NOTIFICATION EMAIL IN 'mail' OR 'mixed' MODE
 if( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && ( $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) ) {
