@@ -40,8 +40,6 @@
 					fontweight:					'bold',
 					double_optin:				false,
 					update_existing:			true,
-					replace_interests:			false,
-					send_welcome:				false,
 					mailchimp_listid:			false,
 					once_per_user:				false,
 					cookie_days:				999,
@@ -902,7 +900,7 @@
 						}
 						if ( options.openbottom != "" ) {
 							var st = jQuery( document ).scrollTop();
-							if ( options.openbottom != "" ) {
+							if ( ! jQuery.isNumeric( options.openbottom ) ) {
 								openpos = 10;
 							}
 							else {

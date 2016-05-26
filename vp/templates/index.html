@@ -25,7 +25,6 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/simplesubscriptionpopup.css' %}" >
 	<!-- JS -->
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
@@ -36,10 +35,93 @@
 	<script src='{% static "js/venue_details.js" %}'></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <!--<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us12.list-manage.com","uuid":"3cb9f52abfa0cae5e336b9f2c","lid":"8162f4b0a6"}) })</script>-->
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>   
     
-<!--    Favicon on tab-->
+    
+    <!--Signup Email Popup-->
+    
+    <link href="static/css/simplesubscriptionpopup.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="static/js/ssp.min.js"></script>
+    <script type='text/javascript'>
+        $(document).ready(function() {
+        $("body").sspopup({
+        mode:'mailchimp',
+        animtime: 1,
+        animation:'scalein',
+        autoopen: true,
+        customfields:'[]',
+        facebook_appid:'',
+        googleplus_clientid:"",
+        googleplus_apikey:"",
+        customfieldsmargin:'0px',
+        bgcolor:'rgb(38, 44, 48)',
+        lockbgcolor:'#000',
+        buttonbgcolor:'rgb(199, 162, 91)',
+        buttoncolor:'rgb(38, 44, 48)',
+        closecolor:'rgb(199, 162, 91)',
+        closefontsize:'19px',
+        color:'rgb(199, 162, 91)',
+        contentcolor:'rgb(199, 162, 91)',
+        fontfamily:'Source Sans Pro',
+        contentfontfamily:'Source Sans Pro',
+        openwithlink: true,
+        contentfontsize:'22px',
+        contentweight:'normal',
+        title:'Follow the VicePrice Team',
+        bottomtitle:'',
+        text:'',
+        vspace:'0px',
+        hspace:'0px',
+        timer: 000,
+        position:'centerbottom',
+        invalid_address:'INVALID ADDRESS',
+        signup_success:'SIGNUP SUCCESS!',
+        borderradius:'4px',
+        inputborderradius:'0px',
+        openbottom: false,
+        fontsize:'30px',
+        fontweight:'bold',
+        double_optin: false,
+        update_existing: true,
+        mailchimp_listid: false,
+        once_per_user: false,
+        cookie_days:'999',
+        once_per_filled: true,
+        filled_cookie_days:'999',
+        subscribe_text:'Get Updates',
+        placeholder_text:'Your email address',
+        path:'static/php/handler.php',
+        lock: false,
+        closewithlayer: true,
+        hideclose: false,
+        preset:'custom',
+        trackform: true,
+        media:"",
+        mediawidth:"",
+        mediaheight:"",
+        mediapos:4,
+        yaplay:false,
+        yinfo:false,
+        yloop:false,
+        ycontrols:false,
+        imgrepeat:false,
+        imgopacity:1,
+        embed:'',
+        elemanimation:'elemfade',
+        width: "",
+        visible: true,
+        redirecturl: "",
+        formid: "12345",
+        callBack: function(){},
+        onSubmit: function(){},
+        onShow: function(){},
+        onHide: function(){},
+        onClose: function(){}
+        })
+        });
+    </script>
+    <!--Favicon on tab-->
    <link rel='shortcut icon' type='image/x-icon' href='static/img/favicon.ico'/>
     
 	</head>
