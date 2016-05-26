@@ -40,13 +40,13 @@
     
     <!--Signup Email Popup-->
     
-    <link href="static/css/simplesubscriptionpopup.css" rel="stylesheet">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="static/js/ssp.min.js"></script>
-    <script type='text/javascript'>
+        <link href="static/css/simplesubscriptionpopup.css" rel="stylesheet">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="static/js/ssp.min.js"></script>
+        <script type='text/javascript'>
         $(document).ready(function() {
         $("body").sspopup({
-        mode:'mailchimp',
+        mode:'mixed',
         animtime: 1,
         animation:'scalein',
         autoopen: true,
@@ -91,6 +91,7 @@
         filled_cookie_days:'999',
         subscribe_text:'Get Updates',
         placeholder_text:'Your email address',
+        path:'php/handler.php',
         lock: false,
         closewithlayer: true,
         hideclose: false,
@@ -120,7 +121,7 @@
         })
         });
     </script>
- <script type="text/javascript">                                                                                        
+    <script type="text/javascript">                                                                                        
     jQuery( document ).ready( function() {
         jQuery( 'body' ).sspopup({
             'mode': 'mailchimp'
