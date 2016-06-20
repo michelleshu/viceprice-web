@@ -1,5 +1,5 @@
 /*****Map Setup*****/
-//mapbox.js v2.4.0: https://www.mapbox.com/mapbox.js/api/v2.4.0/
+// mapbox.js v2.4.0: https://www.mapbox.com/mapbox.js/api/v2.4.0/
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 
 var map = L.map('map', {
@@ -81,32 +81,32 @@ function fetchLocationCountsByNeighborhood() {
 
 fetchLocationCountsByNeighborhood();
 
-function fetchData(time, dayIndex) {
-	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
-		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
-		neighborhoods = data.neighborhoods;
-		deals = data.deals;
-		updateHappyHours();
-		updateNeighborhoodData();
-	});
-}
-
-function fetchDay(dayIndex) {
-	$.get("/fetch/?day=" + dayIndex, function(data) {
-		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
-		neighborhoods = data.neighborhoods;
-		deals = data.deals;
-		updateHappyHours();
-		updateNeighborhoodData();
-	});
-}
-
-function updateHappyHours(){
-	$('.bar_num_labels').text("( 0 )"); //this indicates that no venues are avilable wihtin a neighborhood 
-	$(neighborhoods).each(function(index,data){//otherwise, show the number of available venues 
-	    	$("div[data-neighborhood='"+data.neighborhood+"']").text("( " + data.count + " )")
-	});
-}
+// function fetchData(time, dayIndex) {
+// 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
+// 		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
+// 		neighborhoods = data.neighborhoods;
+// 		deals = data.deals;
+// 		updateHappyHours();
+// 		updateNeighborhoodData();
+// 	});
+// }
+// 
+// function fetchDay(dayIndex) {
+// 	$.get("/fetch/?day=" + dayIndex, function(data) {
+// 		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
+// 		neighborhoods = data.neighborhoods;
+// 		deals = data.deals;
+// 		updateHappyHours();
+// 		updateNeighborhoodData();
+// 	});
+// }
+// 
+// function updateHappyHours(){
+// 	$('.bar_num_labels').text("( 0 )"); //this indicates that no venues are avilable wihtin a neighborhood 
+// 	$(neighborhoods).each(function(index,data){//otherwise, show the number of available venues 
+// 	    	$("div[data-neighborhood='"+data.neighborhood+"']").text("( " + data.count + " )")
+// 	});
+// }
 
 /*Once this layer is loaded do the following:
 1)Create a custom popup that contains venues' info (name, subcategory, happhour time and best deals)
