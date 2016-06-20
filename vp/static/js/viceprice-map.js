@@ -1,26 +1,48 @@
-/*****Map Setup*****/
-// mapbox.js v2.4.0: https://www.mapbox.com/mapbox.js/api/v2.4.0/
+// MAPBOX
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
+var map;
 
-var map = L.map('map', {
-	center : [ 38.907557, -77.028130 ], //Initial geographical center of the map
-	minZoom : 13, //Minimum zoom level of the map
-	zoom : 13, //Initial map zoom
-	attributionControl: false//remove attribution from map (added in the left menu instead)
-});
+// LOCAL DATA CACHE
+var locationCountsByNeighborhood = {};
 
-//u street url test (justin)
-//map.fitBounds(L.latLngBounds([38.927309, -77.109718], [38.985176, -77.003803 ]));
+// INITIALIZATION
+var init = function() {
+	loadMap();
+	loadRegionalView();
+};
+init();
 
-// Use styleLayer to add a Mapbox style created in Mapbox Studio
-L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
-		.addTo(map);
+function loadMap() {
+	if (!map) {
+		map = L.map('map', {
+			center : [ 38.907557, -77.028130 ], //Initial geographical center of the map
+			minZoom : 13, //Minimum zoom level of the map
+			zoom : 13, //Initial map zoom
+			attributionControl: false//remove attribution from map (added in the left menu instead)
+		});
+		
+		//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
+		var southWest = L.latLng(38.820993, -76.875833),
+			northEast = L.latLng(39.004460, -77.158084),
+			bounds = L.latLngBounds(southWest, northEast);
+		map.setMaxBounds(bounds);
+		
+		// Use styleLayer to add a Mapbox style created in Mapbox Studio
+		L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
+			.addTo(map);
+	}
+}
 
-//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
-var southWest = L.latLng(38.820993, -76.875833),
-	northEast = L.latLng(39.004460, -77.158084),
-	bounds = L.latLngBounds(southWest, northEast);
-map.setMaxBounds(bounds);
+function loadRegionalView() {
+	// var dcnLayer = L.geoJson(dcn, { //dcn is defined in dcn.js
+	// 	style : getStyle,
+	// 	onEachFeature : onEachFeature
+	// }).addTo(map);
+	
+	$.get("/fetch_location_counts_by_neighborhood", function(data) {
+		var counts = data["result"];
+	});
+}
 
 //Create custom markers
 var restaurant_marker = L.icon({
@@ -53,7 +75,6 @@ var bar_marker_clicked = L.icon({
     iconSize:     [37, 42], 
     iconAnchor:   [17, 42],
     popupAnchor:  [3, -42]
-
 });
 
 /******Markers and Clusters********/
@@ -73,13 +94,11 @@ function fetchFilteredDeals(neighborhood, day, time) {
 	});
 }
 
-function fetchLocationCountsByNeighborhood() {
+function loadRegionalView() {
 	$.get("/fetch_location_counts_by_neighborhood", function(data) {
 		console.log(data);
 	});
 }
-
-fetchLocationCountsByNeighborhood();
 
 // function fetchData(time, dayIndex) {
 // 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
@@ -576,15 +595,15 @@ function getBounds(e) {
 //label css (customized to each neighborhood based on the polygon size, location etc)(
 //is there a better way to write this function?
 function getHTML(e,d) {
-	    return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
-        (e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
-        e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Columbia Heights
-        e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //Dupont Circle
-        e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Adams Morgan
-        e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Logan Circle
-        (e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //u street(40), Waterfront(10)
-        "<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" //foggy bottom(40) and h street (27)
-        }
+	return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
+	(e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
+	e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Columbia Heights
+	e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //Dupont Circle
+	e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Adams Morgan
+	e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Logan Circle
+	(e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //u street(40), Waterfront(10)
+	"<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" //foggy bottom(40) and h street (27)
+}
 
 
 //clear neighborhood
