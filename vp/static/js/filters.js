@@ -7,6 +7,7 @@ var checked=$("#today").prop('checked');
 var HOURS_IN_DAY = 24, MINUTES_IN_HOUR = 60;
 var MIN_HOUR = 8, MAX_HOUR = 3 + HOURS_IN_DAY;
 var selectedDay;
+
 $(function() {
 	var selectedTime = moment();
 	selectedDay = _.indexOf(DAYS_OF_WEEK, selectedTime.format("dddd")); //momentjs day of week indexes do not match ours; map to our index

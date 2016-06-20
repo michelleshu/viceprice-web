@@ -67,6 +67,12 @@ var cluster = new L.MarkerClusterGroup({ polygonOptions: {
 var lastMarker,//used for reseting the style of the previously clicked marker 
  	geoJsonData,neighborhoods,deals;
 
+function fetchFilteredDeals(neighborhood, day, time) {
+	$.get("/fetch_filtered_deals/?neighborhood=" + neighborhood + "&day=" + day + "&time=" + time, function(data) {
+		console.log(data);
+	});
+}
+
 function fetchData(time, dayIndex) {
 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
 		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
