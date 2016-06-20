@@ -1,4 +1,5 @@
 from django.core.context_processors import csrf
+from django.db import connection
 from django.db.models import Count
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -130,7 +131,7 @@ def fetch_filtered_deals(request):
         ON d.\"id\" = dah.\"deal_id\" \
         JOIN \"vp_activehour\" ah \
         ON ah.\"id\" = dah.\"activehour_id\" \
-        WHERE l.\"neighborhood\" = \'" + str(neighborhood) + "\' and ah.\"dayofweek\" = \'" + str(day) + "\'"
+        WHERE d.\"dealSource\" = 1 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\' and ah.\"dayofweek\" = " + str(day)
 
     if (time != None):
         query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
@@ -143,11 +144,39 @@ def fetch_filtered_deals(request):
     return HttpResponse("success")
 
 def fetch_location_counts_by_neighborhood(request):
-    counts = Location.objects.all().values('neighborhood').annotate(total=Count('neighborhood'))
+    time = request.GET.get('time')
+    day = request.GET.get('day')
+    
+    # Select locations with optional day and time filters
+    inner_query = "SELECT * FROM \"vp_location\""
+    if (day != None):
+        inner_query = "SELECT DISTINCT(l.*) FROM \"vp_location\" l \
+            JOIN \"vp_location_deals\" ld \
+        	ON l.\"id\" = ld.\"location_id\" \
+        	JOIN \"vp_deal\" d \
+        	ON d.\"id\" = ld.\"deal_id\" \
+        	JOIN \"vp_deal_activeHours\" dah \
+        	ON d.\"id\" = dah.\"deal_id\" \
+        	JOIN \"vp_activehour\" ah \
+        	ON ah.\"id\" = dah.\"activehour_id\" \
+        	WHERE ah.\"dayofweek\" = " + str(day)
+        
+        if (time != None):
+            inner_query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
+    
+    query = "SELECT ld.neighborhood, count(*) AS count \
+        FROM (" + inner_query + ") ld \
+        GROUP BY ld.\"neighborhood\""
+    
+    cursor = connection.cursor()
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    
+    result = {}
+    for row in rows:
+        result[str(row[0])] = int(row[1])
 
-    print(counts)
-
-    return HttpResponse("success")
+    return JsonResponse({ "result": json.dumps(result) })
 
 
 def fetch_locations(request):
