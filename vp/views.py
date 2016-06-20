@@ -114,6 +114,36 @@ def upload_data_view(request):
 
     return render_to_response('upload_data.html', context)
 
+
+def fetch_filtered_deals(request):
+    print("Fetch filtered deals")
+    neighborhood = request.GET.get('neighborhood')
+    time = request.GET.get('time')
+    day = request.GET.get('day')
+
+    query = "SELECT DISTINCT(l.*) FROM \"vp_location\" l \
+        JOIN \"vp_location_deals\" ld \
+        ON l.\"id\" = ld.\"location_id\" \
+        JOIN \"vp_deal\" d \
+        ON d.\"id\" = ld.\"deal_id\" \
+        JOIN \"vp_deal_activeHours\" dah \
+        ON d.\"id\" = dah.\"deal_id\" \
+        JOIN \"vp_activehour\" ah \
+        ON ah.\"id\" = dah.\"activehour_id\" \
+        WHERE l.\"neighborhood\" = \'" + str(neighborhood) + "\' and ah.\"dayofweek\" = \'" + str(day) + "\'"
+
+    if (time != None):
+        query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
+
+
+    locations = Location.objects.raw(query)
+
+    for location in locations:
+        print(location.name)
+
+    return HttpResponse("success")
+
+
 def fetch_locations(request):
     time = request.GET.get('time')
     day = request.GET.get('day')

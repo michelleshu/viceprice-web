@@ -33,7 +33,8 @@ urlpatterns = patterns('',
     url(r'^confirm_drink_name/$', vp.views.confirm_drink_name, name='confirm_drink_name'),
 
     # Other Data
-    url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch'),
+    #url(r'^fetch/$', vp.views.fetch_locations, name = 'fetch'),
+    url(r'^fetch_filtered_deals/$', vp.views.fetch_filtered_deals, name = 'fetch_filtered_deals'),
     url(r'^sandbox/$', vp.views.sandbox, name = 'sandbox'),
     url(r'^about/$', vp.views.about, name = 'about'),
     url(r'^yelpReviews/$', vp.views.yelp_reviews, name = 'yelpReviews'),
