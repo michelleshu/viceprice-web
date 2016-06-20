@@ -1,4 +1,5 @@
 from django.core.context_processors import csrf
+from django.db.models import Count
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -116,7 +117,6 @@ def upload_data_view(request):
 
 
 def fetch_filtered_deals(request):
-    print("Fetch filtered deals")
     neighborhood = request.GET.get('neighborhood')
     time = request.GET.get('time')
     day = request.GET.get('day')
@@ -135,11 +135,17 @@ def fetch_filtered_deals(request):
     if (time != None):
         query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
 
-
     locations = Location.objects.raw(query)
 
     for location in locations:
         print(location.name)
+
+    return HttpResponse("success")
+
+def fetch_location_counts_by_neighborhood(request):
+    counts = Location.objects.all().values('neighborhood').annotate(total=Count('neighborhood'))
+
+    print(counts)
 
     return HttpResponse("success")
 

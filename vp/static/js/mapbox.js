@@ -73,6 +73,14 @@ function fetchFilteredDeals(neighborhood, day, time) {
 	});
 }
 
+function fetchLocationCountsByNeighborhood() {
+	$.get("/fetch_location_counts_by_neighborhood", function(data) {
+		console.log(data);
+	});
+}
+
+fetchLocationCountsByNeighborhood();
+
 function fetchData(time, dayIndex) {
 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
 		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
