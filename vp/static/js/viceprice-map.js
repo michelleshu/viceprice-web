@@ -2,8 +2,7 @@
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 var map;
 
-// LOCAL DATA CACHE
-var locationCountsByNeighborhood = {};
+// TIME FILTERS
 var selectedDay = null;
 var selectedTime = null;
 
@@ -38,19 +37,32 @@ function loadMap() {
 
 // LOAD REGIONAL (NEIGHBORHOOD OVERVIEW) VIEW
 function loadRegionalView(callback) {
-	
 	$.getJSON("static/json/neighborhood-polygons.json")
 		.done(function(data) {
 			L.geoJson(data, {
 				style: getNeighborhoodOverviewStyle,
 				onEachFeature: displayNeighborhoodOverview
 			}).addTo(map);
+			populateLocationCountsByNeighborhood();
 		});
 }
 
 function populateLocationCountsByNeighborhood() {
-	$.get("/fetch_location_counts_by_neighborhood?day=" + selectedDay + "&time=" + selectedTime, function(data) {
-		var counts = data["result"];
+	var queryString = "";
+	if (selectedDay) {
+		queryString += "?day=" + selectedDay;
+		
+		if (selectedTime) {
+			queryString += "&time=" + selectedTime;
+		}
+	}
+	$.get("/fetch_location_counts_by_neighborhood" + queryString, function(data) {
+		var counts = JSON.parse(data["result"]);
+		
+		for (var neighborhood in counts) {
+			$(".location-count-label[data-neighborhood='" + neighborhood + "']")
+				.text("(" + counts[neighborhood] + ")");
+		}
 	});
 }
 
@@ -73,21 +85,19 @@ function displayNeighborhoodOverview(feature, layer) {
 			case 3:
 				return L.latLng(38.928, -77.068); // Friendship Heights
 			case 4:
-				return L.latLng(38.928, -77.039); // Adams Morgan
+				return L.latLng(38.930, -77.043); // Adams Morgan
 			case 5:
 				return L.latLng(38.932, -76.990); // East DC
-			case 6:
-				return L.latLng(38.907, -77.012); // Shaw
 			case 9:
-				return L.latLng(38.928, -77.027); // Columbia Heights
+				return L.latLng(38.930, -77.030); // Columbia Heights
 			case 10:
-				return L.latLng(38.911, -77.038); // Dupont Circle
+				return L.latLng(38.911, -77.042); // Dupont Circle
 			case 11:
 				return L.latLng(38.895, -77.048); // Foggy Bottom
 			case 13:
-				return L.latLng(38.911, -77.027); // Logan Circle
+				return L.latLng(38.911, -77.032); // Logan Circle
 			case 14:
-				return L.latLng(38.916, -77.028); // U Street
+				return L.latLng(38.917, -77.031); // U Street
 			case 15:
 				return L.latLng(38.875, -77.010); // Waterfront
 			case 16:
@@ -101,83 +111,26 @@ function displayNeighborhoodOverview(feature, layer) {
 	
 	// Set neighborhood label style
 	function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
-		var fontSize;
 		var displayName;
 		
 		switch(parseInt(neighborhoodId)) {
-			case 1:
-				fontSize = 1.2;
-				displayName = "North DC";
-				break;
-			case 2:
-				fontSize = 1.2;
-				displayName = "West DC";
-				break;
-			case 3:
-				fontSize = 0.85;
-				displayName = "Friendship Heights";
-				break;
 			case 4:
-				fontSize = 0.85;
 				displayName = "Adams<br/>Morgan";
 				break;
-			case 5:
-				fontSize = 1.2;
-				displayName = "East DC";
-				break;
-			case 6:
-				fontSize = 0.85;
-				displayName = "Shaw";
-				break;
-			case 7:
-				fontSize = 0.85;
-				displayName = "Capitol Hill";
-				break;
-			case 8:
-				fontSize = 0.85;
-				displayName = "Downtown";
-				break;
 			case 9:
-				fontSize = 0.85;
 				displayName = "Columbia<br/>Heights";
 				break;
 			case 10:
-				fontSize = 0.85;
 				displayName = "Dupont<br/>Circle";
 				break;
-			case 11:
-				fontSize = 0.85;
-				displayName = "Foggy Bottom";
-				break;
-			case 12:
-				fontSize = 0.85;
-				displayName = "Georgetown"
-				break;
 			case 13:
-				fontSize = 0.85;
 				displayName = "Logan<br/>Circle";
 				break;
-			case 14:
-				fontSize = 0.85;
-				displayName = "U Street";
-				break;
-			case 15:
-				fontSize = 0.85;
-				displayName = "Waterfront";
-				break;
-			case 16:
-				fontSize = 1.2;
-				displayName = "East of the River";
-				break;
-			case 17:
-				fontSize = 0.85;
-				displayName = "H Street";
-				break;
 			default:
-				break;
+				displayName = neighborhoodName;
 		}
 		
-		return "<div class='neighborhood-label' style='font-size: " + fontSize + "rem;'>" + displayName + 
+		return "<div class='neighborhood-label' style='font-size: 0.85rem;'>" + displayName + 
 			"</div><div class='location-count-label' data-neighborhood='" + neighborhoodName + "' id='" + neighborhoodId + "'></div>";
 	}
 	
