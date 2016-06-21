@@ -4,6 +4,8 @@ var map;
 
 // LOCAL DATA CACHE
 var locationCountsByNeighborhood = {};
+var selectedDay = null;
+var selectedTime = null;
 
 // INITIALIZATION
 var init = function() {
@@ -12,6 +14,7 @@ var init = function() {
 };
 init();
 
+// LOAD MAP
 function loadMap() {
 	if (!map) {
 		map = L.map('map', {
@@ -33,16 +36,177 @@ function loadMap() {
 	}
 }
 
-function loadRegionalView() {
-	// var dcnLayer = L.geoJson(dcn, { //dcn is defined in dcn.js
-	// 	style : getStyle,
-	// 	onEachFeature : onEachFeature
-	// }).addTo(map);
+// LOAD REGIONAL (NEIGHBORHOOD OVERVIEW) VIEW
+function loadRegionalView(callback) {
 	
-	$.get("/fetch_location_counts_by_neighborhood", function(data) {
+	$.getJSON("static/json/neighborhood-polygons.json")
+		.done(function(data) {
+			L.geoJson(data, {
+				style: getNeighborhoodOverviewStyle,
+				onEachFeature: displayNeighborhoodOverview
+			}).addTo(map);
+		});
+}
+
+function populateLocationCountsByNeighborhood() {
+	$.get("/fetch_location_counts_by_neighborhood?day=" + selectedDay + "&time=" + selectedTime, function(data) {
 		var counts = data["result"];
 	});
 }
+
+function getNeighborhoodOverviewStyle(feature) {
+	return {
+		weight : 2,
+		opacity : 0.5,
+		color : '#c8a45e',
+		fillOpacity : 0.8,
+		fillColor : 'rgb(35, 40, 43)'
+	};
+}
+
+function displayNeighborhoodOverview(feature, layer) {
+	
+	function getLabelLocation (l,f){
+	    //had to manually adjust the label location of few polygons
+	    return f.id == 3 ? L.latLng(38.927526, -77.070867): //Friendship Heights
+	         f.id == 2 ? L.latLng(38.930150, -77.093441): //East DC
+	         f.id == 10 ? L.latLng(38.910328, -77.042245): //Dupont Circle
+	         f.id == 13 ? L.latLng(38.911111, -77.031433): //Logan Circle
+	         f.id == 14 ? L.latLng(38.916820, -77.030761): //u street
+	         f.id == 15 ? L.latLng(38.872020, -77.012171): //Waterfront
+	         f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
+	         f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
+	         l.getBounds().getCenter();
+	}
+
+	function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
+		var fontSize;
+		var displayName;
+		
+		switch(parseInt(neighborhoodId)) {
+			case 1:
+				fontSize = 18;
+				displayName = "North DC";
+				break;
+			case 2:
+				fontSize = 18;
+				displayName = "West DC";
+				break;
+			case 3:
+				fontSize = 16;
+				displayName = "Friendship Heights";
+				break;
+			case 4:
+				fontSize = 13;
+				displayName = "Adams<br/>Morgan";
+				break;
+			case 5:
+				fontSize = 18;
+				displayName = "East DC";
+				break;
+			case 6:
+				fontSize = 16;
+				displayName = "Shaw";
+				break;
+			case 7:
+				fontSize = 16;
+				displayName = "Capitol Hill";
+				break;
+			case 8:
+				fontSize = 16;
+				displayName = "Downtown";
+				break;
+			case 9:
+				fontSize = 14;
+				displayName = "Columbia<br/>Heights";
+				break;
+			case 10:
+				fontSize = 14;
+				displayName = "Dupont<br/>Circle";
+				break;
+			case 11:
+				fontSize = 13;
+				displayName = "Foggy Bottom";
+				break;
+			case 12:
+				fontSize = 16;
+				displayName = "Georgetown"
+				break;
+			case 13:
+				fontSize = 13;
+				displayName = "Logan<br/>Circle";
+				break;
+			case 14:
+				fontSize = 14;
+				displayName = "U Street";
+				break;
+			case 15:
+				fontSize = 14;
+				displayName = "Waterfront";
+				break;
+			case 16:
+				fontSize = 18;
+				displayName = "East of the River";
+				break;
+			case 17:
+				fontSize = 13;
+				displayName = "H Street";
+				break;
+			default:
+				break;
+		}
+		
+		return "<div class='neighborhood-label' style='font-size: " + fontSize + "px;'></div>" + displayName + 
+			"<div class='location-count-label' data-neighborhood='" + neighborhoodName + "' id='" + neighborhoodId + "'></div>";
+	}
+	
+	// add neighborhood names to each polygon
+	// label location needs to be customized to each neighborhood (refer to labelLocation for more info)
+	var label = L.marker(getLabelLocation(layer, feature), {
+		icon : L.divIcon({
+			className : 'label', 
+			html : getNeighborhoodLabelHTML(feature.id, feature.properties.name), //label css also needs to be customized to each neghborhood (some polygons are small and need a smaller font)
+			iconSize : [ 100, 35 ]
+		})
+	}).addTo(map);
+
+	// // neighborhood related events (onClick, Hover etc.)
+	// layer.on({
+	// 	mousemove : mousemove,
+	// 	mouseout : mouseout,
+	// 	click : click
+	// });
+
+	//label related events:
+	//On label hover: the polygon fill color switchs to gold and the neighborhood count label switches to dark grey 
+	label.on('mouseover',function(e) {
+		document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
+		layer.setStyle({
+			weight : 3,
+			opacity : 0.5,
+			fillColor : '#c8a45e',
+			fillOpacity : 0.8,
+		});
+	});
+	
+
+	//On mouse out
+	// label.on('mouseout', function(e) {
+	// 	layer.fireEvent("mouseout");
+	// });
+	// 
+	// //On mouse click
+	// label.on('click', function(e) {
+	// 	layer.fireEvent("click");
+	// });
+}
+
+function fetchFilteredDeals(neighborhood, day, time) {
+	$.get("/fetch_filtered_deals/?neighborhood=" + neighborhood + "&day=" + day + "&time=" + time, function(data) {
+		console.log(data);
+	});
+}
+
 
 //Create custom markers
 var restaurant_marker = L.icon({
@@ -88,17 +252,7 @@ var cluster = new L.MarkerClusterGroup({ polygonOptions: {
 var lastMarker,//used for reseting the style of the previously clicked marker 
  	geoJsonData,neighborhoods,deals;
 
-function fetchFilteredDeals(neighborhood, day, time) {
-	$.get("/fetch_filtered_deals/?neighborhood=" + neighborhood + "&day=" + day + "&time=" + time, function(data) {
-		console.log(data);
-	});
-}
 
-function loadRegionalView() {
-	$.get("/fetch_location_counts_by_neighborhood", function(data) {
-		console.log(data);
-	});
-}
 
 // function fetchData(time, dayIndex) {
 // 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
@@ -420,222 +574,160 @@ metroLayer.on('layeradd', function(e) {
 });
 
 /***DC Neighborhoods***/
-var dcnLayer = L.geoJson(dcn, { //dcn is defined in dcn.js
-	style : getStyle,
-	onEachFeature : onEachFeature
-}).addTo(map);
-
-var lastLayer, lastLabel, //those 2 are used to reset the previously selected neighborhood
-	css, id, neighborhood; 
-
-function getStyle(feature) { //neighborhood polygon style 
-	return {
-		weight : 2,
-		opacity : 0.5,
-		color : '#c8a45e',
-		fillOpacity : 0.8,
-		fillColor : 'rgb(35, 40, 43)',
-	};
-}
-
-function onEachFeature(feature, layer) {
-	// add neighborhood names to each polygon
-	//label location needs to be customized to each neighborhood (refer to labelLocation for more info)
-	var label = L.marker(labelLocation(layer, feature), {
-		icon : L.divIcon({
-			className : 'label', 
-			html : getHTML(feature.id, feature.properties.name), //label css also needs to be customized to each neghborhood (some polygons are small and need a smaller font)
-			iconSize : [ 100, 35 ]
-		})
-	}).addTo(map);
-
-	// neighborhood related events (onClick, Hover etc.)
-	layer.on({
-		mousemove : mousemove,
-		mouseout : mouseout,
-		click : click
-	});
-
-	//label related events:
-	//On label hover: the polygon fill color switchs to gold and the neighborhood count label switches to dark grey 
-	label.on('mouseover',function(e) {
-			document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
-			layer.setStyle({
-				weight : 3,
-				opacity : 0.5,
-				fillColor : '#c8a45e',
-				fillOpacity : 0.8,
-		    });
-	});
-
-	//On mouse out
-	label.on('mouseout', function(e) {
-		layer.fireEvent("mouseout");
-	});
-
-	//On mouse click
-	label.on('click', function(e) {
-		layer.fireEvent("click");
-	});
-}
-
-/*On Polygon/label click do the following:
-1) if the right menu is shown, hide it
-2) reset the style of any previously selected neighborhood
-3) remove all css related style from the newly selected neighborhood and disable its related events 
-4) zoom into the newly selected neighborhood
-5) load markers and metro stations related to the selected neighborhood*/
-function click(e) {
-     $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
-     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
-     $(".sliding").animate({ right: "0"} , 700);
-     $menu_visible=false;
-
-    css=document.getElementsByClassName("label");
-
-    /*if anohter neighborhood is already selected:
-    - reset its polygon style 
-    - enable its events (mouseover,mouseout and click
-    - reset its label's style (color, show the label)*/
-    if(lastLayer != undefined){
-            dcnLayer.resetStyle(lastLayer);
-            lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
-            document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
-            id=parseInt(lastLayer.feature.id)-1;
-            css[id].style.display="block";
-        }
-
-    //Onclick: disable all events
-    e.target.off({mousemove:false, mouseout:false,click:false});
-    e.target.setStyle({fillOpacity: 0}); // remove polygon style
-    id=parseInt(e.target.feature.id)-1;
-    css[id].style.display="none"; //remove label
-    lastLayer=e.target;
-    neighborhood=e.target.feature.properties.name; 
-    map.fitBounds(getBounds(e.target));//zoom into Polygon
- 	cluster.clearLayers(); //clear any previous markr stored in the cluster group 
-    updateNeighborhoodData(); //load related markers and metro stations 
-	}
-
-	function updateNeighborhoodData(){
-	myLayer.setGeoJSON(geoJsonData); //load markers data to myLayer
-	metroLayer.setGeoJSON(metro); //load metro station data to metroLayer (//metro is defined in dc-metro.js)
-    if(neighborhood_on){
-    myLayer.setFilter(function(f) { //filter this layer so it only contains the markers within a specfic neighborhood
-        return f.properties["neighborhood"] === neighborhood;});
-    metroLayer.setFilter(function(f) {//filter this layer so it only contains the stations within a specfic neighborhood
-    	return f.properties["NEIGHBORHOOD"] === neighborhood;});
-	}
-    else{
-    	clearNeighborhood();
-    }
-
-    //var randPop = randomProperty(myLayer._layers) (This feature was only created to show potential venue partners how we would monetize. No need to use this now for beta/production with end-users)
-	}
-
-	var randomProperty = function (obj) {
-	    var keys = Object.keys(obj)
-	    var randPop = obj[keys[ keys.length * Math.random() << 0]];
-	    if(randPop){
-	    	randPop.openPopup();
-	    }
-
-	};
-
-//On Polygon hover: the polygon fill color switchs to gold and the neighborhood count label switches to dark grey 
-function mousemove(e) {
-	var layer = e.target;
-	document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
-
-	// Highlight the neighborhood when mouse moves in the polygon
-	layer.setStyle({
-		weight : 3,
-		opacity : 0.5,
-		fillColor : '#c8a45e',
-		fillOpacity : 0.8,
-	});
-
-	if (!L.Browser.ie && !L.Browser.opera) {
-		layer.bringToFront();
-	}
-}
-
-//on mouse out: reset neighobrohood style
-function mouseout(e) {
-	dcnLayer.resetStyle(e.target);
-	document.getElementById(e.target.feature.id).style.color = "#c8a45e";
-}
-
-function labelLocation (l,f){
-    //had to manually adjust the label location of few polygons
-    return f.id == 3 ? L.latLng(38.927526, -77.070867): //Freindship Heights
-         f.id == 2 ? L.latLng(38.930150, -77.093441): //East DC
-         f.id == 10 ? L.latLng(38.910328, -77.042245): //Dupont Circle
-         f.id == 13 ? L.latLng(38.911111, -77.031433): //Logan Circle
-         f.id == 14 ? L.latLng(38.916820, -77.030761): //u street
-         f.id == 15 ? L.latLng(38.872020, -77.012171): //Waterfront
-         f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
-         f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
-          l.getBounds().getCenter();
-}
-
-function getBounds(e) {
-	//had to manually adjust the polygon maxBounds of few neighborhoods
-	return e.feature.id == 1 ? L.latLngBounds([ 38.927309, -77.109718 ], [
-			38.985176, -77.003803 ]) : e.feature.id == 3 ? L.latLngBounds([
-			38.913442, -77.090021 ], [ 38.938577, -77.044096 ])
-			: e.feature.id == 5 ? L.latLngBounds([ 38.902295, -77.046826 ], [
-					38.960317, -76.939709 ]) : e.feature.id == 11 ? L
-					.latLngBounds([ 38.894218, -77.060449 ], [ 38.907131,
-							-77.036954 ]) : e.feature.id == 17 ? L
-					.latLngBounds([ 38.886004, -77.018576 ], [ 38.914693,
-							-76.965533 ]) : e.getBounds();
-}
-
-//label css (customized to each neighborhood based on the polygon size, location etc)(
-//is there a better way to write this function?
-function getHTML(e,d) {
-	return (e == 1) || (e==2) || (e==5) || (e==16) ? "<div class='map_labels' style='font-size:18px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" : //north DC(16), west dc(5),east dc(24) and east of the river(2)
-	(e == 3) || (e == 6) || (e == 7) || (e == 8) || (e == 12) ? "<div class='map_labels' style='font-size:16px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Friendship Heights(33),shaw(18),Capitol hill (38), downtown(155), georgetown(28)
-	e == 9 ?  "<div class='map_labels' style='font-size:14px;'>Columbia <br/>Heights<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Columbia Heights
-	e == 10 ? "<div class='map_labels' style='font-size:14px;'>Dupont <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //Dupont Circle
-	e == 4  ? "<div class='map_labels' style='font-size:13px;'>Adams <br/>Morgan<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Adams Morgan
-	e == 13 ? "<div class='map_labels' style='font-size:13px;'>Logan <br/> Circle<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" :  //Logan Circle
-	(e == 14) || (e==15) ? "<div class='map_labels' style='font-size:14px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>":  //u street(40), Waterfront(10)
-	"<div class='map_labels' style='font-size:13px;'>"+d+"<div class='bar_num_labels' data-neighborhood='"+d+"' id='"+e+"'><div/></div>" //foggy bottom(40) and h street (27)
-}
+// var dcnLayer = L.geoJson(dcn, { //dcn is defined in dcn.js
+// 	style : getStyle,
+// 	onEachFeature : onEachFeature
+// }).addTo(map);
+// 
+// var lastLayer, lastLabel, //those 2 are used to reset the previously selected neighborhood
+// 	css, id, neighborhood; 
+// 
 
 
-//clear neighborhood
-var neighborhood_on=true;
-function clearNeighborhood(){
-	map.removeLayer(dcnLayer);
-	$(".map_labels").hide();
-	$(".bar_num_labels").hide();
-
-    myLayer.setFilter(function() { 
-        return true;
-    });
-    cluster.clearLayers();
-    cluster.addLayer(myLayer).addTo(map);
-    neighborhood_on=false;	
-}
-
-//add neighborhood
-function addNeighborhood(){
-	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
-	cluster.clearLayers();
-    myLayer.setFilter(function(f) {
-            return false;
-        });
-    metroLayer.setFilter(function(f) {
-            return false;
-        });
-	map.addLayer(dcnLayer);
-	$(".map_labels").show();
-	$(".bar_num_labels").show();
-    neighborhood_on=true;
-}
+// /*On Polygon/label click do the following:
+// 1) if the right menu is shown, hide it
+// 2) reset the style of any previously selected neighborhood
+// 3) remove all css related style from the newly selected neighborhood and disable its related events 
+// 4) zoom into the newly selected neighborhood
+// 5) load markers and metro stations related to the selected neighborhood*/
+// function click(e) {
+//      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+//      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+//      $(".sliding").animate({ right: "0"} , 700);
+//      $menu_visible=false;
+// 
+//     css=document.getElementsByClassName("label");
+// 
+//     /*if anohter neighborhood is already selected:
+//     - reset its polygon style 
+//     - enable its events (mouseover,mouseout and click
+//     - reset its label's style (color, show the label)*/
+//     if(lastLayer != undefined){
+//             dcnLayer.resetStyle(lastLayer);
+//             lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
+//             document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
+//             id=parseInt(lastLayer.feature.id)-1;
+//             css[id].style.display="block";
+//         }
+// 
+//     //Onclick: disable all events
+//     e.target.off({mousemove:false, mouseout:false,click:false});
+//     e.target.setStyle({fillOpacity: 0}); // remove polygon style
+//     id=parseInt(e.target.feature.id)-1;
+//     css[id].style.display="none"; //remove label
+//     lastLayer=e.target;
+//     neighborhood=e.target.feature.properties.name; 
+//     map.fitBounds(getBounds(e.target));//zoom into Polygon
+//  	cluster.clearLayers(); //clear any previous markr stored in the cluster group 
+//     updateNeighborhoodData(); //load related markers and metro stations 
+// 	}
+// 
+// 	function updateNeighborhoodData(){
+// 	myLayer.setGeoJSON(geoJsonData); //load markers data to myLayer
+// 	metroLayer.setGeoJSON(metro); //load metro station data to metroLayer (//metro is defined in dc-metro.js)
+//     if(neighborhood_on){
+//     myLayer.setFilter(function(f) { //filter this layer so it only contains the markers within a specfic neighborhood
+//         return f.properties["neighborhood"] === neighborhood;});
+//     metroLayer.setFilter(function(f) {//filter this layer so it only contains the stations within a specfic neighborhood
+//     	return f.properties["NEIGHBORHOOD"] === neighborhood;});
+// 	}
+//     else{
+//     	clearNeighborhood();
+//     }
+// 
+//     //var randPop = randomProperty(myLayer._layers) (This feature was only created to show potential venue partners how we would monetize. No need to use this now for beta/production with end-users)
+// 	}
+// 
+// 	var randomProperty = function (obj) {
+// 	    var keys = Object.keys(obj)
+// 	    var randPop = obj[keys[ keys.length * Math.random() << 0]];
+// 	    if(randPop){
+// 	    	randPop.openPopup();
+// 	    }
+// 
+// 	};
+// 
+// //On Polygon hover: the polygon fill color switchs to gold and the neighborhood count label switches to dark grey 
+// function mousemove(e) {
+// 	var layer = e.target;
+// 	document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
+// 
+// 	// Highlight the neighborhood when mouse moves in the polygon
+// 	layer.setStyle({
+// 		weight : 3,
+// 		opacity : 0.5,
+// 		fillColor : '#c8a45e',
+// 		fillOpacity : 0.8,
+// 	});
+// 
+// 	if (!L.Browser.ie && !L.Browser.opera) {
+// 		layer.bringToFront();
+// 	}
+// }
+// 
+// //on mouse out: reset neighobrohood style
+// function mouseout(e) {
+// 	dcnLayer.resetStyle(e.target);
+// 	document.getElementById(e.target.feature.id).style.color = "#c8a45e";
+// }
+// 
+// function labelLocation (l,f){
+//     //had to manually adjust the label location of few polygons
+//     return f.id == 3 ? L.latLng(38.927526, -77.070867): //Freindship Heights
+//          f.id == 2 ? L.latLng(38.930150, -77.093441): //East DC
+//          f.id == 10 ? L.latLng(38.910328, -77.042245): //Dupont Circle
+//          f.id == 13 ? L.latLng(38.911111, -77.031433): //Logan Circle
+//          f.id == 14 ? L.latLng(38.916820, -77.030761): //u street
+//          f.id == 15 ? L.latLng(38.872020, -77.012171): //Waterfront
+//          f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
+//          f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
+//           l.getBounds().getCenter();
+// }
+// 
+// function getBounds(e) {
+// 	//had to manually adjust the polygon maxBounds of few neighborhoods
+// 	return e.feature.id == 1 ? L.latLngBounds([ 38.927309, -77.109718 ], [
+// 			38.985176, -77.003803 ]) : e.feature.id == 3 ? L.latLngBounds([
+// 			38.913442, -77.090021 ], [ 38.938577, -77.044096 ])
+// 			: e.feature.id == 5 ? L.latLngBounds([ 38.902295, -77.046826 ], [
+// 					38.960317, -76.939709 ]) : e.feature.id == 11 ? L
+// 					.latLngBounds([ 38.894218, -77.060449 ], [ 38.907131,
+// 							-77.036954 ]) : e.feature.id == 17 ? L
+// 					.latLngBounds([ 38.886004, -77.018576 ], [ 38.914693,
+// 							-76.965533 ]) : e.getBounds();
+// }
+// 
+// 
+// //clear neighborhood
+// var neighborhood_on=true;
+// function clearNeighborhood(){
+// 	map.removeLayer(dcnLayer);
+// 	$(".map_labels").hide();
+// 	$(".bar_num_labels").hide();
+// 
+//     myLayer.setFilter(function() { 
+//         return true;
+//     });
+//     cluster.clearLayers();
+//     cluster.addLayer(myLayer).addTo(map);
+//     neighborhood_on=false;	
+// }
+// 
+// //add neighborhood
+// function addNeighborhood(){
+// 	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
+// 	cluster.clearLayers();
+//     myLayer.setFilter(function(f) {
+//             return false;
+//         });
+//     metroLayer.setFilter(function(f) {
+//             return false;
+//         });
+// 	map.addLayer(dcnLayer);
+// 	$(".map_labels").show();
+// 	$(".bar_num_labels").show();
+//     neighborhood_on=true;
+// }
 
 /****Zoom in/Zoom out and Neighborhood Zoom functions ****/
 var zoom;
