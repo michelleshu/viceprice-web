@@ -65,107 +65,127 @@ function getNeighborhoodOverviewStyle(feature) {
 }
 
 function displayNeighborhoodOverview(feature, layer) {
-	
-	function getLabelLocation (l,f){
-	    //had to manually adjust the label location of few polygons
-	    return f.id == 3 ? L.latLng(38.927526, -77.070867): //Friendship Heights
-	         f.id == 2 ? L.latLng(38.930150, -77.093441): //East DC
-	         f.id == 10 ? L.latLng(38.910328, -77.042245): //Dupont Circle
-	         f.id == 13 ? L.latLng(38.911111, -77.031433): //Logan Circle
-	         f.id == 14 ? L.latLng(38.916820, -77.030761): //u street
-	         f.id == 15 ? L.latLng(38.872020, -77.012171): //Waterfront
-	         f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
-	         f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
-	         l.getBounds().getCenter();
+	// Set neighborhood label positions
+	function getLabelLocation (label, feature) {
+		switch(parseInt(feature.id)) {
+			case 2:
+				return L.latLng(38.932, -77.095); // West DC
+			case 3:
+				return L.latLng(38.928, -77.068); // Friendship Heights
+			case 4:
+				return L.latLng(38.928, -77.039); // Adams Morgan
+			case 5:
+				return L.latLng(38.932, -76.990); // East DC
+			case 6:
+				return L.latLng(38.907, -77.012); // Shaw
+			case 9:
+				return L.latLng(38.928, -77.027); // Columbia Heights
+			case 10:
+				return L.latLng(38.911, -77.038); // Dupont Circle
+			case 11:
+				return L.latLng(38.895, -77.048); // Foggy Bottom
+			case 13:
+				return L.latLng(38.911, -77.027); // Logan Circle
+			case 14:
+				return L.latLng(38.916, -77.028); // U Street
+			case 15:
+				return L.latLng(38.875, -77.010); // Waterfront
+			case 16:
+				return L.latLng(38.874, -76.960); // South East
+			case 17:
+				return L.latLng(38.900, -76.986); // H Street
+			default:
+				return label.getBounds().getCenter();
+		}
 	}
-
+	
+	// Set neighborhood label style
 	function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 		var fontSize;
 		var displayName;
 		
 		switch(parseInt(neighborhoodId)) {
 			case 1:
-				fontSize = 18;
+				fontSize = 1.2;
 				displayName = "North DC";
 				break;
 			case 2:
-				fontSize = 18;
+				fontSize = 1.2;
 				displayName = "West DC";
 				break;
 			case 3:
-				fontSize = 16;
+				fontSize = 0.85;
 				displayName = "Friendship Heights";
 				break;
 			case 4:
-				fontSize = 13;
+				fontSize = 0.85;
 				displayName = "Adams<br/>Morgan";
 				break;
 			case 5:
-				fontSize = 18;
+				fontSize = 1.2;
 				displayName = "East DC";
 				break;
 			case 6:
-				fontSize = 16;
+				fontSize = 0.85;
 				displayName = "Shaw";
 				break;
 			case 7:
-				fontSize = 16;
+				fontSize = 0.85;
 				displayName = "Capitol Hill";
 				break;
 			case 8:
-				fontSize = 16;
+				fontSize = 0.85;
 				displayName = "Downtown";
 				break;
 			case 9:
-				fontSize = 14;
+				fontSize = 0.85;
 				displayName = "Columbia<br/>Heights";
 				break;
 			case 10:
-				fontSize = 14;
+				fontSize = 0.85;
 				displayName = "Dupont<br/>Circle";
 				break;
 			case 11:
-				fontSize = 13;
+				fontSize = 0.85;
 				displayName = "Foggy Bottom";
 				break;
 			case 12:
-				fontSize = 16;
+				fontSize = 0.85;
 				displayName = "Georgetown"
 				break;
 			case 13:
-				fontSize = 13;
+				fontSize = 0.85;
 				displayName = "Logan<br/>Circle";
 				break;
 			case 14:
-				fontSize = 14;
+				fontSize = 0.85;
 				displayName = "U Street";
 				break;
 			case 15:
-				fontSize = 14;
+				fontSize = 0.85;
 				displayName = "Waterfront";
 				break;
 			case 16:
-				fontSize = 18;
+				fontSize = 1.2;
 				displayName = "East of the River";
 				break;
 			case 17:
-				fontSize = 13;
+				fontSize = 0.85;
 				displayName = "H Street";
 				break;
 			default:
 				break;
 		}
 		
-		return "<div class='neighborhood-label' style='font-size: " + fontSize + "px;'></div>" + displayName + 
-			"<div class='location-count-label' data-neighborhood='" + neighborhoodName + "' id='" + neighborhoodId + "'></div>";
+		return "<div class='neighborhood-label' style='font-size: " + fontSize + "rem;'>" + displayName + 
+			"</div><div class='location-count-label' data-neighborhood='" + neighborhoodName + "' id='" + neighborhoodId + "'></div>";
 	}
 	
 	// add neighborhood names to each polygon
-	// label location needs to be customized to each neighborhood (refer to labelLocation for more info)
 	var label = L.marker(getLabelLocation(layer, feature), {
 		icon : L.divIcon({
 			className : 'label', 
-			html : getNeighborhoodLabelHTML(feature.id, feature.properties.name), //label css also needs to be customized to each neghborhood (some polygons are small and need a smaller font)
+			html : getNeighborhoodLabelHTML(feature.id, feature.properties.name),
 			iconSize : [ 100, 35 ]
 		})
 	}).addTo(map);
@@ -778,31 +798,31 @@ $("#zoom-out").click(function() {
 - if the zoom level is 17 or 18, disable the cluster feature and show unclustered markers
 - if the zoom level is 13-16, cluster feature kicks in
 */
-map.on('move', function() {
-    zoom = map.getZoom();
-    if (zoom == 13) {
-     $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
-     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
-     $(".sliding").animate({ right: "0"} , 700);
-     $menu_visible=false;
- 	}
-
- 	if(!neighborhood_on){
- 		if(zoom ==13)
-    		metroLayer.setFilter(function(f) {return false;});
-		else
-    	metroLayer.setFilter(function() {return true;});
-    }
-
-    if((zoom == 17) || (zoom ==18))
-    {
-    	cluster.clearLayers();
-    	map.addLayer(myLayer);
-    }
-    else
-    {
-    	map.removeLayer(myLayer);
-    	cluster.addLayer(myLayer);
-    	map.addLayer(cluster);
-    }
-});
+// map.on('move', function() {
+//     zoom = map.getZoom();
+//     if (zoom == 13) {
+//      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+//      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+//      $(".sliding").animate({ right: "0"} , 700);
+//      $menu_visible=false;
+//  	}
+// 
+//  	if(!neighborhood_on){
+//  		if(zoom ==13)
+//     		metroLayer.setFilter(function(f) {return false;});
+// 		else
+//     	metroLayer.setFilter(function() {return true;});
+//     }
+// 
+//     if((zoom == 17) || (zoom ==18))
+//     {
+//     	cluster.clearLayers();
+//     	map.addLayer(myLayer);
+//     }
+//     else
+//     {
+//     	map.removeLayer(myLayer);
+//     	cluster.addLayer(myLayer);
+//     	map.addLayer(cluster);
+//     }
+// });
