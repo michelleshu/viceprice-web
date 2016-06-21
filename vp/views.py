@@ -167,6 +167,8 @@ def fetch_location_counts_by_neighborhood(request):
     query = "SELECT ld.neighborhood, count(*) AS count \
         FROM (" + inner_query + ") ld \
         GROUP BY ld.\"neighborhood\""
+        
+    print(query)
     
     cursor = connection.cursor()
     cursor.execute(query)

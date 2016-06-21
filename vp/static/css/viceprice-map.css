@@ -449,16 +449,16 @@ cursor: pointer;
 
     /*******Neighborhood labels*********/
 
-    .map_labels{
+    .neighborhood-label {
     color:white;
     font-family: Montserrat;
     text-align:center;
     }
 
-    .bar_num_labels{
-    margin-top: 1px;
+    .location-count-label {
+    margin-top: 0.2rem;
     color:#c8a45e;
-    font-size:10px;
+    font-size:0.7rem;
     font-family: Montserrat;
     text-align:center;
     }
