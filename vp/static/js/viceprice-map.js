@@ -1,6 +1,7 @@
 // MAPBOX
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 var map;
+var neighborhoodLayer;
 
 // TIME FILTERS
 var selectedDay = null;
@@ -39,9 +40,9 @@ function loadMap() {
 function loadRegionalView(callback) {
 	$.getJSON("static/json/neighborhood-polygons.json")
 		.done(function(data) {
-			L.geoJson(data, {
-				style: getNeighborhoodOverviewStyle,
-				onEachFeature: displayNeighborhoodOverview
+			neighborhoodLayer = L.geoJson(data, {
+				style: getNeighborhoodFeatureStyle,
+				onEachFeature: displayNeighborhoodFeature
 			}).addTo(map);
 			populateLocationCountsByNeighborhood();
 		});
@@ -66,7 +67,7 @@ function populateLocationCountsByNeighborhood() {
 	});
 }
 
-function getNeighborhoodOverviewStyle(feature) {
+function getNeighborhoodFeatureStyle(feature) {
 	return {
 		weight : 2,
 		opacity : 0.5,
@@ -76,9 +77,9 @@ function getNeighborhoodOverviewStyle(feature) {
 	};
 }
 
-function displayNeighborhoodOverview(feature, layer) {
+function displayNeighborhoodFeature(feature, layer) {
 	// Set neighborhood label positions
-	function getLabelLocation (label, feature) {
+	function getLabelLocation () {
 		switch(parseInt(feature.id)) {
 			case 2:
 				return L.latLng(38.932, -77.095); // West DC
@@ -105,7 +106,7 @@ function displayNeighborhoodOverview(feature, layer) {
 			case 17:
 				return L.latLng(38.900, -76.986); // H Street
 			default:
-				return label.getBounds().getCenter();
+				return layer.getBounds().getCenter();
 		}
 	}
 	
@@ -131,47 +132,45 @@ function displayNeighborhoodOverview(feature, layer) {
 		}
 		
 		return "<div class='neighborhood-label' style='font-size: 0.85rem;'>" + displayName + 
-			"</div><div class='location-count-label' data-neighborhood='" + neighborhoodName + "' id='" + neighborhoodId + "'></div>";
+			"</div><div class='location-count-label' data-neighborhood='" + neighborhoodName + "' id='neighborhood-label-" + neighborhoodId + "'></div>";
 	}
 	
-	// add neighborhood names to each polygon
-	var label = L.marker(getLabelLocation(layer, feature), {
+	// Event Handlers
+	layer.on('mouseover', function(e) {
+		// Darken neighborhood label color
+		$('#neighborhood-label-' + feature.id)[0].style.color = 'rgb(35, 40, 43)';
+		// Lighten background color
+		layer.setStyle({
+			weight : 3,
+			opacity : 0.5,
+			fillColor : 'rgb(200, 164, 94)',
+			fillOpacity : 0.8
+		});
+	});
+	
+	layer.on('mouseout', function(e) {
+		// Lighten neighborhood label color
+		$('#neighborhood-label-' + feature.id)[0].style.color = 'rgb(200, 164, 94)';
+		// Darken background color
+		layer.setStyle({
+			weight : 2,
+			opacity : 0.5,
+			fillOpacity : 0.8,
+			fillColor : 'rgb(35, 40, 43)'
+		});
+	});
+	
+	// Neighborhood Name Label
+	var label = L.marker(getLabelLocation(), {
 		icon : L.divIcon({
 			className : 'label', 
 			html : getNeighborhoodLabelHTML(feature.id, feature.properties.name),
 			iconSize : [ 100, 35 ]
 		})
 	}).addTo(map);
-
-	// // neighborhood related events (onClick, Hover etc.)
-	// layer.on({
-	// 	mousemove : mousemove,
-	// 	mouseout : mouseout,
-	// 	click : click
-	// });
-
-	//label related events:
-	//On label hover: the polygon fill color switchs to gold and the neighborhood count label switches to dark grey 
-	label.on('mouseover',function(e) {
-		document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
-		layer.setStyle({
-			weight : 3,
-			opacity : 0.5,
-			fillColor : '#c8a45e',
-			fillOpacity : 0.8,
-		});
-	});
 	
-
-	//On mouse out
-	// label.on('mouseout', function(e) {
-	// 	layer.fireEvent("mouseout");
-	// });
-	// 
-	// //On mouse click
-	// label.on('click', function(e) {
-	// 	layer.fireEvent("click");
-	// });
+	label.on('mouseover',function(e) { layer.fireEvent('mouseover'); });
+	label.on('mouseout', function(e) { layer.fireEvent('mouseout'); });
 }
 
 function fetchFilteredDeals(neighborhood, day, time) {
@@ -619,56 +618,6 @@ metroLayer.on('layeradd', function(e) {
 // 	    }
 // 
 // 	};
-// 
-// //On Polygon hover: the polygon fill color switchs to gold and the neighborhood count label switches to dark grey 
-// function mousemove(e) {
-// 	var layer = e.target;
-// 	document.getElementById(layer.feature.id).style.color = "rgb(35, 40, 43)";
-// 
-// 	// Highlight the neighborhood when mouse moves in the polygon
-// 	layer.setStyle({
-// 		weight : 3,
-// 		opacity : 0.5,
-// 		fillColor : '#c8a45e',
-// 		fillOpacity : 0.8,
-// 	});
-// 
-// 	if (!L.Browser.ie && !L.Browser.opera) {
-// 		layer.bringToFront();
-// 	}
-// }
-// 
-// //on mouse out: reset neighobrohood style
-// function mouseout(e) {
-// 	dcnLayer.resetStyle(e.target);
-// 	document.getElementById(e.target.feature.id).style.color = "#c8a45e";
-// }
-// 
-// function labelLocation (l,f){
-//     //had to manually adjust the label location of few polygons
-//     return f.id == 3 ? L.latLng(38.927526, -77.070867): //Freindship Heights
-//          f.id == 2 ? L.latLng(38.930150, -77.093441): //East DC
-//          f.id == 10 ? L.latLng(38.910328, -77.042245): //Dupont Circle
-//          f.id == 13 ? L.latLng(38.911111, -77.031433): //Logan Circle
-//          f.id == 14 ? L.latLng(38.916820, -77.030761): //u street
-//          f.id == 15 ? L.latLng(38.872020, -77.012171): //Waterfront
-//          f.id == 16 ? L.latLng(38.874071, -76.960545): //South east
-//          f.id == 17 ? L.latLng(38.900487, -76.986962):  //h street
-//           l.getBounds().getCenter();
-// }
-// 
-// function getBounds(e) {
-// 	//had to manually adjust the polygon maxBounds of few neighborhoods
-// 	return e.feature.id == 1 ? L.latLngBounds([ 38.927309, -77.109718 ], [
-// 			38.985176, -77.003803 ]) : e.feature.id == 3 ? L.latLngBounds([
-// 			38.913442, -77.090021 ], [ 38.938577, -77.044096 ])
-// 			: e.feature.id == 5 ? L.latLngBounds([ 38.902295, -77.046826 ], [
-// 					38.960317, -76.939709 ]) : e.feature.id == 11 ? L
-// 					.latLngBounds([ 38.894218, -77.060449 ], [ 38.907131,
-// 							-77.036954 ]) : e.feature.id == 17 ? L
-// 					.latLngBounds([ 38.886004, -77.018576 ], [ 38.914693,
-// 							-76.965533 ]) : e.getBounds();
-// }
 // 
 // 
 // //clear neighborhood
