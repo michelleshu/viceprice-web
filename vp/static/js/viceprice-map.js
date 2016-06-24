@@ -37,7 +37,7 @@ function loadMap() {
 }
 
 // LOAD REGIONAL (NEIGHBORHOOD OVERVIEW) VIEW
-function loadRegionalView(callback) {
+function loadRegionalView() {
 	$.getJSON("static/json/neighborhood-polygons.json")
 		.done(function(data) {
 			neighborhoodLayer = L.geoJson(data, {
@@ -160,6 +160,10 @@ function displayNeighborhoodFeature(feature, layer) {
 		});
 	});
 	
+	layer.on('click', function(e) {
+		loadSingleNeighborhoodView(feature.properties.name);
+	});
+	
 	// Neighborhood Name Label
 	var label = L.marker(getLabelLocation(), {
 		icon : L.divIcon({
@@ -171,16 +175,26 @@ function displayNeighborhoodFeature(feature, layer) {
 	
 	label.on('mouseover',function(e) { layer.fireEvent('mouseover'); });
 	label.on('mouseout', function(e) { layer.fireEvent('mouseout'); });
+	label.on('click', function(e) { layer.fireEvent('click'); });
 }
 
-function fetchFilteredDeals(neighborhood, day, time) {
-	$.get("/fetch_filtered_deals/?neighborhood=" + neighborhood + "&day=" + day + "&time=" + time, function(data) {
+
+// LOAD VIEW FOR SINGLE NEIGHBORHOOD
+function loadSingleNeighborhoodView(neighborhood) {
+	var queryString = "?neighborhood=" + neighborhood;
+	if (selectedDay) {
+		queryString += "&day=" + selectedDay;
+		
+		if (selectedTime) {
+			queryString += "&time=" + selectedTime;
+		}
+	}
+
+	$.get("/fetch_filtered_deals" + queryString, function(data) {
 		console.log(data);
 	});
 }
-
-
-//Create custom markers
+// Custom Markers
 var restaurant_marker = L.icon({
     iconUrl: '../static/img/restaurant-marker.png',
     iconSize:     [37, 42], // size of the icon in pixels
@@ -224,34 +238,6 @@ var cluster = new L.MarkerClusterGroup({ polygonOptions: {
 var lastMarker,//used for reseting the style of the previously clicked marker 
  	geoJsonData,neighborhoods,deals;
 
-
-
-// function fetchData(time, dayIndex) {
-// 	$.get("/fetch/?time=" + time, { day: dayIndex }, function(data) {
-// 		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
-// 		neighborhoods = data.neighborhoods;
-// 		deals = data.deals;
-// 		updateHappyHours();
-// 		updateNeighborhoodData();
-// 	});
-// }
-// 
-// function fetchDay(dayIndex) {
-// 	$.get("/fetch/?day=" + dayIndex, function(data) {
-// 		geoJsonData = data.json; //markers data: location coor, name , sub categories etc..
-// 		neighborhoods = data.neighborhoods;
-// 		deals = data.deals;
-// 		updateHappyHours();
-// 		updateNeighborhoodData();
-// 	});
-// }
-// 
-// function updateHappyHours(){
-// 	$('.bar_num_labels').text("( 0 )"); //this indicates that no venues are avilable wihtin a neighborhood 
-// 	$(neighborhoods).each(function(index,data){//otherwise, show the number of available venues 
-// 	    	$("div[data-neighborhood='"+data.neighborhood+"']").text("( " + data.count + " )")
-// 	});
-// }
 
 /*Once this layer is loaded do the following:
 1)Create a custom popup that contains venues' info (name, subcategory, happhour time and best deals)
@@ -606,18 +592,7 @@ metroLayer.on('layeradd', function(e) {
 //     else{
 //     	clearNeighborhood();
 //     }
-// 
-//     //var randPop = randomProperty(myLayer._layers) (This feature was only created to show potential venue partners how we would monetize. No need to use this now for beta/production with end-users)
-// 	}
-// 
-// 	var randomProperty = function (obj) {
-// 	    var keys = Object.keys(obj)
-// 	    var randPop = obj[keys[ keys.length * Math.random() << 0]];
-// 	    if(randPop){
-// 	    	randPop.openPopup();
-// 	    }
-// 
-// 	};
+// }
 // 
 // 
 // //clear neighborhood
