@@ -449,18 +449,20 @@ cursor: pointer;
 
     /*******Neighborhood labels*********/
 
-    .neighborhood-label {
-    color:white;
-    font-family: Montserrat;
-    text-align:center;
+    .neighborhood-label .name-label {
+        color: white;
+        font-family: Montserrat;
+        text-align:center;
+        opacity: 0.7;
     }
 
-    .location-count-label {
-    margin-top: 0.2rem;
-    color:#c8a45e;
-    font-size:0.7rem;
-    font-family: Montserrat;
-    text-align:center;
+    .neighborhood-label .location-count-label {
+        margin-top: 0.2rem;
+        color: #c8a45e;
+        font-size:0.7rem;
+        font-family: Montserrat;
+        text-align:center;
+        opacity: 0.7;
     }
 
   /****tooltip css****/
