@@ -154,22 +154,29 @@ def fetch_filtered_deals(request):
     
     locations = []
     for row in rows:
-        if (len(locations) == 0 or int(row[0]) != locations[len(locations) - 1]["id"]):
-            locations.append({ 
-                "id": int(row[0]),
-                "name": row[1],
-                "latitude": float(row[2]), 
-                "longitude": float(row[3]),
-                "website": row[4], 
-                "happyHourWebsite": row[5], 
-                "street": row[6], 
-                "coverPhotoSource": row[7],
-                "coverXOffset": row[8], 
-                "coverYOffset": row[9],
-                "deals": []
+        if (len(locations) == 0 or int(row[0]) != locations[len(locations) - 1]["properties"]["id"]):
+            locations.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [float(row[3]), float(row[2])]
+                },
+                "properties": {
+                    "id": int(row[0]),
+                    "name": row[1],
+                    "latitude": float(row[2]), 
+                    "longitude": float(row[3]),
+                    "website": row[4], 
+                    "happyHourWebsite": row[5], 
+                    "street": row[6], 
+                    "coverPhotoSource": row[7],
+                    "coverXOffset": row[8], 
+                    "coverYOffset": row[9],
+                    "deals": []
+                }
             })
         
-        deals = locations[len(locations) - 1]["deals"]
+        deals = locations[len(locations) - 1]["properties"]["deals"]
         
         if (len(deals) == 0 or int(row[10]) != deals[len(deals) - 1]["id"]):
             start = None
@@ -192,9 +199,14 @@ def fetch_filtered_deals(request):
             "drinkCategory": row[14],
             "detailType": row[15],
             "value": row[16]
-        })     
+        })  
 
-    return JsonResponse({ "result": json.dumps(locations) })
+    return JsonResponse({ 
+        "result": json.dumps({
+            "type": "FeatureCollection",
+            "features": locations 
+        })
+    })
 
 def fetch_location_counts_by_neighborhood(request):
     time = request.GET.get('time')
@@ -350,11 +362,6 @@ def sandbox(request):
     context = {}
     context.update(csrf(request))
     return render_to_response('sandbox.html', context)
-
-#def blog(request):
-#    context = {}
-#    context.update(csrf(request))
-#    return render_to_response('blog.html', context)
 
 def index(request):
     context = {}

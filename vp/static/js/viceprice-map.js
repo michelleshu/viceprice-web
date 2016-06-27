@@ -1,7 +1,9 @@
 // MAPBOX
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 var map;
-var neighborhoodLayer;
+var neighborhoodPolygonLayer;
+var markerLayer;
+var hiddenNeighborhoodLayer;
 
 // TIME FILTERS
 var selectedDay = null;
@@ -33,19 +35,23 @@ function loadMap() {
 		// Use styleLayer to add a Mapbox style created in Mapbox Studio
 		L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 			.addTo(map);
+		
+		markerLayer = L.mapbox.featureLayer().addTo(map);
 	}
 }
 
 // LOAD REGIONAL (NEIGHBORHOOD OVERVIEW) VIEW
 function loadRegionalView() {
-	$.getJSON("static/json/neighborhood-polygons.json")
-		.done(function(data) {
-			neighborhoodLayer = L.geoJson(data, {
-				style: getNeighborhoodFeatureStyle,
-				onEachFeature: displayNeighborhoodFeature
-			}).addTo(map);
-			populateLocationCountsByNeighborhood();
-		});
+	if (!neighborhoodPolygonLayer) {
+		$.getJSON("static/json/neighborhood-polygons.json")
+			.done(function(data) {
+				neighborhoodPolygonLayer = L.geoJson(data, {
+					style: getNeighborhoodFeatureStyle,
+					onEachFeature: displayNeighborhoodFeature
+				}).addTo(map);
+				populateLocationCountsByNeighborhood();
+			});
+	}
 }
 
 function populateLocationCountsByNeighborhood() {
@@ -61,7 +67,7 @@ function populateLocationCountsByNeighborhood() {
 		var counts = JSON.parse(data["result"]);
 		
 		for (var neighborhood in counts) {
-			$(".location-count-label[data-neighborhood='" + neighborhood + "']")
+			$("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
 				.text("(" + counts[neighborhood] + ")");
 		}
 	});
@@ -70,102 +76,15 @@ function populateLocationCountsByNeighborhood() {
 function getNeighborhoodFeatureStyle(feature) {
 	return {
 		weight : 2,
-		opacity : 0.5,
 		color : '#c8a45e',
-		fillOpacity : 0.8,
+		fillOpacity : 0.7,
 		fillColor : 'rgb(35, 40, 43)'
 	};
 }
 
 function displayNeighborhoodFeature(feature, layer) {
-	// Set neighborhood label positions
-	function getLabelLocation () {
-		switch(parseInt(feature.id)) {
-			case 2:
-				return L.latLng(38.932, -77.095); // West DC
-			case 3:
-				return L.latLng(38.928, -77.068); // Friendship Heights
-			case 4:
-				return L.latLng(38.930, -77.043); // Adams Morgan
-			case 5:
-				return L.latLng(38.932, -76.990); // East DC
-			case 9:
-				return L.latLng(38.930, -77.030); // Columbia Heights
-			case 10:
-				return L.latLng(38.911, -77.042); // Dupont Circle
-			case 11:
-				return L.latLng(38.895, -77.048); // Foggy Bottom
-			case 13:
-				return L.latLng(38.911, -77.032); // Logan Circle
-			case 14:
-				return L.latLng(38.917, -77.031); // U Street
-			case 15:
-				return L.latLng(38.875, -77.010); // Waterfront
-			case 16:
-				return L.latLng(38.874, -76.960); // South East
-			case 17:
-				return L.latLng(38.900, -76.986); // H Street
-			default:
-				return layer.getBounds().getCenter();
-		}
-	}
-	
-	// Set neighborhood label style
-	function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
-		var displayName;
-		
-		switch(parseInt(neighborhoodId)) {
-			case 4:
-				displayName = "Adams<br/>Morgan";
-				break;
-			case 9:
-				displayName = "Columbia<br/>Heights";
-				break;
-			case 10:
-				displayName = "Dupont<br/>Circle";
-				break;
-			case 13:
-				displayName = "Logan<br/>Circle";
-				break;
-			default:
-				displayName = neighborhoodName;
-		}
-		
-		return "<div class='neighborhood-label' style='font-size: 0.85rem;'>" + displayName + 
-			"</div><div class='location-count-label' data-neighborhood='" + neighborhoodName + "' id='neighborhood-label-" + neighborhoodId + "'></div>";
-	}
-	
-	// Event Handlers
-	layer.on('mouseover', function(e) {
-		// Darken neighborhood label color
-		$('#neighborhood-label-' + feature.id)[0].style.color = 'rgb(35, 40, 43)';
-		// Lighten background color
-		layer.setStyle({
-			weight : 3,
-			opacity : 0.5,
-			fillColor : 'rgb(200, 164, 94)',
-			fillOpacity : 0.8
-		});
-	});
-	
-	layer.on('mouseout', function(e) {
-		// Lighten neighborhood label color
-		$('#neighborhood-label-' + feature.id)[0].style.color = 'rgb(200, 164, 94)';
-		// Darken background color
-		layer.setStyle({
-			weight : 2,
-			opacity : 0.5,
-			fillOpacity : 0.8,
-			fillColor : 'rgb(35, 40, 43)'
-		});
-	});
-	
-	layer.on('click', function(e) {
-		loadSingleNeighborhoodView(feature.properties.name);
-	});
-	
 	// Neighborhood Name Label
-	var label = L.marker(getLabelLocation(), {
+	var label = L.marker(getLabelLocation(feature, layer), {
 		icon : L.divIcon({
 			className : 'label', 
 			html : getNeighborhoodLabelHTML(feature.id, feature.properties.name),
@@ -173,9 +92,136 @@ function displayNeighborhoodFeature(feature, layer) {
 		})
 	}).addTo(map);
 	
+	// Event Handlers
+	layer.on('mouseover', function(e) {
+		// Darken neighborhood label color
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'rgb(35, 40, 43)';
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(35, 40, 43)';
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 1;
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 1;
+		
+		// Lighten background color
+		layer.setStyle({
+			weight : 3,
+			fillColor : 'rgb(200, 164, 94)',
+			fillOpacity : 0.85 
+		});
+	});
+	
+	layer.on('mouseout', function(e) {
+		// Lighten neighborhood label color
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
+		
+		// Darken background color
+		layer.setStyle({
+			weight : 2,
+			fillColor : 'rgb(35, 40, 43)',
+			fillOpacity : 0.7
+		});
+	});
+	
+	layer.on('click', function(e) {
+		if (hiddenNeighborhoodLayer) {
+			neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
+		}
+		hiddenNeighborhoodLayer = layer;
+		
+		// Lighten neighborhood label color
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
+		
+		// Darken background color
+		layer.setStyle({
+			weight : 2,
+			fillColor : 'rgb(35, 40, 43)',
+			fillOpacity : 0.7
+		});
+		
+		neighborhoodPolygonLayer.removeLayer(layer);
+		
+		$(".neighborhood-label").show();
+		$(".neighborhood-label[data-neighborhood-id='" + e.target.feature.id + "']").hide();
+		
+		map.fitBounds(e.target.getBounds());
+		// e.target.off({ mousemove: false, mouseout: false, click: false});
+		//     e.target.setStyle({fillOpacity: 0}); // remove polygon style
+		//     id=parseInt(e.target.feature.id)-1;
+		//     css[id].style.display="none"; //remove label
+		//     lastLayer=e.target;
+		//     neighborhood=e.target.feature.properties.name; 
+		//     map.fitBounds(getBounds(e.target));//zoom into Polygon
+		//  	cluster.clearLayers(); //clear any previous markr stored in the cluster group 
+		//     updateNeighborhoodData(); //load related markers and metro stations 
+		loadSingleNeighborhoodView(feature.properties.name);
+	});
+	
 	label.on('mouseover',function(e) { layer.fireEvent('mouseover'); });
 	label.on('mouseout', function(e) { layer.fireEvent('mouseout'); });
 	label.on('click', function(e) { layer.fireEvent('click'); });
+}
+
+// Set neighborhood label positions
+function getLabelLocation (feature, layer) {
+	switch(parseInt(feature.id)) {
+		case 2:
+			return L.latLng(38.932, -77.095); // West DC
+		case 3:
+			return L.latLng(38.928, -77.068); // Friendship Heights
+		case 4:
+			return L.latLng(38.930, -77.043); // Adams Morgan
+		case 5:
+			return L.latLng(38.932, -76.990); // East DC
+		case 9:
+			return L.latLng(38.930, -77.030); // Columbia Heights
+		case 10:
+			return L.latLng(38.911, -77.042); // Dupont Circle
+		case 11:
+			return L.latLng(38.895, -77.048); // Foggy Bottom
+		case 13:
+			return L.latLng(38.911, -77.032); // Logan Circle
+		case 14:
+			return L.latLng(38.917, -77.031); // U Street
+		case 15:
+			return L.latLng(38.875, -77.010); // Waterfront
+		case 16:
+			return L.latLng(38.874, -76.960); // South East
+		case 17:
+			return L.latLng(38.900, -76.986); // H Street
+		default:
+			return layer.getBounds().getCenter();
+	}
+}
+
+// Set neighborhood label style
+function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
+	var displayName;
+	
+	switch(parseInt(neighborhoodId)) {
+		case 4:
+			displayName = "Adams<br/>Morgan";
+			break;
+		case 9:
+			displayName = "Columbia<br/>Heights";
+			break;
+		case 10:
+			displayName = "Dupont<br/>Circle";
+			break;
+		case 13:
+			displayName = "Logan<br/>Circle";
+			break;
+		default:
+			displayName = neighborhoodName;
+	}
+	
+	return "<div class='neighborhood-label' data-neighborhood-name='" + neighborhoodName + 
+		"' data-neighborhood-id=" + neighborhoodId + " style='font-size: 0.85rem;'>" + 
+		"<div class='name-label'>" + displayName + "</div>" +
+		"<div class='location-count-label'></div></div>";
 }
 
 
@@ -191,7 +237,7 @@ function loadSingleNeighborhoodView(neighborhood) {
 	}
 
 	$.get("/fetch_filtered_deals" + queryString, function(data) {
-		console.log(data);
+		markerLayer.setGeoJSON(JSON.parse(data["result"]));
 	});
 }
 // Custom Markers
@@ -244,37 +290,39 @@ var lastMarker,//used for reseting the style of the previously clicked marker
 2)Bind each popup to its corresponding marker and show it on mouse hover
 3)Set the marker's icon to either a bar or restaurant icon
 4)Define marker-onClick function */
-myLayer.on('layeradd', function(e) {
+markerLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = marker.feature;
+		
+	marker.setIcon(bar_marker);
 
-    //happy hour start and end time 
-    var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A"),
-    	endTime = deals[feature.properties.locationid].hours.end
-		? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
-
-	//populate popup content (refer to the dealsPrices function for more info)
-    var popupContent = dealsPrices(deals[feature.properties.locationid].details,feature.properties,startTime,endTime);
-
-    //bin popup content to marker 
-    marker.bindPopup(popupContent,{
-        closeButton: false,  //Controls the presence of a close button in the popup
-        minWidth: 340
-    });
-
-    marker.on('mouseover', function() {
-    marker.openPopup();
-    });
-
-    marker.on('mouseout', function() {
-    marker.closePopup();
-    });
-
-    //set up marker icon based on venue type (either bar or restaurant)
-    if(feature.properties.super_category == "Bar")
-    marker.setIcon(bar_marker);
-	else
-    marker.setIcon(restaurant_marker);
+    // //happy hour start and end time 
+    // var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A"),
+    // 	endTime = deals[feature.properties.locationid].hours.end
+	// 	? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
+	// 
+	// //populate popup content (refer to the dealsPrices function for more info)
+    // var popupContent = dealsPrices(deals[feature.properties.locationid].details,feature.properties,startTime,endTime);
+	// 
+    // //bin popup content to marker 
+    // marker.bindPopup(popupContent,{
+    //     closeButton: false,  //Controls the presence of a close button in the popup
+    //     minWidth: 340
+    // });
+	// 
+    // marker.on('mouseover', function() {
+    // marker.openPopup();
+    // });
+	// 
+    // marker.on('mouseout', function() {
+    // marker.closePopup();
+    // });
+	// 
+    // //set up marker icon based on venue type (either bar or restaurant)
+    // if(feature.properties.super_category == "Bar")
+    // marker.setIcon(bar_marker);
+	// else
+    // marker.setIcon(restaurant_marker);
 
     /*If a marker is clicked do the following:
 	1) Highlight the marker to indicate that it's clicked
