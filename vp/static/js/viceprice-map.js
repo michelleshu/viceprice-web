@@ -20,10 +20,10 @@ init();
 function loadMap() {
 	if (!map) {
 		map = L.map('map', {
-			center : [ 38.907557, -77.028130 ], //Initial geographical center of the map
-			minZoom : 13, //Minimum zoom level of the map
-			zoom : 13, //Initial map zoom
-			attributionControl: false//remove attribution from map (added in the left menu instead)
+			center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
+			minZoom : 13, // Minimum zoom level of the map
+			zoom : 13, // Initial map zoom
+			attributionControl: false // Remove attribution from map (added in the left menu instead)
 		});
 		
 		//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
@@ -37,6 +37,16 @@ function loadMap() {
 			.addTo(map);
 		
 		markerLayer = L.mapbox.featureLayer().addTo(map);
+		
+		// Zoom Event Handler 
+		map.on('zoomend', function() {
+			// Hide marker detail when zoomed out to full map
+			if (this.getZoom() === 13 && hiddenNeighborhoodLayer) {
+				markerLayer.setGeoJSON([]);
+				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
+				$(".neighborhood-label").show();
+			}
+		});
 	}
 }
 
@@ -148,15 +158,7 @@ function displayNeighborhoodFeature(feature, layer) {
 		$(".neighborhood-label[data-neighborhood-id='" + e.target.feature.id + "']").hide();
 		
 		map.fitBounds(e.target.getBounds());
-		// e.target.off({ mousemove: false, mouseout: false, click: false});
-		//     e.target.setStyle({fillOpacity: 0}); // remove polygon style
-		//     id=parseInt(e.target.feature.id)-1;
-		//     css[id].style.display="none"; //remove label
-		//     lastLayer=e.target;
-		//     neighborhood=e.target.feature.properties.name; 
-		//     map.fitBounds(getBounds(e.target));//zoom into Polygon
-		//  	cluster.clearLayers(); //clear any previous markr stored in the cluster group 
-		//     updateNeighborhoodData(); //load related markers and metro stations 
+
 		loadSingleNeighborhoodView(feature.properties.name);
 	});
 	
