@@ -5,6 +5,7 @@ var neighborhoodPolygonLayer;
 var clusterLayer;
 var markerLayer;
 var hiddenNeighborhoodLayer;
+var selectedMarker;
 
 // CUSTOM MARKER ASSETS
 var restaurant_marker = L.icon({
@@ -386,88 +387,85 @@ markerLayer.on('layeradd', function(e) {
 	3) Show the right nav menu
 	4) populate that menu with venue info 
     */
-    marker.on('click', function() {
+    marker.on('click', function(e) {
+		var properties = this.feature.properties;
     	//highlight marker on click
-        if(feature.properties.super_category == "Bar")
-    		marker.setIcon(bar_marker_clicked);
-		else
-    	    marker.setIcon(restaurant_marker_clicked);
+        // if(feature.properties.super_category == "Bar")
+    	// 	marker.setIcon(bar_marker_clicked);
+		// else
+    	//     marker.setIcon(restaurant_marker_clicked);
+		// 
+        // //reset the style of the previously clicked marker
+        // if(lastMarker != undefined){
+    	// 	if(lastMarker.feature.properties.super_category == "Bar")
+    	// 		lastMarker.setIcon(bar_marker);
+    	// 	else
+    	// 		lastMarker.setIcon(restaurant_marker);
+    	// }
+    	// lastMarker=marker;
+		
+		selectedMarker = this;
 
-        //reset the style of the previously clicked marker
-        if(lastMarker != undefined){
-    		if(lastMarker.feature.properties.super_category == "Bar")
-    			lastMarker.setIcon(bar_marker);
-    		else
-    			lastMarker.setIcon(restaurant_marker);
-    	}
-    	lastMarker=marker;
-
-    	//Show the right menu
-        $(".slider-arrow").attr("src", "../static/img/right-arrow.png"); // change the arrow direction to indicate that it could be clicked to hide the menu 
-        $(".right-side-bar").show("slide", { direction: "right" }, 700); //Slide the menu out (direction: right, duration: 700 milisec) 
-        $(".sliding").animate({ right: "25%"} , 700);// slide the gold bar to the right 
-        $menu_visible=true
-
-        //populate the menu with venue info 
-        var locationProperties = this.feature.properties,
-        	subCategories = locationProperties["subCategories"],
-        	startTime = moment(deals[locationProperties["locationid"]].hours.start,'HH:mm').format("hh:mm A"),
-			endTime = deals[locationProperties["locationid"]].hours.end
-			? moment(deals[locationProperties["locationid"]].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
+    	// Show the right menu
+        $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
+        $(".right-side-bar").show("slide", { direction: "right" }, 700);
+        $(".sliding").animate({ right: "25%" } , 700);
 
         // Reset margins for cover photo
 		$("#location-cover-photo").css("-webkit-clip-path", "inset(0px 0px)");
 		$("#location-cover-photo").css("margin-top", "0px");
 		$("#location-cover-photo").css("margin-bottom", "0px");
 		$("#location-cover-photo").removeAttr("src");
-		$("#location-cover-photo").attr("data-x-offset", locationProperties["coverPhotoXOffset"]);
-		$("#location-cover-photo").attr("data-y-offset", locationProperties["coverPhotoYOffset"]);
+		$("#location-cover-photo").attr("data-x-offset", properties["coverPhotoXOffset"]);
+		$("#location-cover-photo").attr("data-y-offset", properties["coverPhotoYOffset"]);
 
 		// Add cover photo if applicable
-		if (locationProperties["coverPhotoSource"]) {
-			$("#location-cover-photo").attr("src", locationProperties["coverPhotoSource"]);
+		if (properties["coverPhotoSource"]) {
+			$("#location-cover-photo").attr("src", properties["coverPhotoSource"]);
 		}
 
 		//Add venue name and Category
-        $("#location-name").html(locationProperties["name"]); 
+        $("#location-name").html(properties["name"]); 
 		$("#location-categories").html("");
 		//Sub categories will be displayed in this order : Sub-Cat 1 | Sub-Cat 2 | Sub-Cat 3 etc.
-		for (var i = 0; i < subCategories.length; i++) {
-			if(i == 0) //add a left margin for the first element
-				$("#location-categories").append("<div class='category' style='margin-left:1rem;'>" + subCategories[i] + "</div>");
-			else
-				$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
-			
-			if(i != (subCategories.length-1)) //Don't add '|' at the end of the last element
-				$("#location-categories").append(" | ");
-		}
+		// for (var i = 0; i < subCategories.length; i++) {
+		// 	if(i == 0) //add a left margin for the first element
+		// 		$("#location-categories").append("<div class='category' style='margin-left:1rem;'>" + subCategories[i] + "</div>");
+		// 	else
+		// 		$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
+		// 	
+		// 	if(i != (subCategories.length-1)) //Don't add '|' at the end of the last element
+		// 		$("#location-categories").append(" | ");
+		// }
 
-        $("#location-address").html(locationProperties["abbreviatedAddress"]);
-        $("#location-phone-number").html(locationProperties["phone"]);
+        $("#location-address").html(properties["street"]);
+        $("#location-phone-number").html(properties["phoneNumber"]);
         
         ///--This is to show users where we got our data from-->
-        
-        if (locationProperties["happyHourWebsite"]){
+        if (properties["happyHourWebsite"]){
             $("#location-website").html("Source of Info");
-            $("#location-website").attr("href", locationProperties["happyHourWebsite"]);  
+            $("#location-website").attr("href", properties["happyHourWebsite"]);  
         }
         else { 
             $("#location-website").html("Website");
-            $("#location-website").attr("href", locationProperties["website"]);
-            
+            $("#location-website").attr("href", properties["website"]);
         }
         
 		$(".rev-hr").css("display","block");
 		$(".icon-globe").css("display","inline");
 		$(".icon-phone").css("display","inline");
 		$(".icon-home").css("display","inline");
+		
 		// Populate deal info
-        $("#specials-time-frame").html(startTime + " - " + endTime);
-        $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
+		// var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
+		// var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
+        // $("#specials-time-frame").html(start + " - " + end);
+		
+        // $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
         $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
         $(".rev").html("Reviews");
-        //Yelp Reviews 
-        $.get("/yelpReviews/?loc_id="+locationProperties["locationid"],function(data){
+		 
+        $.get("/yelpReviews/?loc_id=" + properties["yelpId"],function(data){
         	yelp_api_response=data.response; // refer to yelpReview on views.py for more details
         	$("#rating_img").attr("src",yelp_api_response.overall_rating_img); //overall rating
         	$("#review_count").html(yelp_api_response.review_count + " reviews");// number of reviews 

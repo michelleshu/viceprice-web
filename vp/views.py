@@ -122,8 +122,8 @@ def fetch_filtered_deals(request):
     time = request.GET.get('time')
     day = request.GET.get('day')
 
-    query = "SELECT l.\"id\", l.\"name\", l.\"latitude\", l.\"longitude\", l.\"website\", \
-        l.\"happyHourWebsite\", l.\"street\", l.\"coverPhotoSource\", l.\"coverXOffset\", l.\"coverYOffset\", \
+    query = "SELECT l.\"id\", l.\"name\", l.\"latitude\", l.\"longitude\", l.\"website\", l.\"happyHourWebsite\", l.\"formattedPhoneNumber\", \
+        l.\"street\", l.\"coverPhotoSource\", l.\"coverXOffset\", l.\"coverYOffset\", l.\"yelpId\", \
         d.\"id\", ah.\"start\", ah.\"end\", dd.\"drinkName\", dd.\"drinkCategory\", dd.\"detailType\", dd.\"value\" \
         FROM \"vp_location\" l \
         JOIN \"vp_location_deals\" ld \
@@ -167,40 +167,42 @@ def fetch_filtered_deals(request):
                     "latitude": float(row[2]), 
                     "longitude": float(row[3]),
                     "website": row[4], 
-                    "happyHourWebsite": row[5], 
-                    "street": row[6], 
-                    "coverPhotoSource": row[7],
-                    "coverXOffset": row[8], 
-                    "coverYOffset": row[9],
+                    "happyHourWebsite": row[5],
+                    "phoneNumber": row[6], 
+                    "street": row[7], 
+                    "coverPhotoSource": row[8],
+                    "coverXOffset": row[9], 
+                    "coverYOffset": row[10],
+                    "yelpId": row[11],
                     "deals": []
                 }
             })
         
         deals = locations[len(locations) - 1]["properties"]["deals"]
         
-        if (len(deals) == 0 or int(row[10]) != deals[len(deals) - 1]["id"]):
+        if (len(deals) == 0 or int(row[12]) != deals[len(deals) - 1]["id"]):
             start = None
-            if (row[11] != None):
-                start = str(row[11])
+            if (row[13] != None):
+                start = str(row[13])
                 
             end = None
-            if (row[12] != None):
-                end = str(row[12])
+            if (row[14] != None):
+                end = str(row[14])
                 
             deals.append({ 
-                "id": int(row[10]),
+                "id": int(row[12]),
                 "start": start,
                 "end": end,
                 "dealDetails": []
             })
         
         deal_details = deals[len(deals) - 1]["dealDetails"]
-        if (len(deal_details) == 0 or row[13] != deal_details[len(deal_details) - 1]["drinkName"]):
+        if (len(deal_details) == 0 or row[15] != deal_details[len(deal_details) - 1]["drinkName"]):
             deal_details.append({
-                "drinkName": row[13],
-                "drinkCategory": row[14],
-                "detailType": row[15],
-                "value": row[16]
+                "drinkName": row[15],
+                "drinkCategory": row[16],
+                "detailType": row[17],
+                "value": row[18]
             })
 
     return JsonResponse({ 
