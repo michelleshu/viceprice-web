@@ -6,6 +6,36 @@ var clusterLayer;
 var markerLayer;
 var hiddenNeighborhoodLayer;
 
+// CUSTOM MARKER ASSETS
+var restaurant_marker = L.icon({
+    iconUrl: '../static/img/restaurant-marker.png',
+    iconSize:     [37, 42], // size of the icon in pixels
+    iconAnchor:   [17, 42], //The coordinates of the "tip" of the icon (relative to its top left corner). 
+    						//The icon will be aligned so that this point is at the marker's geographical location
+    popupAnchor:  [3, -42]	//The coordinates of the point from which popups will "open", relative to the icon anchor.
+});
+
+var restaurant_marker_clicked = L.icon({
+    iconUrl: '../static/img/restaurant-marker-clicked.png',
+    iconSize:     [37, 42], 
+    iconAnchor:   [17, 42],
+    popupAnchor:  [3, -42]
+});
+
+var bar_marker = L.icon({
+    iconUrl: '../static/img/bar-marker.png',
+    iconSize:     [37, 42], 
+    iconAnchor:   [17, 42],
+    popupAnchor:  [3, -42]
+});
+
+var bar_marker_clicked = L.icon({
+    iconUrl: '../static/img/bar-marker-clicked.png',
+    iconSize:     [37, 42], 
+    iconAnchor:   [17, 42],
+    popupAnchor:  [3, -42]
+});
+
 // TIME FILTERS
 var selectedDay = null;
 var selectedTime = null;
@@ -254,63 +284,48 @@ function loadSingleNeighborhoodView(neighborhood) {
 		markerLayer.setGeoJSON(JSON.parse(data["result"]));
 	});
 }
-// Custom Markers
-var restaurant_marker = L.icon({
-    iconUrl: '../static/img/restaurant-marker.png',
-    iconSize:     [37, 42], // size of the icon in pixels
-    iconAnchor:   [17, 42], //The coordinates of the "tip" of the icon (relative to its top left corner). 
-    						//The icon will be aligned so that this point is at the marker's geographical location
-    popupAnchor:  [3, -42]	//The coordinates of the point from which popups will "open", relative to the icon anchor.
 
-});
-
-var restaurant_marker_clicked = L.icon({
-    iconUrl: '../static/img/restaurant-marker-clicked.png',
-    iconSize:     [37, 42], 
-    iconAnchor:   [17, 42],
-    popupAnchor:  [3, -42]
-
-});
-
-var bar_marker = L.icon({
-    iconUrl: '../static/img/bar-marker.png',
-    iconSize:     [37, 42], 
-    iconAnchor:   [17, 42],
-    popupAnchor:  [3, -42]
-
-});
-
-var bar_marker_clicked = L.icon({
-    iconUrl: '../static/img/bar-marker-clicked.png',
-    iconSize:     [37, 42], 
-    iconAnchor:   [17, 42],
-    popupAnchor:  [3, -42]
-});
-
-/******Markers and Clusters********/
-var myLayer = L.mapbox.featureLayer(); //markers layer (the actual data is not loaded yet)
-//Create an empty cluster group (no markers are added yet)
-var cluster = new L.MarkerClusterGroup({ polygonOptions: {
-        //set opacity and fill opacity to zero to disable the L.Polygon (highlight)
-        opacity: 0, 
-        fillOpacity: 0
-      }});
-var lastMarker,//used for reseting the style of the previously clicked marker 
- 	geoJsonData,neighborhoods,deals;
-
-
-/*Once this layer is loaded do the following:
-1)Create a custom popup that contains venues' info (name, subcategory, happhour time and best deals)
-2)Bind each popup to its corresponding marker and show it on mouse hover
-3)Set the marker's icon to either a bar or restaurant icon
-4)Define marker-onClick function */
 markerLayer.on('layeradd', function(e) {
     var marker = e.layer,
-        feature = marker.feature;
+        properties = marker.feature.properties;
 
 	clusterLayer.addLayer(marker);
-		
 	marker.setIcon(bar_marker);
+	
+	debugger;
+	
+	function getMarkerPopupContent(properties){
+		// Display preview of first deal only, even if there are multiple ones
+		var deal = properties.deals[0];
+		var markup = "<ul class='tooltip-info'><li><h1>" + properties.name + "</h1></li>";
+
+		if (properties.subCategories[0]) {
+			markup += "<li><h2>" + properties.subCategories[0] + "</h2>";
+		} else {
+			markup += "<li>"
+		}
+		
+		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
+		var end = moment(deal.end,'HH:mm:ss').format('h:mm A');
+		markup += "<h3>" + start + " - " + end  + "</h3></li>";
+		
+		// "<li class="cheapest_price"> Best Deal: ';
+  	
+	  	//Display the cheapest deals for wine, beer and liquor (if such data exists)
+	    for(deal in allDeals){
+		    if(deal == "beer" && allDeals["beer"].length != 0)
+		    	ulElement = ulElement + '<img src="../static/img/beer.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+			if(deal == "wine" && allDeals["wine"].length != 0)
+		    	ulElement = ulElement +	'<img src="../static/img/wine.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+			if(deal == "liquor" && allDeals["liquor"].length != 0)
+		    	ulElement = ulElement +	'<img src="../static/img/liquor.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+		}
+
+	    ulElement = ulElement + '</li></ul>';
+	    return ulElement;
+	}
+	
+	
 
     // //happy hour start and end time 
     // var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A"),
@@ -503,32 +518,7 @@ function groupByType(item){
 	   return dealDetails
 }
 
-/*This function returns the popup content:
- 1) The venue anme
- 2) Venue sub category
- 3) Happy Hour start and end time 
- 4) The cheapest deals (for wine, liquor and beer)*/  
-function dealsPrices(allDeals,properties,startTime,endTime){
-	var ulElement = '<ul class="tooltip-info"> <li> <h1>' + properties.name + '</h1></li><li id="subCategories">';
-		//if a venue contains one or more subcategories display one of them
-		if(properties.subCategories[0] != undefined)  
-			ulElement = ulElement + '<h2>' + properties.subCategories[0] + '</h2>';
-		
-		ulElement = ulElement + '<h3>' + startTime + ' - ' + endTime  + '</h3> </li><li class="cheapest_price"> Best Deal: ';
-  	
-  	//Display the cheapest deals for wine, beer and liquor (if such data exists)
-    for(deal in allDeals){
-	    if(deal == "beer" && allDeals["beer"].length != 0)
-	    	ulElement = ulElement + '<img src="../static/img/beer.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
-		if(deal == "wine" && allDeals["wine"].length != 0)
-	    	ulElement = ulElement +	'<img src="../static/img/wine.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
-		if(deal == "liquor" && allDeals["liquor"].length != 0)
-	    	ulElement = ulElement +	'<img src="../static/img/liquor.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
-	}
 
-    ulElement = ulElement + '</li></ul>';
-    return ulElement;
-}
 
 function lowestPrice(allDeals,deal){
 	var lowestPrice;
