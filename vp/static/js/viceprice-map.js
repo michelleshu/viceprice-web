@@ -292,62 +292,87 @@ markerLayer.on('layeradd', function(e) {
 	clusterLayer.addLayer(marker);
 	marker.setIcon(bar_marker);
 	
-	debugger;
+	// Bind pop up to marker
+	marker.bindPopup(getMarkerPopupContent(properties), {
+	    closeButton: false,  // Controls the presence of a close button in the popup
+	    minWidth: 340
+	});
+	
+	marker.on('mouseover', function() {
+		marker.openPopup();
+	});
+	
+	marker.on('mouseout', function() {
+		marker.closePopup();
+	});
 	
 	function getMarkerPopupContent(properties){
 		// Display preview of first deal only, even if there are multiple ones
 		var deal = properties.deals[0];
 		var markup = "<ul class='tooltip-info'><li><h1>" + properties.name + "</h1></li>";
 
-		if (properties.subCategories[0]) {
-			markup += "<li><h2>" + properties.subCategories[0] + "</h2>";
-		} else {
+		// if (properties.subCategories[0]) {
+		// 	markup += "<li><h2>" + properties.subCategories[0] + "</h2>";
+		// } else {
 			markup += "<li>"
-		}
+		// }
 		
 		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
-		var end = moment(deal.end,'HH:mm:ss').format('h:mm A');
+		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
 		markup += "<h3>" + start + " - " + end  + "</h3></li>";
 		
-		// "<li class="cheapest_price"> Best Deal: ';
+		// Display best deals per category
+		var beers = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
+		var wines = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
+		var liquors = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
+		
+		if (beers.length > 0) {
+			markup += "<img src='../static/img/beer.png'/><p>" + 
+				formatDealDetail(beers.reduce(getBestDealDetail)) + "</p>";
+		}
+		
+		if (wines.length > 0) {
+			markup += "<img src='../static/img/wine.png'/><p>" + 
+				formatDealDetail(wines.reduce(getBestDealDetail)) + "</p>";
+		}
   	
-	  	//Display the cheapest deals for wine, beer and liquor (if such data exists)
-	    for(deal in allDeals){
-		    if(deal == "beer" && allDeals["beer"].length != 0)
-		    	ulElement = ulElement + '<img src="../static/img/beer.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
-			if(deal == "wine" && allDeals["wine"].length != 0)
-		    	ulElement = ulElement +	'<img src="../static/img/wine.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
-			if(deal == "liquor" && allDeals["liquor"].length != 0)
-		    	ulElement = ulElement +	'<img src="../static/img/liquor.png"/><p>'+lowestPrice(allDeals,deal)+'</p>';
+		if (liquors.length > 0) {
+			markup += "<img src='../static/img/liquor.png'/><p>" + 
+				formatDealDetail(liquors.reduce(getBestDealDetail)) + "</p>";
 		}
 
-	    ulElement = ulElement + '</li></ul>';
-	    return ulElement;
+	    return markup + '</li></ul>';
 	}
 	
+	function getBestDealDetail(dealDetailA, dealDetailB) {
+		if (dealDetailA.detailType != dealDetailB.detailType) {
+			return dealDetailA.detailType < dealDetailB.detailType
+				? dealDetailA
+				: dealDetailB;
+		}
+		else if (dealDetailA.detailType === 1) {	// Price
+			return dealDetailA.value < dealDetailB.value 
+				? dealDetailA
+				: dealDetailB;
+		} 
+		else { // Percent Off or Price Off
+			return dealDetailA.value < dealDetailB.value
+				? dealDetailB
+				: dealDetailA;
+		}
+	}
 	
-
-    // //happy hour start and end time 
-    // var startTime = moment(deals[feature.properties.locationid].hours.start,'HH:mm').format("hh:mm A"),
-    // 	endTime = deals[feature.properties.locationid].hours.end
-	// 	? moment(deals[feature.properties.locationid].hours.end,'HH:mm').format("hh:mm A") : "CLOSE";
-	// 
-	// //populate popup content (refer to the dealsPrices function for more info)
-    // var popupContent = dealsPrices(deals[feature.properties.locationid].details,feature.properties,startTime,endTime);
-	// 
-    // //bin popup content to marker 
-    // marker.bindPopup(popupContent,{
-    //     closeButton: false,  //Controls the presence of a close button in the popup
-    //     minWidth: 340
-    // });
-	// 
-    // marker.on('mouseover', function() {
-    // marker.openPopup();
-    // });
-	// 
-    // marker.on('mouseout', function() {
-    // marker.closePopup();
-    // });
+	function formatDealDetail(dealDetail) {
+		if (dealDetail.detailType == 1) {
+			return "$" + dealDetail.value;
+		}
+		else if (dealDetail.detailType == 2) {
+			return dealDetail.value + "% off";
+		}
+		else {
+			return "$" + dealDetail.value + " off";
+		}
+	}
 	// 
     // //set up marker icon based on venue type (either bar or restaurant)
     // if(feature.properties.super_category == "Bar")
