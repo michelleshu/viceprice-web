@@ -146,7 +146,7 @@ def fetch_filtered_deals(request):
         if (time != None):
             query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
         
-    query += " ORDER BY l.\"id\", d.\"id\", dd.\"drinkCategory\""
+    query += " ORDER BY l.\"id\", d.\"id\", dd.\"drinkName\""
 
     cursor = connection.cursor()
     cursor.execute(query)
@@ -194,12 +194,14 @@ def fetch_filtered_deals(request):
                 "dealDetails": []
             })
         
-        deals[len(deals) - 1]["dealDetails"].append({
-            "drinkName": row[13],
-            "drinkCategory": row[14],
-            "detailType": row[15],
-            "value": row[16]
-        })  
+        deal_details = deals[len(deals) - 1]["dealDetails"]
+        if (len(deal_details) == 0 or row[13] != deal_details[len(deal_details) - 1]["drinkName"]):
+            deal_details.append({
+                "drinkName": row[13],
+                "drinkCategory": row[14],
+                "detailType": row[15],
+                "value": row[16]
+            })
 
     return JsonResponse({ 
         "result": json.dumps({
