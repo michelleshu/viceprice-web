@@ -53,6 +53,7 @@ function loadMap() {
 			// Hide marker detail when zoomed out to full map
 			if (this.getZoom() === 13 && hiddenNeighborhoodLayer) {
 				markerLayer.setGeoJSON([]);
+				clusterLayer.clearLayers();
 				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
 				$(".neighborhood-label").show();
 			}
@@ -306,8 +307,7 @@ var lastMarker,//used for reseting the style of the previously clicked marker
 markerLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = marker.feature;
-		
-	console.log("Marker layer layeradd");
+
 	clusterLayer.addLayer(marker);
 		
 	marker.setIcon(bar_marker);
@@ -606,43 +606,6 @@ metroLayer.on('layeradd', function(e) {
 // 
 
 
-// /*On Polygon/label click do the following:
-// 1) if the right menu is shown, hide it
-// 2) reset the style of any previously selected neighborhood
-// 3) remove all css related style from the newly selected neighborhood and disable its related events 
-// 4) zoom into the newly selected neighborhood
-// 5) load markers and metro stations related to the selected neighborhood*/
-// function click(e) {
-//      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
-//      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
-//      $(".sliding").animate({ right: "0"} , 700);
-//      $menu_visible=false;
-// 
-//     css=document.getElementsByClassName("label");
-// 
-//     /*if anohter neighborhood is already selected:
-//     - reset its polygon style 
-//     - enable its events (mouseover,mouseout and click
-//     - reset its label's style (color, show the label)*/
-//     if(lastLayer != undefined){
-//             dcnLayer.resetStyle(lastLayer);
-//             lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
-//             document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
-//             id=parseInt(lastLayer.feature.id)-1;
-//             css[id].style.display="block";
-//         }
-// 
-//     //Onclick: disable all events
-//     e.target.off({mousemove:false, mouseout:false,click:false});
-//     e.target.setStyle({fillOpacity: 0}); // remove polygon style
-//     id=parseInt(e.target.feature.id)-1;
-//     css[id].style.display="none"; //remove label
-//     lastLayer=e.target;
-//     neighborhood=e.target.feature.properties.name; 
-//     map.fitBounds(getBounds(e.target));//zoom into Polygon
-//  	cluster.clearLayers(); //clear any previous markr stored in the cluster group 
-//     updateNeighborhoodData(); //load related markers and metro stations 
-// 	}
 // 
 // 	function updateNeighborhoodData(){
 // 	myLayer.setGeoJSON(geoJsonData); //load markers data to myLayer
