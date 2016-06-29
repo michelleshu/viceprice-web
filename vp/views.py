@@ -275,100 +275,8 @@ def fetch_location_counts_by_neighborhood(request):
 
     return JsonResponse({ "result": json.dumps(result) })
 
-
-def fetch_locations(request):
-    time = request.GET.get('time')
-    day = request.GET.get('day')
-    if(time == None):
-        locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day)).distinct().prefetch_related('deals__dealDetails')
-    else:
-        locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day), Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gt=time) | Q(deals__activeHours__end__lte=F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
-    neighborhoods = locations.values('neighborhood').annotate(total=Count('neighborhood'))
-    neighborhooddata = []
-    for nh in neighborhoods:
-        neighborhood={"neighborhood" : nh.get('neighborhood'), "count" : nh.get('total')}
-        neighborhooddata.append(neighborhood)
-    container = []
-    barLocations = []
-    dealInfo = {}
-    for location in locations:
-        dealList = []
-        dealSet = location.deals.filter(Q(dealSource = 1) & Q(confirmed = True))
-        if(time == None): 
-            dealSet = dealSet.filter(Q(activeHours__dayofweek=day)).all()
-        else:
-            dealSet = dealSet.filter(Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gt=time) | Q(activeHours__end__lte=F('activeHours__start'))).all()
-        superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
-        subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
-        beers = []
-        wines =[]
-        liquors =[]
-        for d in dealSet:
-            dealDetails = d.dealDetails.all()
-            details = {}
-            activehours = d.activeHours.all()
-          
-            for dd in dealDetails:
-                if dd.drinkCategory == 1:
-                    beer = {"detail_id":dd.id,
-                          "drinkName": dd.drinkName,
-                          "detailType":dd.detailType,
-                          "value":dd.value}
-                    beers.append(beer)
-                elif dd.drinkCategory == 2:
-                    wine = {"detail_id":dd.id,
-                          "drinkName": dd.drinkName,
-                          "detailType":dd.detailType,
-                          "value":dd.value}
-                    wines.append(wine)
-                elif dd.drinkCategory == 3:
-                    liquor = {"detail_id":dd.id,
-                          "drinkName": dd.drinkName,
-                          "detailType":dd.detailType,
-                          "value":dd.value}
-                    liquors.append(liquor)
-            orderedDetails = (("beer", beers),("wine", wines),("liquor",liquors))
-            details = collections.OrderedDict(orderedDetails)
-            deals = {"deal_id" : d.id,
-                    "details": details }
-            for ah in activehours:
-                activehour = {"start" : ah.start,
-                    "end": ah.end }
-                deals["hours"] = activehour
-            dealList = deals
-        dealData = dealList
-        dealInfo[location.id] = dealData
-        addressCityIndex = location.formattedAddress.find("Washington,")
-        abbreviatedAddress = location.formattedAddress[:addressCityIndex]
-        locationData = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [location.longitude, location.latitude]
-            },
-            "properties": {
-                "locationid": location.id,
-                "name": location.name,
-                "website":location.website,
-                "happyHourWebsite":location.happyHourWebsite,
-                "phone": location.formattedPhoneNumber,
-                "fullAddress": location.formattedAddress,
-                "abbreviatedAddress": abbreviatedAddress,
-                "neighborhood":location.neighborhood,
-                "coverPhotoSource": location.coverPhotoSource,
-                "coverPhotoXOffset": location.coverXOffset,
-                "coverPhotoYOffset": location.coverYOffset,
-                "super_category": superCat.name,
-                "subCategories": subCategories,
-            }
-        }
-        barLocations.append(locationData)
-    return JsonResponse({'json':barLocations, 'deals':dealInfo, 'neighborhoods':neighborhooddata})
-
-
 def yelp_reviews(request):
-    locationID=request.GET.get('loc_id')
-    location=Location.objects.filter(id=locationID).all()[0]
+    yelpId = request.GET.get('yelp_id')
 
     #need to be moved to config
     yelp_consumer_key = "Piz41a8pB1aBdsTg5jkZDw"
@@ -377,7 +285,7 @@ def yelp_reviews(request):
     yelp_token_secret = "smLN2bEYWxF3Y7ok19BgdJp3590"
     
     yelp_api = YelpAPI(yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret)
-    api_response = yelp_api.business_query(id=location.yelpId)
+    api_response = yelp_api.business_query(id = yelpId)
 
     responseJson= {
         "excerpt": api_response['reviews'][0]['excerpt'],

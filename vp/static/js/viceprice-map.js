@@ -8,7 +8,7 @@ var hiddenNeighborhoodLayer;
 var selectedMarker;
 
 // CUSTOM MARKER ASSETS
-var restaurant_marker = L.icon({
+var restaurantMarker = L.icon({
     iconUrl: '../static/img/restaurant-marker.png',
     iconSize:     [37, 42], // size of the icon in pixels
     iconAnchor:   [17, 42], //The coordinates of the "tip" of the icon (relative to its top left corner). 
@@ -16,21 +16,21 @@ var restaurant_marker = L.icon({
     popupAnchor:  [3, -42]	//The coordinates of the point from which popups will "open", relative to the icon anchor.
 });
 
-var restaurant_marker_clicked = L.icon({
+var restaurantMarkerClicked = L.icon({
     iconUrl: '../static/img/restaurant-marker-clicked.png',
     iconSize:     [37, 42], 
     iconAnchor:   [17, 42],
     popupAnchor:  [3, -42]
 });
 
-var bar_marker = L.icon({
+var barMarker = L.icon({
     iconUrl: '../static/img/bar-marker.png',
     iconSize:     [37, 42], 
     iconAnchor:   [17, 42],
     popupAnchor:  [3, -42]
 });
 
-var bar_marker_clicked = L.icon({
+var barMarkerClicked = L.icon({
     iconUrl: '../static/img/bar-marker-clicked.png',
     iconSize:     [37, 42], 
     iconAnchor:   [17, 42],
@@ -291,7 +291,12 @@ markerLayer.on('layeradd', function(e) {
         properties = marker.feature.properties;
 
 	clusterLayer.addLayer(marker);
-	marker.setIcon(bar_marker);
+	
+	if (properties.superCategory == "Bar") {
+		marker.setIcon(barMarker);
+	} else {
+		marker.setIcon(restaurantMarker);
+	}
 	
 	// Bind pop up to marker
 	marker.bindPopup(getMarkerPopupContent(properties), {
@@ -312,11 +317,11 @@ markerLayer.on('layeradd', function(e) {
 		var deal = properties.deals[0];
 		var markup = "<ul class='tooltip-info'><li><h1>" + properties.name + "</h1></li>";
 
-		// if (properties.subCategories[0]) {
-		// 	markup += "<li><h2>" + properties.subCategories[0] + "</h2>";
-		// } else {
+		if (properties.subCategories && properties.subCategories.length > 0) {
+			markup += "<li><h2>" + properties.subCategories[0] + "</h2>";
+		} else {
 			markup += "<li>"
-		// }
+		}
 		
 		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
 		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
@@ -374,35 +379,56 @@ markerLayer.on('layeradd', function(e) {
 			return "$" + dealDetail.value + " off";
 		}
 	}
-	// 
-    // //set up marker icon based on venue type (either bar or restaurant)
-    // if(feature.properties.super_category == "Bar")
-    // marker.setIcon(bar_marker);
-	// else
-    // marker.setIcon(restaurant_marker);
+	
+	function formatDealDetailWithDescription(dealDetail) {
+		return formatDealDetail(dealDetail) + " " + dealDetail.drinkName;
+	}
+	
+	function getDealMarkup(dealDetails) {
+		var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
+		var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
+		var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
+		
+		var markup = "<table style='width: 100%;'>";
+		if (beers.length > 0) {
+			markup += "<tr><td class='drink-category-column'><img src='../static/img/beer.png'/></td>" + 
+				"<td class='deal-detail-column'><ul><li>";
+			markup += beers.map(formatDealDetailWithDescription).join("</li><li>") + "</li></ul></td></tr>";
+		}
+		
+		if (wines.length > 0) {
+			markup += "<tr><td class='drink-category-column'><img src='../static/img/wine.png'/></td>" + 
+				"<td class='deal-detail-column'><ul><li>";
+			markup += wines.map(formatDealDetailWithDescription).join("</li><li>") + "</li></ul></td></tr>";
+		}
+		
+		if (liquors.length > 0) {
+			markup += "<tr><td class='drink-category-column'><img src='../static/img/liquor.png'/></td>" + 
+				"<td class='deal-detail-column'><ul><li>";
+			markup += liquors.map(formatDealDetailWithDescription).join("</li><li>") + "</li></ul></td></tr>";
+		}
 
-    /*If a marker is clicked do the following:
-	1) Highlight the marker to indicate that it's clicked
-	2) Reset the style of the previously clicked marker 
-	3) Show the right nav menu
-	4) populate that menu with venue info 
-    */
+		return markup + "</table>";
+	}
+
     marker.on('click', function(e) {
 		var properties = this.feature.properties;
-    	//highlight marker on click
-        // if(feature.properties.super_category == "Bar")
-    	// 	marker.setIcon(bar_marker_clicked);
-		// else
-    	//     marker.setIcon(restaurant_marker_clicked);
-		// 
-        // //reset the style of the previously clicked marker
-        // if(lastMarker != undefined){
-    	// 	if(lastMarker.feature.properties.super_category == "Bar")
-    	// 		lastMarker.setIcon(bar_marker);
-    	// 	else
-    	// 		lastMarker.setIcon(restaurant_marker);
-    	// }
-    	// lastMarker=marker;
+		// TODO Add capacity to display multiple deals
+		var deal = properties.deals[0];
+
+        if (properties.superCategory == "Bar") {
+    		marker.setIcon(barMarkerClicked);
+		} else {
+    	    marker.setIcon(restaurantMarkerClicked);
+		}
+		
+        if (selectedMarker) {
+    		if (selectedMarker.feature.properties.superCategory == "Bar") {
+				selectedMarker.setIcon(barMarker);
+			} else {
+    			selectedMarker.setIcon(restaurantMarker);
+			}
+    	}
 		
 		selectedMarker = this;
 
@@ -424,24 +450,24 @@ markerLayer.on('layeradd', function(e) {
 			$("#location-cover-photo").attr("src", properties["coverPhotoSource"]);
 		}
 
-		//Add venue name and Category
+		// Location information
         $("#location-name").html(properties["name"]); 
 		$("#location-categories").html("");
-		//Sub categories will be displayed in this order : Sub-Cat 1 | Sub-Cat 2 | Sub-Cat 3 etc.
-		// for (var i = 0; i < subCategories.length; i++) {
-		// 	if(i == 0) //add a left margin for the first element
-		// 		$("#location-categories").append("<div class='category' style='margin-left:1rem;'>" + subCategories[i] + "</div>");
-		// 	else
-		// 		$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
-		// 	
-		// 	if(i != (subCategories.length-1)) //Don't add '|' at the end of the last element
-		// 		$("#location-categories").append(" | ");
-		// }
+
+		var subCategories = properties["subCategories"];
+		for (var i = 0; i < subCategories.length; i++) {
+			if(i == 0) //add a left margin for the first element
+				$("#location-categories").append("<div class='category' style='margin-left:1rem;'>" + subCategories[i] + "</div>");
+			else
+				$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
+			
+			if(i != (subCategories.length-1)) //Don't add '|' at the end of the last element
+				$("#location-categories").append(" | ");
+		}
 
         $("#location-address").html(properties["street"]);
         $("#location-phone-number").html(properties["phoneNumber"]);
         
-        ///--This is to show users where we got our data from-->
         if (properties["happyHourWebsite"]){
             $("#location-website").html("Source of Info");
             $("#location-website").attr("href", properties["happyHourWebsite"]);  
@@ -456,16 +482,16 @@ markerLayer.on('layeradd', function(e) {
 		$(".icon-phone").css("display","inline");
 		$(".icon-home").css("display","inline");
 		
-		// Populate deal info
-		// var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
-		// var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
-        // $("#specials-time-frame").html(start + " - " + end);
+		// Deal Info
+		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
+		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
+        $("#deal-time-frame").html(start + " - " + end);
+        $("#deal-details-div").html(getDealMarkup(deal.dealDetails));
 		
-        // $(".specials-div").append(populateDeals(deals[locationProperties["locationid"]].details));
+		// Yelp Reviews
         $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
         $(".rev").html("Reviews");
-		 
-        $.get("/yelpReviews/?loc_id=" + properties["yelpId"],function(data){
+        $.get("/yelpReviews/?yelp_id=" + properties["yelpId"],function(data){
         	yelp_api_response=data.response; // refer to yelpReview on views.py for more details
         	$("#rating_img").attr("src",yelp_api_response.overall_rating_img); //overall rating
         	$("#review_count").html(yelp_api_response.review_count + " reviews");// number of reviews 
@@ -479,100 +505,37 @@ markerLayer.on('layeradd', function(e) {
     })
 });
 
-function populateDeals(item){
-	items = $.extend(true, {}, item);
-	$('div').remove('.dealDetails')
-	var ulElement = "<div style='list-style: none;' class=dealDetails> "
-	for (item in items){
-		var type = item[0].toUpperCase() + item.slice(1)
-			var image;
-			if (items[item].length != 0) {
-				if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
-				if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
-				if(item == "liquor") image =  "<span><img src='../static/img/liquor.png'/><p id='drink_type'> Cocktails/"
-				ulElement = ulElement + image  +  "<p id='drink_type'>" + type + ": </p><ul  style=padding-left:10px; >" 
-			}
-
-			items[item].sort(function(a, b){
-			    return a.value - b.value;
-			});
-			var group = groupByType(items[item])
-			for(g in group){
-				var dealDetails  =	groupByValue(group[g])
-				for(details in dealDetails){
-					var detailType;
-					if (dealDetails[details]['detailType'] == 1) detailType = "$"+ dealDetails[details]['value'] + " ";
-					if (dealDetails[details]['detailType'] == 2) detailType = dealDetails[details]['value'] + "% off "
-					if (dealDetails[details]['detailType'] == 3) detailType = "$"+ dealDetails[details]['value']+ " off "
-					ulElement = ulElement + "<li><p>" +  detailType + dealDetails[details]['drinkName'] + "</p></li>"
-					}
-			}
-		ulElement = ulElement + "</ul></span>"
-	}
-	ulElement = ulElement + "</div>"
-	return ulElement;
-}
-
-function groupByValue(item){
-	var stack = item;
-	var dealDetails ={};
-	var e;
-	while(stack.length > 0){
-		e = stack.pop();
-		if(!dealDetails[e.value]){
-			dealDetails[e.value] = e;
-			}
-		else{
-			dealDetails[e.value].drinkName = dealDetails[e.value].drinkName + ", "+ e.drinkName
-			}
-		}
-	return dealDetails
-}
-
-function groupByType(item){
-	var stack = item;
-	var dealDetails ={};
-	var e;
-	while(stack.length > 0){
-		e = stack.pop();
-		if(!dealDetails[e.detailType]) dealDetails[e.detailType] = []
-			dealDetails[e.detailType].push(e)
-			}
-	   return dealDetails
-}
+	// $('#deal-details-div')
+	// for (item in items){
+	// 	var type = item[0].toUpperCase() + item.slice(1)
+	// 		var image;
+	// 		if (items[item].length != 0) {
+	// 			if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
+	// 			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
+	// 			if(item == "liquor") image =  "<span><img src='../static/img/liquor.png'/><p id='drink_type'> Cocktails/"
+	// 			ulElement = ulElement + image  +  "<p id='drink_type'>" + type + ": </p><ul  style=padding-left:10px; >" 
+	// 		}
+	// 
+	// 		items[item].sort(function(a, b){
+	// 		    return a.value - b.value;
+	// 		});
+	// 		var group = groupByType(items[item])
+	// 		for(g in group){
+	// 			var dealDetails  =	groupByValue(group[g])
+	// 			for(details in dealDetails){
+	// 				var detailType;
+	// 				if (dealDetails[details]['detailType'] == 1) detailType = "$"+ dealDetails[details]['value'] + " ";
+	// 				if (dealDetails[details]['detailType'] == 2) detailType = dealDetails[details]['value'] + "% off "
+	// 				if (dealDetails[details]['detailType'] == 3) detailType = "$"+ dealDetails[details]['value']+ " off "
+	// 				ulElement = ulElement + "<li><p>" +  detailType + dealDetails[details]['drinkName'] + "</p></li>"
+	// 				}
+	// 		}
+	// 	ulElement = ulElement + "</ul></span>"
+	// }
+	// ulElement = ulElement + "</div>"
+	// return ulElement;
 
 
-
-function lowestPrice(allDeals,deal){
-	var lowestPrice;
-	var prices=[]; //$
-    var prices_off=[]; //$ off
-    var percent_off=[]; //% off
-	for(index in allDeals[deal]){ //look at all the items of type (beer,wine or liquor)
-				if(allDeals[deal][index]["detailType"] == 1)//$
-					prices.push(parseFloat(allDeals[deal][index]["value"]));
-				if(allDeals[deal][index]["detailType"] == 2)//% off
-					percent_off.push(parseFloat(allDeals[deal][index]["value"]));
-				if(allDeals[deal][index]["detailType"] == 3)//$ off
-					prices_off.push(parseFloat(allDeals[deal][index]["value"]));
-			}
-
-			/*When choosing a minimum price for each deal:
-			- the priority is: 
-			- actual price in $
-			- then the $ off 
-			- then % off */
-			if(prices.length !=0){ 
-				lowest_price="$"+Math.min.apply(Math, prices); // find minimum $
-			}
-			else if(prices_off.length !=0){
-				lowest_price="$"+Math.max.apply(Math, prices_off)+" off"; // find minimum $ off
-			}
-			else if(percent_off.length !=0){
-				lowest_price=Math.max.apply(Math, percent_off)+"% off"; // find minimum % off
-			}
-	return lowest_price;
-}
 
 /*** DC Metro Stations ***/
 var metroLayer = L.mapbox.featureLayer().addTo(map); //create en empty feature layer for the metro stations
@@ -607,64 +570,6 @@ metroLayer.on('layeradd', function(e) {
     marker.closePopup();
     });
 });
-
-/***DC Neighborhoods***/
-// var dcnLayer = L.geoJson(dcn, { //dcn is defined in dcn.js
-// 	style : getStyle,
-// 	onEachFeature : onEachFeature
-// }).addTo(map);
-// 
-// var lastLayer, lastLabel, //those 2 are used to reset the previously selected neighborhood
-// 	css, id, neighborhood; 
-// 
-
-
-// 
-// 	function updateNeighborhoodData(){
-// 	myLayer.setGeoJSON(geoJsonData); //load markers data to myLayer
-// 	metroLayer.setGeoJSON(metro); //load metro station data to metroLayer (//metro is defined in dc-metro.js)
-//     if(neighborhood_on){
-//     myLayer.setFilter(function(f) { //filter this layer so it only contains the markers within a specfic neighborhood
-//         return f.properties["neighborhood"] === neighborhood;});
-//     metroLayer.setFilter(function(f) {//filter this layer so it only contains the stations within a specfic neighborhood
-//     	return f.properties["NEIGHBORHOOD"] === neighborhood;});
-// 	}
-//     else{
-//     	clearNeighborhood();
-//     }
-// }
-// 
-// 
-// //clear neighborhood
-// var neighborhood_on=true;
-// function clearNeighborhood(){
-// 	map.removeLayer(dcnLayer);
-// 	$(".map_labels").hide();
-// 	$(".bar_num_labels").hide();
-// 
-//     myLayer.setFilter(function() { 
-//         return true;
-//     });
-//     cluster.clearLayers();
-//     cluster.addLayer(myLayer).addTo(map);
-//     neighborhood_on=false;	
-// }
-// 
-// //add neighborhood
-// function addNeighborhood(){
-// 	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
-// 	cluster.clearLayers();
-//     myLayer.setFilter(function(f) {
-//             return false;
-//         });
-//     metroLayer.setFilter(function(f) {
-//             return false;
-//         });
-// 	map.addLayer(dcnLayer);
-// 	$(".map_labels").show();
-// 	$(".bar_num_labels").show();
-//     neighborhood_on=true;
-// }
 
 /****Zoom in/Zoom out and Neighborhood Zoom functions ****/
 var zoom;
