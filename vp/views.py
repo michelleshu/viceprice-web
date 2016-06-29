@@ -122,7 +122,7 @@ def fetch_filtered_deals(request):
     time = request.GET.get('time')
     day = request.GET.get('day')
 
-    query = "SELECT l.\"id\", l.\"name\", l.\"latitude\", l.\"longitude\", l.\"website\", l.\"happyHourWebsite\", l.\"formattedPhoneNumber\", \
+    location_query = "SELECT l.\"id\", l.\"name\", l.\"latitude\", l.\"longitude\", l.\"website\", l.\"happyHourWebsite\", l.\"formattedPhoneNumber\", \
         l.\"street\", l.\"coverPhotoSource\", l.\"coverXOffset\", l.\"coverYOffset\", l.\"yelpId\", \
         d.\"id\", ah.\"start\", ah.\"end\", dd.\"drinkName\", dd.\"drinkCategory\", dd.\"detailType\", dd.\"value\" \
         FROM \"vp_location\" l \
@@ -141,18 +141,19 @@ def fetch_filtered_deals(request):
         WHERE d.\"dealSource\" = 1 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
 
     if (day != None):
-        query += " AND ah.\"dayofweek\" = " + str(day)
+        location_query += " AND ah.\"dayofweek\" = " + str(day)
     
         if (time != None):
-            query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
+            location_query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
         
-    query += " ORDER BY l.\"id\", d.\"id\", dd.\"drinkName\""
+    location_query += " ORDER BY l.\"id\", d.\"id\", dd.\"drinkName\""
 
     cursor = connection.cursor()
-    cursor.execute(query)
+    cursor.execute(location_query)
     rows = cursor.fetchall()
     
     locations = []
+    location_ids = []
     for row in rows:
         if (len(locations) == 0 or int(row[0]) != locations[len(locations) - 1]["properties"]["id"]):
             locations.append({
@@ -177,6 +178,7 @@ def fetch_filtered_deals(request):
                     "deals": []
                 }
             })
+            location_ids.append(str(row[0]))
         
         deals = locations[len(locations) - 1]["properties"]["deals"]
         
@@ -205,6 +207,32 @@ def fetch_filtered_deals(request):
                 "value": row[18]
             })
 
+    # Execute query for location categories
+    location_categories_query = "SELECT llc.\"location_id\", lc.\"name\" \
+        FROM \"vp_location_locationCategories\" llc \
+        JOIN \"vp_locationcategory\" lc \
+        ON llc.\"locationcategory_id\" = lc.\"id\" \
+        WHERE llc.\"location_id\" in (" + ",".join(location_ids) + ") \
+        ORDER BY llc.\"location_id\", lc.\"isBaseCategory\" DESC"
+        
+    cursor.execute(location_categories_query)
+    rows = cursor.fetchall()
+    categories = {}
+    for row in rows:
+        if (row[0] not in categories):
+            categories[row[0]] = {
+                "base_category": row[1],
+                "sub_categories": []
+            }
+        else:
+            categories[row[0]]["sub_categories"].append(row[1])
+            
+    for location in locations:
+        location_id = location["properties"]["id"]
+        if location_id in categories:
+            location["properties"]["superCategory"] = categories[location_id]["base_category"]
+            location["properties"]["subCategories"] = categories[location_id]["sub_categories"]
+    
     return JsonResponse({ 
         "result": json.dumps({
             "type": "FeatureCollection",
