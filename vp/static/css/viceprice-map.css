@@ -12,7 +12,8 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 .left-side-bar  { 
     position:fixed;
     float:left; 
-    width:16.6666%;  
+    width:16.6666%; 
+    height: 100%; 
     background-color:rgb(35, 40, 43); 
     top:0; 
     bottom:0; 
@@ -75,9 +76,13 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   color:#7d7f80;
   margin-bottom: 5%;
   border-bottom: 1px solid #7d7f80;
-  }
+ }
 
-.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-left:0.5rem; width:16.6666%; }
+.about-contact-us {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
 
 .attribution{text-align: right;display: inline-block;margin-left: 1rem}
 

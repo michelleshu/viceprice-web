@@ -93,6 +93,7 @@ function loadMap() {
 			// Hide marker detail when zoomed out to full map
 			if (this.getZoom() === 13 && hiddenNeighborhoodLayer) {
 				selectedNeighborhood = null;
+				reloadData();
 				markerLayer.setGeoJSON([]);
 				clusterLayer.clearLayers();
 				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
@@ -103,10 +104,9 @@ function loadMap() {
 }
 
 function reloadData() {
+	populateLocationCountsByNeighborhood();
 	if (selectedNeighborhood) {
 		loadSingleNeighborhoodView(selectedNeighborhood);
-	} else {
-		populateLocationCountsByNeighborhood();
 	}
 }
 
@@ -196,32 +196,34 @@ function displayNeighborhoodFeature(feature, layer) {
 	});
 	
 	layer.on('click', function(e) {
-		if (hiddenNeighborhoodLayer) {
-			neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
-		}
-		hiddenNeighborhoodLayer = layer;
-		
-		// Lighten neighborhood label color
-		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
-		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
-		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
-		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
-		
-		// Darken background color
-		layer.setStyle({
-			weight : 2,
-			fillColor : 'rgb(35, 40, 43)',
-			fillOpacity : 0.7
-		});
-		
-		neighborhoodPolygonLayer.removeLayer(layer);
-		
-		$(".neighborhood-label").show();
-		$(".neighborhood-label[data-neighborhood-id='" + e.target.feature.id + "']").hide();
-		
-		map.fitBounds(e.target.getBounds());
+		if (selectedNeighborhood != feature.properties.name) {
+			if (hiddenNeighborhoodLayer) {
+				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
+			}
+			hiddenNeighborhoodLayer = layer;
+			
+			// Lighten neighborhood label color
+			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
+			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
+			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
+			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
+			
+			// Darken background color
+			layer.setStyle({
+				weight : 2,
+				fillColor : 'rgb(35, 40, 43)',
+				fillOpacity : 0.7
+			});
+			
+			neighborhoodPolygonLayer.removeLayer(layer);
+			
+			$(".neighborhood-label").show();
+			$(".neighborhood-label[data-neighborhood-id='" + e.target.feature.id + "']").hide();
+			
+			map.fitBounds(e.target.getBounds());
 
-		loadSingleNeighborhoodView(feature.properties.name);
+			loadSingleNeighborhoodView(feature.properties.name);
+		}
 	});
 	
 	label.on('mouseover',function(e) { layer.fireEvent('mouseover'); });
