@@ -100,8 +100,12 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   display:block;
   width:90%;
   margin-left: 1rem;
-  padding-top: 0.5rem;
+  padding: 0.5rem 0;
   position: relative;
+}
+
+.reviews-div {
+    cursor: pointer;
 }
 
 .deals-div, .location-details-div {
@@ -109,7 +113,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 .location-details-div {
-  padding-bottom: 0.5rem;
+  padding: 1rem 0;
 }
 
 .right-side-bar h1{
@@ -167,7 +171,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 #deal-details-div table {
-    margin: 1rem 0 0.5rem 0;
+    margin-top: 1rem;
 }
 
 .drink-category-column {
@@ -222,64 +226,29 @@ cursor: pointer;
   vertical-align: top;
 }
 
-#rating_img,#review_count {
-  display: inline-block;
-  vertical-align: top;
+.review-summary-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+#review_count {
+    font-size: 0.75rem;
 }
 
 #profile_img{
-  display: none;
+  display: inline-block;
+  float: left;
   vertical-align: top;
   width:50px;
   height: 50px;
-  margin-top: 1rem;
-
-}
-
-.reviews-div hr{
-  margin-top:0;
-  margin-bottom: 0;
-  margin-left: 0.4rem;
-  border:0;
-  border-top:1px solid #c8a45e;
-  width:55%;
-}
-#yelp_logo img{
- display: inline-block;
- vertical-align: top;
- margin-bottom: 0;
-}
-
-.username{
-  display: inline-block;
-  vertical-align:center;
-  margin-left: 0.5rem;
-  margin-top: 1rem;
-}
-
-.review_count {
-  float:left;
-  margin-top: 0.5rem
-}
-
-.review_count p{
-  margin-left: 0.5rem
+  margin: 0 1rem 0 0;
 }
 
 #name {
   margin-top: 1rem;
-}
-
-#excerpt {
-  margin-top: 0.9rem;
-}
-
-#readMore {
-  float:right;
-  font-size: 80%;
+  margin-bottom: 0;
   color: #c8a45e;
- cursor: pointer;
- margin-bottom: 0.9rem;
 }
 
 

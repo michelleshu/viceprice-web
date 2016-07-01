@@ -442,8 +442,8 @@ markerLayer.on('layeradd', function(e) {
 		$("#location-cover-photo").css("margin-top", "0px");
 		$("#location-cover-photo").css("margin-bottom", "0px");
 		$("#location-cover-photo").removeAttr("src");
-		$("#location-cover-photo").attr("data-x-offset", properties["coverPhotoXOffset"]);
-		$("#location-cover-photo").attr("data-y-offset", properties["coverPhotoYOffset"]);
+		$("#location-cover-photo").attr("data-x-offset", properties["coverXOffset"]);
+		$("#location-cover-photo").attr("data-y-offset", properties["coverYOffset"]);
 
 		// Add cover photo if applicable
 		if (properties["coverPhotoSource"]) {
@@ -490,17 +490,16 @@ markerLayer.on('layeradd', function(e) {
 		
 		// Yelp Reviews
         $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
-        $(".rev").html("Reviews");
         $.get("/yelpReviews/?yelp_id=" + properties["yelpId"],function(data){
-        	yelp_api_response=data.response; // refer to yelpReview on views.py for more details
+        	yelp_api_response = data.response; // refer to yelpReview on views.py for more details
         	$("#rating_img").attr("src",yelp_api_response.overall_rating_img); //overall rating
         	$("#review_count").html(yelp_api_response.review_count + " reviews");// number of reviews 
         	$("#name").html(yelp_api_response.username); //username
-        	$("#profile_img").css("display","inline-block");
         	$("#profile_img").attr("src",yelp_api_response.user_img);
         	$("#excerpt").html("\" "+yelp_api_response.excerpt+" \"");
-        	$("#readMore").html(parseInt(yelp_api_response.review_count)-1 + " more reviews ..."); //number of remaining reviews
-        	$("#readMore").attr("href",yelp_api_response.url); //venue's page on yelp 
+        	$(".reviews-div").click(function() {
+				window.open(yelp_api_response.url); 
+			});
         });
     })
 });
