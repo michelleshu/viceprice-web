@@ -208,30 +208,31 @@ def fetch_filtered_deals(request):
             })
 
     # Execute query for location categories
-    location_categories_query = "SELECT llc.\"location_id\", lc.\"name\" \
-        FROM \"vp_location_locationCategories\" llc \
-        JOIN \"vp_locationcategory\" lc \
-        ON llc.\"locationcategory_id\" = lc.\"id\" \
-        WHERE llc.\"location_id\" in (" + ",".join(location_ids) + ") \
-        ORDER BY llc.\"location_id\", lc.\"isBaseCategory\" DESC"
-        
-    cursor.execute(location_categories_query)
-    rows = cursor.fetchall()
-    categories = {}
-    for row in rows:
-        if (row[0] not in categories):
-            categories[row[0]] = {
-                "base_category": row[1],
-                "sub_categories": []
-            }
-        else:
-            categories[row[0]]["sub_categories"].append(row[1])
+    if (len(location_ids) > 0):
+        location_categories_query = "SELECT llc.\"location_id\", lc.\"name\" \
+            FROM \"vp_location_locationCategories\" llc \
+            JOIN \"vp_locationcategory\" lc \
+            ON llc.\"locationcategory_id\" = lc.\"id\" \
+            WHERE llc.\"location_id\" in (" + ",".join(location_ids) + ") \
+            ORDER BY llc.\"location_id\", lc.\"isBaseCategory\" DESC"
             
-    for location in locations:
-        location_id = location["properties"]["id"]
-        if location_id in categories:
-            location["properties"]["superCategory"] = categories[location_id]["base_category"]
-            location["properties"]["subCategories"] = categories[location_id]["sub_categories"]
+        cursor.execute(location_categories_query)
+        rows = cursor.fetchall()
+        categories = {}
+        for row in rows:
+            if (row[0] not in categories):
+                categories[row[0]] = {
+                    "base_category": row[1],
+                    "sub_categories": []
+                }
+            else:
+                categories[row[0]]["sub_categories"].append(row[1])
+                
+        for location in locations:
+            location_id = location["properties"]["id"]
+            if location_id in categories:
+                location["properties"]["superCategory"] = categories[location_id]["base_category"]
+                location["properties"]["subCategories"] = categories[location_id]["sub_categories"]
     
     return JsonResponse({ 
         "result": json.dumps({
