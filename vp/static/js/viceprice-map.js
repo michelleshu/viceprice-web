@@ -492,8 +492,8 @@ markerLayer.on('layeradd', function(e) {
         $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
         $.get("/yelpReviews/?yelp_id=" + properties["yelpId"],function(data){
         	yelp_api_response = data.response; // refer to yelpReview on views.py for more details
-        	$("#rating_img").attr("src",yelp_api_response.overall_rating_img); //overall rating
-        	$("#review_count").html(yelp_api_response.review_count + " reviews");// number of reviews 
+        	$("#rating_img").attr("src",yelp_api_response.overall_rating_img);
+        	$("#review_count").html("(" + yelp_api_response.review_count + ")");
         	$("#name").html(yelp_api_response.username); //username
         	$("#profile_img").attr("src",yelp_api_response.user_img);
         	$("#excerpt").html("\" "+yelp_api_response.excerpt+" \"");
@@ -503,37 +503,6 @@ markerLayer.on('layeradd', function(e) {
         });
     })
 });
-
-	// $('#deal-details-div')
-	// for (item in items){
-	// 	var type = item[0].toUpperCase() + item.slice(1)
-	// 		var image;
-	// 		if (items[item].length != 0) {
-	// 			if(item == "beer") image = "<span><img src='../static/img/beer.png'/>"
-	// 			if(item == "wine") image = "<span><img src='../static/img/wine.png'/>"
-	// 			if(item == "liquor") image =  "<span><img src='../static/img/liquor.png'/><p id='drink_type'> Cocktails/"
-	// 			ulElement = ulElement + image  +  "<p id='drink_type'>" + type + ": </p><ul  style=padding-left:10px; >" 
-	// 		}
-	// 
-	// 		items[item].sort(function(a, b){
-	// 		    return a.value - b.value;
-	// 		});
-	// 		var group = groupByType(items[item])
-	// 		for(g in group){
-	// 			var dealDetails  =	groupByValue(group[g])
-	// 			for(details in dealDetails){
-	// 				var detailType;
-	// 				if (dealDetails[details]['detailType'] == 1) detailType = "$"+ dealDetails[details]['value'] + " ";
-	// 				if (dealDetails[details]['detailType'] == 2) detailType = dealDetails[details]['value'] + "% off "
-	// 				if (dealDetails[details]['detailType'] == 3) detailType = "$"+ dealDetails[details]['value']+ " off "
-	// 				ulElement = ulElement + "<li><p>" +  detailType + dealDetails[details]['drinkName'] + "</p></li>"
-	// 				}
-	// 		}
-	// 	ulElement = ulElement + "</ul></span>"
-	// }
-	// ulElement = ulElement + "</div>"
-	// return ulElement;
-
 
 
 /*** DC Metro Stations ***/

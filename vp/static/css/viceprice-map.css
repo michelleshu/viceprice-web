@@ -108,6 +108,10 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
     cursor: pointer;
 }
 
+.reviews-div:hover {
+    background-color: #f2e7d5;
+}
+
 .deals-div, .location-details-div {
   border-bottom:1px solid #cacaca;
 }
@@ -234,6 +238,7 @@ cursor: pointer;
 
 #review_count {
     font-size: 0.75rem;
+    color: #7d7f80;
 }
 
 #profile_img{
@@ -249,6 +254,12 @@ cursor: pointer;
   margin-top: 1rem;
   margin-bottom: 0;
   color: #c8a45e;
+}
+
+#more-reviews {
+    color: #c8a45e;
+    text-align: right;
+    width: 100%;
 }
 
 
