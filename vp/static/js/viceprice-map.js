@@ -43,6 +43,7 @@ var selectedNeighborhood;
 // TIME FILTERS
 var selectedDay = null;
 var selectedTime = null;
+var timeFilterActive = false;
 
 var DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 var HOURS_IN_DAY = 24, MINUTES_IN_HOUR = 60;
@@ -88,15 +89,24 @@ function loadMap() {
 		map.addLayer(clusterLayer);
 		
 		// Zoom Event Handler 
-		map.on('zoomend', function() {
+		map.on('zoomend', function() {			
 			// Hide marker detail when zoomed out to full map
 			if (this.getZoom() === 13 && hiddenNeighborhoodLayer) {
+				selectedNeighborhood = null;
 				markerLayer.setGeoJSON([]);
 				clusterLayer.clearLayers();
 				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
 				$(".neighborhood-label").show();
 			}
 		});
+	}
+}
+
+function reloadData() {
+	if (selectedNeighborhood) {
+		loadSingleNeighborhoodView(selectedNeighborhood);
+	} else {
+		populateLocationCountsByNeighborhood();
 	}
 }
 
@@ -119,12 +129,14 @@ function populateLocationCountsByNeighborhood() {
 	if (selectedDay) {
 		queryString += "?day=" + selectedDay;
 		
-		if (selectedTime) {
+		if (selectedTime && timeFilterActive) {
 			queryString += "&time=" + selectedTime;
 		}
 	}
 	$.get("/fetch_location_counts_by_neighborhood" + queryString, function(data) {
 		var counts = JSON.parse(data["result"]);
+		
+		$(".location-count-label").text("(0)");
 		
 		for (var neighborhood in counts) {
 			$("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
@@ -280,10 +292,11 @@ function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 // LOAD VIEW FOR SINGLE NEIGHBORHOOD
 function loadSingleNeighborhoodView(neighborhood) {
 	var queryString = "?neighborhood=" + neighborhood;
+	selectedNeighborhood = neighborhood;
 	if (selectedDay) {
 		queryString += "&day=" + selectedDay;
 		
-		if (selectedTime) {
+		if (selectedTime && timeFilterActive) {
 			queryString += "&time=" + selectedTime;
 		}
 	}
@@ -522,6 +535,8 @@ function initializeDayAndTime() {
 	dayFilter.on("input", function(event) {
 		selectedDay = dayFilter.val();
 		$('#day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
+		
+		reloadData();
 	});
 	
 	selectedDay = now.day();
@@ -533,10 +548,14 @@ function initializeDayAndTime() {
         if ($(this).is(":checked")) {
             $("#time").show();
 			$("#time_output").show();
+			timeFilterActive = true;
         } else {
 			$("#time").hide();
 			$("#time_output").hide();
+			timeFilterActive = false;
 		}
+		
+		reloadData();
 	});
 	
 	var timeFilter = $('#time');
@@ -544,14 +563,16 @@ function initializeDayAndTime() {
 	timeFilter.attr('min', MIN_HOUR * MINUTES_IN_HOUR);
 	timeFilter.attr('max', MAX_HOUR * MINUTES_IN_HOUR);
 
-	timeFilter.on('input', function(event){
+	timeFilter.on('input', function(event) {
 		var totalMinutes = timeFilter.val();
 		var hours = totalMinutes / MINUTES_IN_HOUR;
 		if (hours > 24) hours -= 24;
 		var minutes = totalMinutes % MINUTES_IN_HOUR;
 		var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
-		selectedTime = selectedTimeMoment.format("HH:mm");
+		selectedTime = selectedTimeMoment.format("H:mm");
 		$("#time_output").text(selectedTimeMoment.format("hh:mm A"));
+		
+		reloadData();
 	});
 	
 	var nowTotalMinutes = now.hours() * MINUTES_IN_HOUR + now.minutes();
@@ -563,6 +584,7 @@ function initializeDayAndTime() {
 	if (hours > 24) hours -= 24;
 	var minutes = now.minutes() > 30 ? 0 : 30;
 	var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
+	selectedTime = selectedTimeMoment.format("H:mm");
 	$('#time_output').text(selectedTimeMoment.format("hh:mm A"));
 	timeFilter.val(nowTotalMinutes);
 }
