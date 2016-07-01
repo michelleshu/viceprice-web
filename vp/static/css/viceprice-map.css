@@ -169,7 +169,6 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   }
 
 .right-side-bar .category {
-    font-size: 0.8rem;
     color: #5b5b5b;
     display: inline-block;
 }
@@ -515,7 +514,7 @@ cursor: pointer;
     display:none;
 }
 
-.today_label, .nhf_label{
+.filter-by-hours-label {
   display: block;
   font-size:70%;
   color:#aeaeae;

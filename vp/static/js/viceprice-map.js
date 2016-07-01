@@ -37,12 +37,20 @@ var barMarkerClicked = L.icon({
     popupAnchor:  [3, -42]
 });
 
+// NEIGHBORHOOD FILTER
+var selectedNeighborhood;
+
 // TIME FILTERS
 var selectedDay = null;
 var selectedTime = null;
 
+var DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+var HOURS_IN_DAY = 24, MINUTES_IN_HOUR = 60;
+var MIN_HOUR = 8, MAX_HOUR = 3 + HOURS_IN_DAY;
+
 // INITIALIZATION
 var init = function() {
+	initializeDayAndTime();
 	loadMap();
 	loadRegionalView();
 };
@@ -505,6 +513,60 @@ markerLayer.on('layeradd', function(e) {
 });
 
 
+// DAY AND TIME FILTERS
+function initializeDayAndTime() {
+	var now = moment();
+	
+	// Initialize day
+	var dayFilter = $("#day");
+	dayFilter.on("input", function(event) {
+		selectedDay = dayFilter.val();
+		$('#day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
+	});
+	
+	selectedDay = now.day();
+	dayFilter.val(selectedDay);
+	$('#day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
+	
+	// Initialize time filter, but don't set time until activated
+	$("#filter-by-hours").change(function() {
+        if ($(this).is(":checked")) {
+            $("#time").show();
+			$("#time_output").show();
+        } else {
+			$("#time").hide();
+			$("#time_output").hide();
+		}
+	});
+	
+	var timeFilter = $('#time');
+	timeFilter.attr('step', MINUTES_IN_HOUR / 2);
+	timeFilter.attr('min', MIN_HOUR * MINUTES_IN_HOUR);
+	timeFilter.attr('max', MAX_HOUR * MINUTES_IN_HOUR);
+
+	timeFilter.on('input', function(event){
+		var totalMinutes = timeFilter.val();
+		var hours = totalMinutes / MINUTES_IN_HOUR;
+		if (hours > 24) hours -= 24;
+		var minutes = totalMinutes % MINUTES_IN_HOUR;
+		var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
+		selectedTime = selectedTimeMoment.format("HH:mm");
+		$("#time_output").text(selectedTimeMoment.format("hh:mm A"));
+	});
+	
+	var nowTotalMinutes = now.hours() * MINUTES_IN_HOUR + now.minutes();
+	if (nowTotalMinutes < timeFilter.attr('min')) {
+		nowTotalMinutes += HOURS_IN_DAY * MINUTES_IN_HOUR;
+	}
+	// Round current time
+	var hours = now.minutes() > 30 ? now.hours() + 1 : now.hours();
+	if (hours > 24) hours -= 24;
+	var minutes = now.minutes() > 30 ? 0 : 30;
+	var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
+	$('#time_output').text(selectedTimeMoment.format("hh:mm A"));
+	timeFilter.val(nowTotalMinutes);
+}
+
 /*** DC Metro Stations ***/
 var metroLayer = L.mapbox.featureLayer().addTo(map); //create en empty feature layer for the metro stations
 													//actual data won't get loaded until a specific neighborhood is clicked
@@ -539,80 +601,23 @@ metroLayer.on('layeradd', function(e) {
     });
 });
 
-/****Zoom in/Zoom out and Neighborhood Zoom functions ****/
-var zoom;
-/*If the neighborhood button is clicked, do the following:
-1) if the right menu is shown, hide it
-2) reset the style of any previously selected neighborhood
-3) zoom out to DC level
-4) remove markers,metro stations and clusters*/
-$("#neighboor-zoom").click(function() {
-     $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
-     $(".right-side-bar").hide("slide", { direction: "right" }, 700);
-     $(".sliding").animate({ right: "0"} , 700);
-     $menu_visible=false;
 
-     if(neighborhood_on){
-    //reset polygon style
-    dcnLayer.resetStyle(lastLayer);
-    lastLayer.on({mousemove:mousemove, mouseout:mouseout,click:click});
-    document.getElementById(lastLayer.feature.id).style.color="#c8a45e";
-    id=parseInt(lastLayer.feature.id)-1;
-    css[id].style.display="block";
-    //remove all markers
-    cluster.clearLayers();
-     myLayer.setFilter(function(f) {
-            return false;
-        });
-     metroLayer.setFilter(function(f) {
-            return false;
-        });
-	}
-    //zoom out to dc level
-    map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
-    
+// ZOOM FUNCTIONS 
+
+$("#neighboor-zoom").click(function() {
+	$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
+	$(".sliding").animate({ right: "0"} , 700);
+	$menu_visible=false;
+	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
 });
 
 $("#zoom-in").click(function() {
-	zoom = map.getZoom();
+	var zoom = map.getZoom();
 	map.setZoom(zoom + 1);
 });
 
 $("#zoom-out").click(function() {
-   zoom=map.getZoom();
-  map.setZoom(zoom-1);
+	var zoom = map.getZoom();
+	map.setZoom(zoom-1);
 });
-
-/*If the zoom level of the map changes, do the following:
-- if the zoom level is 13, hide the right menu
-- if the zoom level is 17 or 18, disable the cluster feature and show unclustered markers
-- if the zoom level is 13-16, cluster feature kicks in
-*/
-// map.on('move', function() {
-//     zoom = map.getZoom();
-//     if (zoom == 13) {
-//      $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
-//      $(".right-side-bar").hide("slide", { direction: "right" }, 700);
-//      $(".sliding").animate({ right: "0"} , 700);
-//      $menu_visible=false;
-//  	}
-// 
-//  	if(!neighborhood_on){
-//  		if(zoom ==13)
-//     		metroLayer.setFilter(function(f) {return false;});
-// 		else
-//     	metroLayer.setFilter(function() {return true;});
-//     }
-// 
-//     if((zoom == 17) || (zoom ==18))
-//     {
-//     	cluster.clearLayers();
-//     	map.addLayer(myLayer);
-//     }
-//     else
-//     {
-//     	map.removeLayer(myLayer);
-//     	cluster.addLayer(myLayer);
-//     	map.addLayer(cluster);
-//     }
-// });
