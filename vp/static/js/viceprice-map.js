@@ -1,6 +1,7 @@
 // MAPBOX
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yMWVlY3g4a24ifQ._0c3U-A8Lv6C7Sm3ceeiHw';
 var map;
+var loadingIndicator;
 var neighborhoodPolygonLayer;
 var clusterLayer;
 var markerLayer;
@@ -52,6 +53,7 @@ var MIN_HOUR = 8, MAX_HOUR = 3 + HOURS_IN_DAY;
 // INITIALIZATION
 var init = function() {
 	initializeDayAndTime();
+	initializeLoadingIndicator();
 	loadMap();
 	loadRegionalView();
 };
@@ -117,6 +119,7 @@ function reloadData() {
 
 // LOAD REGIONAL (NEIGHBORHOOD OVERVIEW) VIEW
 function loadRegionalView() {
+	$(".loading-indicator-container").show();
 	if (!neighborhoodPolygonLayer) {
 		$.getJSON("static/json/neighborhood-polygons.json")
 			.done(function(data) {
@@ -130,6 +133,7 @@ function loadRegionalView() {
 }
 
 function populateLocationCountsByNeighborhood() {
+	$(".loading-indicator-container").show();
 	var queryString = "";
 	if (selectedDay) {
 		queryString += "?day=" + selectedDay;
@@ -147,6 +151,8 @@ function populateLocationCountsByNeighborhood() {
 			$("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
 				.text("(" + counts[neighborhood] + ")");
 		}
+		
+		$(".loading-indicator-container").hide();
 	});
 }
 
@@ -298,6 +304,8 @@ function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 
 // LOAD VIEW FOR SINGLE NEIGHBORHOOD
 function loadSingleNeighborhoodView(neighborhood) {
+	$(".loading-indicator-container").show();
+	
 	var queryString = "?neighborhood=" + neighborhood;
 	selectedNeighborhood = neighborhood;
 	if (selectedDay) {
@@ -311,6 +319,7 @@ function loadSingleNeighborhoodView(neighborhood) {
 	$.get("/fetch_filtered_deals" + queryString, function(data) {
 		clusterLayer.clearLayers();
 		markerLayer.setGeoJSON(JSON.parse(data["result"]));
+		$(".loading-indicator-container").hide();
 	});
 }
 
@@ -595,6 +604,19 @@ function initializeDayAndTime() {
 	selectedTime = selectedTimeMoment.format("H:mm");
 	$('#time_output').text(selectedTimeMoment.format("hh:mm A"));
 	timeFilter.val(nowTotalMinutes);
+}
+
+// LOADING INDICATOR 
+function initializeLoadingIndicator() {
+	var container = $(".loading-indicator-container")[0];
+	loadingIndicator = new Spinner({
+		color: "#FFFFFF",
+		lines: 11,
+		length: 41,
+		width: 10,
+		radius: 32,
+		scale: 0.3
+	}).spin(container);
 }
 
 /*** DC Metro Stations ***/
