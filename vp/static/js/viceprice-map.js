@@ -362,7 +362,7 @@ markerLayer.on('layeradd', function(e) {
 		
 		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
 		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
-		markup += "<h3>" + start + " - " + end  + "</h3></li>";
+		markup += "<h3>" + DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end  + "</h3></li>";
 		
 		// Display best deals per category
 		var beers = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
@@ -523,7 +523,7 @@ markerLayer.on('layeradd', function(e) {
 		// Deal Info
 		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
 		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
-        $("#deal-time-frame").html(start + " - " + end);
+        $("#deal-time-frame").html(DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end);
         $("#deal-details-div").html(getDealMarkup(deal.dealDetails));
 		
 		// Yelp Reviews
