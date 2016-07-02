@@ -1,14 +1,24 @@
 /****************/
 html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
+  font-family:"Montserrat", Arial, sans-serif !important;
   margin:0;
   padding:0;
   border:0;
   font:inherit;
   vertical-align:baseline;
-  }
+}
 
 /* Leftside bar*/
-.left-side-bar  { position:fixed;float:left; width:16.6666%;  background-color:rgb(35, 40, 43); top:0; bottom:0; left:0;}
+.left-side-bar  { 
+    position:fixed;
+    float:left; 
+    width:16.6666%; 
+    height: 100%; 
+    background-color:rgb(35, 40, 43); 
+    top:0; 
+    bottom:0; 
+    left:0;
+}
 
 .search-div, .hours-div,.legend-div{
   display:block;
@@ -43,7 +53,6 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
     border: 0 none;
     font-size:50%;
     color:#7d7f80;
-    font-family: Montserrat, Arial, sans-serif;
     width: 70%;
     padding: 5% 5%;
 }
@@ -59,7 +68,6 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   display: block;
   font-size:80%;
   color:#aeaeae;
-  font-family:"Montserrat", Arial, sans-serif;
 }
 
  .left-side-bar p{
@@ -67,17 +75,20 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   font-size:70%;
   color:#7d7f80;
   margin-bottom: 5%;
-  font-family:"Montserrat", Arial, sans-serif;
   border-bottom: 1px solid #7d7f80;
-  }
+ }
 
-.about-contact-us{float:left;left:0; bottom:0; position: fixed;margin-left:0.5rem; width:16.6666%; }
+.about-contact-us {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
 
 .attribution{text-align: right;display: inline-block;margin-left: 1rem}
 
 .attribution a {padding-left:0;}
 
-a {font-size:70%; font-family: Arial, sans-serif;padding-left:0.5rem;}
+a {font-size:70%; padding-left:0.5rem;}
 a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
@@ -90,25 +101,32 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 .right-side-bar { height: 100%; overflow: scroll; }
 .sliding { position: fixed; float:right; width: 10px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
 
-.specials-div, .location-details-div, .reviews-div {
+.deals-div, .location-details-div, .reviews-div {
   display:block;
   width:90%;
   margin-left: 1rem;
-  padding-top: 0.5rem;
+  padding: 0.5rem 0;
   position: relative;
 }
 
-.specials-div, .location-details-div {
- border-bottom:1px solid #cacaca;
+.reviews-div {
+    cursor: pointer;
+}
+
+.reviews-div:hover {
+    background-color: #f2e7d5;
+}
+
+.deals-div, .location-details-div {
+  border-bottom:1px solid #cacaca;
 }
 
 .location-details-div {
-  padding-bottom: 0.5rem;
+  padding: 1rem 0;
 }
 
 .right-side-bar h1{
   font-size:120%;
-  font-family: Montserrat, Arial, sans-serif;
   font-weight: bold;
 }
 
@@ -122,7 +140,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   margin: 0 1rem 0 1rem;
 }
 
-.right-side-bar #specials-time-frame {
+.right-side-bar #deal-time-frame {
   color: #c8a45e;
   margin-top: 0;
 }
@@ -135,7 +153,6 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   margin-top: 0;
   margin-bottom: 0.2rem;
   height: 1rem;
-  font-family: Montserrat;
   font-size: 0.8rem;
 }
 
@@ -143,48 +160,46 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   font-size:70%;
   color:#aeaeae;
   display: inline;
-  font-family: Montserrat, Arial, sans-serif;
 }
 
 .right-side-bar h4{
   font-size:70%;
   color:#5b5b5b;
   display: inline;
-  font-family: Montserrat, Arial, sans-serif;
 }
 
 .right-side-bar p{
   font-size: 0.75rem;
   color:#7d7f80;
-  font-family: Montserrat, Arial, sans-serif;
   }
 
 .right-side-bar .category {
-    font-family: Montserrat;
-    font-size: 0.8rem;
     color: #5b5b5b;
     display: inline-block;
 }
 
-.specials-div ul {
-  font-size: 0.75rem;
-  color:#c8a45e;
-  font-family: Montserrat, Arial, sans-serif;
-  margin-left: 0;
- }
-
-.specials-div li {
-  color:#c8a45e;
-  font-family: Montserrat, Arial, sans-serif;
-  margin-left: 2rem;
+#deal-details-div table {
+    margin-top: 1rem;
 }
 
-.specials-div li:first-line {
-  color:#7d7f80;
+.drink-category-column {
+    vertical-align: top;
+    width: 30px;
 }
 
-.location-details-div {
-  padding: 0.5rem 0 1rem 0;
+.drink-category-column img {
+    width: 30px;
+    padding-bottom: 0.5rem;
+}
+
+.deal-detail-column {
+    vertical-align: top;
+    color: #7d7f80;
+    font-size: 0.75rem;
+}
+
+.deal-detail-column li {
+    padding-bottom: 0.3rem;
 }
 
 .location-details-div i {
@@ -199,7 +214,6 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 #location-address, #location-phone-number, #location-website {
-  font-family: Montserrat, Arial, sans-serif;
   font-size: 0.75rem;
   color: #7d7f80;
   position: relative;
@@ -215,71 +229,41 @@ cursor: pointer;
 
 #drink_type{
   color: #7d7f80;
-  font-family: Montserrat, Arial, sans-serif;
   font-size: 0.9rem;
   display: inline-block;
   vertical-align: top;
 }
 
-#rating_img,#review_count {
-  display: inline-block;
-  vertical-align: top;
+.review-summary-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+#review_count {
+    font-size: 0.75rem;
+    color: #7d7f80;
 }
 
 #profile_img{
-  display: none;
+  display: inline-block;
+  float: left;
   vertical-align: top;
   width:50px;
   height: 50px;
-  margin-top: 1rem;
-
-}
-
-.reviews-div hr{
-  margin-top:0;
-  margin-bottom: 0;
-  margin-left: 0.4rem;
-  border:0;
-  border-top:1px solid #c8a45e;
-  width:55%;
-}
-#yelp_logo img{
- display: inline-block;
- vertical-align: top;
- margin-bottom: 0;
-}
-
-.username{
-  display: inline-block;
-  vertical-align:center;
-  margin-left: 0.5rem;
-  margin-top: 1rem;
-}
-
-.review_count {
-  float:left;
-  margin-top: 0.5rem
-}
-
-.review_count p{
-  margin-left: 0.5rem
+  margin: 0 1rem 0 0;
 }
 
 #name {
   margin-top: 1rem;
-}
-
-#excerpt {
-  margin-top: 0.9rem;
-}
-
-#readMore {
-  float:right;
-  font-family: Montserrat,Arial, sans-serif;
-  font-size: 80%;
+  margin-bottom: 0;
   color: #c8a45e;
- cursor: pointer;
- margin-bottom: 0.9rem;
+}
+
+#more-reviews {
+    color: #c8a45e;
+    text-align: right;
+    width: 100%;
 }
 
 
@@ -426,7 +410,6 @@ cursor: pointer;
         display: block;
         font-size:70%;
         color:#aeaeae;
-        font-family: Montserrat, Arial, sans-serif;
 
       }
 
@@ -442,25 +425,25 @@ cursor: pointer;
         margin-left: 25%;
         font-size:70%;
         color:rgb(35, 40, 43);
-        font-family:"Montserrat", Arial, sans-serif;
         cursor: auto;
         display: none;
       }
 
     /*******Neighborhood labels*********/
 
-    .map_labels{
-    color:white;
-    font-family: Montserrat;
-    text-align:center;
+    .neighborhood-label .name-label {
+        color: white;
+        font-family: Montserrat;
+        text-align:center;
+        opacity: 0.7;
     }
 
-    .bar_num_labels{
-    margin-top: 1px;
-    color:#c8a45e;
-    font-size:10px;
-    font-family: Montserrat;
-    text-align:center;
+    .neighborhood-label .location-count-label {
+        margin-top: 0.2rem;
+        color: #c8a45e;
+        font-size:0.7rem;
+        text-align:center;
+        opacity: 0.7;
     }
 
   /****tooltip css****/
@@ -485,7 +468,6 @@ cursor: pointer;
   .leaflet-container .tooltip-info h1{
   font-size: 1rem;
   color:#5b5b5b;
-  font-family: Montserrat, Arial, sans-serif;
   margin-bottom: 0.1rem;
   }
 
@@ -493,7 +475,6 @@ cursor: pointer;
   display: inline;
   font-size: 0.75rem;
   color:#aeaeae;
-  font-family: Montserrat, Arial, sans-serif;
   font-weight: normal;
   }
 
@@ -538,11 +519,10 @@ cursor: pointer;
     display:none;
 }
 
-.today_label, .nhf_label{
+.filter-by-hours-label {
   display: block;
   font-size:70%;
   color:#aeaeae;
-  font-family: Montserrat, Arial, sans-serif;
 }
 
 input[type=checkbox] + label:before {
@@ -564,4 +544,13 @@ input[type=checkbox]:checked + label:before {
     text-align:center;
     line-height:15px;
     text-shadow:0px 0px 3px #eee;
+}
+
+.loading-indicator-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(80, 80, 80, 0.4);
 }

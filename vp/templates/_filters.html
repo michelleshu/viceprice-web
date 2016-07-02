@@ -4,32 +4,18 @@
 	 	<div class="slogan"> Find Your Perfect Happy Hour </div>
 	 	<div class="beta"> (In Beta For Washington DC) </div>
 	</div>
-<!--
-	<div class='search-div'>
-		<p>SEARCH</p>
-			<form method="get" action="/search" id="search">
-				<input name="q" type="text" size="40" />
-			</form>
-	</div>
--->
 
 	<div class='hours-div'>
 		<p>FILTERS</p>
-			<output for="day" id="day_output"></output>
-			<div class="slider">
-			<input type="range" id="day" value="1" step="1" min="1" max="7">
-			</div>
-			<output for="time" id="time_output" hidden></output>
-			<button class="now">( Right Now )</button>
-			<input type="range" id="time" hidden>
+		<output for="day" id="day_output"></output>
+		<div class="slider">
+		<input type="range" id="day" value="1" step="1" min="1" max="7">
+		</div>
+		<output for="time" id="time_output" hidden></output>
+		<input type="range" id="time" hidden>
 
-			<input type="checkbox" id="today" name="today" value="">
-			<label for="today" class="today_label">Filter by Hours</label>
-
-            <!-- We are hiding the ability to use "Filter by Neighborhood" for now as it is not working for users at the moment. It needs to be fixed first before we can turn this back on-->
-        
-			<!--<input type="checkbox" id="nhf" name="nhf" value="" checked> <!-- neighborhood filter-->
-			<!--<label for="nhf" class="nhf_label">Filter by Neighborhood</label>-->
+		<input type="checkbox" id="filter-by-hours" name="filter-by-hours" value="">
+		<label for="filter-by-hours" class="filter-by-hours-label">Filter by Hours</label>
 	</div>
 	<br>
 	<div class='legend-div'>
@@ -47,12 +33,8 @@
 	<div class="about-contact-us">
 		<a href="about">About</a>
 		<a href="mailto:contact@viceprice.co">Contact Us</a>
-        <a href="http://leafletjs.com" title="A JS library for interactive maps">© Leaflet</a> 
-		<a href='https://www.mapbox.com/about/maps/' style="padding-left:0;">© Mapbox</a>
-		<div class="attribution">
-			<a href="TOS">Privacy Policy &amp; Terms of Service</a>
-			
-		</div>
+		<a href="https://www.mapbox.com/about/maps/">© Mapbox</a><br />
+		<a href="TOS">Privacy Policy &amp; Terms of Service</a>
 	</div> 
 </div> 
 
