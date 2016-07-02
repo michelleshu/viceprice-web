@@ -98,6 +98,11 @@ function loadMap() {
 				clusterLayer.clearLayers();
 				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
 				$(".neighborhood-label").show();
+				
+				// Hide sidebar
+				$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+				$(".right-side-bar").hide("slide", { direction: "right" }, 700);
+				$(".sliding").animate({ right: "0"} , 700);
 			}
 		});
 	}
@@ -458,6 +463,7 @@ markerLayer.on('layeradd', function(e) {
     	// Show the right menu
         $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
         $(".right-side-bar").show("slide", { direction: "right" }, 700);
+		$(".sliding").show();
         $(".sliding").animate({ right: "25%" } , 700);
 
         // Reset margins for cover photo
@@ -632,7 +638,6 @@ $("#neighboor-zoom").click(function() {
 	$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
 	$(".sliding").animate({ right: "0"} , 700);
-	$menu_visible=false;
 	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
 });
 
