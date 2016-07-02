@@ -113,13 +113,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'vp', 'static'),
 )
 
-ROLLBAR = {
-    'access_token': '31db6b1bdb5c4757abcd5a97e6301098',
-    'environment': 'development' if DEBUG else 'production',
-    'branch': 'master',
-    'root': os.getcwd(),
-}
-
 # Foursquare
 FOURSQUARE_CLIENT_ID = os.environ.get('FOURSQUARE_CLIENT_ID')
 FOURSQUARE_CLIENT_SECRET = os.environ.get('FOURSQUARE_CLIENT_SECRET')

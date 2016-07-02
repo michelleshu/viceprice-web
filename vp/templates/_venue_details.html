@@ -2,13 +2,14 @@
   <img id="location-cover-photo" />
   <h1 id="location-name"></h1>
   <div id="location-categories"></div>
-  <div class="specials-div">
-    <p id="specials-time-frame"></p>
+  <div class="deals-div">
+      <div id="deal-time-frame"></div>
+      <div id="deal-details-div"></div> 
   </div>
   <div class="location-details-div">
       <div class="location-detail">
           <i class="icon-home" style="display: none;"></i>
-          <span id="location-address">Welcome ..!</span>
+          <span id="location-address"></span>
       </div>
       <div class="location-detail">
           <i class="icon-phone" style="display: none;"></i>
@@ -20,22 +21,22 @@
       </div>
   </div>
   <div class="reviews-div">
-      <h2 class="rev"></h2><img id="yelp_log" src="" style="margin-left:1.5rem;"/> 
-      <div class="review_count">
-        <img id="rating_img" src=""/><p id="review_count"></p>
+      <div class="review-summary-container">
+        <span>
+            <img id="rating_img" src=""/>
+            <span id="review_count"></span>
+        </span>
+        <img id="yelp_logo" src="../static/img/yelp-logo-small.png" style="margin-left:1.5rem;"/> 
       </div>
-      <hr class="rev-hr" style="display: none;"/>
-      <div class="yelp_reivew">
+      <div class="yelp_review">
         <img id="profile_img" src=""/>
-        <div class="username">
         <p id="name"></p>
-        </div>
         <p id="excerpt"></p>
-        <a id="readMore" href="" target="_blank"></a>
+        <p id="more-reviews">More reviews...</p>
       </div>
   </div>
   </div>
 
-<div class="sliding">  
+<div class="sliding" hidden>  
 <img class="slider-arrow" src="../static/img/left-arrow.png" style="position: absolute;top:50%;"/> 
 </div>

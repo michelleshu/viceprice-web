@@ -1,4 +1,6 @@
 from django.core.context_processors import csrf
+from django.db import connection
+from django.db.models import Count
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -114,99 +116,168 @@ def upload_data_view(request):
 
     return render_to_response('upload_data.html', context)
 
-def fetch_locations(request):
+
+def fetch_filtered_deals(request):
+    neighborhood = request.GET.get('neighborhood')
     time = request.GET.get('time')
     day = request.GET.get('day')
-    if(time == None):
-        locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day)).distinct().prefetch_related('deals__dealDetails')
-    else:
-        locations = Location.objects.filter(Q(deals__activeHours__dayofweek=day), Q(deals__activeHours__start__lte=time), Q(deals__activeHours__end__gt=time) | Q(deals__activeHours__end__lte=F('deals__activeHours__start'))).distinct().prefetch_related('deals__dealDetails')
-    neighborhoods = locations.values('neighborhood').annotate(total=Count('neighborhood'))
-    neighborhooddata = []
-    for nh in neighborhoods:
-        neighborhood={"neighborhood" : nh.get('neighborhood'), "count" : nh.get('total')}
-        neighborhooddata.append(neighborhood)
-    container = []
-    barLocations = []
-    dealInfo = {}
-    for location in locations:
-        dealList = []
-        dealSet = location.deals.filter(Q(dealSource = 1) & Q(confirmed = True))
-        if(time == None): 
-            dealSet = dealSet.filter(Q(activeHours__dayofweek=day)).all()
-        else:
-            dealSet = dealSet.filter(Q(activeHours__dayofweek=day), Q(activeHours__start__lte=time), Q(activeHours__end__gt=time) | Q(activeHours__end__lte=F('activeHours__start'))).all()
-        superCat=location.locationCategories.filter(isBaseCategory = True).all()[0]
-        subCategories = list(location.locationCategories.filter(isBaseCategory = False).values_list('name', flat=True).all())
-        beers = []
-        wines =[]
-        liquors =[]
-        for d in dealSet:
-            dealDetails = d.dealDetails.all()
-            details = {}
-            activehours = d.activeHours.all()
-          
-            for dd in dealDetails:
-                if dd.drinkCategory == 1:
-                    beer = {"detail_id":dd.id,
-                          "drinkName": dd.drinkName,
-                          "detailType":dd.detailType,
-                          "value":dd.value}
-                    beers.append(beer)
-                elif dd.drinkCategory == 2:
-                    wine = {"detail_id":dd.id,
-                          "drinkName": dd.drinkName,
-                          "detailType":dd.detailType,
-                          "value":dd.value}
-                    wines.append(wine)
-                elif dd.drinkCategory == 3:
-                    liquor = {"detail_id":dd.id,
-                          "drinkName": dd.drinkName,
-                          "detailType":dd.detailType,
-                          "value":dd.value}
-                    liquors.append(liquor)
-            orderedDetails = (("beer", beers),("wine", wines),("liquor",liquors))
-            details = collections.OrderedDict(orderedDetails)
-            deals = {"deal_id" : d.id,
-                    "details": details }
-            for ah in activehours:
-                activehour = {"start" : ah.start,
-                    "end": ah.end }
-                deals["hours"] = activehour
-            dealList = deals
-        dealData = dealList
-        dealInfo[location.id] = dealData
-        addressCityIndex = location.formattedAddress.find("Washington,")
-        abbreviatedAddress = location.formattedAddress[:addressCityIndex]
-        locationData = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [location.longitude, location.latitude]
-            },
-            "properties": {
-                "locationid": location.id,
-                "name": location.name,
-                "website":location.website,
-                "happyHourWebsite":location.happyHourWebsite,
-                "phone": location.formattedPhoneNumber,
-                "fullAddress": location.formattedAddress,
-                "abbreviatedAddress": abbreviatedAddress,
-                "neighborhood":location.neighborhood,
-                "coverPhotoSource": location.coverPhotoSource,
-                "coverPhotoXOffset": location.coverXOffset,
-                "coverPhotoYOffset": location.coverYOffset,
-                "super_category": superCat.name,
-                "subCategories": subCategories,
-            }
-        }
-        barLocations.append(locationData)
-    return JsonResponse({'json':barLocations, 'deals':dealInfo, 'neighborhoods':neighborhooddata})
 
+    location_query = "SELECT l.\"id\", l.\"name\", l.\"latitude\", l.\"longitude\", l.\"website\", l.\"happyHourWebsite\", l.\"formattedPhoneNumber\", \
+        l.\"street\", l.\"coverPhotoSource\", l.\"coverXOffset\", l.\"coverYOffset\", l.\"yelpId\", \
+        d.\"id\", ah.\"start\", ah.\"end\", dd.\"drinkName\", dd.\"drinkCategory\", dd.\"detailType\", dd.\"value\" \
+        FROM \"vp_location\" l \
+        JOIN \"vp_location_deals\" ld \
+        ON l.\"id\" = ld.\"location_id\" \
+        JOIN \"vp_deal\" d \
+        ON d.\"id\" = ld.\"deal_id\" \
+        JOIN \"vp_deal_activeHours\" dah \
+        ON d.\"id\" = dah.\"deal_id\" \
+        JOIN \"vp_activehour\" ah \
+        ON ah.\"id\" = dah.\"activehour_id\" \
+        JOIN \"vp_deal_dealDetails\" ddd \
+        ON d.\"id\" = ddd.\"deal_id\" \
+        JOIN \"vp_dealdetail\" dd \
+        ON dd.\"id\" = ddd.\"dealdetail_id\" \
+        WHERE d.\"dealSource\" = 1 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
+
+    if (day != None):
+        location_query += " AND ah.\"dayofweek\" = " + str(day)
+    
+        if (time != None):
+            location_query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
+        
+    location_query += " ORDER BY l.\"id\", d.\"id\", dd.\"drinkName\""
+
+    cursor = connection.cursor()
+    cursor.execute(location_query)
+    rows = cursor.fetchall()
+    
+    locations = []
+    location_ids = []
+    for row in rows:
+        if (len(locations) == 0 or int(row[0]) != locations[len(locations) - 1]["properties"]["id"]):
+            locations.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [float(row[3]), float(row[2])]
+                },
+                "properties": {
+                    "id": int(row[0]),
+                    "name": row[1],
+                    "latitude": float(row[2]), 
+                    "longitude": float(row[3]),
+                    "website": row[4], 
+                    "happyHourWebsite": row[5],
+                    "phoneNumber": row[6], 
+                    "street": row[7], 
+                    "coverPhotoSource": row[8],
+                    "coverXOffset": row[9], 
+                    "coverYOffset": row[10],
+                    "yelpId": row[11],
+                    "deals": []
+                }
+            })
+            location_ids.append(str(row[0]))
+        
+        deals = locations[len(locations) - 1]["properties"]["deals"]
+        
+        if (len(deals) == 0 or int(row[12]) != deals[len(deals) - 1]["id"]):
+            start = None
+            if (row[13] != None):
+                start = str(row[13])
+                
+            end = None
+            if (row[14] != None):
+                end = str(row[14])
+                
+            deals.append({ 
+                "id": int(row[12]),
+                "start": start,
+                "end": end,
+                "dealDetails": []
+            })
+        
+        deal_details = deals[len(deals) - 1]["dealDetails"]
+        if (len(deal_details) == 0 or row[15] != deal_details[len(deal_details) - 1]["drinkName"]):
+            deal_details.append({
+                "drinkName": row[15],
+                "drinkCategory": row[16],
+                "detailType": row[17],
+                "value": row[18]
+            })
+
+    # Execute query for location categories
+    if (len(location_ids) > 0):
+        location_categories_query = "SELECT llc.\"location_id\", lc.\"name\" \
+            FROM \"vp_location_locationCategories\" llc \
+            JOIN \"vp_locationcategory\" lc \
+            ON llc.\"locationcategory_id\" = lc.\"id\" \
+            WHERE llc.\"location_id\" in (" + ",".join(location_ids) + ") \
+            ORDER BY llc.\"location_id\", lc.\"isBaseCategory\" DESC"
+            
+        cursor.execute(location_categories_query)
+        rows = cursor.fetchall()
+        categories = {}
+        for row in rows:
+            if (row[0] not in categories):
+                categories[row[0]] = {
+                    "base_category": row[1],
+                    "sub_categories": []
+                }
+            else:
+                categories[row[0]]["sub_categories"].append(row[1])
+                
+        for location in locations:
+            location_id = location["properties"]["id"]
+            if location_id in categories:
+                location["properties"]["superCategory"] = categories[location_id]["base_category"]
+                location["properties"]["subCategories"] = categories[location_id]["sub_categories"]
+    
+    return JsonResponse({ 
+        "result": json.dumps({
+            "type": "FeatureCollection",
+            "features": locations 
+        })
+    })
+
+def fetch_location_counts_by_neighborhood(request):
+    time = request.GET.get('time')
+    day = request.GET.get('day')
+    
+    # Select locations with optional day and time filters
+    inner_query = "SELECT * FROM \"vp_location\""
+    if (day != None):
+        inner_query = "SELECT DISTINCT(l.*) FROM \"vp_location\" l \
+            JOIN \"vp_location_deals\" ld \
+        	ON l.\"id\" = ld.\"location_id\" \
+        	JOIN \"vp_deal\" d \
+        	ON d.\"id\" = ld.\"deal_id\" \
+        	JOIN \"vp_deal_activeHours\" dah \
+        	ON d.\"id\" = dah.\"deal_id\" \
+        	JOIN \"vp_activehour\" ah \
+        	ON ah.\"id\" = dah.\"activehour_id\" \
+        	WHERE ah.\"dayofweek\" = " + str(day)
+        
+        if (time != None):
+            inner_query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
+    
+    query = "SELECT ld.neighborhood, count(*) AS count \
+        FROM (" + inner_query + ") ld \
+        GROUP BY ld.\"neighborhood\""
+    
+    cursor = connection.cursor()
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    
+    result = {}
+    for row in rows:
+        result[str(row[0])] = int(row[1])
+
+    return JsonResponse({ "result": json.dumps(result) })
 
 def yelp_reviews(request):
-    locationID=request.GET.get('loc_id')
-    location=Location.objects.filter(id=locationID).all()[0]
+    yelpId = request.GET.get('yelp_id')
 
     #need to be moved to config
     yelp_consumer_key = "Piz41a8pB1aBdsTg5jkZDw"
@@ -215,7 +286,7 @@ def yelp_reviews(request):
     yelp_token_secret = "smLN2bEYWxF3Y7ok19BgdJp3590"
     
     yelp_api = YelpAPI(yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret)
-    api_response = yelp_api.business_query(id=location.yelpId)
+    api_response = yelp_api.business_query(id = yelpId)
 
     responseJson= {
         "excerpt": api_response['reviews'][0]['excerpt'],
@@ -232,11 +303,6 @@ def sandbox(request):
     context = {}
     context.update(csrf(request))
     return render_to_response('sandbox.html', context)
-
-#def blog(request):
-#    context = {}
-#    context.update(csrf(request))
-#    return render_to_response('blog.html', context)
 
 def index(request):
     context = {}
