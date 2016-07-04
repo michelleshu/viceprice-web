@@ -92,9 +92,19 @@ a {font-size:70%; padding-left:0.5rem;}
 a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
-.zooming-bar { position: fixed; float:right; width: 22px; height:85px; background-color: #c8a45e;top:0; margin-left:16.6666%;}
+.zooming-bar { padding: 0.1rem 0; position: fixed; bottom: 3rem; left:16.6666%; background-color: #c8a45e; width: 22px; }
 .zooming-bar li{ list-style-type: none;text-align: center;}
 .zooming-bar img{width:20px;height:20px;margin-top:15%;cursor: pointer;}
+
+#overview-zoom {
+    position: fixed;
+    left: 16.66%;
+    bottom: 1.2rem;
+    font-size: 0.8rem;
+    padding: 0.1rem 0.4rem;
+    background-color: #c8a45e;
+    cursor: pointer;
+}
 
 /* Rightside bar*/
 .right-side-bar {display:none;position:absolute; float:left; width:25.0000%; background-color:#fbfbfb;opacity:0.98; top:0; right:0;  }
