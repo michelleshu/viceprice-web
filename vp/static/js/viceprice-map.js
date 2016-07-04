@@ -656,7 +656,7 @@ metroLayer.on('layeradd', function(e) {
 
 // ZOOM FUNCTIONS 
 
-$("#neighboor-zoom").click(function() {
+$("#overview-zoom").click(function() {
 	$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
 	$(".sliding").animate({ right: "0"} , 700);
