@@ -66,8 +66,7 @@ function loadMap() {
 			center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
 			minZoom : 13, // Minimum zoom level of the map
 			zoom : 13, // Initial map zoom
-			attributionControl: false // Remove attribution from map (added in the left menu instead)
-		});
+        });
 		
 		//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
 		var southWest = L.latLng(38.820993, -76.875833),
@@ -93,14 +92,7 @@ function loadMap() {
 		// Zoom Event Handler 
 		map.on('zoomend', function() {			
 			// Hide marker detail when zoomed out to full map
-			if (this.getZoom() === 13 && hiddenNeighborhoodLayer) {
-				selectedNeighborhood = null;
-				reloadData();
-				markerLayer.setGeoJSON([]);
-				clusterLayer.clearLayers();
-				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
-				$(".neighborhood-label").show();
-				
+			if (this.getZoom() === 13) {
 				// Hide sidebar
 				$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 				$(".right-side-bar").hide("slide", { direction: "right" }, 700);
@@ -661,6 +653,20 @@ $("#overview-zoom").click(function() {
 	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
 	$(".sliding").animate({ right: "0"} , 700);
 	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
+    
+    if (hiddenNeighborhoodLayer) {
+        selectedNeighborhood = null;
+        reloadData();
+        markerLayer.setGeoJSON([]);
+        clusterLayer.clearLayers();
+        neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
+        $(".neighborhood-label").show();
+        
+        // Hide sidebar
+        $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+        $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+        $(".sliding").animate({ right: "0"} , 700);
+    }
 });
 
 $("#zoom-in").click(function() {
