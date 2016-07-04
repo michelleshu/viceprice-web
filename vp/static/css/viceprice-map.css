@@ -80,7 +80,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 
 .about-contact-us {
     position: absolute;
-    bottom: 0;
+    bottom: 0.5rem;
     text-align: center;
 }
 
@@ -92,14 +92,14 @@ a {font-size:70%; padding-left:0.5rem;}
 a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
-.zooming-bar { padding: 0.1rem 0; position: fixed; bottom: 3rem; left:16.6666%; background-color: #c8a45e; width: 22px; }
+.zooming-bar { padding: 0.1rem 0; position: fixed; bottom: 2.5rem; left:16.6666%; background-color: #c8a45e; width: 22px; }
 .zooming-bar li{ list-style-type: none;text-align: center;}
 .zooming-bar img{width:20px;height:20px;margin-top:15%;cursor: pointer;}
 
 #overview-zoom {
     position: fixed;
     left: 16.66%;
-    bottom: 1.2rem;
+    bottom: 0.5rem;
     font-size: 0.8rem;
     padding: 0.1rem 0.4rem;
     background-color: #c8a45e;
