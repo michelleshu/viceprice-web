@@ -1,7 +1,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 from rq import Queue
 from worker import conn
-from vp.management.commands import updatemturk
+from vp.management.commands import updatemturk, getfacebookdata
 import pytz
 import logging
 
@@ -14,5 +14,10 @@ q = Queue(connection = conn)
 def queue_mturk_update():
     print('MTurk update queued')
     q.enqueue(updatemturk.run)
+    
+@sched.scheduled_job('cron', hour='0', minute='0', second='0', timezone=eastern_timezone)
+def queue_facebook_update():
+    print('Facebook update queued')
+    q.enqueue(getfacebookdata.run)
 
 sched.start()
