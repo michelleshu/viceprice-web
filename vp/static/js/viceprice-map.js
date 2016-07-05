@@ -10,6 +10,9 @@ var metroLayerData;
 var hiddenNeighborhoodLayer;
 var selectedMarker;
 
+var markersByNeighborhood = {};
+var neighborhoodCounts = {};
+
 // CUSTOM MARKER ASSETS
 var restaurantMarker = L.icon({
     iconUrl: '../static/img/restaurant-marker.png',
@@ -138,6 +141,18 @@ function loadMetroData() {
 }
 
 function populateLocationCountsByNeighborhood() {
+    // Try to retrieve data from cache
+    var timeValue = timeFilterActive ? selectedTime : "none";
+    if (neighborhoodCounts[selectedDay] && neighborhoodCounts[selectedDay][timeValue]) {
+        var counts = neighborhoodCounts[selectedDay][timeValue];
+        $(".location-count-label").text("(0)");
+        for (var neighborhood in counts) {
+            $("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
+                .text("(" + counts[neighborhood] + ")");
+        }
+        return;
+    }
+    
 	$(".loading-indicator-container").show();
 	var queryString = "";
 	if (selectedDay) {
@@ -149,9 +164,12 @@ function populateLocationCountsByNeighborhood() {
 	}
 	$.get("/fetch_location_counts_by_neighborhood" + queryString, function(data) {
 		var counts = JSON.parse(data["result"]);
+        var timeValue = timeFilterActive ? selectedTime : "none";
+        
+        neighborhoodCounts[selectedDay] = neighborhoodCounts[selectedDay] || {};
+        neighborhoodCounts[selectedDay][timeValue] = counts;
 		
 		$(".location-count-label").text("(0)");
-		
 		for (var neighborhood in counts) {
 			$("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
 				.text("(" + counts[neighborhood] + ")");
@@ -309,10 +327,31 @@ function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 
 // LOAD VIEW FOR SINGLE NEIGHBORHOOD
 function loadSingleNeighborhoodView(neighborhood) {
+    selectedNeighborhood = neighborhood;
+    
+    var filteredMetroData = {
+        "type": "FeatureCollection",
+        "features": metroLayerData.features.filter(function(data) {
+            return data.properties.NEIGHBORHOOD == selectedNeighborhood;
+        })
+    };
+    metroLayer.setGeoJSON(filteredMetroData);
+    
+    // Try to get deal data for markers from cache
+    var timeValue = timeFilterActive ? selectedTime : "none";
+    if (markersByNeighborhood[neighborhood] && 
+        markersByNeighborhood[neighborhood][selectedDay] && 
+        markersByNeighborhood[neighborhood][selectedDay][timeValue]) {
+            
+        var markers = markersByNeighborhood[neighborhood][selectedDay][timeValue];
+        clusterLayer.clearLayers();
+        markerLayer.setGeoJSON(markers);
+        return;
+    }
+    
 	$(".loading-indicator-container").show();
 	
 	var queryString = "?neighborhood=" + neighborhood;
-	selectedNeighborhood = neighborhood;
 	if (selectedDay) {
 		queryString += "&day=" + selectedDay;
 		
@@ -325,13 +364,11 @@ function loadSingleNeighborhoodView(neighborhood) {
 		clusterLayer.clearLayers();
 		markerLayer.setGeoJSON(JSON.parse(data["result"]));
         
-        var filteredMetroData = {
-            "type": "FeatureCollection",
-            "features": metroLayerData.features.filter(function(data) {
-                return data.properties.NEIGHBORHOOD == selectedNeighborhood;
-            })
-        };
-        metroLayer.setGeoJSON(filteredMetroData);
+        var timeValue = timeFilterActive ? selectedTime : "none";
+        markersByNeighborhood[neighborhood] = markersByNeighborhood[neighborhood] || {};
+        markersByNeighborhood[neighborhood][selectedDay] = 
+            markersByNeighborhood[neighborhood][selectedDay] || {};
+        markersByNeighborhood[neighborhood][selectedDay][timeValue] = JSON.parse(data["result"]);
         
 		$(".loading-indicator-container").hide();
 	});
