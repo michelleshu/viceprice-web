@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Count
 from models import Location, LocationCategory, Deal, DealDetail, ActiveHour
+from viceprice import settings
 from revproxy.views import ProxyView
 import json
 import logging
@@ -278,14 +279,13 @@ def fetch_location_counts_by_neighborhood(request):
 
 def yelp_reviews(request):
     yelpId = request.GET.get('yelp_id')
-
-    #need to be moved to config
-    yelp_consumer_key = "Piz41a8pB1aBdsTg5jkZDw"
-    yelp_consumer_secret = "dN8L0GIUtqt0Aq-Go5EMQnaVNjc"
-    yelp_token = "QwcesHf454SdQimI92ZVQ8Dhn1HbfHB5"
-    yelp_token_secret = "smLN2bEYWxF3Y7ok19BgdJp3590"
     
-    yelp_api = YelpAPI(yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret)
+    yelp_api = YelpAPI(
+        settings.YELP_CONSUMER_KEY,
+        settings.YELP_CONSUMER_SECRET,
+        settings.YELP_TOKEN,
+        settings.YELP_TOKEN_SECRET
+    )
     api_response = yelp_api.business_query(id = yelpId)
 
     responseJson= {

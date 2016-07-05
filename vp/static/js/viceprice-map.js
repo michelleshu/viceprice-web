@@ -5,8 +5,13 @@ var loadingIndicator;
 var neighborhoodPolygonLayer;
 var clusterLayer;
 var markerLayer;
+var metroLayer;
+var metroLayerData;
 var hiddenNeighborhoodLayer;
 var selectedMarker;
+
+var markersByNeighborhood = {};
+var neighborhoodCounts = {};
 
 // CUSTOM MARKER ASSETS
 var restaurantMarker = L.icon({
@@ -52,6 +57,7 @@ var MIN_HOUR = 8, MAX_HOUR = 3 + HOURS_IN_DAY;
 
 // INITIALIZATION
 var init = function() {
+    loadMetroData();
 	initializeDayAndTime();
 	initializeLoadingIndicator();
 	loadMap();
@@ -66,8 +72,7 @@ function loadMap() {
 			center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
 			minZoom : 13, // Minimum zoom level of the map
 			zoom : 13, // Initial map zoom
-			attributionControl: false // Remove attribution from map (added in the left menu instead)
-		});
+        });
 		
 		//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
 		var southWest = L.latLng(38.820993, -76.875833),
@@ -78,6 +83,9 @@ function loadMap() {
 		// Use styleLayer to add a Mapbox style created in Mapbox Studio
 		L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 			.addTo(map);
+            
+        metroLayer = L.mapbox.featureLayer();
+        map.addLayer(metroLayer);
 		
 		clusterLayer = new L.MarkerClusterGroup({ 
 			polygonOptions: {
@@ -93,14 +101,7 @@ function loadMap() {
 		// Zoom Event Handler 
 		map.on('zoomend', function() {			
 			// Hide marker detail when zoomed out to full map
-			if (this.getZoom() === 13 && hiddenNeighborhoodLayer) {
-				selectedNeighborhood = null;
-				reloadData();
-				markerLayer.setGeoJSON([]);
-				clusterLayer.clearLayers();
-				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
-				$(".neighborhood-label").show();
-				
+			if (this.getZoom() === 13) {
 				// Hide sidebar
 				$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 				$(".right-side-bar").hide("slide", { direction: "right" }, 700);
@@ -132,7 +133,26 @@ function loadRegionalView() {
 	}
 }
 
+function loadMetroData() {
+    $.getJSON("static/json/dc-metro.json")
+        .done(function(data) {
+            metroLayerData = data;
+        });
+}
+
 function populateLocationCountsByNeighborhood() {
+    // Try to retrieve data from cache
+    var timeValue = timeFilterActive ? selectedTime : "none";
+    if (neighborhoodCounts[selectedDay] && neighborhoodCounts[selectedDay][timeValue]) {
+        var counts = neighborhoodCounts[selectedDay][timeValue];
+        $(".location-count-label").text("(0)");
+        for (var neighborhood in counts) {
+            $("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
+                .text("(" + counts[neighborhood] + ")");
+        }
+        return;
+    }
+    
 	$(".loading-indicator-container").show();
 	var queryString = "";
 	if (selectedDay) {
@@ -144,9 +164,12 @@ function populateLocationCountsByNeighborhood() {
 	}
 	$.get("/fetch_location_counts_by_neighborhood" + queryString, function(data) {
 		var counts = JSON.parse(data["result"]);
+        var timeValue = timeFilterActive ? selectedTime : "none";
+        
+        neighborhoodCounts[selectedDay] = neighborhoodCounts[selectedDay] || {};
+        neighborhoodCounts[selectedDay][timeValue] = counts;
 		
 		$(".location-count-label").text("(0)");
-		
 		for (var neighborhood in counts) {
 			$("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
 				.text("(" + counts[neighborhood] + ")");
@@ -304,10 +327,31 @@ function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 
 // LOAD VIEW FOR SINGLE NEIGHBORHOOD
 function loadSingleNeighborhoodView(neighborhood) {
+    selectedNeighborhood = neighborhood;
+    
+    var filteredMetroData = {
+        "type": "FeatureCollection",
+        "features": metroLayerData.features.filter(function(data) {
+            return data.properties.NEIGHBORHOOD == selectedNeighborhood;
+        })
+    };
+    metroLayer.setGeoJSON(filteredMetroData);
+    
+    // Try to get deal data for markers from cache
+    var timeValue = timeFilterActive ? selectedTime : "none";
+    if (markersByNeighborhood[neighborhood] && 
+        markersByNeighborhood[neighborhood][selectedDay] && 
+        markersByNeighborhood[neighborhood][selectedDay][timeValue]) {
+            
+        var markers = markersByNeighborhood[neighborhood][selectedDay][timeValue];
+        clusterLayer.clearLayers();
+        markerLayer.setGeoJSON(markers);
+        return;
+    }
+    
 	$(".loading-indicator-container").show();
 	
 	var queryString = "?neighborhood=" + neighborhood;
-	selectedNeighborhood = neighborhood;
 	if (selectedDay) {
 		queryString += "&day=" + selectedDay;
 		
@@ -319,6 +363,13 @@ function loadSingleNeighborhoodView(neighborhood) {
 	$.get("/fetch_filtered_deals" + queryString, function(data) {
 		clusterLayer.clearLayers();
 		markerLayer.setGeoJSON(JSON.parse(data["result"]));
+        
+        var timeValue = timeFilterActive ? selectedTime : "none";
+        markersByNeighborhood[neighborhood] = markersByNeighborhood[neighborhood] || {};
+        markersByNeighborhood[neighborhood][selectedDay] = 
+            markersByNeighborhood[neighborhood][selectedDay] || {};
+        markersByNeighborhood[neighborhood][selectedDay][timeValue] = JSON.parse(data["result"]);
+        
 		$(".loading-indicator-container").hide();
 	});
 }
@@ -543,6 +594,37 @@ markerLayer.on('layeradd', function(e) {
 });
 
 
+metroLayer.on('layeradd', function(e) {
+    var marker = e.layer,
+        feature = e.layer.feature;
+        
+    marker.setIcon(L.icon({
+        iconUrl: '../static/img/metro.png',
+        iconSize: [16, 16]
+    }));
+
+    //popup content (name + line colors)
+    var metroTooltip = "<div class='metro_info'><p>" + feature.properties.NAME + "</p>";
+    var lineColor = feature.properties.LINE.split(","); //in case a station has multiple lines (red, blue, orange)
+    for (i in lineColor) { // create a div for each line and assign a color to it
+        metroTooltip = metroTooltip + "<div class='line' style='background-color:" + lineColor[i] + ";'></div>";
+    }
+    metroTooltip = metroTooltip + "</div>";
+
+    marker.bindPopup(metroTooltip, {
+        closeButton: false,
+        minWidth: 90
+    });
+
+    marker.on('mouseover', function() {
+        marker.openPopup();
+    });
+
+    marker.on('mouseout', function() {
+        marker.closePopup();
+    });
+});
+
 // DAY AND TIME FILTERS
 function initializeDayAndTime() {
 	var now = moment();
@@ -619,48 +701,28 @@ function initializeLoadingIndicator() {
 	}).spin(container);
 }
 
-/*** DC Metro Stations ***/
-var metroLayer = L.mapbox.featureLayer().addTo(map); //create en empty feature layer for the metro stations
-													//actual data won't get loaded until a specific neighborhood is clicked
-
-/*Once this layer is loaded to the map do the following:
-1)Add an icon for each metro station 
-2)Bind a popup to each station that contains: it's name +  train line*/
-metroLayer.on('layeradd', function(e) {
-  var marker = e.layer,
-      feature = e.layer.feature;
-  marker.setIcon(L.icon({iconUrl: '../static/img/metro.png',iconSize: [16, 16]}));
-
-  //popup content (name + line colors)
-  var metroTooltip = "<div class='metro_info'><p>" + feature.properties.NAME+"</p>";
-  var lineColor = feature.properties.LINE.split(","); //in case a station has multiple lines (red, blue, orange)
-  for(i in lineColor){ // create a div for each line and assign a color to it
-  	metroTooltip=metroTooltip+"<div class='line' style='background-color:"+lineColor[i]+";'></div>";
-  }
-	metroTooltip=metroTooltip+"</div>";
-  
-  marker.bindPopup(metroTooltip,{
-        closeButton: false,
-        minWidth: 90
-    });
-
-  marker.on('mouseover', function() {
-    marker.openPopup();
-    });
-
-    marker.on('mouseout', function() {
-    marker.closePopup();
-    });
-});
-
-
 // ZOOM FUNCTIONS 
 
-$("#neighboor-zoom").click(function() {
+$("#overview-zoom").click(function() {
 	$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
 	$(".sliding").animate({ right: "0"} , 700);
 	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
+    
+    if (hiddenNeighborhoodLayer) {
+        selectedNeighborhood = null;
+        reloadData();
+        markerLayer.setGeoJSON([]);
+        metroLayer.setGeoJSON([]);
+        clusterLayer.clearLayers();
+        neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
+        $(".neighborhood-label").show();
+        
+        // Hide sidebar
+        $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
+        $(".right-side-bar").hide("slide", { direction: "right" }, 700);
+        $(".sliding").animate({ right: "0"} , 700);
+    }
 });
 
 $("#zoom-in").click(function() {
