@@ -18,6 +18,6 @@ def queue_mturk_update():
 @sched.scheduled_job('cron', hour='0', minute='0', second='0', timezone=eastern_timezone)
 def queue_facebook_update():
     print('Facebook update queued')
-    q.enqueue(getfacebookdata.)
+    q.enqueue(getfacebookdata.run)
 
 sched.start()
