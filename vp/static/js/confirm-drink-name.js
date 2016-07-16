@@ -59,6 +59,7 @@ var get_deal_that_needs_confirmation = function() {
         url: "/get_deal_that_needs_confirmation",
 
         success: function(data) {
+            var dealHoursData = data["deal_hour_data"];
             var dealDetailData = data["deal_detail_data"];
             dealID = data["deal_id"];
             var dealsCount = data["deals_count"];
@@ -68,6 +69,14 @@ var get_deal_that_needs_confirmation = function() {
             }
             else {
                 $(".remaining-count").html(dealsCount + " Deals Left to Confirm");
+
+                var dealHours = "";
+                for (var i = 0; i < dealHoursData.length; i++) {
+                    var data = dealHoursData[i];
+                    dealHours += "<p>" + moment(data.day, "d").format("dddd ") +
+                            moment(data.start, "HH:mm:ss").format("h:mmA - ") +
+                            moment(data.end, "HH:mm:ss").format("h:mmA") + "</p>";
+                }
 
                 itemIDs = [];
                 for (var i = 0; i < dealDetailData.length; i++) {
@@ -82,7 +91,7 @@ var get_deal_that_needs_confirmation = function() {
                             "<span class='drink-name-label'>" + dealDetailDrinkNames[j] + "</span></div>";
                     }
 
-                    $(".confirm-drink-name-container").append("<div class='deal-data'>" + drinkNamesOptions +
+                    $(".confirm-drink-name-container").append("<div class='deal-data'>" + dealHours + drinkNamesOptions +
                         "<div class='row'><input type='radio' name='" + dealDetailID +
                         "' value='custom' selected/><input type='text' name='" + dealDetailID + "'/></row></div><hr/>"
                     );
