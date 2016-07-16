@@ -376,11 +376,25 @@ def get_deal_that_needs_confirmation(request):
 
     if deals_count > 0:
         deal = deals.first()
+        location = deal.location.all().first()
+
+        deal_hours = deal.activeHours.all()
+
+        deal_hour_data = []
+
+        for deal_hour in deal_hours:
+            deal_hour_data.append({
+                'day': deal_hour.dayofweek,
+                'start': str(deal_hour.start),
+                'end': str(deal_hour.end)
+            })
+
         deal_details = list(deal.dealDetails.all())
 
         deal_detail_data = []
 
         for deal_detail in deal_details:
+
             mturk_drink_name_options = list(deal_detail.mturkDrinkNameOptions.all())
             mturk_drink_names = []
 
@@ -389,12 +403,17 @@ def get_deal_that_needs_confirmation(request):
 
             deal_detail_data.append({
                 'id': deal_detail.id,
-                'drink_names': mturk_drink_names
+                'drink_names': mturk_drink_names,
+                'detail_type': deal_detail.detailType,
+                'drink_category': deal_detail.drinkCategory,
+                'value': deal_detail.value
             })
 
         response = {
+            'location_name': location.name,
             'deals_count': deals_count,
             'deal_id': deal.id,
+            'deal_hour_data': deal_hour_data,
             'deal_detail_data': deal_detail_data
         }
 
