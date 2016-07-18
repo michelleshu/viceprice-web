@@ -364,7 +364,7 @@ def get_location_that_needs_happy_hour(request):
             'location_name': selected.name,
             'location_website': selected.website,
             'location_phone_number': selected.formattedPhoneNumber,
-            'location_address': selected.formattedAddress
+            'location_address': selected.street
         }
         return JsonResponse(response)
 
