@@ -1,5 +1,19 @@
-<div class='left-side-bar'>
-	<div class="logo"> 
+<div id="mobile-logo" class="mobile-logo mobile">
+	<div class="mobile-vp">viceprice</div>
+</div>
+
+<div id="mobile-item-info" class="mobile-item-info" style="display:none;">
+  <div id="mobile-item-short" class="mobile-item-short"></div>
+
+  <div id="mobile-item-showfull" class="mobile-item-close outer-shadow-bottom">
+    <img src="static/img/downarrow.svg" width="14" height="14" />
+  </div>
+
+  <div id="mobile-item-details" class="mobile-item-details" style="display:none;"></div>
+</div>
+
+<div class="left-side-bar desktop">
+	<div class="logo">
 	 	<div class="vp"> VicePrice </div>
 	 	<div class="slogan"> Find Your Perfect Happy Hour </div>
 	 	<div class="beta"> (In Beta For Washington DC) </div>
@@ -7,12 +21,12 @@
 
 	<div class='hours-div'>
 		<p>FILTERS</p>
-		<output for="day" id="day_output"></output>
+		<output for="day" class="day_output" id="day_output"></output>
 		<div class="slider">
-		<input type="range" id="day" value="1" step="1" min="1" max="7">
+		<input type="range" class="day" id="day" value="1" step="1" min="1" max="7">
 		</div>
-		<output for="time" id="time_output" hidden></output>
-		<input type="range" id="time" hidden>
+		<output for="time" id="time_output" class="time_output" hidden></output>
+		<input type="range" id="time" class="time" hidden>
 
 		<input type="checkbox" id="filter-by-hours" name="filter-by-hours" value="">
 		<label for="filter-by-hours" class="filter-by-hours-label">Filter by Hours</label>
@@ -23,8 +37,43 @@
 		<a href="about">About</a>
 		<a href="mailto:contact@viceprice.co">Contact Us</a>
 		<a href="TOS">Privacy Policy &amp; TOS</a>
-	</div> 
-</div> 
+	</div>
+</div>
+
+<ul id="mobile-icon-actions" class="mobile-icons mobile">
+  <li id="mobile-overview-zoom">
+      <img src="static/img/route.svg" width="42" height="42" />
+  </li>
+  <!--<li class="extra-space-between" id="current-location">
+        <img src="static/img/aim.svg" width="28" height="28" />
+      </li>-->
+  <li id="mobile-settings">
+      <img src="static/img/controls.svg" width="42" height="42" />
+  </li>
+</ul>
+
+<div id="mobile-filters" class="mobile-filters outer-shadow-top mobile" style="display: none;">
+  <div class="mobile-filters-close">
+    <img src="static/img/downarrow.svg" width="14" height="14" />
+  </div>
+
+  <div class="mobile-filters-actions">
+    <div class="mobile-filters-title">
+      <div class="mobile-filters-title-decorate">
+        <span>Happy Hours</span>
+      </div>
+    </div>
+
+	  <output for="day" class="day_output" id="day_output"></output>
+	  <div class="slider">
+	    <input type="range" class="day" id="day" value="1" step="1" min="1" max="7">
+	  </div>
+
+		<output for="time" id="time_output" class="time_output"></output>
+		<input type="range" id="time" class="time">
+  </div>
+</div>
+
 <div class="zooming-bar">
 	<ul>
 		<li><img src="../static/img/zoom-in.png" id="zoom-in" title="Zoom In"/> </li>
