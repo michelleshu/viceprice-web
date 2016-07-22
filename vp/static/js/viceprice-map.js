@@ -40,7 +40,7 @@ var barMarker = L.icon({
 
 var barMarkerClicked = L.icon({
     iconUrl: '../static/img/bar-marker-clicked.png',
-    iconSize:     [37, 42], 
+    iconSize:     [37, 42],
     iconAnchor:   [17, 42],
     popupAnchor:  [3, -42]
 });
@@ -78,8 +78,8 @@ function loadMap() {
     } else {
 		  map = L.map('map', {
 		  	center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
-		  	minZoom : 11, // Minimum zoom level of the map
-		  	zoom : 11, // Initial map zoom
+		  	minZoom : 12, // Minimum zoom level of the map
+		  	zoom : 12, // Initial map zoom
           });
     }
 
@@ -243,33 +243,33 @@ function displayNeighborhoodFeature(feature, layer) {
 				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
 			}
 			hiddenNeighborhoodLayer = layer;
-			
+
 			// Lighten neighborhood label color
 			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
 			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
 			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
 			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
-			
+
 			// Darken background color
 			layer.setStyle({
 				weight : 2,
 				fillColor : 'rgb(35, 40, 43)',
 				fillOpacity : 0.7
 			});
-			
+
 			neighborhoodPolygonLayer.removeLayer(layer);
-			
+
 			$(".neighborhood-label").show();
 			$(".neighborhood-label[data-neighborhood-id='" + e.target.feature.id + "']").hide();
-			
+
 			map.fitBounds(e.target.getBounds());
 
 			loadSingleNeighborhoodView(feature.properties.name);
 		}
 	});
-	
-	label.on('mouseover',function(e) { layer.fireEvent('mouseover'); });
+
 	label.on('mouseout', function(e) { layer.fireEvent('mouseout'); });
+	label.on('mouseover',function(e) { layer.fireEvent('mouseover'); });
 	label.on('click', function(e) { layer.fireEvent('click'); });
 }
 
@@ -308,7 +308,7 @@ function getLabelLocation (feature, layer) {
 // Set neighborhood label style
 function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 	var displayName;
-	
+
 	switch(parseInt(neighborhoodId)) {
 		case 4:
 			displayName = "Adams<br/>Morgan";
@@ -325,7 +325,7 @@ function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 		default:
 			displayName = neighborhoodName;
 	}
-	
+
 	return "<div class='neighborhood-label' data-neighborhood-name='" + neighborhoodName + 
 		"' data-neighborhood-id=" + neighborhoodId + " style='font-size: 0.85rem;'>" + 
 		"<div class='name-label'>" + displayName + "</div>" +
@@ -362,7 +362,7 @@ function loadSingleNeighborhoodView(neighborhood) {
 	var queryString = "?neighborhood=" + neighborhood;
 	if (selectedDay) {
 		queryString += "&day=" + selectedDay;
-		
+
 		if (selectedTime && timeFilterActive) {
 			queryString += "&time=" + selectedTime;
 		}
@@ -371,13 +371,13 @@ function loadSingleNeighborhoodView(neighborhood) {
 	$.get("/fetch_filtered_deals" + queryString, function(data) {
 		clusterLayer.clearLayers();
 		markerLayer.setGeoJSON(JSON.parse(data["result"]));
-        
+
         var timeValue = timeFilterActive ? selectedTime : "none";
         markersByNeighborhood[neighborhood] = markersByNeighborhood[neighborhood] || {};
         markersByNeighborhood[neighborhood][selectedDay] = 
             markersByNeighborhood[neighborhood][selectedDay] || {};
         markersByNeighborhood[neighborhood][selectedDay][timeValue] = JSON.parse(data["result"]);
-        
+
 		$(".loading-indicator-container").hide();
 	});
 }
@@ -387,13 +387,13 @@ markerLayer.on('layeradd', function(e) {
         properties = marker.feature.properties;
 
 	clusterLayer.addLayer(marker);
-	
+
 	if (properties.superCategory == "Bar") {
 		marker.setIcon(barMarker);
 	} else {
 		marker.setIcon(restaurantMarker);
 	}
-	
+
 	// Bind pop up to marker
   if ($(window).width() > mediaScreenWidth) {
 	  marker.bindPopup(getMarkerPopupContent(properties), {
@@ -415,7 +415,6 @@ markerLayer.on('layeradd', function(e) {
     markup += "<div class='mobile-item-details-sign'>Happy Hour Specials</div>";
     markup += "<div class='mobile-item-details-deals'>" + getDealMobileMarkup(properties.deals[0].dealDetails) + "</div><hr>";
 
-    markup += "<div class='mobile-item-details-reviews'><h3>Reviews</h3>";
 
     //yelp_api_response = {
     //  review_count: 149,
@@ -432,12 +431,16 @@ markerLayer.on('layeradd', function(e) {
 
     $.get("/yelpReviews/?yelp_id=" + properties["yelpId"],function(data){
       yelp_api_response = data.response;
+
+      markup += "<div class='mobile-item-details-reviews'><h3>Reviews</h3>";
       markup += "<div class='mobile-item-review'><img src=" + yelp_api_response.user_img + " width='40' height='40' style='float: left'>"
       markup += "<p><span>"+ yelp_api_response.username + " - </span>" + yelp_api_response.excerpt + "</div>"
-      markup += "<div class='mobile-item-readmore'><a href=" + yelp_api_response.url + ">Read More</a></div></div></div>"
+      markup += "<div class='mobile-item-readmore'><a href=" + yelp_api_response.url + ">Read More</a></div></div>"
+      markup += "</div><hr>"
+      return markup;
     });
 
-    markup += "<hr><div class='mobile-item-metadata'><ul>";
+    markup += "<div class='mobile-item-metadata'><ul>";
     markup += "<li>" + properties["phoneNumber"] + "</li>";
     markup += "<li>" + properties["street"] + "</li>";
     markup += "<li>" + properties["website"] + "</li></ul></div>";
@@ -531,17 +534,17 @@ markerLayer.on('layeradd', function(e) {
 				: dealDetailB;
 		}
 		else if (dealDetailA.detailType === 1) {	// Price
-			return dealDetailA.value < dealDetailB.value 
+			return dealDetailA.value < dealDetailB.value
 				? dealDetailA
 				: dealDetailB;
-		} 
+		}
 		else { // Percent Off or Price Off
 			return dealDetailA.value < dealDetailB.value
 				? dealDetailB
 				: dealDetailA;
 		}
 	}
-	
+
 	function formatDealDetail(dealDetail) {
 		if (dealDetail.detailType == 1) {
 			return "$" + dealDetail.value;
@@ -553,7 +556,7 @@ markerLayer.on('layeradd', function(e) {
 			return "$" + dealDetail.value + " off";
 		}
 	}
-	
+
 	function formatDealDetailWithDescription(dealDetail) {
 		return formatDealDetail(dealDetail) + " " + dealDetail.drinkName;
 	}
@@ -566,39 +569,21 @@ markerLayer.on('layeradd', function(e) {
 		var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
 
 		if (beers.length > 0) {
-      markup += "<div class='mobile-details-category pull-left'>Beers</div>"
-      markup += "<div class='mobile-details-deals-val pull-right'>"
-      $.map(beers, function(b, i) {
-        markup += "<span>" + b.drinkName + "</span> ";
-        if (i + 1 != beers.length) {
-          markup += "<span class='mobile-details-delimiter'>/</span> "
-        }
-      });
-      markup += "</div><br>"
+      markup += "<ul><li>Beers</li><li>"
+      $.map(beers, function(b, i) { markup += "<span>$" + b.value + " " + b.drinkName + "</span>"; });
+      markup += "</li></ul>"
     }
 
 		if (wines.length > 0) {
-      markup += "<div class='mobile-details-category pull-left'>Wines</div>"
-      markup += "<div class='mobile-details-deals-val pull-right'>"
-      $.map(wines, function(b, i) {
-        markup += "<span>" + b.drinkName + "</span> ";
-        if (i + 1 != wines.length) {
-          markup += "<span class='mobile-details-delimiter'>/</span> "
-        }
-      });
-      markup += "</div><br>"
+      markup += "<ul><li>Wines</li><li>"
+      $.map(wines, function(b, i) { markup += "<span>$" + b.value + " " + b.drinkName + "</span>"; });
+      markup += "</li></ul>"
     }
 
 		if (liquors.length > 0) {
-      markup += "<div class='mobile-details-category pull-left'>Liquors</div>"
-      markup += "<div class='mobile-details-deals-val pull-right'>"
-      $.map(liquors, function(b, i) {
-        markup += "<span>" + b.drinkName + "</span> ";
-        if (i + 1 != liquors.length) {
-          markup += "<span class='mobile-details-delimiter'>/</span> "
-        }
-      });
-      markup += "</div>"
+      markup += "<ul><li>Liquors</li><li>"
+      $.map(liquors, function(b, i) { markup += "<span>$" + b.value + " " + b.drinkName + "</span>"; });
+      markup += "</li></ul>"
     }
 
     return markup;
@@ -816,39 +801,44 @@ function initializeDayAndTime() {
 	$('.day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
 
 	// Initialize time filter, but don't set time until activated
-	$("#filter-by-hours").change(function() {
-      if ($(this).is(":checked")) {
-        $("#time").show();
-			  $("#time_output").show();
-			  timeFilterActive = true;
 
-        initializeDayAndTime();
-      } else {
-			  $("#time").hide();
-			  $("#time_output").hide();
-			  timeFilterActive = false;
+  $("#filter-by-hours, #filter-by-hours-desktop").on('change', function() {
+    var time = $(this).parent().find('.time');
+    var time_output = $(this).parent().find('.time_output');
+
+    if ($(this).is(":checked")) {
+      $(time).show();
+		  $(time_output).show();
+		  timeFilterActive = true;
+    } else {
+		  $(time).hide();
+		  $(time_output).hide();
+		  timeFilterActive = false;
 		}
 
 		reloadData();
 	});
 
-	var timeFilter = $('.time:visible');
+
+	var timeFilter = $('.time');
+	//var timeFilter = $('.time:visible');
 	timeFilter.attr('step', MINUTES_IN_HOUR / 2);
 	timeFilter.attr('min', MIN_HOUR * MINUTES_IN_HOUR);
 	timeFilter.attr('max', MAX_HOUR * MINUTES_IN_HOUR);
 
-	timeFilter.on('input', function(event) {
+	//$(document).on('input', timeFilter, function(event) {
+  timeFilter.on('input', function(event) {
 		var totalMinutes = $(this).val();
 		var hours = totalMinutes / MINUTES_IN_HOUR;
 		if (hours > 24) hours -= 24;
 		var minutes = totalMinutes % MINUTES_IN_HOUR;
 		var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
 		selectedTime = selectedTimeMoment.format("H:mm");
-		$(this).prev().text(selectedTimeMoment.format("hh:mm A"));
-		
+		$('.time_output').text(selectedTimeMoment.format("hh:mm A"));
+
 		reloadData();
 	});
-	
+
 	var nowTotalMinutes = now.hours() * MINUTES_IN_HOUR + now.minutes();
 	if (nowTotalMinutes < timeFilter.attr('min')) {
 		nowTotalMinutes += HOURS_IN_DAY * MINUTES_IN_HOUR;
@@ -859,7 +849,7 @@ function initializeDayAndTime() {
 	var minutes = now.minutes() > 30 ? 0 : 30;
 	var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
 	selectedTime = selectedTimeMoment.format("H:mm");
-	timeFilter.prev().text(selectedTimeMoment.format("hh:mm A"));
+  $('.time_output').text(selectedTimeMoment.format("hh:mm A"));
 	timeFilter.val(nowTotalMinutes);
 }
 
@@ -910,21 +900,10 @@ $('#current-location').on('click', function(){
 });
 
 $('#mobile-settings').on('click', function(){
-  timeFilterActive = true;
-  $('#mobile-filters').slideDown("fast", function() {
-    initializeDayAndTime();
-
-		reloadData();
-  });
+  $('#mobile-filters').slideDown("fast");
 });
 
-$('#mobile-filters').swipe({
-  swipeDown: function() {
-    $(this).closest('#mobile-filters').slideUp("fast");
-  }
-});
-
-$('#mobile-filters').on('click', function() {
+$('#mobile-filters .mobile-filters-close').on('click', function() {
   $(this).closest('#mobile-filters').slideUp("fast");
 });
 
@@ -932,7 +911,6 @@ $(document).on('click', '#mobile-item-details .mobile-item-close', function() {
   $('#mobile-item-details').hide();
   $('#mobile-item-info').slideUp("fast");
 });
-
 
 $("#zoom-in").click(function() {
 	var zoom = map.getZoom();
