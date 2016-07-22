@@ -13,6 +13,8 @@ var selectedMarker;
 var markersByNeighborhood = {};
 var neighborhoodCounts = {};
 
+var mediaScreenWidth = 737;
+
 // CUSTOM MARKER ASSETS
 var restaurantMarker = L.icon({
     iconUrl: '../static/img/restaurant-marker.png',
@@ -67,39 +69,46 @@ init();
 
 // LOAD MAP
 function loadMap() {
-	if (!map) {
-		map = L.map('map', {
-			center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
-			minZoom : 13, // Minimum zoom level of the map
-			zoom : 13, // Initial map zoom
-        });
-		
+    if ($(window).width() > mediaScreenWidth) {
+		  map = L.map('map', {
+		  	center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
+		  	minZoom : 13, // Minimum zoom level of the map
+		  	zoom : 13, // Initial map zoom
+          });
+    } else {
+		  map = L.map('map', {
+		  	center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
+		  	minZoom : 11, // Minimum zoom level of the map
+		  	zoom : 11, // Initial map zoom
+          });
+    }
+
 		//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
 		var southWest = L.latLng(38.820993, -76.875833),
 			northEast = L.latLng(39.004460, -77.158084),
 			bounds = L.latLngBounds(southWest, northEast);
 		map.setMaxBounds(bounds);
-		
+
 		// Use styleLayer to add a Mapbox style created in Mapbox Studio
 		L.mapbox.styleLayer('mapbox://styles/salmanaee/cikoa5qxo00gf9vm0s5cut4aa')
 			.addTo(map);
-            
+
         metroLayer = L.mapbox.featureLayer();
         map.addLayer(metroLayer);
-		
-		clusterLayer = new L.MarkerClusterGroup({ 
+
+		clusterLayer = new L.MarkerClusterGroup({
 			polygonOptions: {
 	    		//set opacity and fill opacity to zero to disable the L.Polygon (highlight)
-	    		opacity: 0, 
+	    		opacity: 0,
 	    		fillOpacity: 0
 	    	}
 		});
-		
+
 		markerLayer = L.mapbox.featureLayer();
 		map.addLayer(clusterLayer);
-		
-		// Zoom Event Handler 
-		map.on('zoomend', function() {			
+
+		// Zoom Event Handler
+		map.on('zoomend', function() {
 			// Hide marker detail when zoomed out to full map
 			if (this.getZoom() === 13) {
 				// Hide sidebar
@@ -108,7 +117,6 @@ function loadMap() {
 				$(".sliding").animate({ right: "0"} , 700);
 			}
 		});
-	}
 }
 
 function reloadData() {
@@ -152,12 +160,12 @@ function populateLocationCountsByNeighborhood() {
         }
         return;
     }
-    
+
 	$(".loading-indicator-container").show();
 	var queryString = "";
 	if (selectedDay) {
 		queryString += "?day=" + selectedDay;
-		
+
 		if (selectedTime && timeFilterActive) {
 			queryString += "&time=" + selectedTime;
 		}
@@ -165,16 +173,16 @@ function populateLocationCountsByNeighborhood() {
 	$.get("/fetch_location_counts_by_neighborhood" + queryString, function(data) {
 		var counts = JSON.parse(data["result"]);
         var timeValue = timeFilterActive ? selectedTime : "none";
-        
+
         neighborhoodCounts[selectedDay] = neighborhoodCounts[selectedDay] || {};
         neighborhoodCounts[selectedDay][timeValue] = counts;
-		
+
 		$(".location-count-label").text("(0)");
 		for (var neighborhood in counts) {
 			$("div[data-neighborhood-name='" + neighborhood + "'] .location-count-label")
 				.text("(" + counts[neighborhood] + ")");
 		}
-		
+
 		$(".loading-indicator-container").hide();
 	});
 }
@@ -192,12 +200,12 @@ function displayNeighborhoodFeature(feature, layer) {
 	// Neighborhood Name Label
 	var label = L.marker(getLabelLocation(feature, layer), {
 		icon : L.divIcon({
-			className : 'label', 
+			className : 'label',
 			html : getNeighborhoodLabelHTML(feature.id, feature.properties.name),
 			iconSize : [ 100, 35 ]
 		})
 	}).addTo(map);
-	
+
 	// Event Handlers
 	layer.on('mouseover', function(e) {
 		// Darken neighborhood label color
@@ -205,22 +213,22 @@ function displayNeighborhoodFeature(feature, layer) {
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(35, 40, 43)';
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 1;
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 1;
-		
+
 		// Lighten background color
 		layer.setStyle({
 			weight : 3,
 			fillColor : 'rgb(200, 164, 94)',
-			fillOpacity : 0.85 
+			fillOpacity : 0.85
 		});
 	});
-	
+
 	layer.on('mouseout', function(e) {
 		// Lighten neighborhood label color
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
-		
+
 		// Darken background color
 		layer.setStyle({
 			weight : 2,
@@ -228,7 +236,7 @@ function displayNeighborhoodFeature(feature, layer) {
 			fillOpacity : 0.7
 		});
 	});
-	
+
 	layer.on('click', function(e) {
 		if (selectedNeighborhood != feature.properties.name) {
 			if (hiddenNeighborhoodLayer) {
@@ -328,7 +336,7 @@ function getNeighborhoodLabelHTML(neighborhoodId, neighborhoodName) {
 // LOAD VIEW FOR SINGLE NEIGHBORHOOD
 function loadSingleNeighborhoodView(neighborhood) {
     selectedNeighborhood = neighborhood;
-    
+
     var filteredMetroData = {
         "type": "FeatureCollection",
         "features": metroLayerData.features.filter(function(data) {
@@ -336,21 +344,21 @@ function loadSingleNeighborhoodView(neighborhood) {
         })
     };
     metroLayer.setGeoJSON(filteredMetroData);
-    
+
     // Try to get deal data for markers from cache
     var timeValue = timeFilterActive ? selectedTime : "none";
-    if (markersByNeighborhood[neighborhood] && 
-        markersByNeighborhood[neighborhood][selectedDay] && 
+    if (markersByNeighborhood[neighborhood] &&
+        markersByNeighborhood[neighborhood][selectedDay] &&
         markersByNeighborhood[neighborhood][selectedDay][timeValue]) {
-            
+
         var markers = markersByNeighborhood[neighborhood][selectedDay][timeValue];
         clusterLayer.clearLayers();
         markerLayer.setGeoJSON(markers);
         return;
     }
-    
+
 	$(".loading-indicator-container").show();
-	
+
 	var queryString = "?neighborhood=" + neighborhood;
 	if (selectedDay) {
 		queryString += "&day=" + selectedDay;
@@ -387,19 +395,97 @@ markerLayer.on('layeradd', function(e) {
 	}
 	
 	// Bind pop up to marker
-	marker.bindPopup(getMarkerPopupContent(properties), {
-	    closeButton: false,  // Controls the presence of a close button in the popup
-	    minWidth: 340
-	});
-	
+  if ($(window).width() > mediaScreenWidth) {
+	  marker.bindPopup(getMarkerPopupContent(properties), {
+	      closeButton: false,  // Controls the presence of a close button in the popup
+	      minWidth: 340
+	  });
+  }
+
 	marker.on('mouseover', function() {
-		marker.openPopup();
+    if ($(window).width() > mediaScreenWidth) { marker.openPopup(); }
 	});
-	
+
 	marker.on('mouseout', function() {
-		marker.closePopup();
+		if ($(window).width() > mediaScreenWidth) { marker.closePopup(); }
 	});
-	
+
+  function getMobileItemDetails(properties) {
+    var markup = "<img src=" + properties.coverPhotoSource + ">";
+    markup += "<div class='mobile-item-details-sign'>Happy Hour Specials</div>";
+    markup += "<div class='mobile-item-details-deals'>" + getDealMobileMarkup(properties.deals[0].dealDetails) + "</div><hr>";
+
+    markup += "<div class='mobile-item-details-reviews'><h3>Reviews</h3>";
+
+    //yelp_api_response = {
+    //  review_count: 149,
+    //  username: "Bharat P.",
+    //  overall_rating_img: "https://s3-media1.fl.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png",
+    //  url: "http://www.yelp.com/biz/nanny-o-briens-irish-pub-washington?utm_campaign=yelp_api&utm_medium=api_v2_business&utm_source=Piz41a8pB1aBdsTg5jkZDw",
+    //  user_img: "http://s3-media1.fl.yelpcdn.com/photo/NdAva2yfUt5uC57vfxUfUg/ms.jpg",
+    //  excerpt: "I regularly meet up with friends at Nanny O' Briens to play board games, and I enjoy this place Pros - Service is usually really good. The bartender is..."
+    //}
+
+    //markup += "<div class='mobile-item-review'><img src=" + yelp_api_response.user_img + " width='40' height='40' style='float: left'>"
+    //markup += "<p><span>"+ yelp_api_response.username + " - </span>" + yelp_api_response.excerpt + "</div>"
+    //markup += "<div class='mobile-item-readmore'><a href=" + yelp_api_response.url + ">Read More</a></div></div></div>"
+
+    $.get("/yelpReviews/?yelp_id=" + properties["yelpId"],function(data){
+      yelp_api_response = data.response;
+      markup += "<div class='mobile-item-review'><img src=" + yelp_api_response.user_img + " width='40' height='40' style='float: left'>"
+      markup += "<p><span>"+ yelp_api_response.username + " - </span>" + yelp_api_response.excerpt + "</div>"
+      markup += "<div class='mobile-item-readmore'><a href=" + yelp_api_response.url + ">Read More</a></div></div></div>"
+    });
+
+    markup += "<hr><div class='mobile-item-metadata'><ul>";
+    markup += "<li>" + properties["phoneNumber"] + "</li>";
+    markup += "<li>" + properties["street"] + "</li>";
+    markup += "<li>" + properties["website"] + "</li></ul></div>";
+
+    markup += "<div class='mobile-item-close image-rotate'><img src='static/img/downarrow.svg' width='28' height='28'></div>"
+
+    return markup;
+  }
+
+  function getMarkerMobileContent(properties) {
+		var deal = properties.deals[0];
+		var markup = "<ul class='tooltip-info'><li><h1>" + properties.name + "</h1></li>";
+
+		if (properties.subCategories && properties.subCategories.length > 0) {
+			markup += "<li><h2>" + properties.subCategories[0] + "</h2>";
+		} else {
+			markup += "<li>"
+		}
+
+		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
+		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
+		markup += "<h3>" + start + " - " + end  + "</h3></li>";
+
+		var beers = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
+		var wines = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
+		var liquors = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
+
+	  markup += "<li class='mobile-item-deals-price'><ul>"
+
+
+		if (beers.length > 0) {
+			markup += "<li style='text-align: left'><img src='../static/img/beer.svg' width='20' height='20' /><p>" +
+				formatDealDetail(beers.reduce(getBestDealDetail)) + "</p></li>";
+		}
+
+		if (wines.length > 0) {
+			markup += "<li style='text-align: left'><img src='../static/img/wine.svg' width='20' height='20'/><p>" +
+				formatDealDetail(wines.reduce(getBestDealDetail)) + "</p></li>";
+		}
+
+		if (liquors.length > 0) {
+			markup += "<li style='text-align: left'><img src='../static/img/liquor.svg' width='20' height='20'/><p>" +
+				formatDealDetail(liquors.reduce(getBestDealDetail)) + "</p></li>";
+		}
+
+	  return markup + '</ul></li></ul>';
+  }
+
 	function getMarkerPopupContent(properties){
 		// Display preview of first deal only, even if there are multiple ones
 		var deal = properties.deals[0];
@@ -410,34 +496,34 @@ markerLayer.on('layeradd', function(e) {
 		} else {
 			markup += "<li>"
 		}
-		
+
 		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
 		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
 		markup += "<h3>" + DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end  + "</h3></li>";
-		
+
 		// Display best deals per category
 		var beers = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
 		var wines = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
 		var liquors = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
-		
+
 		if (beers.length > 0) {
-			markup += "<img src='../static/img/beer.png'/><p>" + 
+			markup += "<img src='../static/img/beer.png'/><p>" +
 				formatDealDetail(beers.reduce(getBestDealDetail)) + "</p>";
 		}
-		
+
 		if (wines.length > 0) {
-			markup += "<img src='../static/img/wine.png'/><p>" + 
+			markup += "<img src='../static/img/wine.png'/><p>" +
 				formatDealDetail(wines.reduce(getBestDealDetail)) + "</p>";
 		}
-  	
+
 		if (liquors.length > 0) {
-			markup += "<img src='../static/img/liquor.png'/><p>" + 
+			markup += "<img src='../static/img/liquor.png'/><p>" +
 				formatDealDetail(liquors.reduce(getBestDealDetail)) + "</p>";
 		}
 
 	    return markup + '</li></ul>';
 	}
-	
+
 	function getBestDealDetail(dealDetailA, dealDetailB) {
 		if (dealDetailA.detailType != dealDetailB.detailType) {
 			return dealDetailA.detailType < dealDetailB.detailType
@@ -471,27 +557,89 @@ markerLayer.on('layeradd', function(e) {
 	function formatDealDetailWithDescription(dealDetail) {
 		return formatDealDetail(dealDetail) + " " + dealDetail.drinkName;
 	}
-	
+
+  function getDealMobileMarkup(dealDetails) {
+    markup = ""
+
+		var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
+		var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
+		var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
+
+		if (beers.length > 0) {
+      markup += "<div class='mobile-details-category pull-left'>Beers</div>"
+      markup += "<div class='mobile-details-deals-val pull-right'>"
+      $.map(beers, function(b, i) {
+        markup += "<span>" + b.drinkName + "</span> ";
+        if (i + 1 != beers.length) {
+          markup += "<span class='mobile-details-delimiter'>/</span> "
+        }
+      });
+      markup += "</div><br>"
+    }
+
+		if (wines.length > 0) {
+      markup += "<div class='mobile-details-category pull-left'>Wines</div>"
+      markup += "<div class='mobile-details-deals-val pull-right'>"
+      $.map(wines, function(b, i) {
+        markup += "<span>" + b.drinkName + "</span> ";
+        if (i + 1 != wines.length) {
+          markup += "<span class='mobile-details-delimiter'>/</span> "
+        }
+      });
+      markup += "</div><br>"
+    }
+
+		if (liquors.length > 0) {
+      markup += "<div class='mobile-details-category pull-left'>Liquors</div>"
+      markup += "<div class='mobile-details-deals-val pull-right'>"
+      $.map(liquors, function(b, i) {
+        markup += "<span>" + b.drinkName + "</span> ";
+        if (i + 1 != liquors.length) {
+          markup += "<span class='mobile-details-delimiter'>/</span> "
+        }
+      });
+      markup += "</div>"
+    }
+
+    return markup;
+  }
+
+  function mobileItemFull() {
+    $('#mobile-item-showfull').hide();
+    $("#mobile-item-short").find("p, img").hide();
+    $(".mobile-item-deals-price").hide();
+
+    $('#mobile-item-details').html(getMobileItemDetails(properties));
+    $('#mobile-item-details').slideDown("slow");
+
+    $('#mobile-item-details .mobile-item-close').swipe({
+      swipe: function() {
+        $('#mobile-item-details').hide();
+        $('#mobile-item-info').slideUp("fast");
+      }
+    });
+  }
+
 	function getDealMarkup(dealDetails) {
 		var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
 		var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
 		var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
-		
+
 		var markup = "<table style='width: 100%;'>";
 		if (beers.length > 0) {
-			markup += "<tr><td class='drink-category-column'><img src='../static/img/beer.png'/></td>" + 
+			markup += "<tr><td class='drink-category-column'><img src='../static/img/beer.png'/></td>" +
 				"<td class='deal-detail-column'><ul><li>";
 			markup += beers.map(formatDealDetailWithDescription).join("</li><li>") + "</li></ul></td></tr>";
 		}
-		
+
 		if (wines.length > 0) {
-			markup += "<tr><td class='drink-category-column'><img src='../static/img/wine.png'/></td>" + 
+			markup += "<tr><td class='drink-category-column'><img src='../static/img/wine.png'/></td>" +
 				"<td class='deal-detail-column'><ul><li>";
 			markup += wines.map(formatDealDetailWithDescription).join("</li><li>") + "</li></ul></td></tr>";
 		}
-		
+
 		if (liquors.length > 0) {
-			markup += "<tr><td class='drink-category-column'><img src='../static/img/liquor.png'/></td>" + 
+			markup += "<tr><td class='drink-category-column'><img src='../static/img/liquor.png'/></td>" +
 				"<td class='deal-detail-column'><ul><li>";
 			markup += liquors.map(formatDealDetailWithDescription).join("</li><li>") + "</li></ul></td></tr>";
 		}
@@ -500,96 +648,121 @@ markerLayer.on('layeradd', function(e) {
 	}
 
     marker.on('click', function(e) {
-		var properties = this.feature.properties;
-		// TODO Add capacity to display multiple deals
-		var deal = properties.deals[0];
+		  var properties = this.feature.properties;
+		  // TODO Add capacity to display multiple deals
+		  var deal = properties.deals[0];
+
+		  var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
+		  var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
+
+      if ($(window).width() < mediaScreenWidth) {
+        $(".mobile-logo").hide();
+
+        $("#mobile-item-info").show();
+        $("#mobile-item-showfull").show();
+
+        $("#mobile-item-short").html(getMarkerMobileContent(properties));
+
+        $('#mobile-item-showfull').on('click', function() {
+          mobileItemFull();
+        });
+
+        $("#mobile-item-short").swipe({
+          swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
+            $('#mobile-item-info').slideUp("fast");
+          },
+          swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
+            mobileItemFull();
+          }
+        });
+
+      } else {
 
         if (properties.superCategory == "Bar") {
-    		marker.setIcon(barMarkerClicked);
-		} else {
-    	    marker.setIcon(restaurantMarkerClicked);
-		}
-		
-        if (selectedMarker) {
-    		if (selectedMarker.feature.properties.superCategory == "Bar") {
-				selectedMarker.setIcon(barMarker);
-			} else {
-    			selectedMarker.setIcon(restaurantMarker);
-			}
-    	}
-		
-		selectedMarker = this;
+          marker.setIcon(barMarkerClicked);
+		    } else {
+          marker.setIcon(restaurantMarkerClicked);
+		    }
 
-    	// Show the right menu
+        if (selectedMarker) {
+          if (selectedMarker.feature.properties.superCategory == "Bar") {
+		    		selectedMarker.setIcon(barMarker);
+		    	} else {
+        	  selectedMarker.setIcon(restaurantMarker);
+		    	}
+        }
+
+		    selectedMarker = this;
+
+        	// Show the right menu
         $(".slider-arrow").attr("src", "../static/img/right-arrow.png");
         $(".right-side-bar").show("slide", { direction: "right" }, 700);
-		$(".sliding").show();
+		    $(".sliding").show();
         $(".sliding").animate({ right: "25%" } , 700);
 
-        // Reset margins for cover photo
-		$("#location-cover-photo").css("-webkit-clip-path", "inset(0px 0px)");
-		$("#location-cover-photo").css("margin-top", "0px");
-		$("#location-cover-photo").css("margin-bottom", "0px");
-		$("#location-cover-photo").removeAttr("src");
-		$("#location-cover-photo").attr("data-x-offset", properties["coverXOffset"]);
-		$("#location-cover-photo").attr("data-y-offset", properties["coverYOffset"]);
+            // Reset margins for cover photo
+		    $("#location-cover-photo").css("-webkit-clip-path", "inset(0px 0px)");
+		    $("#location-cover-photo").css("margin-top", "0px");
+		    $("#location-cover-photo").css("margin-bottom", "0px");
+		    $("#location-cover-photo").removeAttr("src");
+		    $("#location-cover-photo").attr("data-x-offset", properties["coverXOffset"]);
+		    $("#location-cover-photo").attr("data-y-offset", properties["coverYOffset"]);
 
-		// Add cover photo if applicable
-		if (properties["coverPhotoSource"]) {
-			$("#location-cover-photo").attr("src", properties["coverPhotoSource"]);
-		}
+		    // Add cover photo if applicable
+		    if (properties["coverPhotoSource"]) {
+		    	$("#location-cover-photo").attr("src", properties["coverPhotoSource"]);
+		    }
 
-		// Location information
-        $("#location-name").html(properties["name"]); 
-		$("#location-categories").html("");
+		    // Location information
+        $("#location-name").html(properties["name"]);
+		    $("#location-categories").html("");
 
-		var subCategories = properties["subCategories"];
-		for (var i = 0; i < subCategories.length; i++) {
-			if(i == 0) //add a left margin for the first element
-				$("#location-categories").append("<div class='category' style='margin-left:1rem;'>" + subCategories[i] + "</div>");
-			else
-				$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
-			
-			if(i != (subCategories.length-1)) //Don't add '|' at the end of the last element
-				$("#location-categories").append(" | ");
-		}
+		    var subCategories = properties["subCategories"];
+		    for (var i = 0; i < subCategories.length; i++) {
+		    	if(i == 0) //add a left margin for the first element
+		    		$("#location-categories").append("<div class='category' style='margin-left:1rem;'>" + subCategories[i] + "</div>");
+		    	else
+		    		$("#location-categories").append("<div class='category'>" + subCategories[i] + "</div>");
 
-        $("#location-address").html(properties["street"]);
-        $("#location-phone-number").html(properties["phoneNumber"]);
-        
-        if (properties["happyHourWebsite"]){
-            $("#location-website").html("Source of Info");
-            $("#location-website").attr("href", properties["happyHourWebsite"]);  
-        }
-        else { 
-            $("#location-website").html("Website");
-            $("#location-website").attr("href", properties["website"]);
-        }
-        
-		$(".rev-hr").css("display","block");
-		$(".icon-globe").css("display","inline");
-		$(".icon-phone").css("display","inline");
-		$(".icon-home").css("display","inline");
-		
-		// Deal Info
-		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
-		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
+		    	if(i != (subCategories.length-1)) //Don't add '|' at the end of the last element
+		    		$("#location-categories").append(" | ");
+		    }
+
+            $("#location-address").html(properties["street"]);
+            $("#location-phone-number").html(properties["phoneNumber"]);
+
+            if (properties["happyHourWebsite"]){
+                $("#location-website").html("Source of Info");
+                $("#location-website").attr("href", properties["happyHourWebsite"]);
+            }
+            else {
+                $("#location-website").html("Website");
+                $("#location-website").attr("href", properties["website"]);
+            }
+
+		    $(".rev-hr").css("display","block");
+		    $(".icon-globe").css("display","inline");
+		    $(".icon-phone").css("display","inline");
+		    $(".icon-home").css("display","inline");
+
+		    // Deal Info
         $("#deal-time-frame").html(DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end);
         $("#deal-details-div").html(getDealMarkup(deal.dealDetails));
-		
-		// Yelp Reviews
-        $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
-        $.get("/yelpReviews/?yelp_id=" + properties["yelpId"],function(data){
-        	yelp_api_response = data.response; // refer to yelpReview on views.py for more details
-        	$("#rating_img").attr("src",yelp_api_response.overall_rating_img);
-        	$("#review_count").html("(" + yelp_api_response.review_count + ")");
-        	$("#name").html(yelp_api_response.username); //username
-        	$("#profile_img").attr("src",yelp_api_response.user_img);
-        	$("#excerpt").html("\" "+yelp_api_response.excerpt+" \"");
-        	$(".reviews-div").click(function() {
-				window.open(yelp_api_response.url); 
-			});
-        });
+
+		    // Yelp Reviews
+            $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
+            $.get("/yelpReviews/?yelp_id=" + properties["yelpId"],function(data){
+            	yelp_api_response = data.response; // refer to yelpReview on views.py for more details
+            	$("#rating_img").attr("src",yelp_api_response.overall_rating_img);
+            	$("#review_count").html("(" + yelp_api_response.review_count + ")");
+            	$("#name").html(yelp_api_response.username); //username
+            	$("#profile_img").attr("src",yelp_api_response.user_img);
+            	$("#excerpt").html("\" "+yelp_api_response.excerpt+" \"");
+            	$(".reviews-div").click(function() {
+		    		window.open(yelp_api_response.url);
+		    	});
+            });
+      }
     })
 });
 
@@ -597,7 +770,7 @@ markerLayer.on('layeradd', function(e) {
 metroLayer.on('layeradd', function(e) {
     var marker = e.layer,
         feature = e.layer.feature;
-        
+
     marker.setIcon(L.icon({
         iconUrl: '../static/img/metro.png',
         iconSize: [16, 16]
@@ -628,48 +801,50 @@ metroLayer.on('layeradd', function(e) {
 // DAY AND TIME FILTERS
 function initializeDayAndTime() {
 	var now = moment();
-	
+
 	// Initialize day
-	var dayFilter = $("#day");
+	var dayFilter = $(".day");
 	dayFilter.on("input", function(event) {
-		selectedDay = dayFilter.val();
-		$('#day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
-		
+		selectedDay = $(this).val();
+		$('.day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
+
 		reloadData();
 	});
-	
+
 	selectedDay = now.day();
 	dayFilter.val(selectedDay);
-	$('#day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
-	
+	$('.day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
+
 	// Initialize time filter, but don't set time until activated
 	$("#filter-by-hours").change(function() {
-        if ($(this).is(":checked")) {
-            $("#time").show();
-			$("#time_output").show();
-			timeFilterActive = true;
-        } else {
-			$("#time").hide();
-			$("#time_output").hide();
-			timeFilterActive = false;
+      if ($(this).is(":checked")) {
+        $("#time").show();
+			  $("#time_output").show();
+			  timeFilterActive = true;
+
+        initializeDayAndTime();
+      } else {
+			  $("#time").hide();
+			  $("#time_output").hide();
+			  timeFilterActive = false;
 		}
-		
+
 		reloadData();
 	});
-	
-	var timeFilter = $('#time');
+
+	var timeFilter = $('.time:visible');
 	timeFilter.attr('step', MINUTES_IN_HOUR / 2);
 	timeFilter.attr('min', MIN_HOUR * MINUTES_IN_HOUR);
 	timeFilter.attr('max', MAX_HOUR * MINUTES_IN_HOUR);
 
 	timeFilter.on('input', function(event) {
-		var totalMinutes = timeFilter.val();
+		var totalMinutes = $(this).val();
 		var hours = totalMinutes / MINUTES_IN_HOUR;
 		if (hours > 24) hours -= 24;
 		var minutes = totalMinutes % MINUTES_IN_HOUR;
 		var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
 		selectedTime = selectedTimeMoment.format("H:mm");
-		$("#time_output").text(selectedTimeMoment.format("hh:mm A"));
+		$(this).prev().text(selectedTimeMoment.format("hh:mm A"));
 		
 		reloadData();
 	});
@@ -684,11 +859,11 @@ function initializeDayAndTime() {
 	var minutes = now.minutes() > 30 ? 0 : 30;
 	var selectedTimeMoment = moment({ hours: hours, minutes: minutes });
 	selectedTime = selectedTimeMoment.format("H:mm");
-	$('#time_output').text(selectedTimeMoment.format("hh:mm A"));
+	timeFilter.prev().text(selectedTimeMoment.format("hh:mm A"));
 	timeFilter.val(nowTotalMinutes);
 }
 
-// LOADING INDICATOR 
+// LOADING INDICATOR
 function initializeLoadingIndicator() {
 	var container = $(".loading-indicator-container")[0];
 	loadingIndicator = new Spinner({
@@ -701,14 +876,18 @@ function initializeLoadingIndicator() {
 	}).spin(container);
 }
 
-// ZOOM FUNCTIONS 
+// ZOOM FUNCTIONS
 
-$("#overview-zoom").click(function() {
+$("#overview-zoom, #mobile-overview-zoom").click(function() {
 	$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
 	$(".sliding").animate({ right: "0"} , 700);
-	map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
-    
+  if ($(window).width() < mediaScreenWidth) {
+	  map.setView([38.907557, -77.028130],11,{zoom:{animate:true}});
+  } else {
+	  map.setView([38.907557, -77.028130],13,{zoom:{animate:true}});
+  }
+
     if (hiddenNeighborhoodLayer) {
         selectedNeighborhood = null;
         reloadData();
@@ -717,13 +896,43 @@ $("#overview-zoom").click(function() {
         clusterLayer.clearLayers();
         neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
         $(".neighborhood-label").show();
-        
+
         // Hide sidebar
         $(".slider-arrow").attr("src", "../static/img/left-arrow.png");
         $(".right-side-bar").hide("slide", { direction: "right" }, 700);
         $(".sliding").animate({ right: "0"} , 700);
     }
 });
+
+// get current location in mobile mode
+$('#current-location').on('click', function(){
+  map.locate({setView: true, maxZoom: 15});
+});
+
+$('#mobile-settings').on('click', function(){
+  timeFilterActive = true;
+  $('#mobile-filters').slideDown("fast", function() {
+    initializeDayAndTime();
+
+		reloadData();
+  });
+});
+
+$('#mobile-filters').swipe({
+  swipeDown: function() {
+    $(this).closest('#mobile-filters').slideUp("fast");
+  }
+});
+
+$('#mobile-filters').on('click', function() {
+  $(this).closest('#mobile-filters').slideUp("fast");
+});
+
+$(document).on('click', '#mobile-item-details .mobile-item-close', function() {
+  $('#mobile-item-details').hide();
+  $('#mobile-item-info').slideUp("fast");
+});
+
 
 $("#zoom-in").click(function() {
 	var zoom = map.getZoom();
