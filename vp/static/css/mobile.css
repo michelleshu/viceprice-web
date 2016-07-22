@@ -8,7 +8,7 @@
 
 @media screen and (max-width: 737px) {
   .neighborhood-label {
-    font-size: 0.40rem !important;
+    font-size: 0.55rem !important;
   }
 
   body {
@@ -123,13 +123,8 @@
     width: 100%;
   }
 
-  .mobile-filters #time_output {
-    margin: 0;
-    display: block;
-  }
-
   .mobile-filters .mobile-filters-actions {
-    padding: 0 15px;
+    padding: 15px;
   }
 
   .mobile-filters .mobile-filters-title-decorate {
@@ -243,22 +238,35 @@
 
   .mobile-item-details-deals {
     padding: 10px;
-    line-height: 25px;
-    margin-bottom: 10px;
   }
 
-  .mobile-item-details-deals .mobile-details-category {
+  .mobile-item-details-deals ul {
+    margin: 5px 0;
+    overflow: hidden;
+    list-style-type: none;
+  }
+
+  .mobile-item-details-deals ul li {
+    float:left;
+    padding: 0;
+  }
+
+  .mobile-item-details-deals ul li:first-child {
+    margin-right: 5px;
     font-size: 10px;
-    line-height: 10px;
     text-transform: uppercase;
+    width: 50px;
   }
-  .mobile-item-details-deals .mobile-details-deals-val {
+
+  .mobile-item-details-deals ul li:last-child {
+    width: 80%;
     font-size: 8px;
-    line-height: 10px;
   }
-  .mobile-item-details-deals .mobile-details-delimiter {
-    font-size: 7px;
-    line-height: 10px;
+
+  .mobile-item-details-deals ul li:last-child span {
+    clear: left;
+    display: inline-block;
+    line-height: 2;
   }
 
   .mobile-item-details-reviews { padding: 10px; }
