@@ -47,7 +47,6 @@ class Location(models.Model):
     state = models.CharField(max_length=50, null=True)
     street = models.CharField(max_length=256, null=True)
     zip = models.CharField(max_length=50, null=True)
-    formattedAddress = models.CharField(max_length=512, null=True)
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
     happyHourWebsite = models.CharField(max_length=256, null=True)

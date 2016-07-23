@@ -22,7 +22,6 @@ class Command(BaseCommand):
 
         location = Location.objects.create(
             name = "Liberty Lounge TEST",
-            formattedAddress = "3257 Stanton Rd SE,\nWashington, DC 20020",
             website = "http://www.justinhinh.com",
             formattedPhoneNumber = "(202)790-4414",
             mturkDateLastUpdated = timezone.now()
@@ -31,7 +30,6 @@ class Command(BaseCommand):
         mturk_location_info = MTurkLocationInfo.objects.create(
             location = location,
             name = location.name,
-            address = location.formattedAddress,
             phone_number = location.formattedPhoneNumber,
             website = location.website
         )
