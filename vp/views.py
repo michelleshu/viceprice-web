@@ -504,8 +504,13 @@ def submit_happy_hour_data(request):
 @csrf_exempt
 def submit_drink_names(request):
     data = json.loads(request.body)
+    location_id = int(data.get('locationID'))
     deal_id = int(data.get('dealID'))
     names_selected = data.get('namesSelected')
+
+    # Remove old deals from location if they exist
+    location = Location.objects.get(id=location_id)
+    location.deals.filter(dealSource = 2).filter(confirmed = True).delete()
 
     deal = Deal.objects.get(id=deal_id)
 
