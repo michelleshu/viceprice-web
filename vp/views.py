@@ -421,7 +421,14 @@ def get_deal_that_needs_confirmation(request):
 
     return JsonResponse({ 'deals_count': 0 })
 
+@csrf_exempt
+def delete_deal_detail(request):
+    data = json.loads(request.body)
+    deal_detail_id = data.get('id')
 
+    if (deal_detail_id != None):
+        DealDetail.objects.filter(id = deal_detail_id).delete()
+    return HttpResponse("success")
 
 @csrf_exempt
 def submit_happy_hour_data(request):
