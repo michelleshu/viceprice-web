@@ -4,7 +4,6 @@ from vp.views import BlogProxyView
 admin.autodiscover()
 
 import vp.views
-from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('',
     url(r'^$', vp.views.index, name='index'),
@@ -44,7 +43,4 @@ urlpatterns = patterns('',
 
     #Blog site
     url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view())
-                       
-    #Robot
-    url(r'^robots\.txt$', direct_to_template, {'template': 'robots.txt', 'mimetype': 'text/plain'})
 )
