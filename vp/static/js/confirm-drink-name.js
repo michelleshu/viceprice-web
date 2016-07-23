@@ -1,4 +1,5 @@
 var dealID;
+var locationID;
 var itemIDs = [];
 
 $(document).ready(function() {
@@ -23,9 +24,25 @@ $(document).ready(function() {
         });
     });
 
+    $("#reject-button").click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $.ajax({
+            type: "POST",
+            url: "/reject_deal/",
+            data: JSON.stringify({ "locationID": locationID }),
+            success: function() {
+                $(".location-name").remove();
+                $(".deal-hours").remove();
+                $(".deal-data").remove();
+                get_deal_that_needs_confirmation();
+            }
+        })
+    });
+
 
     $("#submit-button").click(function(event) {
-
         event.preventDefault();
         event.stopPropagation();
 
@@ -53,6 +70,8 @@ $(document).ready(function() {
             url: "/submit_drink_names/",
             data: JSON.stringify(data),
             success: function(data) {
+                $(".location-name").remove();
+                $(".deal-hours").remove();
                 $(".deal-data").remove();
                 get_deal_that_needs_confirmation();
             },
@@ -79,6 +98,7 @@ var get_deal_that_needs_confirmation = function() {
         url: "/get_deal_that_needs_confirmation",
 
         success: function(data) {
+            locationID = data["location_id"];
             var locationName = data["location_name"];
             var dealHoursData = data["deal_hour_data"];
             var dealDetailData = data["deal_detail_data"];
