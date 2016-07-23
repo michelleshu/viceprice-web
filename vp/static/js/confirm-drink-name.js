@@ -5,6 +5,12 @@ $(document).ready(function() {
     get_deal_that_needs_confirmation();
 
     $(document).on("click", ".delete-deal-detail", function(e) {
+        // Don't allow deletion of last detail
+        if ($(".deal-data").length <= 1) {
+            alert("Cannot delete last deal detail. Reject the whole deal instead.");
+            return;
+        }
+
         var dealDetailId = parseInt($(e.target).attr("data-deal-detail-id"));
 
         $.ajax({
