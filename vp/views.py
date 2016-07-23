@@ -17,7 +17,8 @@ from revproxy.views import ProxyView
 import json
 import logging
 import collections
-from yelpapi import YelpAPI 
+from yelpapi import YelpAPI
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -410,6 +411,7 @@ def get_deal_that_needs_confirmation(request):
             })
 
         response = {
+            'location_id': location.id,
             'location_name': location.name,
             'deals_count': deals_count,
             'deal_id': deal.id,
@@ -427,8 +429,27 @@ def delete_deal_detail(request):
     deal_detail_id = data.get('id')
 
     if (deal_detail_id != None):
-        DealDetail.objects.filter(id = deal_detail_id).delete()
+        DealDetail.objects.get(id = deal_detail_id).delete()
     return HttpResponse("success")
+
+@csrf_exempt
+def reject_deals(request):
+    data = json.loads(request.body)
+    location_id = data.get('locationID')
+
+    try:
+        location = Location.objects.get(id = location_id)
+        location.deals.filter(dealSource = 2).filter(confirmed = False).delete()
+
+        location.mturkDataCollectionFailed = True
+        location.mturkDateLastUpdated = datetime.datetime.now() + datetime.timedelta(-31)
+        location.save()
+
+    except:
+        pass
+
+    return HttpResponse("success")
+
 
 @csrf_exempt
 def submit_happy_hour_data(request):

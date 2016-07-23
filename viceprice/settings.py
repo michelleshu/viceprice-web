@@ -34,14 +34,9 @@ DATABASES = {
 }
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = False
-
-ADMINS = (
-    ('Michelle Shu', 'shu.michelle.w@gmail.com'),
-    ('Justin Hinh', 'justintsn10@gmail.com')
-)
 
 
 # Application definition
