@@ -47,3 +47,4 @@ urlpatterns = patterns('',
                        
     #Robot
     url(r'^robots.txt$', TemplateView.as_view(template_name='robots.txt'), name="robots.txt"))
+
