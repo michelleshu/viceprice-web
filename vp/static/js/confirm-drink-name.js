@@ -61,6 +61,7 @@ $(document).ready(function() {
         }
 
         var data = {
+            "locationID": locationID,
             "dealID": dealID,
             "namesSelected": namesSelected
         };
