@@ -49,7 +49,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         mturk_location = MTurkLocationInfo(
             location = location,
             name = location.name,
-            address = location.formattedAddress,
+            address = location.street,
             phone_number = location.formattedPhoneNumber,
             website = location.website
         )
