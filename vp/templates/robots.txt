@@ -20,7 +20,6 @@ disallow: /data_entry/
 disallow: /confirm_drink_name/
 disallow: /fetch_filtered_deals/
 disallow: /fetch_location_counts_by_neighborhood/
-disallow: /sandbox/
 disallow: /yelpReviews/
 disallow: /TOS/
 disallow: /home/
