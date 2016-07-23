@@ -13,3 +13,15 @@ input[type=radio] {
 input[type=text] {
     width: 50%;
 }
+
+#reject-button {
+    background-color: red;
+    color: white;
+}
+
+.delete-deal-detail {
+    color: red;
+    margin-left: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
