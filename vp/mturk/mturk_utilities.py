@@ -38,9 +38,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         # process.
 
         # Test locations
-        new_locations = Location.objects.filter(id__in=[2723])
-
-        #new_locations = Location.objects.filter(Q(id__in=[2723, 2624, 2698, 2513, 2717, 2719, 2665, 2695, 2663, 2725, 2718, 2724, 2631, 2605, 2713, 2699, 2638, 2684, 2641, 3253]) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))
+        new_locations = Location.objects.filter(Q(id__in=[2723, 2624, 2698, 2513, 2717, 2719, 2665, 2695, 2663, 2725, 2718, 2724, 2631, 2605, 2713, 2699, 2638, 2684, 2641, 3253]) & Q(mturkDateLastUpdated__lt=earliest_unexpired_date))
 
         # new_locations = Location.objects.filter(Q(neighborhood="Dupont Circle") &
         #     (Q(mturkDateLastUpdated__lt=earliest_unexpired_date) | Q(mturkDateLastUpdated=None)))[0:max_new_locations]

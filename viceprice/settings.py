@@ -34,7 +34,7 @@ DATABASES = {
 }
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = False
 
@@ -153,10 +153,10 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.10,
+        PRICE: 0.15,
         BONUS: 0.0,
         DURATION: 3600,
-        LOCALE_REQUIRED: 'IN'
+        LOCALE_REQUIRED: 'US'
     }
 }
 
