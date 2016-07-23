@@ -4,6 +4,7 @@
 
 {% block resources %}
     <link rel="stylesheet" href="{% static 'css/confirm-drink-name.css' %}">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
     <script type="text/javascript" src="{% static 'js/confirm-drink-name.js' %}"></script>
 {% endblock resources %}
 
@@ -12,11 +13,12 @@
         <div class="confirm-drink-name-container">
             <div class="row">
                 <h3>Confirm Drink Names</h3>
-                <h4 class="remaining-count">0 Deals Left To Confirm</h4>
+                <h5 class="remaining-count">0 Deals Left To Confirm</h5>
                 <hr/>
             </div>
         </div>
         <div class="row">
+            <input id="reject-button" type="submit" value="Reject"/>
             <input id="submit-button" type="submit"/>
         </div>
     </div>
