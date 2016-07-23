@@ -24,6 +24,8 @@ urlpatterns = patterns('',
     url(r'^submit_locations_to_upload/$', vp.views.submit_locations_to_upload, name='submit_locations_to_upload'),
     url(r'^skip_location/$', vp.views.flag_location_as_skipped, name='flag_location_as_skipped'),
     url(r'^get_deal_that_needs_confirmation/$', vp.views.get_deal_that_needs_confirmation, name='get_deal_that_needs_confirmation'),
+    url(r'^delete_deal_detail/$', vp.views.delete_deal_detail, name='delete_deal_detail'),
+    url(r'^reject_deal/$', vp.views.reject_deals, name='reject_deal'),
 
     # Map
     url(r'^get_locations_within_bounds/$', vp.views.get_locations_within_bounds, name='get_locations_within_bounds'),

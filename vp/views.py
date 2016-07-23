@@ -17,7 +17,8 @@ from revproxy.views import ProxyView
 import json
 import logging
 import collections
-from yelpapi import YelpAPI 
+from yelpapi import YelpAPI
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -376,11 +377,25 @@ def get_deal_that_needs_confirmation(request):
 
     if deals_count > 0:
         deal = deals.first()
+        location = deal.location.all().first()
+
+        deal_hours = deal.activeHours.all()
+
+        deal_hour_data = []
+
+        for deal_hour in deal_hours:
+            deal_hour_data.append({
+                'day': deal_hour.dayofweek,
+                'start': str(deal_hour.start),
+                'end': str(deal_hour.end)
+            })
+
         deal_details = list(deal.dealDetails.all())
 
         deal_detail_data = []
 
         for deal_detail in deal_details:
+
             mturk_drink_name_options = list(deal_detail.mturkDrinkNameOptions.all())
             mturk_drink_names = []
 
@@ -389,12 +404,18 @@ def get_deal_that_needs_confirmation(request):
 
             deal_detail_data.append({
                 'id': deal_detail.id,
-                'drink_names': mturk_drink_names
+                'drink_names': mturk_drink_names,
+                'detail_type': deal_detail.detailType,
+                'drink_category': deal_detail.drinkCategory,
+                'value': deal_detail.value
             })
 
         response = {
+            'location_id': location.id,
+            'location_name': location.name,
             'deals_count': deals_count,
             'deal_id': deal.id,
+            'deal_hour_data': deal_hour_data,
             'deal_detail_data': deal_detail_data
         }
 
@@ -402,6 +423,32 @@ def get_deal_that_needs_confirmation(request):
 
     return JsonResponse({ 'deals_count': 0 })
 
+@csrf_exempt
+def delete_deal_detail(request):
+    data = json.loads(request.body)
+    deal_detail_id = data.get('id')
+
+    if (deal_detail_id != None):
+        DealDetail.objects.get(id = deal_detail_id).delete()
+    return HttpResponse("success")
+
+@csrf_exempt
+def reject_deals(request):
+    data = json.loads(request.body)
+    location_id = data.get('locationID')
+
+    try:
+        location = Location.objects.get(id = location_id)
+        location.deals.filter(dealSource = 2).filter(confirmed = False).delete()
+
+        location.mturkDataCollectionFailed = True
+        location.mturkDateLastUpdated = datetime.datetime.now() + datetime.timedelta(-31)
+        location.save()
+
+    except:
+        pass
+
+    return HttpResponse("success")
 
 
 @csrf_exempt
@@ -457,8 +504,13 @@ def submit_happy_hour_data(request):
 @csrf_exempt
 def submit_drink_names(request):
     data = json.loads(request.body)
+    location_id = int(data.get('locationID'))
     deal_id = int(data.get('dealID'))
     names_selected = data.get('namesSelected')
+
+    # Remove old deals from location if they exist
+    location = Location.objects.get(id=location_id)
+    location.deals.filter(dealSource = 2).filter(confirmed = True).delete()
 
     deal = Deal.objects.get(id=deal_id)
 
