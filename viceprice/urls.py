@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from django.contrib import admin
 from vp.views import BlogProxyView
 admin.autodiscover()
 
 import vp.views
-from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('',
     url(r'^$', vp.views.index, name='index'),
@@ -43,8 +43,7 @@ urlpatterns = patterns('',
     url(r'^home/$', vp.views.home, name = 'home'),
 
     #Blog site
-    url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view())
+    url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view()),
                        
     #Robot
-#    url(r'^robots\.txt$', direct_to_template, {'template': 'robots.txt', 'mimetype': 'text/plain'})
-)
+    url(r'^robots.txt$', TemplateView.as_view(template_name='robots.txt'), name="robots.txt"))
