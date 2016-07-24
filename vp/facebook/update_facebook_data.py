@@ -6,8 +6,11 @@ import urlparse
 import subprocess
 import warnings
 import time
+import django
 
 def update():
+
+    django.setup()
 
     warnings.filterwarnings('ignore', category=DeprecationWarning)
 
