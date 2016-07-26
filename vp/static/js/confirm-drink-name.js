@@ -50,6 +50,11 @@ $(document).ready(function() {
         for (var i  = 0; i < itemIDs.length; i++) {
             var id = itemIDs[i];
             var name = $("input[type=radio][name='" + id  + "']:checked").val();
+
+            if (!name) {
+                continue;
+            }
+            
             if (name == "custom") {
                 name = $("input[type=text][name='" + id  + "']").val();
             }
