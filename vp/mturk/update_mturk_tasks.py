@@ -155,7 +155,7 @@ def save_results(location, deals_data, comments):
 
             # Add drink names options submitted by all Turkers
             for names_option in deal_detail_data["namesOptions"]:
-                drink_name_option = MTurkDrinkNameOption(name = names_option)
+                drink_name_option = MTurkDrinkNameOption(name = names_option.title())
                 drink_name_option.save()
                 deal_detail.mturkDrinkNameOptions.add(drink_name_option)
 
