@@ -54,7 +54,7 @@ $(document).ready(function() {
             if (!name) {
                 continue;
             }
-            
+
             if (name == "custom") {
                 name = $("input[type=text][name='" + id  + "']").val();
             }
