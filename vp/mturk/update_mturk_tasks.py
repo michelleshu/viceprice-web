@@ -162,10 +162,10 @@ def save_results(location, deals_data, comments):
 
 # Combine names from same category/time deal details that are entered separately
 # e.g. Heineken $4 MWF 4-7 PM and Budweiser $4 MWF 4-7 PM becomes Heineken, Budweiser $4 MWF 4-7PM
-def combine_deal_detail_drink_names(deal_json):
+def combine_deal_detail_drink_names(deal_datas):
 
-    for i in range(len(deal_json["dealData"])):
-        deal_details = deal_json["dealData"][i]["dealDetails"]
+    for i in range(len(deal_datas)):
+        deal_details = deal_datas[i]["dealDetails"]
 
         match_index = 0
         while match_index < len(deal_details):
@@ -185,11 +185,11 @@ def combine_deal_detail_drink_names(deal_json):
 
             match_index += 1
 
-    return deal_json
+    return deal_datas
 
 
 # Get confirmed portions of deals (includes any individual deal detail for which there is enough agreement beyond Turkers)
-def get_confirmed_deals(deal_jsons):
+def get_confirmed_deals(deal_jsons):    
     responses_count = len(deal_jsons)
     merged_deals = merge_deal_jsons(deal_jsons)
 
@@ -246,15 +246,15 @@ def get_confirmed_deals(deal_jsons):
 #        ]
 #    }, ...
 def merge_deal_jsons(deal_jsons):
-    for i in range(len(deal_jsons)):
-        deal_jsons[i] = combine_deal_detail_drink_names(deal_jsons[i])
-
     results = []
 
     for i in range(len(deal_jsons)):
         deal_json = deal_jsons[i]
-
-        for deal_data in deal_json["dealData"]:
+        deal_datas = combine_deal_elements(deal_json["dealData"])
+        deal_jsons[i] = combine_deal_detail_drink_names(deal_datas)
+    
+    for i in range(len(deal_jsons)):
+        for deal_data in deal_jsons[i]:
 
             # If we have already considered this deal data, skip it
             if len(get_matching_time_frame_deals(results, deal_data)) > 0:
@@ -263,7 +263,7 @@ def merge_deal_jsons(deal_jsons):
             # Otherwise, try to find matching deal data from all deal jsons after it
             matching_deals = []
             for deal_json in deal_jsons[i + 1:]:
-                matching_deal_data_candidates = deal_json["dealData"]
+                matching_deal_data_candidates = deal_json
                 matches_for_deal_json = get_matching_time_frame_deals(matching_deal_data_candidates, deal_data)
 
                 for match in matches_for_deal_json:
@@ -282,10 +282,30 @@ def merge_deal_jsons(deal_jsons):
                     result["dealDetailOptions"].append(deal_detail)
 
             results.append(result)
-
+            
     return results
 
-
+# Combine duplicate time frames entered by same person
+def combine_deal_elements(dealData):
+    result = []
+    indices_to_ignore = []  # indices that have been merged 
+    
+    for i in range(len(dealData)):
+        if (i not in indices_to_ignore):
+            deal_details_to_merge = []
+            
+            for j in range(i + 1, len(dealData)):
+                if (j not in indices_to_ignore):
+                    match = get_matching_time_frame_deals([dealData[j]], dealData[i])
+                    if (len(match) > 0):
+                        deal_details_to_merge += dealData[j]["dealDetails"]
+                        indices_to_ignore.append(j)
+            
+            dealData[i]["dealDetails"] += deal_details_to_merge
+            result.append(dealData[i])
+    
+    return result
+        
 # Helper method to retrieve all instances matching the time frame of deal_to_find in deal_detail_array
 # Returns matching index in deal_data_array if match is found, otherwise returns None
 def get_matching_time_frame_deals(deal_data_array, deal_to_find):
