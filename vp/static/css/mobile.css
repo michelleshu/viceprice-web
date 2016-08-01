@@ -67,7 +67,7 @@
   }
 
   .mobile-icon-bg {
-    background: #c8a45e;
+    background: #C7A25B;
     border-radius: 50%;
   }
 
@@ -81,7 +81,7 @@
   }
 
   .mobile-filters {
-    background: #272C30;
+    background: #262C30;
     bottom: 0;
     position: absolute;
     width: 100%;
@@ -91,12 +91,12 @@
 
   .mobile-filters .mobile-filters-close,
   .mobile-item-info .mobile-item-close {
-    background: #1C2124;
+    background: #262C30;
     text-align: center;
   }
 
   .mobile-filters .mobile-filters-title span {
-    background: #272C30;
+    background: #262C30;
     color: white;
     padding: 0 10px;
     text-align: center;
@@ -114,7 +114,7 @@
 
   .mobile-filters #day_output,
   .mobile-filters #time_output {
-    color: #997E4E;
+    color: #C7A25B;
     text-transform: uppercase;
   }
 
@@ -134,7 +134,7 @@
   }
 
   .mobile-item-info {
-    background: #282B30;
+    background: #262B30;
     position: relative;
     top: 0;
     width: 100%;
@@ -150,7 +150,7 @@
   .mobile-item-info .mobile-item-short { }
 
   .mobile-item-info .mobile-item-short h1 {
-    color: #B79756;
+    color: #C7A25B;
     font-size: 12px;
     line-height: 15px;
     text-transform: uppercase;
@@ -182,12 +182,12 @@
   }
 
   .mobile-item-info .mobile-item-best-deals {
-    background: #C6A15A;
+    background: #C7A25B;
   }
 
   .mobile-item-details-sign {
-    background: #C6A15A;
-    color: #282B30;
+    background: #C7A25B;
+    color: #262B30;
     clear: both;
     text-align: center;
     padding: 2px 0;
@@ -196,7 +196,7 @@
   }
 
   .mobile-item-details {
-    color: #C6A15A;
+    color: #C7A25B;
   }
 
   .mobile-item-details > img {
@@ -210,7 +210,7 @@
 
   .mobile-item-info .mobile-item-deals-price {
     clear: both;
-    background: #C6A15B;
+    background: #C7A25B;
   }
 
   .mobile-item-info .mobile-item-deals-price ul {
@@ -280,7 +280,7 @@
 
   .mobile-item-details-reviews .mobile-item-review img {
     margin: 2px 20px 15px 5px;
-    border: 3px solid #B69657;
+    border: 3px solid #C7A25B;
   }
 
   .mobile-item-details-reviews .mobile-item-review p {
@@ -298,7 +298,7 @@
   }
 
   .mobile-item-details-reviews .mobile-item-readmore a {
-    color: #C6A15A;
+    color: #C7A25B;
     text-transform: uppercase;
   }
 
