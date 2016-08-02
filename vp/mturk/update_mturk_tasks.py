@@ -172,11 +172,12 @@ def combine_deal_detail_drink_names(deal_datas):
 
             matches = []
             match_candidate_index = match_index + 1
+
             while match_candidate_index < len(deal_details):
                 if (deal_details_match(deal_details[match_index], deal_details[match_candidate_index])):
                     matches.append(deal_details.pop(match_candidate_index))
-
-                match_candidate_index += 1
+                else:
+                    match_candidate_index += 1
 
             if len(matches) > 0:
                 for j in range(len(matches)):
@@ -282,7 +283,7 @@ def merge_deal_jsons(deal_jsons):
                     result["dealDetailOptions"].append(deal_detail)
 
             results.append(result)
-            
+    
     return results
 
 # Combine duplicate time frames entered by same person
