@@ -64,7 +64,7 @@ def update():
 
                         if mturk_location.stat != None:
                             complete_mturk_stat(mturk_location, True)
-
+                        
                         approve_and_dispose(conn, hit)
                         mturk_location.location.mturkDataCollectionFailed = False
                         mturk_location.location.mturkDateLastUpdated = timezone.now()
@@ -221,7 +221,7 @@ def get_confirmed_deals(deal_jsons):
                 if deal_details_match(deal_detail, deal_detail_options[j]):
                     deal_detail["namesOptions"].append(deal_detail_options[j]["names"])
                     matched_count += 1
-
+            
             if (float(matched_count) / float(responses_count) * 100.0) >= settings.MIN_AGREEMENT_PERCENTAGE:
                 confirmed_deal["dealDetails"].append(deal_detail)
 
