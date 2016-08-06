@@ -209,13 +209,13 @@ def fetch_filtered_deals(request):
                 "value": row[18]
             })
 
-    # Execute query for location categories
     if (len(location_ids) > 0):
+        # Execute query for location categories
         location_categories_query = "SELECT llc.\"location_id\", lc.\"name\" \
             FROM \"vp_location_locationCategories\" llc \
             JOIN \"vp_locationcategory\" lc \
             ON llc.\"locationcategory_id\" = lc.\"id\" \
-            WHERE llc.\"location_id\" in (" + ",".join(location_ids) + ") \
+            WHERE llc.\"location_id\" IN (" + ",".join(location_ids) + ") \
             ORDER BY llc.\"location_id\", lc.\"isBaseCategory\" DESC"
             
         cursor.execute(location_categories_query)
@@ -235,6 +235,31 @@ def fetch_filtered_deals(request):
             if location_id in categories:
                 location["properties"]["superCategory"] = categories[location_id]["base_category"]
                 location["properties"]["subCategories"] = categories[location_id]["sub_categories"]
+                
+        # Execute query for location business hours
+        location_business_hours_query = "SELECT l.\"id\", MIN(ah.\"start\") as start, MIN(ah.\"end\") as end \
+            FROM \"vp_location\" l \
+            JOIN \"vp_location_activeHours\" lah \
+            ON l.\"id\" = lah.\"location_id\" \
+            JOIN \"vp_activehour\" ah \
+            ON ah.\"id\" = lah.\"activehour_id\" \
+            WHERE ah.\"dayofweek\" = " + str(day) + " AND l.\"id\" IN (" + ",".join(location_ids) + ") \
+            GROUP BY l.\"id\""
+            
+        cursor.execute(location_business_hours_query)
+        rows = cursor.fetchall()
+        
+        hours = {}
+        for row in rows:
+            hours[row[0]] = {
+                "start": str(row[1]),
+                "end": str(row[2])
+            }
+        
+        for location in locations:
+            location_id = location["properties"]["id"]
+            if location_id in hours:
+                location["properties"]["businessHours"] = hours[location_id]
     
     return JsonResponse({ 
         "result": json.dumps({
