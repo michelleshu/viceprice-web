@@ -63,6 +63,7 @@ class Location(models.Model):
     dealDataManuallyReviewed = models.DateTimeField(null=True)
     neighborhood=models.CharField(max_length=256, null=True)
     data_entry_skipped=models.BooleanField(default=False)
+    business_email = models.CharField(max_length=256, null=True)
 
 # Track the time and cost of MTurk stage
 class MTurkLocationInfoStat(models.Model):
