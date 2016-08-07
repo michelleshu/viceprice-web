@@ -502,7 +502,14 @@ markerLayer.on('layeradd', function(e) {
 
 		var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
 		var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
-		markup += "<h3>" + DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end  + "</h3></li>";
+        
+        if (deal.end && moment(deal.end,'HH:mm:ss') < moment(deal.start,'HH:mm:ss') && moment(selectedTime, "H:mm") < moment(deal.start,'HH:mm:ss')) {
+            // Display previous day for deals crossing midnight
+            yesterday = selectedDay > 1 ? selectedDay - 1 : 7;
+            markup += "<h3>" + DAYS_OF_WEEK[yesterday - 1] + " " + start + " - " + end  + "</h3></li>";
+        } else {
+            markup += "<h3>" + DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end  + "</h3></li>";
+        }
 
 		// Display best deals per category
 		var beers = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
@@ -731,8 +738,14 @@ markerLayer.on('layeradd', function(e) {
 		    $(".icon-home").css("display","inline");
 
 		    // Deal Info
-        $("#deal-time-frame").html(DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end);
-        $("#deal-details-div").html(getDealMarkup(deal.dealDetails));
+            if (deal.end && moment(deal.end,'HH:mm:ss') < moment(deal.start,'HH:mm:ss') && moment(selectedTime, "H:mm") < moment(deal.start,'HH:mm:ss')) {  
+                // Display previous day if past midnight
+                var yesterday = selectedDay > 1 ? selectedDay - 1 : 7;
+                $("#deal-time-frame").html(DAYS_OF_WEEK[yesterday - 1] + " " + start + " - " + end);
+            } else {
+                $("#deal-time-frame").html(DAYS_OF_WEEK[selectedDay - 1] + " " + start + " - " + end);
+            }
+            $("#deal-details-div").html(getDealMarkup(deal.dealDetails));
 
 		    // Yelp Reviews
             $("#yelp_log").attr("src","../static/img/yelp-logo-small.png");
@@ -797,6 +810,11 @@ function initializeDayAndTime() {
 	});
 
 	selectedDay = now.day();
+    if (selectedDay === 0) { 
+        // Handle Sunday
+        selectedDay = 7;
+    }
+    
 	dayFilter.val(selectedDay);
 	$('.day_output').val(DAYS_OF_WEEK[selectedDay - 1]);
 
