@@ -123,10 +123,13 @@ def fetch_filtered_deals(request):
     neighborhood = request.GET.get('neighborhood')
     time = request.GET.get('time')
     day = request.GET.get('day')
+    yesterday = int(day) - 1
+    if (yesterday == 0):
+        yesterday = 7
 
     location_query = "SELECT l.\"id\", l.\"name\", l.\"latitude\", l.\"longitude\", l.\"website\", l.\"happyHourWebsite\", l.\"formattedPhoneNumber\", \
         l.\"street\", l.\"coverPhotoSource\", l.\"coverXOffset\", l.\"coverYOffset\", l.\"yelpId\", \
-        d.\"id\", ah.\"start\", ah.\"end\", dd.\"drinkName\", dd.\"drinkCategory\", dd.\"detailType\", dd.\"value\" \
+        d.\"id\", ah.\"start\", ah.\"end\", dd.\"drinkName\", dd.\"drinkCategory\", dd.\"detailType\", dd.\"value\", ah.\"dayofweek\" \
         FROM \"vp_location\" l \
         JOIN \"vp_location_deals\" ld \
         ON l.\"id\" = ld.\"location_id\" \
@@ -143,10 +146,15 @@ def fetch_filtered_deals(request):
         WHERE d.\"dealSource\" = 1 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
 
     if (day != None):
-        location_query += " AND ah.\"dayofweek\" = " + str(day)
-    
-        if (time != None):
-            location_query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
+        if (time == None):
+            location_query += " AND ah.\"dayofweek\" = " + str(day)
+        else:
+            location_query += " AND ( " + \
+                "(ah.\"end\" IS NOT NULL AND ah.\"start\" < ah.\"end\" AND ah.\"dayofweek\" = " + str(day) + \
+                " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\')" + \
+                " OR (ah.\"end\" IS NOT NULL AND ah.\"end\" < ah.\"start\" AND \
+                    (ah.\"dayofweek\" = " + str(yesterday) + " AND ah.\"end\" > \'" + str(time) + "\' \
+                    OR ah.\"dayofweek\" = " + str(day) + " AND ah.\"start\" <= \'" + str(time) + "\')))"
         
     location_query += " ORDER BY l.\"id\", d.\"id\", dd.\"drinkName\""
 
@@ -197,6 +205,7 @@ def fetch_filtered_deals(request):
                 "id": int(row[12]),
                 "start": start,
                 "end": end,
+                "day": int(row[19]),
                 "dealDetails": []
             })
         
@@ -235,31 +244,6 @@ def fetch_filtered_deals(request):
             if location_id in categories:
                 location["properties"]["superCategory"] = categories[location_id]["base_category"]
                 location["properties"]["subCategories"] = categories[location_id]["sub_categories"]
-                
-        # Execute query for location business hours
-        location_business_hours_query = "SELECT l.\"id\", MIN(ah.\"start\") as start, MIN(ah.\"end\") as end \
-            FROM \"vp_location\" l \
-            JOIN \"vp_location_activeHours\" lah \
-            ON l.\"id\" = lah.\"location_id\" \
-            JOIN \"vp_activehour\" ah \
-            ON ah.\"id\" = lah.\"activehour_id\" \
-            WHERE ah.\"dayofweek\" = " + str(day) + " AND l.\"id\" IN (" + ",".join(location_ids) + ") \
-            GROUP BY l.\"id\""
-            
-        cursor.execute(location_business_hours_query)
-        rows = cursor.fetchall()
-        
-        hours = {}
-        for row in rows:
-            hours[row[0]] = {
-                "start": str(row[1]),
-                "end": str(row[2])
-            }
-        
-        for location in locations:
-            location_id = location["properties"]["id"]
-            if location_id in hours:
-                location["properties"]["businessHours"] = hours[location_id]
     
     return JsonResponse({ 
         "result": json.dumps({
