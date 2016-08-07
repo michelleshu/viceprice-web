@@ -256,6 +256,10 @@ def fetch_location_counts_by_neighborhood(request):
     time = request.GET.get('time')
     day = request.GET.get('day')
     
+    yesterday = int(day) - 1
+    if (yesterday == 0):
+        yesterday = 7
+    
     # Select locations with optional day and time filters
     inner_query = "SELECT * FROM \"vp_location\""
     if (day != None):
@@ -267,11 +271,17 @@ def fetch_location_counts_by_neighborhood(request):
         	JOIN \"vp_deal_activeHours\" dah \
         	ON d.\"id\" = dah.\"deal_id\" \
         	JOIN \"vp_activehour\" ah \
-        	ON ah.\"id\" = dah.\"activehour_id\" \
-        	WHERE ah.\"dayofweek\" = " + str(day)
+        	ON ah.\"id\" = dah.\"activehour_id\" "
         
-        if (time != None):
-            inner_query += " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\'"
+        if (time == None):
+            inner_query += "WHERE ah.\"dayofweek\" = " + str(day)
+        else:
+            inner_query += "WHERE ( " + \
+                "(ah.\"end\" IS NOT NULL AND ah.\"start\" < ah.\"end\" AND ah.\"dayofweek\" = " + str(day) + \
+                " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\')" + \
+                " OR (ah.\"end\" IS NOT NULL AND ah.\"end\" < ah.\"start\" AND \
+                    (ah.\"dayofweek\" = " + str(yesterday) + " AND ah.\"end\" > \'" + str(time) + "\' \
+                    OR ah.\"dayofweek\" = " + str(day) + " AND ah.\"start\" <= \'" + str(time) + "\')))"
     
     query = "SELECT ld.neighborhood, count(*) AS count \
         FROM (" + inner_query + ") ld \
