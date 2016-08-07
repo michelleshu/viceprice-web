@@ -84,6 +84,11 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
     text-align: center;
 }
 
+.contact-us {
+    position: fixed; 
+    bottom: 0px;
+}
+
 .attribution{text-align: right;display: inline-block;margin-left: 1rem}
 
 .attribution a {padding-left:0;}
