@@ -31,7 +31,7 @@ def update():
     for location in Location.objects.all():
         if location.facebookId != None and location.facebookId != "":
             try:
-                args = {'fields': 'hours, cover, location' }
+                args = {'fields': 'hours, cover, location, emails' }
 
                 try:
                     page = graph.get_object(location.facebookId, **args)
@@ -45,6 +45,9 @@ def update():
                     save_address_data(location, page["location"])
                 if page.get("cover") != None:
                     save_cover_photo(location, page["cover"])
+                if page.get("emails") != None:                
+                    if (len(page["emails"]) > 0):
+                        location.business_email = page["emails"][0]
 
                 location.save()
 
