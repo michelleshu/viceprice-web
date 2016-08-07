@@ -19,5 +19,10 @@ def queue_mturk_update():
 def queue_facebook_update():
     print('Facebook update queued')
     q.enqueue(getfacebookdata.run)
+    
+@sched.scheduled_job('cron', hour='1', minute='0', second='0', timezone=eastern_timezone)
+def queue_fill_business_close_update():
+    print('Fill Business Close update queued')
+    q.enqueue(fillbusinessclosehours.run)
 
 sched.start()
