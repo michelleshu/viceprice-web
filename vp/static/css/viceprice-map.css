@@ -29,15 +29,15 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 .logo {
   text-align: center;
   padding-top: 15%;
-  font-size:80%;
+  font-size:85%;
   color:#7d7f80;
   margin-bottom: 20%;
   font-family:"Montserrat", Arial, sans-serif;
 }
  .vp {
-  font-size:230%;
+  font-size:300%;
   color:#c8a45e;
-  padding-bottom: 2%;
+  padding-bottom: 5%;
   text-align: center;
  }
 
@@ -428,7 +428,7 @@ cursor: pointer;
 
       }
 
-      #day_output{margin-left: 35%; margin-bottom: 5%;}
+      #day_output{margin-left: 31%; margin-bottom: 5%;}
       #time_output{margin-left: 34%;margin-bottom: -4%;display: none;}
       #day,#time{margin-bottom: 7%;width: 88%;}
 

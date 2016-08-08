@@ -315,7 +315,12 @@
     padding: 0;
     font-size: 14px;
   }
-
+    
+  .mobile-item-metadata ul li:last-child span {
+    clear: left;
+    display: inline-block;
+    line-height: 2;
+  }
   .outer-shadow-bottom {
     border-bottom: 1px solid black;
     box-shadow: 5px 4px 10px black;
