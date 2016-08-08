@@ -43,7 +43,7 @@ urlpatterns = patterns('',
     url(r'^yelpReviews/$', vp.views.yelp_reviews, name = 'yelpReviews'),
     url(r'^TOS/$', vp.views.TOS, name = 'TOS'),
     url(r'^home/$', vp.views.home, name = 'home'),
-    url(r'loaderio-140eeb389711cc2aaeb965434318337b.html', vp.views.loader, name = 'loader')
+    url(r'loaderio-140eeb389711cc2aaeb965434318337b.html/$', vp.views.loader, name = 'loader')
     #Blog site
     url(r'^blog/(?P<path>.*)$', BlogProxyView.as_view()),
                        
