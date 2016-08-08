@@ -93,6 +93,8 @@
   .mobile-item-info .mobile-item-close {
     background: #262C30;
     text-align: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   .mobile-filters .mobile-filters-title span {
@@ -159,7 +161,8 @@
   }
 
   .mobile-item-info li {
-    padding: 0 15px;
+    padding: 0 9px;
+    padding-bottom: 3px;
   }
 
 
@@ -215,7 +218,8 @@
 
   .mobile-item-info .mobile-item-deals-price ul {
     margin: 0;
-    padding-top: 7px;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
   .mobile-item-info .mobile-item-deals-price ul li {
      margin: 0;
