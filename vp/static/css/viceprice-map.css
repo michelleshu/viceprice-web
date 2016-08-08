@@ -72,7 +72,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 
  .left-side-bar p{
   width:90%;
-  font-size:70%;
+  font-size:100%;
   color:#7d7f80;
   margin-bottom: 5%;
   border-bottom: 1px solid #7d7f80;
@@ -423,7 +423,7 @@ cursor: pointer;
 
       #day_output,#time_output {
         display: block;
-        font-size:70%;
+        font-size:100%;
         color:#aeaeae;
 
       }
@@ -536,7 +536,7 @@ cursor: pointer;
 
 .filter-by-hours-label {
   display: block;
-  font-size:70%;
+  font-size: 100%;
   color:#aeaeae;
 }
 
