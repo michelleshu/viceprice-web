@@ -88,3 +88,14 @@ input.button-primary.vp-primary-button.active {
     -moz-box-shadow: 0px 0px 0px;
     box-shadow: 0px 0px 0px;
 }
+.scroll {
+ position: absolute;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+ height: 100%;
+ width: 100%;
+ z-index: 1000000;
+ background: rgba(0, 0, 0, 0.9);
+}
