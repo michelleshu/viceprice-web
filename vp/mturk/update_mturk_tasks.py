@@ -67,7 +67,6 @@ def update():
                             complete_mturk_stat(mturk_location, True)
                         
                         approve_and_dispose(conn, hit)
-                        mturk_location.location.mturkDataCollectionFailed = False
                         mturk_location.location.mturkDateLastUpdated = timezone.now()
                         mturk_location.location.save()
                         mturk_location.delete()
@@ -88,12 +87,12 @@ def update():
                         mturk_location.delete()
 
                 else:
-                    # Not enough people found a result. Fail the HIT.
+                    # Not enough people found data. Mark the HIT as no data
                     if mturk_location.stat != None:
                         complete_mturk_stat(mturk_location, False)
 
                     approve_and_dispose(conn, hit)
-                    mturk_location.location.mturkDataCollectionFailed = True
+                    mturk_location.location.mturkNoDealData = True
                     mturk_location.location.mturkDateLastUpdated = timezone.now()
                     mturk_location.location.save()
                     mturk_location.delete()

@@ -461,6 +461,7 @@ def reject_deals(request):
         location.deals.filter(dealSource = 2).filter(confirmed = False).delete()
 
         location.mturkDataCollectionFailed = True
+        location.mturkDataCollectionAttempts = 0
         location.mturkDateLastUpdated = datetime.datetime.now() + datetime.timedelta(-31)
         location.save()
 
