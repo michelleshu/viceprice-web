@@ -59,7 +59,6 @@
     background: #C7A25B;
     border-radius: 50%;
     border: 1px solid #3C3B35;
-    box-shadow: 2px 1px 2px black;
     cursor: pointer;
     display: inline-block;
     padding: 5px;
@@ -93,6 +92,8 @@
   .mobile-item-info .mobile-item-close {
     background: #262C30;
     text-align: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   .mobile-filters .mobile-filters-title span {
@@ -101,7 +102,7 @@
     padding: 0 10px;
     text-align: center;
     text-transform: uppercase;
-    font-size: 9px;
+    font-size: 15px;
   }
 
   .mobile-filters .mobile-filters-title {
@@ -116,6 +117,7 @@
   .mobile-filters #time_output {
     color: #C7A25B;
     text-transform: uppercase;
+    font-size: 13px;
   }
 
   .mobile-filters #day,
@@ -151,7 +153,7 @@
 
   .mobile-item-info .mobile-item-short h1 {
     color: #C7A25B;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 15px;
     text-transform: uppercase;
     margin: 0;
@@ -159,7 +161,8 @@
   }
 
   .mobile-item-info li {
-    padding: 0 15px;
+    padding: 0 9px;
+    padding-bottom: 3px;
   }
 
 
@@ -167,7 +170,7 @@
   .mobile-item-info .mobile-item-short h3 {
     display: inline-block;
     color: white;
-    font-size: 8px;
+    font-size: 13px;
     margin: 0;
     margin-bottom: 5px;
     line-height: 20px;
@@ -191,7 +194,7 @@
     clear: both;
     text-align: center;
     padding: 2px 0;
-    font-size: 10px;
+    font-size: 16px;
     text-transform: uppercase;
   }
 
@@ -215,7 +218,8 @@
 
   .mobile-item-info .mobile-item-deals-price ul {
     margin: 0;
-    padding-top: 7px;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
   .mobile-item-info .mobile-item-deals-price ul li {
      margin: 0;
@@ -260,7 +264,7 @@
 
   .mobile-item-details-deals ul li:last-child {
     width: 80%;
-    font-size: 8px;
+    font-size: 14px;
   }
 
   .mobile-item-details-deals ul li:last-child span {
@@ -308,9 +312,14 @@
 
   .mobile-item-metadata li {
     padding: 0;
-    font-size: 10px;
+    font-size: 14px;
   }
-
+    
+  .mobile-item-metadata ul li:last-child span {
+    clear: left;
+    display: inline-block;
+    line-height: 2;
+  }
   .outer-shadow-bottom {
     border-bottom: 1px solid black;
     box-shadow: 5px 4px 10px black;
