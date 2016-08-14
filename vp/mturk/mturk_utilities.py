@@ -55,6 +55,30 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
         location.mturkDateLastUpdated = timezone.now()
+        location.mturkNoDealData = False
+        location.mturkDataCollectionFailed = False
+        location.mturkDataCollectionAttempts = 0
+        location.save()
+        
+    respawn_locations = Location.objects.filter(mturkDataCollectionFailed = True).filter(mturkDataCollectionAttempts__lt=3).all()
+    
+    for location in respawn_locations:
+
+        mturk_location = MTurkLocationInfo(
+            location = location,
+            name = location.name,
+            address = location.street,
+            phone_number = location.formattedPhoneNumber,
+            website = location.website
+        )
+        mturk_location.save()
+
+        add_mturk_stat(mturk_location)
+
+        # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
+        location.mturkDateLastUpdated = timezone.now()
+        location.mturkDataCollectionFailed = False
+        location.mturkDataCollectionAttempts += 1
         location.save()
 
 
