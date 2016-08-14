@@ -56,6 +56,7 @@ class Location(models.Model):
     deals = models.ManyToManyField(Deal, related_name="location")
     mturkDateLastUpdated = models.DateTimeField(null=True)
     mturkDataCollectionFailed = models.BooleanField(default=False)
+    mturkDataCollectionAttempts = models.IntegerField(null=False, default=0)
     facebookId = models.CharField(max_length=50, null=True)
     foursquareId = models.CharField(max_length=50, null=True)
     twitterHandle = models.CharField(max_length=50, null=True)
