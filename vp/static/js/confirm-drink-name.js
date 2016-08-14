@@ -120,9 +120,10 @@ var get_deal_that_needs_confirmation = function() {
                 var dealHours = "";
                 for (var i = 0; i < dealHoursData.length; i++) {
                     var data = dealHoursData[i];
-                    dealHours += "<p>" + moment(data.day, "d").format("dddd ") +
+                    var dealEnd = data.end !== "None" ? moment(data.end, "HH:mm:ss").format("h:mmA") : "close";
+                    dealHours += "<p>" + moment(data.day % 7, "d").format("dddd ") +
                             moment(data.start, "HH:mm:ss").format("h:mmA - ") +
-                            moment(data.end, "HH:mm:ss").format("h:mmA") + "</p>";
+                            dealEnd + "</p>";
                 }
 
                 $(".confirm-drink-name-container").append("<h5 class='location-name'>" + locationName +
