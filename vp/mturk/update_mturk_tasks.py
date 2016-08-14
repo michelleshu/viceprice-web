@@ -2,6 +2,7 @@ __author__ = 'michelleshu'
 
 from mturk_utilities import *
 import django
+import string
 from django.conf import settings
 from django.utils import timezone
 from boto.mturk import connection
@@ -155,7 +156,8 @@ def save_results(location, deals_data, comments):
 
             # Add drink names options submitted by all Turkers
             for names_option in deal_detail_data["namesOptions"]:
-                drink_name_option = MTurkDrinkNameOption(name = names_option.title())
+                capitalized_name_option = string.capwords(names_option, " ")
+                drink_name_option = MTurkDrinkNameOption(name = capitalized_name_option)
                 drink_name_option.save()
                 deal_detail.mturkDrinkNameOptions.add(drink_name_option)
 

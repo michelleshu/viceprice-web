@@ -38,7 +38,8 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         # process.
 
         # Test locations
-        new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
+        new_locations = Location.objects.filter(id=3250)
+        #new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
