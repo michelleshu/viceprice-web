@@ -36,8 +36,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         # For tests, only evaluate the MTurkLocationInfos added in test. Do not add new ones here.
         # Otherwise, in production mode, this is the query for all locations that are to be added to the MTurk update
         # process.
-        new_locations = [] #Location.objects.filter(id=3250)
-        #new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
+        new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
@@ -57,7 +56,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         location.mturkDateLastUpdated = timezone.now()
         location.mturkNoDealData = False
         location.mturkDataCollectionFailed = False
-        location.mturkDataCollectionAttempts = 0
+        location.mturkDataCollectionAttempts = 1
         location.save()
         
     respawn_locations = Location.objects.filter(mturkDataCollectionFailed = True).filter(mturkDataCollectionAttempts__lt=3).all()
