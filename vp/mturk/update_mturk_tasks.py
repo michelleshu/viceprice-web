@@ -191,7 +191,7 @@ def combine_deal_detail_drink_names(deal_datas):
 
 
 # Get confirmed portions of deals (includes any individual deal detail for which there is enough agreement beyond Turkers)
-def get_confirmed_deals(deal_jsons):    
+def get_confirmed_deals(deal_jsons): 
     responses_count = len(deal_jsons)
     merged_deals = merge_deal_jsons(deal_jsons)
 
@@ -228,7 +228,7 @@ def get_confirmed_deals(deal_jsons):
 
         if len(confirmed_deal["dealDetails"]) > 0:
             confirmed_deals.append(confirmed_deal)
-
+    
     return confirmed_deals
 
 
@@ -319,9 +319,14 @@ def get_matching_time_frame_deals(deal_data_array, deal_to_find):
         if (len(deal_data["daysOfWeek"]) != len(deal_to_find["daysOfWeek"])):
             continue
 
+        days_of_week_match = True
         for j in range(0, len(deal_to_find["daysOfWeek"])):
             if deal_data["daysOfWeek"][j] != deal_to_find["daysOfWeek"][j]:
-                continue
+                days_of_week_match = False
+                break
+        
+        if not days_of_week_match:
+            continue
 
         if (len(deal_data["timePeriods"]) != len(deal_to_find["timePeriods"])):
             continue
