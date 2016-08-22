@@ -20,15 +20,7 @@ This file contains the main utility functions for adding tasks and retrieving up
 #region Get locations for update
 
 # Add locations to update process that need to be updated
-def add_mturk_locations_to_update(conn, max_to_add = None):
-    if (max_to_add == None):
-        max_to_add = settings.MAX_LOCATIONS_TO_UPDATE
-
-    currently_updating = MTurkLocationInfo.objects.all().count()
-
-    max_new_locations = max_to_add - currently_updating
-
-    # Get at most max_new_locations locations that have either just been added or expired
+def add_mturk_locations_to_update(conn):
     earliest_unexpired_date = timezone.now() - datetime.timedelta(days=settings.EXPIRATION_PERIOD)
 
     new_locations = []
@@ -36,7 +28,7 @@ def add_mturk_locations_to_update(conn, max_to_add = None):
         # For tests, only evaluate the MTurkLocationInfos added in test. Do not add new ones here.
         # Otherwise, in production mode, this is the query for all locations that are to be added to the MTurk update
         # process.
-        new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date)[0:max_new_locations]
+        new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date)
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
