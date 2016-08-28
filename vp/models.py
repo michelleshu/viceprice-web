@@ -49,7 +49,7 @@ class Location(models.Model):
     zip = models.CharField(max_length=50, null=True)
     formattedPhoneNumber = models.CharField(max_length=30, null=True)
     website = models.CharField(max_length=256, null=True)
-    happyHourWebsite = models.CharField(max_length=256, null=True)
+    happyHourWebsite = models.CharField(max_length=512, null=True)
     coverPhotoSource = models.CharField(max_length=256, null=True)
     coverXOffset = models.IntegerField(null=True)
     coverYOffset = models.IntegerField(null=True)
@@ -65,7 +65,7 @@ class Location(models.Model):
     dealDataManuallyReviewed = models.DateTimeField(null=True)
     neighborhood=models.CharField(max_length=256, null=True)
     data_entry_skipped=models.BooleanField(default=False)
-    business_email = models.CharField(max_length=256, null=True)
+    businessEmail = models.CharField(max_length=256, null=True)
 
 # Track the time and cost of MTurk stage
 class MTurkLocationInfoStat(models.Model):

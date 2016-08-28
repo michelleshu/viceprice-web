@@ -6,18 +6,18 @@ import unicodecsv as csv
 
 class Command(BaseCommand):
 
-    # Write happy hour URL data from file
-    def update_happyhoursurls(self):
-        with open('vp/management/commands/happy_hour_urls.csv', 'rb') as datafile:
+    # Write business email data from file
+    def update_businessemails(self):
+        with open('vp/management/commands/business_emails.csv', 'rb') as datafile:
             reader = csv.reader(datafile)
             for row in reader:
                 location_id = row[0]
                 location = Location.objects.get(id = location_id)
+                
                 if (location != None):
-                    location.happyHourWebsite = row[4]
+                    location.businessEmail = row[4]
                     location.save()
-                    print('Saved Happy Hour URL for ' + location.name)
-
+                    print('Saved Business Email for ' + location.name)
 
     def handle(self, *args, **options):
-        self.update_happyhoursurls()
+        self.update_businessemails()
