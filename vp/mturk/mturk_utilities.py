@@ -28,17 +28,17 @@ def add_mturk_locations_to_update(conn):
         # For tests, only evaluate the MTurkLocationInfos added in test. Do not add new ones here.
         # Otherwise, in production mode, this is the query for all locations that are to be added to the MTurk update
         # process.
-        new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date)
+        new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date) \
+            .filter(happyHourWebsite__isnull=False).all()
 
     # Add new Foursquare locations to MTurkLocationInfo
     for location in new_locations:
-
         mturk_location = MTurkLocationInfo(
             location = location,
             name = location.name,
             address = location.street,
             phone_number = location.formattedPhoneNumber,
-            website = location.website
+            website = location.happyHourWebsite
         )
         mturk_location.save()
 
@@ -51,7 +51,9 @@ def add_mturk_locations_to_update(conn):
         location.mturkDataCollectionAttempts = 1
         location.save()
         
-    respawn_locations = Location.objects.filter(mturkDataCollectionFailed = True).filter(mturkDataCollectionAttempts__lt=3).all()
+    respawn_locations = Location.objects.filter(mturkDataCollectionFailed = True) \
+        .filter(happyHourWebsite__isnull=False) \
+        .filter(mturkDataCollectionAttempts__lt=3).all()
     
     for location in respawn_locations:
 
@@ -60,7 +62,7 @@ def add_mturk_locations_to_update(conn):
             name = location.name,
             address = location.street,
             phone_number = location.formattedPhoneNumber,
-            website = location.website
+            website = location.happyHourWebsite
         )
         mturk_location.save()
 
@@ -108,7 +110,6 @@ def register_hit_types(conn):
 
 # Read layout parameters from MTurkLocationInfo object and create a HIT
 def create_hit(conn, mturk_location_info, hit_type):
-
     # Use qualifications: MIN_PERCENTAGE_APPROVED, MIN_HITS_COMPLETED and optionally LOCALE_REQUIRED
     min_percentage_qualification = PercentAssignmentsApprovedRequirement(
         "GreaterThan", settings.MIN_PERCENTAGE_PREVIOUS_ASSIGNMENTS_APPROVED, required_to_preview=True)
@@ -128,9 +129,9 @@ def create_hit(conn, mturk_location_info, hit_type):
     layout_parameters = []
     for parameter_name in layout_parameter_names:
         parameter_value = getattr(mturk_location_info, parameter_name)
-        if parameter_value != None and isinstance(parameter_value, str):
+        if parameter_value != None and (isinstance(parameter_value, str) or isinstance(parameter_value, unicode)):
             # Handle string replacements so names play well with MTurk
-            parameter_value = parameter_value.replace("<", "&lt;").replace("&", "and")
+            parameter_value = parameter_value.replace("<", "&lt;").replace("&", "%26")
 
         layout_parameters.append(LayoutParameter(parameter_name, parameter_value))
 

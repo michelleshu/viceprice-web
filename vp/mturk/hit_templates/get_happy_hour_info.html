@@ -113,7 +113,7 @@
     </div>
     <div class="instructions-section">
         <div class="instructions-content">Location: ${name}</div>
-        <div class="instructions-content">Website: <a href="${website}" target="_blank">${website}</a></div>
+        <div class="instructions-content">Website: <a href="${website}" class="website-link" target="_blank">${website}</a></div>
     </div>
     <div class="instructions-section">
          <div class="instructions-content">Good luck and thanks!</div>
@@ -282,6 +282,7 @@
     </div>
 </div>
 <input type="hidden" name="deals-result" id="deals-result"/>
+<input type="hidden" id="original-website-link" value="${website}"></input>
 
 <script type="text/javascript">
     var isMouseDown = false;
@@ -291,6 +292,10 @@
     var locationID;
 
     $(document).ready(function() {
+        websiteURL = decodeURIComponent($("#original-website-link").val());
+        $(".website-link").attr('href', websiteURL);
+        $(".website-link").html(websiteURL);
+        
         dealTemplateHTML = $(".deal-section").html();
         dealDetailTemplateHTML = $(".deal-detail-section").html();
         happyHourBodyHTML = $(".happy-hour-entry-container").html();
