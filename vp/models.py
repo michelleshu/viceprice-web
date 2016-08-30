@@ -91,7 +91,7 @@ class MTurkLocationInfo(models.Model):
     location = models.ForeignKey(Location)
     name = models.CharField(max_length=256, null=True)
     address = models.CharField(max_length=512, null=True)
-    website = models.CharField(max_length=256, null=True)
+    website = models.CharField(max_length=512, null=True)
     phone_number = models.CharField(max_length=30, null=True)
     hit_id = models.CharField(max_length=100, null=True)
     comments = models.CharField(max_length=1000, null=True)
