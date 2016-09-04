@@ -36,30 +36,11 @@ $(document).ready(function() {
     happyHourBodyHTML = $(".happy-hour-entry-container").html();
 
     // Load data for location
-    get_location_that_needs_happy_hour();
 
     // Track mouse up for day of week selection
     $(document)
     .mouseup(function() {
         isMouseDown = false;
-    });
-});
-
-$(document).on("click", ".skip-button", function() {
-	var json = {
-        'location_id': locationID
-    }
-    $.ajax({
-        type: "POST",
-        url: "/skip_location/",
-        data: JSON.stringify(json),
-        success: function(data) {
-            clear_inputs();
-            get_location_that_needs_happy_hour();
-        },
-        error: function() {
-            alert("Failed to skip location; contact the dev team. Reload page for a new location");
-        }
     });
 });
 
@@ -149,10 +130,6 @@ $(document).on("click", ".delete-deal-link", function(event) {
     }
 });
 
-$(document).on("click", "#requires-phone", function(event) {
-    get_location_that_needs_happy_hour();
-});
-
 var getDealInfo = function(dealElement) {
     var daysOfWeek = getDaysOfWeek(dealElement.find(".day-of-week-buttons .button-primary"));
     var timePeriods = getTimePeriods(dealElement.find(".time-periods"));
@@ -237,49 +214,15 @@ var getDaysOfWeek = function(daysOfWeekPrimaryButtons) {
     return days;
 };
 
-var get_location_that_needs_happy_hour = function() {
-    $.ajax({
-        type: "GET",
-        data: {
-            "requiresPhone": $('#requires-phone:checked').length > 0
-        },
-        url: "/get_location_that_needs_happy_hour",
-        success: function(data) {
-            locationID = data["location_id"];
-            $("#location-name").html(data["location_name"]);
-            $("#location-website").html(data["location_website"]);
-            $("#location-website").attr("href", data["location_website"]);
-            $("#location-google-link").attr("href", "http://www.google.com/search?q=site:" + data["location_website"] + "+Happy+Hours");
-            $("#location-phone-number").html(data["location_phone_number"]);
-            $("#location-address").html(data["location_address"]);
-
-            var totalCount = data["total_count"];
-            var numberRemaining = data["remaining_count"];
-            var formattedRemaining = (totalCount - numberRemaining) + "/" + totalCount;
-            $(".number-complete").html(formattedRemaining);
-            $(".progress-bar-complete").css("width", (100 - (numberRemaining/totalCount * 100.0)) + "%");
-        },
-        error: function() {
-            alert("Failed to retrieve new location to update");
-        }
-    });
-};
-
 var submit_happy_hour_data = function(data) {
     $.ajax({
         type: "POST",
         url: "/submit_happy_hour_data/",
         data: JSON.stringify(data),
         success: function(data) {
-            clear_inputs();
-            get_location_that_needs_happy_hour();
         },
         error: function() {
             alert("Failed to submit happy hour data");
         }
     });
-};
-
-var clear_inputs = function(data) {
-    $(".happy-hour-entry-container").html(happyHourBodyHTML);
 };
