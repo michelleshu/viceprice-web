@@ -588,27 +588,27 @@ markerLayer.on('layeradd', function(e) {
 	}
 
   function getDealMobileMarkup(dealDetails) {
-    markup = ""
+    markup = "";
 
-		var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
-		var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
-		var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
+	var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
+	var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
+	var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
 
-		if (beers.length > 0) {
+	if (beers.length > 0) {
       markup += "<ul><li>Beers</li><li>"
-      $.map(beers, function(b, i) { markup += "<span>$" + b.value + " " + b.drinkName + "</span>"; });
+      $.map(beers, function(b, i) { markup += "<span>" + formatDealDetail(b) + " " + b.drinkName + "</span>"; });
       markup += "</li></ul>"
     }
 
-		if (wines.length > 0) {
+	if (wines.length > 0) {
       markup += "<ul><li>Wines</li><li>"
-      $.map(wines, function(b, i) { markup += "<span>$" + b.value + " " + b.drinkName + "</span>"; });
+      $.map(wines, function(b, i) { markup += "<span>" + formatDealDetail(b) + " " + b.drinkName + "</span>"; });
       markup += "</li></ul>"
     }
 
 		if (liquors.length > 0) {
       markup += "<ul><li>Liquors</li><li>"
-      $.map(liquors, function(b, i) { markup += "<span>$" + b.value + " " + b.drinkName + "</span>"; });
+      $.map(liquors, function(b, i) { markup += "<span>" + formatDealDetail(b) + " " + b.drinkName + "</span>"; });
       markup += "</li></ul>"
     }
 
