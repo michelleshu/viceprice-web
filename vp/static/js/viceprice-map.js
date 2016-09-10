@@ -462,7 +462,7 @@ markerLayer.on('layeradd', function(e) {
     markup += "<div class='mobile-item-metadata'><ul>";
     markup += "<li>" + properties["phoneNumber"] + "</li>";
     markup += "<li>" + properties["street"] + "</li>";
-    markup += "<li>" + properties["website"] + "</li></ul></div>";
+    markup += "<li><a href='" + properties["website"] + "' target='_blank'>" + properties["website"] + "</a></li></ul></div>";
 
     markup += "<div class='mobile-item-close image-rotate'><img src='static/img/downarrow.svg' width='28' height='28'></div>"
 
