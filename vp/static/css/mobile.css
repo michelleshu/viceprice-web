@@ -315,6 +315,16 @@
     font-size: 14px;
   }
     
+  .mobile-item-metadata li a {
+    color: #c7a25b;
+    font-size: 14px;
+    padding-left: 0;
+  }
+    
+  .mobile-item-metadata li a:active, .mobile-item-metadata li a:focus {
+    color: white;
+  }
+    
   .mobile-item-metadata ul li:last-child span {
     clear: left;
     display: inline-block;
