@@ -26,18 +26,27 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   position:relative;
 }
 
-.about-div{
+.legends-div{
   display:block;
   padding-left:10%;
   position:relative;
   color:#c8a45e;
 }
 
-.about2-div{
+.about-div{
   display:block;
-  padding-left:5%;
   position:relative;
   color:#c8a45e;
+  padding-left:10%;
+}
+
+.abouttext-div{
+  display:block;
+  position:relative;
+  color:#c8a45e;
+}
+.legend-images {
+    text-align: center
 }
 
 .logo {
@@ -75,7 +84,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+  margin: 1rem 1rem 1rem 1rem;
 }
 
 .caption {
@@ -108,7 +117,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 .attribution a {padding-left:0;}
 
 a {font-size:70%; padding-left:0.5rem;}
-a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
+a:link, a:visited    {color:#ecf2f5; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 .zooming-bar { padding: 0.1rem 0; position: fixed; bottom: 2.5rem; left:16.6666%; background-color: #c8a45e; width: 22px; }
