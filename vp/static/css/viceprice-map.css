@@ -30,15 +30,22 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   display:block;
   padding-left:10%;
   position:relative;
-  color:#ecf2f5;
+  color:#c8a45e;
+}
+
+.about2-div{
+  display:block;
+  padding-left:5%;
+  position:relative;
+  color:#c8a45e;
 }
 
 .logo {
   text-align: center;
   padding-top: 15%;
-  font-size:85%;
+  font-size:90%;
   color:#ecf2f5;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   font-family:"Montserrat", Arial, sans-serif;
 }
  .vp {
@@ -68,7 +75,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  margin: 0.3rem 0.3rem 0.3rem 0.3rem;
+  margin: 0.1rem 0.1rem 0.1rem 0.1rem;
 }
 
 .caption {
