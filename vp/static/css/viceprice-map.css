@@ -30,7 +30,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   text-align: center;
   padding-top: 15%;
   font-size:85%;
-  color:#7d7f80;
+  color:#ecf2f5;
   margin-bottom: 10%;
   font-family:"Montserrat", Arial, sans-serif;
 }
@@ -61,7 +61,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  margin:1rem 1.5rem 0.2rem 1rem;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
 .caption {
