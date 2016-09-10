@@ -26,6 +26,13 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   position:relative;
 }
 
+.about-div{
+  display:block;
+  padding-left:10%;
+  position:relative;
+  color:#ecf2f5;
+}
+
 .logo {
   text-align: center;
   padding-top: 15%;
