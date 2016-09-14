@@ -396,7 +396,7 @@ function loadSingleNeighborhoodView(neighborhood) {
         markersByNeighborhood[neighborhood][selectedDay] = 
             markersByNeighborhood[neighborhood][selectedDay] || {};
         markersByNeighborhood[neighborhood][selectedDay][timeValue] = JSON.parse(data["result"]);
-
+        
 		$(".loading-indicator-container").hide();
 	});
 }
@@ -412,17 +412,23 @@ markerLayer.on('layeradd', function(e) {
 	} else {
 		marker.setIcon(restaurantMarker);
 	}
-
+    
 	// Bind pop up to marker
   if ($(window).width() > mediaScreenWidth) {
 	  marker.bindPopup(getMarkerPopupContent(properties), {
 	      closeButton: false,  // Controls the presence of a close button in the popup
 	      minWidth: 340
 	  });
+      
+    Tipped.create(marker._icon, 'Click for more details', { position: 'bottom' });
+    
+    marker.on('add', function() {
+        Tipped.create(marker._icon, 'Click for more details', { position: 'bottom' });
+    });
   }
-
-	marker.on('mouseover', function() {
-    if ($(window).width() > mediaScreenWidth) { marker.openPopup(); }
+    
+    marker.on('mouseover', function() {
+        if ($(window).width() > mediaScreenWidth) { marker.openPopup(); }
 	});
 
 	marker.on('mouseout', function() {
