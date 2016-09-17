@@ -341,6 +341,13 @@ def home(request):
 
 # Manual Happy Hour Entry
 @login_required(login_url='/login/')
+def location_list_view(request):
+    context = {}
+    context.update(csrf(request))
+    
+    return render_to_response('location_list.html', context)
+
+@login_required(login_url='/login/')
 def enter_happy_hour_view(request, id):
     context = { 'id': id }
     context.update(csrf(request))
