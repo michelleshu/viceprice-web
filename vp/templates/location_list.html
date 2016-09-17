@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block resources %}
+    <link rel="stylesheet" href="{% static 'css/location-list.css' %}"/>
+    <script type="text/javascript" src="{% static 'js/location-list.js' %}"></script>
+{% endblock resources %}
+
+{% block content %}
+    <div class="location-list-container">
+        Location List
+    </div>
+{% endblock content %}

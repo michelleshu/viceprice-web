@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^authenticate_user/$', vp.views.authenticate_user, name='authenticate_user'),
 
     # Data
+    url(r'^locations/$', vp.views.location_list_view, name='location_list'),
     url(r'^enter_happy_hour/(\d+)$', vp.views.enter_happy_hour_view, name='enter_happy_hour'),
     url(r'^get_location_that_needs_happy_hour/$', vp.views.get_location_that_needs_happy_hour, name='get_location_that_needs_happy_hour'),
     url(r'^submit_happy_hour_data/$', vp.views.submit_happy_hour_data, name='submit_happy_hour_data'),
