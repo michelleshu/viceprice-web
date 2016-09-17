@@ -143,7 +143,7 @@ def fetch_filtered_deals(request):
         ON d.\"id\" = ddd.\"deal_id\" \
         JOIN \"vp_dealdetail\" dd \
         ON dd.\"id\" = ddd.\"dealdetail_id\" \
-        WHERE d.\"dealSource\" = 1 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
+        WHERE d.\"dealSource\" = 2 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
 
     if (day != None):
         if (time == None):
@@ -274,9 +274,9 @@ def fetch_location_counts_by_neighborhood(request):
         	ON ah.\"id\" = dah.\"activehour_id\" "
         
         if (time == None):
-            inner_query += "WHERE d.\"dealSource\" = 1 AND ah.\"dayofweek\" = " + str(day)
+            inner_query += "WHERE d.\"dealSource\" = 2 AND ah.\"dayofweek\" = " + str(day)
         else:
-            inner_query += "WHERE d.\"dealSource\" = 1 AND ( " + \
+            inner_query += "WHERE d.\"dealSource\" = 2 AND ( " + \
                 "(ah.\"end\" IS NOT NULL AND ah.\"start\" < ah.\"end\" AND ah.\"dayofweek\" = " + str(day) + \
                 " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\')" + \
                 " OR (ah.\"end\" IS NOT NULL AND ah.\"end\" < ah.\"start\" AND \
