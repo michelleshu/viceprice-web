@@ -96,7 +96,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
  .left-side-bar p{
   width:90%;
   font-size:100%;
-  color:#7d7f80;
+  color:#e8ecef;
   margin-bottom: 5%;
   border-bottom: 1px solid #7d7f80;
  }
@@ -473,7 +473,7 @@ cursor: pointer;
         color: white;
         font-family: Montserrat;
         text-align:center;
-        opacity: 0.7;
+        opacity: 0.9;
     }
 
     .neighborhood-label .location-count-label {
@@ -481,7 +481,7 @@ cursor: pointer;
         color: #c8a45e;
         font-size:0.7rem;
         text-align:center;
-        opacity: 0.7;
+        opacity: 0.9;
     }
 
   /****tooltip css****/
