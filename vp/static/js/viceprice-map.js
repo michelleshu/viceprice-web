@@ -88,19 +88,11 @@ function debounce(func, wait, immediate) {
 
 // LOAD MAP
 function loadMap() {
-    if ($(window).width() > mediaScreenWidth) {
-		  map = L.map('map', {
-		  	center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
-		  	minZoom : 13, // Minimum zoom level of the map
-		  	zoom : 13, // Initial map zoom
-          });
-    } else {
-		  map = L.map('map', {
-		  	center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
-		  	minZoom : 12, // Minimum zoom level of the map
-		  	zoom : 12, // Initial map zoom
-          });
-    }
+      map = L.map('map', {
+        center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
+        minZoom : 13, // Minimum zoom level of the map
+        zoom : 13, // Initial map zoom
+      });
 
 		//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
 		var southWest = L.latLng(38.820993, -76.875833),
