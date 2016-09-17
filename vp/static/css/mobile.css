@@ -7,9 +7,7 @@
 }
 
 @media screen and (max-width: 737px) {
-  .neighborhood-label {
-    font-size: 0.55rem !important;
-  }
+ 
 
   body {
     padding-left: 0 !important;
