@@ -210,7 +210,7 @@ function getNeighborhoodFeatureStyle(feature) {
 	return {
 		weight : 2,
 		color : '#c8a45e',
-		fillOpacity : 0.7,
+		fillOpacity : 0.85,
 		fillColor : 'rgb(35, 40, 43)'
 	};
 }
@@ -252,7 +252,7 @@ function displayNeighborhoodFeature(feature, layer) {
 		layer.setStyle({
 			weight : 2,
 			fillColor : 'rgb(35, 40, 43)',
-			fillOpacity : 0.7
+			fillOpacity : 0.85
 		});
 	});
 
@@ -273,7 +273,7 @@ function displayNeighborhoodFeature(feature, layer) {
 			layer.setStyle({
 				weight : 2,
 				fillColor : 'rgb(35, 40, 43)',
-				fillOpacity : 0.7
+				fillOpacity : 0.85
 			});
 
 			neighborhoodPolygonLayer.removeLayer(layer);
