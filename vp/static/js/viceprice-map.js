@@ -534,7 +534,7 @@ markerLayer.on('layeradd', function(e) {
 		var liquors = deal.dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
 
 		if (beers.length > 0) {
-			markup += "<img src='../static/img/beer.png'/><p>" +
+			markup += "<img src='../static/img/beergold.svg'/><p>" +
 				formatDealDetail(beers.reduce(getBestDealDetail)) + "</p>";
 		}
 
@@ -636,7 +636,7 @@ markerLayer.on('layeradd', function(e) {
 
 		var markup = "<table style='width: 100%;'>";
 		if (beers.length > 0) {
-			markup += "<tr><td class='drink-category-column'><img src='../static/img/beer.png'/></td>" +
+			markup += "<tr><td class='drink-category-column'><img src='../static/img/beergold.svg'/></td>" +
 				"<td class='deal-detail-column'><ul><li>";
 			markup += beers.map(formatDealDetailWithDescription).join("</li><li>") + "</li></ul></td></tr>";
 		}
