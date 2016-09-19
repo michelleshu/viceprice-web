@@ -23,12 +23,12 @@
 		<p>FILTERS</p>
 		<output for="day" class="day_output" id="day_output"></output>
 		<div class="slider">
-		<input type="range" class="day" id="day" value="1" step="1" min="1" max="7">
+		<input type="range" class="day" id="day" value="1" step="1" min="1" max="7" onclick="ga('send', 'event', 'Day Slider', 'Adjust Time', 'Desktop');">
 		</div>
 		<output for="time" id="time_output" class="time_output" hidden></output>
 		<input type="range" id="time" class="time" hidden>
 
-		<input type="checkbox" id="filter-by-hours-desktop" name="filter-by-hours-desktop" value="">
+		<input type="checkbox" id="filter-by-hours-desktop" name="filter-by-hours-desktop" value="" onclick="ga('send', 'event', 'Hour Slider', 'Adjust Time', 'Desktop');">
 		<label for="filter-by-hours-desktop" class="filter-by-hours-label">Search by Hours</label>
 	</div>
     <br>
@@ -85,13 +85,13 @@
 
 	  <output for="day" class="day_output" id="day_output"></output>
 	  <div class="slider">
-	    <input type="range" class="day" id="day" value="1" step="1" min="1" max="7">
+	    <input type="range" class="day" id="day" value="1" step="1" min="1" max="7" onclick="ga('send', 'event', 'Day Slider', 'Adjust Time', 'Mobile');">
 	  </div>
 
 		<output for="time" id="time_output" class="time_output" hidden></output>
 		<input type="range" id="time" class="time" hidden>
 
-		<input type="checkbox" class="filter-by-hours" id="filter-by-hours" name="filter-by-hours" value="">
+		<input type="checkbox" class="filter-by-hours" id="filter-by-hours" name="filter-by-hours" value="" onclick="ga('send', 'event', 'Hour Slider', 'Adjust Time', 'Mobile');">
 		<label for="filter-by-hours" class="filter-by-hours-label">Filter by Hours</label>
   </div>
 </div>
