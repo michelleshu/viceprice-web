@@ -84,7 +84,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  margin: 1rem 1rem 1rem 1rem;
+  margin: .5rem .5rem .5rem .5rem;
 }
 
 .caption {
@@ -137,7 +137,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 /* Rightside bar*/
 .right-side-bar {display:none;position:absolute; float:left; width:25.0000%; background-color:#fbfbfb;opacity:0.98; top:0; right:0;  }
 .right-side-bar { height: 100%; overflow: scroll; }
-.sliding { position: fixed; float:right; width: 10px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
+.sliding { position: fixed; float:right; width: 17px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
 
 .deals-div, .location-details-div, .reviews-div {
   display:block;
@@ -343,6 +343,7 @@ cursor: pointer;
   text-align: center;
   border-radius: 15px;
   font: 14px "Montserrat", Arial, Helvetica, sans-serif;
+  z-index: 10000
   }
 
 .marker-cluster span {
