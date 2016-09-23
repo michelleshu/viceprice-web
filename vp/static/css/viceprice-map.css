@@ -24,6 +24,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   display:block;
   padding-left:10%;
   position:relative;
+  margin-bottom: 5%;
 }
 
 .legends-div{
@@ -31,6 +32,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   padding-left:10%;
   position:relative;
   color:#c8a45e;
+  margin-bottom: 5%;
 }
 
 .about-div{
@@ -44,6 +46,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   display:block;
   position:relative;
   color:#c8a45e;
+  padding-right:10%;
 }
 .legend-images {
     text-align: center
@@ -51,8 +54,8 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 
 .logo {
   text-align: center;
-  padding-top: 15%;
-  font-size:90%;
+  padding-top: 10%;
+  font-size:100%;
   color:#ecf2f5;
   margin-bottom: 5%;
   font-family:"Montserrat", Arial, sans-serif;
@@ -118,6 +121,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 .contact-us {
     position: fixed; 
     bottom: 0px;
+    margin-left: 5%;
 }
 
 .attribution{text-align: right;display: inline-block;margin-left: 1rem}
