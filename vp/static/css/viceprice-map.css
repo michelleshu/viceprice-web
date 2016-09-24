@@ -87,14 +87,14 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  margin: .3rem .3rem .3rem .3rem;
+  margin: .1rem .1rem .1rem .1rem;
 }
 
 .legend-img-metro{
   vertical-align: bottom;
   display: inline-block;
   text-align: center;
-  margin: .3rem .3rem .3rem .3rem;
+  margin: .1rem .1rem .1rem .1rem;
 }
 
 
@@ -155,7 +155,6 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   display:block;
   width:90%;
   margin-left: 1rem;
-  padding: 0.5rem 0;
   position: relative;
 }
 
@@ -172,7 +171,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 .location-details-div {
-  padding: 1rem 0;
+  padding: .3rem 0;
 }
 
 .right-side-bar h1{
