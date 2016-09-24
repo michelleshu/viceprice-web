@@ -736,11 +736,15 @@ markerLayer.on('layeradd', function(e) {
 		    		$("#location-categories").append(" | ");
 		    }
 
-            $("#location-address").html(properties["street"]);
+            $("#location-address").html("<li><a href='https://www.google.com/maps/dir/Current+Location/" + properties["latitude"] +"," + properties["longitude"]+"'>" + properties["street"] + "</a></li>");
+          
+          ///markup += "<li><a href='https://www.google.com/maps/dir/Current+Location/" + properties["latitude"] +"," + properties["longitude"]+"'>" + properties["street"] + "</a></li>";
+          
+          
             $("#location-phone-number").html(properties["phoneNumber"]);
 
             if (properties["happyHourWebsite"]){
-                $("#location-website").html("Source of Info");
+                $("#location-website").html("Info Source");
                 $("#location-website").attr("href", properties["happyHourWebsite"]);
             }
             else {
