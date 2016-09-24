@@ -458,7 +458,7 @@ markerLayer.on('layeradd', function(e) {
     });
 
     markup += "<div class='mobile-item-metadata'><ul>";
-    markup += "<li> + <a href="tel:properties["phoneNumber"]>properties["phoneNumber"]</a></li>";
+    markup += "<li>" + properties["phoneNumber"] + "</li>";
     markup += "<li>" + properties["street"] + "</li>";
     markup += "<li><u><a href='" + properties["website"] + "' target='_blank'>" + properties["website"] + "</a></li></u></ul></div>";
 
