@@ -736,7 +736,7 @@ markerLayer.on('layeradd', function(e) {
 		    		$("#location-categories").append(" | ");
 		    }
 
-            $("#location-address").html("<a href='https://www.google.com/maps/dir/Current+Location/" + properties["latitude"] +"," + properties["longitude"]+"'>" + properties["street"] + "</a>");   
+            $("#location-address").html("<a id="location-address" target="_blank" href='https://www.google.com/maps/dir/Current+Location/" + properties["latitude"] +"," + properties["longitude"]+"'>" + properties["street"] + "</a>");   
             $("#location-phone-number").html(properties["phoneNumber"]);
 
             if (properties["happyHourWebsite"]){
