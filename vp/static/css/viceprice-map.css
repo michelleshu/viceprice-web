@@ -271,6 +271,16 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   padding-left: 0;
 }
 
+#location-website {
+  font-size: 0.75rem;
+  color: #7d7f80;
+  position: relative;
+  bottom: 0.1rem;
+  left: 0.3rem;
+  padding-left: 0;
+  text-decoration: underline
+}
+
 #location-address a {
   text-decoration: underline;
   cursor: pointer;
