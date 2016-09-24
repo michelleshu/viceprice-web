@@ -262,7 +262,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   padding: 0.3rem 0;
 }
 
-#location-address a, #location-phone-number, #location-website {
+#location-address, #location-phone-number, #location-website {
   font-size: 0.75rem;
   color: #7d7f80;
   position: relative;
@@ -281,7 +281,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   text-decoration: underline
 }
 
-#location-address a {
+#location-address {
   text-decoration: underline;
   cursor: pointer;
 }
