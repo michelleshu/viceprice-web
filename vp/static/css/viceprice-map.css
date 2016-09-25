@@ -24,7 +24,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   display:block;
   padding-left:10%;
   position:relative;
-  font-size:.7rem;
+  font-size:.9rem;
   margin-bottom: 5%;
 }
 
@@ -33,7 +33,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   padding-left:10%;
   position:relative;
   color:#c8a45e;
-  font-size:.7rem;
+  font-size:.9rem;
   margin-bottom: 5%;
 }
 
@@ -42,7 +42,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   position:relative;
   color:#c8a45e;
   padding-left:10%;
-  font-size:.7rem;
+  font-size:.9rem;
   margin-bottom: 5%;
 }
 
@@ -62,7 +62,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   font-size:100%;
   color:#ecf2f5;
   margin-bottom: 2%;
-  font-size: .8rem;
+  font-size: 1rem;
   font-family:"Montserrat", Arial, sans-serif;
 }
  .vp {
@@ -70,14 +70,14 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   color:#c8a45e;
   padding-bottom: 5%;
   text-align: center;
-  font-size:2.4rem;
+  font-size:3rem;
  }
 
  .beta{
   text-align: center;
   font-size:100%;
   color:#c8a45e;
-  font-size: .6rem;
+  font-size: .8rem;
  }
  
 
