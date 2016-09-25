@@ -342,7 +342,43 @@ def home(request):
 # Manual Happy Hour Entry
 @login_required(login_url='/login/')
 def location_list_view(request):
-    context = {}
+    locations = Location.objects.prefetch_related('deals').order_by('neighborhood', 'name').all()
+    locations_data = []
+    
+    passed = 0
+    no_deal_data = 0
+    data_collection_failed = 0
+    no_website = 0
+    
+    for location in locations:
+        if (location.happyHourWebsite == None or location.happyHourWebsite == ''):
+            no_website += 1
+        elif (location.mturkNoDealData):
+            no_deal_data += 1
+        elif (location.mturkDataCollectionFailed):
+            data_collection_failed += 1
+        else:
+            passed += 1
+        
+        location_data = {
+            'id': location.id,
+            'name': location.name,
+            'neighborhood': location.neighborhood,
+            'happyHourWebsite': location.happyHourWebsite,
+            'mturkNoDealData': location.mturkNoDealData,
+            'mturkDataCollectionFailed': location.mturkDataCollectionFailed,
+            'lastUpdated': location.mturkDateLastUpdated.strftime('%m/%d/%Y'),
+            'dealCount': len(location.deals.all())
+        }
+        locations_data.append(location_data)
+    
+    context = {
+        'locations': locations_data,
+        'passed': passed,
+        'noDealData': no_deal_data,
+        'dataCollectionFailed': data_collection_failed,
+        'noWebsite': no_website
+    }
     context.update(csrf(request))
     
     return render_to_response('location_list.html', context)
