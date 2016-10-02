@@ -385,7 +385,23 @@ def location_list_view(request):
 
 @login_required(login_url='/login/')
 def enter_happy_hour_view(request, id):
-    context = { 'id': id }
+    location = Location.objects.prefetch_related('deals').get(id=id)
+    location_deals = location.deals.filter(confirmed=True).all()
+    
+    deals = []
+    
+    for location_deal in location_deals:
+        deals.append({
+            'id': location_deal.id,
+            'activeHours': location_deal.activeHours.order_by('dayofweek').all(),
+            'dealDetails': location_deal.dealDetails.order_by('drinkCategory').all()
+        })
+    
+    context = {
+        'location': location,
+        'deals': deals,
+        'userFirstName': request.user.first_name
+    }
     context.update(csrf(request))
 
     return render_to_response('enter_happy_hour.html', context)
@@ -484,6 +500,19 @@ def get_deal_that_needs_confirmation(request):
         return JsonResponse(response)
 
     return JsonResponse({ 'deals_count': 0 })
+    
+@csrf_exempt
+def delete_deal(request):
+    data = json.loads(request.body)
+    deal_id = data.get('id')
+    
+    if (deal_id != None):
+        deal = Deal.objects.get(id = deal_id)
+        deal.activeHours.all().delete()
+        deal.dealDetails.all().delete()
+        deal.delete()
+        
+    return HttpResponse("success")
 
 @csrf_exempt
 def delete_deal_detail(request):

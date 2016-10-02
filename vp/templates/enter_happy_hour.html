@@ -9,25 +9,110 @@
 {% endblock resources %}
 
 {% block content %}
-    <input type="hidden" id="location-id" value="{{ id }}"/>
+    <input type="hidden" id="first-name" value="{{userFirstName}}"/>
     <div class="container happy-hour-entry-container">
         <div class="row">
-            <div class="nine columns">
-                <h5>Location: <span id="location-name"></span></h5>
+            <strong>Location:</strong> {{location.name}}
+        </div>
+        <div class="row">
+            <strong>Neighborhood:</strong> {{location.neighborhood}}
+        </div>
+        <div class="row">
+            <strong>Website:</strong> 
+            <a href="{{location.website}}" target="_blank">{{location.website}}</a>
+        </div>
+        {% if location.happyHourWebsite %}
+        <div class="row">
+            <strong>Happy Hour Website:</strong>
+            <a href="{{location.happyHourWebsite}}" target="_blank">{{location.happyHourWebsite}}</a>
+        </div>
+        {% endif %}
+        <div class="row">
+            <strong>Phone Number:</strong> {{location.formattedPhoneNumber}}
+        </div>
+        <div class="row">
+            <strong>Business Email:</strong> {{location.businessEmail}}
+        </div>
+        
+        {% if location.street %}
+        <div class="row">
+            <strong>Address:</strong>
+            {{location.street}} {{location.city}}, {{location.state}} {{location.zip}}
+        </div>
+        {% endif %}
+        
+        <hr/>
+        
+        <div class="row">
+            <strong>Current Deals:</strong>
+        </div>
+        {% for deal in deals %}
+        <div class="row current-deal-row">
+            <div class="four columns">
+                {% for activeHour in deal.activeHours %}
+                <div>
+                    {% if activeHour.dayofweek == 1 %}
+                        <span>Monday </span>
+                    {% elif activeHour.dayofweek == 2 %}
+                        <span>Tuesday </span>
+                    {% elif activeHour.dayofweek == 3 %}
+                        <span>Wednesday </span>
+                    {% elif activeHour.dayofweek == 4 %}
+                        <span>Thursday </span>
+                    {% elif activeHour.dayofweek == 5 %}
+                        <span>Friday </span>
+                    {% elif activeHour.dayofweek == 6 %}
+                        <span>Saturday </span>
+                    {% elif activeHour.dayofweek == 7 %}
+                        <span>Sunday </span> 
+                    {% endif %}
+                    <span>{{activeHour.start}} - </span>
+                    <span>
+                        {% if activeHour.end %}
+                            {{activeHour.end}}
+                        {% else %}
+                            close 
+                        {% endif %}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="seven columns">
+                {% for dealDetail in deal.dealDetails %}
+                <div>
+                    {% if dealDetail.drinkCategory == 1 %}
+                        <span>Beer </span>
+                    {% elif dealDetail.drinkCategory == 2 %}
+                        <span>Wine </span>
+                    {% else %}
+                        <span>Liquor </span>
+                    {% endif %}
+                    
+                    {% if dealDetail.detailType == 1 or dealDetail.detailType == 3 %}
+                        <span>${{dealDetail.value|floatformat:2}}</span>
+                    {% endif %}
+                    
+                    {% if dealDetail.detailType == 2 %}
+                        <span>{{dealDetail.value|floatformat:0}}% off</span>
+                    {% endif %}
+                    
+                    {% if dealDetail.detailType == 3 %}
+                        <span> off</span>
+                    {% endif %}
+                    <span> {{dealDetail.drinkName}}</span>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="one columns">
+                <i class="remove-deal-icon fa fa-remove" data-deal-id="{{deal.id}}"></i>
             </div>
         </div>
-        <div class="row">
-            <h5>Website: <a id="location-website" target="_blank"></a>
-                [<a id="location-google-link" target="_blank">Google it</a>]</h5>
-        </div>
-        <div class="row">
-            <h5>Phone Number: <span id="location-phone-number"></span></h5>
-        </div>
-        <div class="row">
-            <h5>Address: <span id="location-address"></span></h5>
-        </div>
+        {% endfor %}
+        
+        <hr/>
+            
+        <div><strong>Add Deal:</strong></div>
         <div class="deal-section">
-            <hr/>
             <div><i class="fa fa-minus-circle delete-deal-link"></i></div>
             <div class="row title-row">
                 <div class="seven columns">
