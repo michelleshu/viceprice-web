@@ -24,14 +24,45 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   display:block;
   padding-left:10%;
   position:relative;
+  font-size:.9rem;
+  margin-bottom: 5%;
+}
+
+.legends-div{
+  display:block;
+  padding-left:10%;
+  position:relative;
+  color:#c8a45e;
+  font-size:.9rem;
+  margin-bottom: 5%;
+}
+
+.about-div{
+  display:block;
+  position:relative;
+  color:#c8a45e;
+  padding-left:10%;
+  font-size:.9rem;
+  margin-bottom: 5%;
+}
+
+.abouttext-div{
+  display:block;
+  position:relative;
+  color:#c8a45e;
+  padding-right:10%;
+}
+.legend-images {
+    text-align: center
 }
 
 .logo {
   text-align: center;
-  padding-top: 15%;
-  font-size:85%;
-  color:#7d7f80;
-  margin-bottom: 10%;
+  padding-top: 10%;
+  font-size:100%;
+  color:#ecf2f5;
+  margin-bottom: 5%;
+  font-size: 1rem;
   font-family:"Montserrat", Arial, sans-serif;
 }
  .vp {
@@ -39,12 +70,14 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   color:#c8a45e;
   padding-bottom: 5%;
   text-align: center;
+  font-size:3rem;
  }
 
  .beta{
   text-align: center;
   font-size:100%;
   color:#c8a45e;
+  font-size: .8rem;
  }
  
 
@@ -61,19 +94,27 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  margin:1rem 1.5rem 0.2rem 1rem;
+  margin: .1rem .1rem .1rem .1rem;
 }
+
+.legend-img-metro{
+  vertical-align: bottom;
+  display: inline-block;
+  text-align: center;
+  margin: .1rem .1rem .1rem .1rem;
+}
+
 
 .caption {
   display: block;
-  font-size:80%;
-  color:#aeaeae;
+  font-size:90%;
+  color:#ecf2f5;
 }
 
  .left-side-bar p{
   width:90%;
   font-size:100%;
-  color:#7d7f80;
+  color:#e8ecef;
   margin-bottom: 5%;
   border-bottom: 1px solid #7d7f80;
  }
@@ -87,6 +128,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 .contact-us {
     position: fixed; 
     bottom: 0px;
+    margin-left: 5%;
 }
 
 .attribution{text-align: right;display: inline-block;margin-left: 1rem}
@@ -94,7 +136,7 @@ html, body, span, h1, h2, h3, h4, h5, h6, em, img, ol, ul, li {
 .attribution a {padding-left:0;}
 
 a {font-size:70%; padding-left:0.5rem;}
-a:link, a:visited    {color:#7d7f80; background-color:transparent;text-decoration: none;}
+a:link, a:visited    {color:#ecf2f5; background-color:transparent;text-decoration: none;}
 a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 
 .zooming-bar { padding: 0.1rem 0; position: fixed; bottom: 2.5rem; left:16.6666%; background-color: #c8a45e; width: 22px; }
@@ -114,13 +156,12 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 /* Rightside bar*/
 .right-side-bar {display:none;position:absolute; float:left; width:25.0000%; background-color:#fbfbfb;opacity:0.98; top:0; right:0;  }
 .right-side-bar { height: 100%; overflow: scroll; }
-.sliding { position: fixed; float:right; width: 10px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
+.sliding { position: fixed; float:right; width: 17px;background-color: #c8a45e;top:0; bottom:0;right:0;cursor: pointer;}
 
 .deals-div, .location-details-div, .reviews-div {
   display:block;
   width:90%;
   margin-left: 1rem;
-  padding: 0.5rem 0;
   position: relative;
 }
 
@@ -137,7 +178,7 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
 }
 
 .location-details-div {
-  padding: 1rem 0;
+  padding: .3rem 0;
 }
 
 .right-side-bar h1{
@@ -237,6 +278,22 @@ a:hover {color:#eaeaea; background-color:transparent; text-decoration: none;}
   padding-left: 0;
 }
 
+#location-website {
+  font-size: 0.75rem;
+  color: #7d7f80;
+  position: relative;
+  bottom: 0.1rem;
+  left: 0.3rem;
+  padding-left: 0;
+  text-decoration: underline
+}
+
+#location-address {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
 a#location-website {
 color: #7d7f80;
 cursor: pointer;
@@ -310,6 +367,7 @@ cursor: pointer;
 .marker-cluster {
   background-clip: padding-box;
   border-radius: 20px;
+  z-index: 10000
   }
 
 .marker-cluster div {
@@ -320,6 +378,7 @@ cursor: pointer;
   text-align: center;
   border-radius: 15px;
   font: 14px "Montserrat", Arial, Helvetica, sans-serif;
+  z-index: 10000
   }
 
 .marker-cluster span {
@@ -450,7 +509,7 @@ cursor: pointer;
         color: white;
         font-family: Montserrat;
         text-align:center;
-        opacity: 0.7;
+        opacity: 0.9;
     }
 
     .neighborhood-label .location-count-label {
@@ -458,7 +517,7 @@ cursor: pointer;
         color: #c8a45e;
         font-size:0.7rem;
         text-align:center;
-        opacity: 0.7;
+        opacity: 0.9;
     }
 
   /****tooltip css****/

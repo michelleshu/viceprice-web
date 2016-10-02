@@ -7,9 +7,7 @@
 }
 
 @media screen and (max-width: 737px) {
-  .neighborhood-label {
-    font-size: 0.55rem !important;
-  }
+ 
 
   body {
     padding-left: 0 !important;
@@ -90,7 +88,7 @@
 
   .mobile-filters .mobile-filters-close,
   .mobile-item-info .mobile-item-close {
-    background: #262C30;
+    background: #1a1a1b;
     text-align: center;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -313,6 +311,16 @@
   .mobile-item-metadata li {
     padding: 0;
     font-size: 14px;
+  }
+    
+  .mobile-item-metadata li a {
+    color: #c7a25b;
+    font-size: 14px;
+    padding-left: 0;
+  }
+    
+  .mobile-item-metadata li a:active, .mobile-item-metadata li a:focus {
+    color: white;
   }
     
   .mobile-item-metadata ul li:last-child span {

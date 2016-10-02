@@ -1,12 +1,13 @@
 <div id="mobile-logo" class="mobile-logo mobile">
-	<div class="mobile-vp">viceprice</div>
+	<div class="mobile-vp">VicePrice</div>
+    <div class="mobile-vp">Find Cheap Drinks Near You</div>
 </div>
 
 <div id="mobile-item-info" class="mobile-item-info" style="display:none;">
   <div id="mobile-item-short" class="mobile-item-short"></div>
 
   <div id="mobile-item-showfull" class="mobile-item-close outer-shadow-bottom">
-    <img src="static/img/downarrow.svg" width="14" height="14" />
+    <img src="static/img/downarrow.svg" width="28" height="28" />
   </div>
 
   <div id="mobile-item-details" class="mobile-item-details" style="display:none;"></div>
@@ -15,25 +16,51 @@
 <div class="left-side-bar desktop">
 	<div class="logo">
 	 	<div class="vp"> VicePrice </div>
-	 	<div class="slogan"> Find Your Perfect Happy Hour </div>
-	 	<div class="beta"> (In Beta For Washington DC) </div>
+	 	<div class="slogan"> Find Cheap Drinks Near You </div>
+        <div class="beta"> (In Beta for Washington DC) </div>
 	</div>
+    <!---About Section-->			
+    <div class="about-div">				
+   	 <p>INSTRUCTIONS</p>			
+       <div class="abouttext-div"><center>VicePrice is a real time aggregator of Drink Specials in Washington DC.</center><br> 
+        1) Choose a neighborhood<br>
+        2) Click icon for more detail<br>
+        --Bonus: Hover to see cheapest price avaliable<br>
+        3) Click address for directions<br>
+      </div></div>
 	<div class='hours-div'>
 		<p>FILTERS</p>
 		<output for="day" class="day_output" id="day_output"></output>
 		<div class="slider">
-		<input type="range" class="day" id="day" value="1" step="1" min="1" max="7">
+		<input type="range" class="day" id="day" value="1" step="1" min="1" max="7" onclick="ga('send', 'event', 'Day Slider', 'Adjust Time', 'Desktop');">
 		</div>
 		<output for="time" id="time_output" class="time_output" hidden></output>
 		<input type="range" id="time" class="time" hidden>
 
-		<input type="checkbox" id="filter-by-hours-desktop" name="filter-by-hours-desktop" value="">
+		<input type="checkbox" id="filter-by-hours-desktop" name="filter-by-hours-desktop" value="" onclick="ga('send', 'event', 'Hour Slider', 'Adjust Time', 'Desktop');">
 		<label for="filter-by-hours-desktop" class="filter-by-hours-label">Search by Hours</label>
 	</div>
-	<center><div class="contact-us">
-		<a href="mailto:contact@viceprice.co">Report a Problem</a>
+    <!---Legend-->		
+    <div class='legends-div'>				
+        <p>LEGEND</p>	
+        <div class="legend-images">
+            <div class="legend-img">				
+                <img src="../static/img/bar-legend.png"/>		      		
+                <span class="caption">Bars</span> 		      		
+            </div>				
+            <div class="legend-img">				
+                <img src="../static/img/res-legend.png"/>		      		
+                <span class="caption">Restaurants</span>		      		
+            </div>
+            <div class="legend-img-metro" >				
+                <img src="../static/img/metro.png">		      		
+                <span class="caption">Metro</span>		      		
+            </div>
+        </div>
+    </div>
+<div class="contact-us">
 		<a href="TOS">Privacy Policy &amp; TOS</a>
-	</div></center>
+	</div>
 </div>
 
 <ul id="mobile-icon-actions" class="mobile-icons mobile">
@@ -50,7 +77,7 @@
 
 <div id="mobile-filters" class="mobile-filters outer-shadow-top mobile" style="display: none;">
   <div class="mobile-filters-close">
-    <img src="static/img/downarrow.svg" width="14" height="14" />
+    <img src="static/img/downarrow.svg" width="28" height="28" />
   </div>
 
   <div class="mobile-filters-actions">
@@ -62,13 +89,13 @@
 
 	  <output for="day" class="day_output" id="day_output"></output>
 	  <div class="slider">
-	    <input type="range" class="day" id="day" value="1" step="1" min="1" max="7">
+	    <input type="range" class="day" id="day" value="1" step="1" min="1" max="7" onclick="ga('send', 'event', 'Day Slider', 'Adjust Time', 'Mobile');">
 	  </div>
 
 		<output for="time" id="time_output" class="time_output" hidden></output>
 		<input type="range" id="time" class="time" hidden>
 
-		<input type="checkbox" class="filter-by-hours" id="filter-by-hours" name="filter-by-hours" value="">
+		<input type="checkbox" class="filter-by-hours" id="filter-by-hours" name="filter-by-hours" value="" onclick="ga('send', 'event', 'Hour Slider', 'Adjust Time', 'Mobile');">
 		<label for="filter-by-hours" class="filter-by-hours-label">Filter by Hours</label>
   </div>
 </div>
@@ -81,5 +108,5 @@
 </div>
 <div id="overview-zoom">
 	<i class="icon-arrow-left" style="display: inline; font-size: 0.7rem"></i>
-	<span>Back to Overview</span>
+	<span>Back to Map Overview</span>
 </div>

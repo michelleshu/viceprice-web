@@ -88,19 +88,11 @@ function debounce(func, wait, immediate) {
 
 // LOAD MAP
 function loadMap() {
-    if ($(window).width() > mediaScreenWidth) {
-		  map = L.map('map', {
-		  	center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
-		  	minZoom : 13, // Minimum zoom level of the map
-		  	zoom : 13, // Initial map zoom
-          });
-    } else {
-		  map = L.map('map', {
-		  	center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
-		  	minZoom : 12, // Minimum zoom level of the map
-		  	zoom : 12, // Initial map zoom
-          });
-    }
+      map = L.map('map', {
+        center : [ 38.907557, -77.028130 ], // Initial geographical center of the map
+        minZoom : 13, // Minimum zoom level of the map
+        zoom : 13, // Initial map zoom
+      });
 
 		//The map restricts the view to the given geographical bounds, bouncing the user back when he tries to pan outside the view
 		var southWest = L.latLng(38.820993, -76.875833),
@@ -210,7 +202,7 @@ function getNeighborhoodFeatureStyle(feature) {
 	return {
 		weight : 2,
 		color : '#c8a45e',
-		fillOpacity : 0.7,
+		fillOpacity : 0.85,
 		fillColor : 'rgb(35, 40, 43)'
 	};
 }
@@ -245,14 +237,14 @@ function displayNeighborhoodFeature(feature, layer) {
 		// Lighten neighborhood label color
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
 		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
-		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
-		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 1;
+		$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 1;
 
 		// Darken background color
 		layer.setStyle({
 			weight : 2,
 			fillColor : 'rgb(35, 40, 43)',
-			fillOpacity : 0.7
+			fillOpacity : 0.85
 		});
 	});
 
@@ -266,14 +258,14 @@ function displayNeighborhoodFeature(feature, layer) {
 			// Lighten neighborhood label color
 			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.color = 'white';
 			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.color = 'rgb(200, 164, 94)';
-			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 0.7;
-			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 0.7;
+			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .name-label")[0].style.opacity = 1;
+			$(".neighborhood-label[data-neighborhood-id='" + feature.id + "'] .location-count-label")[0].style.opacity = 1;
 
 			// Darken background color
 			layer.setStyle({
 				weight : 2,
 				fillColor : 'rgb(35, 40, 43)',
-				fillOpacity : 0.7
+				fillOpacity : 0.85
 			});
 
 			neighborhoodPolygonLayer.removeLayer(layer);
@@ -396,7 +388,7 @@ function loadSingleNeighborhoodView(neighborhood) {
         markersByNeighborhood[neighborhood][selectedDay] = 
             markersByNeighborhood[neighborhood][selectedDay] || {};
         markersByNeighborhood[neighborhood][selectedDay][timeValue] = JSON.parse(data["result"]);
-
+        
 		$(".loading-indicator-container").hide();
 	});
 }
@@ -412,17 +404,23 @@ markerLayer.on('layeradd', function(e) {
 	} else {
 		marker.setIcon(restaurantMarker);
 	}
-
+    
 	// Bind pop up to marker
   if ($(window).width() > mediaScreenWidth) {
 	  marker.bindPopup(getMarkerPopupContent(properties), {
 	      closeButton: false,  // Controls the presence of a close button in the popup
 	      minWidth: 340
 	  });
+      
+    Tipped.create(marker._icon, 'Click for more details', { position: 'bottom' });
+    
+    marker.on('add', function() {
+        Tipped.create(marker._icon, 'Click for more details', { position: 'bottom' });
+    });
   }
-
-	marker.on('mouseover', function() {
-    if ($(window).width() > mediaScreenWidth) { marker.openPopup(); }
+    
+    marker.on('mouseover', function() {
+        if ($(window).width() > mediaScreenWidth) { marker.openPopup(); }
 	});
 
 	marker.on('mouseout', function() {
@@ -460,10 +458,9 @@ markerLayer.on('layeradd', function(e) {
     });
 
     markup += "<div class='mobile-item-metadata'><ul>";
-    markup += "<li>" + properties["phoneNumber"] + "</li>";
-    markup += "<li>" + properties["street"] + "</li>";
-    markup += "<li>" + properties["website"] + "</li></ul></div>";
-
+    markup += "<li><a href='tel:" + properties["phoneNumber"]+"'>" + properties["phoneNumber"] + "</a></li>";
+    markup += "<li><a href='https://www.google.com/maps/dir/Current+Location/" + properties["latitude"] +"," + properties["longitude"]+"'>" + properties["street"] + "</a></li>";
+    markup += "<li><u><a href='" + properties["website"] + "' target='_blank'>" + properties["website"] + "</a></u></li></ul></div>";
     markup += "<div class='mobile-item-close image-rotate'><img src='static/img/downarrow.svg' width='28' height='28'></div>"
 
     return markup;
@@ -740,10 +737,12 @@ markerLayer.on('layeradd', function(e) {
 		    }
 
             $("#location-address").html(properties["street"]);
+            $("#location-address").attr("href", "https://www.google.com/maps/dir/Current+Location/" + properties["latitude"] +"," + properties["longitude"]);
+          
             $("#location-phone-number").html(properties["phoneNumber"]);
 
             if (properties["happyHourWebsite"]){
-                $("#location-website").html("Source of Info");
+                $("#location-website").html("Info Source");
                 $("#location-website").attr("href", properties["happyHourWebsite"]);
             }
             else {
