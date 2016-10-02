@@ -62,6 +62,32 @@ $(document).on("click", ".submit-button", function() {
     };
 });
 
+$(document).on("click", ".remove-deal-icon", function(event) {
+    var dealDescriptionElement = $(event.target).parent().parent().find('.seven');
+    var dealDescriptionText = '';
+    dealDescriptionElement.find('div').each(function() {
+        $(this).find('span').each(function() {
+            dealDescriptionText = dealDescriptionText.concat($(this).text().trim() + ' ');
+        });
+        dealDescriptionText = dealDescriptionText.concat('\n');
+    });
+    
+    var confirmation = confirm('Are you sure you want to delete this deal, ' + 
+        $('#first-name').val() + '?\n\n' + dealDescriptionText);
+    
+    if (confirmation) {
+        var dealId = parseInt($(event.target).attr('data-deal-id'), 10);
+        $.ajax({
+            type: "POST",
+            url: "/delete_deal/",
+            data: JSON.stringify({ "id": dealId }),
+            success: function() {
+                $(".remove-deal-icon[data-deal-id=" + dealId + "]").parent().parent().remove();
+            }
+        });
+    }
+});
+
 $(document).on("mousedown", ".day-of-week-buttons button", function() {
     isMouseDown = true;
     $(this).toggleClass("button-primary");
