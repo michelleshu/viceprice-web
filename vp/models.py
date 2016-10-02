@@ -32,7 +32,6 @@ class Deal(models.Model):
     description = models.CharField(max_length=2000)
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
-    dealSource = models.IntegerField(null=False, default=1)
     comments = models.CharField(null=True, max_length=2000)
     confirmed = models.BooleanField(default=True)
 
@@ -54,7 +53,8 @@ class Location(models.Model):
     coverXOffset = models.IntegerField(null=True)
     coverYOffset = models.IntegerField(null=True)
     deals = models.ManyToManyField(Deal, related_name="location")
-    mturkDateLastUpdated = models.DateTimeField(null=True)
+    dateLastUpdated = models.DateTimeField(null=True)
+    lastUpdatedBy = models.CharField(max_length=64, null=True)
     mturkNoDealData = models.BooleanField(null=False, default=False)
     mturkDataCollectionFailed = models.BooleanField(null=False, default=False)
     mturkDataCollectionAttempts = models.IntegerField(null=False, default=0)
@@ -62,9 +62,7 @@ class Location(models.Model):
     foursquareId = models.CharField(max_length=50, null=True)
     twitterHandle = models.CharField(max_length=50, null=True)
     yelpId = models.CharField(max_length=50, null=True)
-    dealDataManuallyReviewed = models.DateTimeField(null=True)
     neighborhood=models.CharField(max_length=256, null=True)
-    data_entry_skipped=models.BooleanField(default=False)
     businessEmail = models.CharField(max_length=256, null=True)
 
 # Track the time and cost of MTurk stage

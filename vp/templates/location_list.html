@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block resources %}
+<link rel="stylesheet" href="{% static 'css/location-list.css' %}"/>
+<script type="text/javascript"  src="{% static 'js/location-list.js' %}"></script>
+{% endblock resources %}
+
+{% block content %}
+<div class="summary-statistics">
+    <div><strong class="passed-text">Passed:</strong> {{passed}}</div>
+    <div><strong class="no-data-text">No Data:</strong> {{noDealData}}</div>
+    <div><strong class="failed-text">Failed:</strong> {{dataCollectionFailed}}</div>
+    <div><strong class="no-website-text">No Happy Hour Website:</strong> {{noWebsite}}</div>
+</div>
+
+<div class="location-list-container">
+    <table class="location-list-table">
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Neighborhood</th>
+            <th>Happy Hour URL</th>
+            <th>MTurk Status</th>
+            <th>Last Updated</th>
+            <th>Last Update</th>
+            <th>Deals</th>
+            <th></th>
+        </thead>
+        {% for location in locations %}
+        <tr>
+            <td>{{location.id}}</td>
+            <td>{{location.name}}</td>
+            <td>{{location.neighborhood}}</td>
+            <td>
+                {% if location.happyHourWebsite %}
+                <a href="{{location.happyHourWebsite}}" target="_blank">
+                    {{location.happyHourWebsite}}
+                </a>
+                {% endif %}
+            </td>
+            {% if not location.happyHourWebsite %}
+                <td class="mturk-no-website">No Website</td>
+            {% elif location.mturkNoDealData %}
+                <td class="mturk-no-deal-data">No Data</td>
+            {% elif location.mturkDataCollectionFailed %}
+                <td class="mturk-data-collection-failed">Failed</td>
+            {% else %}
+                <td class="mturk-passed">Passed</td>
+            {% endif %}
+            <td class="last-updated">{{location.lastUpdated}}</td>
+            <td>MTurk</td>
+            <td>{{location.dealCount}}</td>
+            <td>
+                <a href="{% url 'enter_happy_hour' location.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}

@@ -16,29 +16,6 @@
     cursor: pointer;
 }
 
-.progress-bar-incomplete {
-    width: 100%;
-    height: 10px;
-    background-color: red;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.progress-bar-complete {
-    width: 50%;
-    height: 10px;
-    background-color: green;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.number-complete {
-    height: 50px;
-    padding-top: 15px;
-}
-
 .title-row {
     margin-bottom: 8px;
 }
@@ -51,14 +28,18 @@
     width: 60%;
 }
 
-.phone-checkbox-container {
-    margin-right: 26rem;
-    margin-top: 1rem;
-    margin-bottom: 0rem;
-    text-align: right;
+.current-deal-row {
+    background-color: #c5eff7;
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
 }
 
-#require-phone {
-    margin-top: 0.5rem;
-    margin-right: 1rem;
+.remove-deal-icon {
+    cursor: pointer;
+    float: right;
+}
+
+.remove-deal-icon:hover {
+    color: #e74c3c;
 }

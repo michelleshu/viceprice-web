@@ -36,30 +36,11 @@ $(document).ready(function() {
     happyHourBodyHTML = $(".happy-hour-entry-container").html();
 
     // Load data for location
-    get_location_that_needs_happy_hour();
 
     // Track mouse up for day of week selection
     $(document)
     .mouseup(function() {
         isMouseDown = false;
-    });
-});
-
-$(document).on("click", ".skip-button", function() {
-	var json = {
-        'location_id': locationID
-    }
-    $.ajax({
-        type: "POST",
-        url: "/skip_location/",
-        data: JSON.stringify(json),
-        success: function(data) {
-            clear_inputs();
-            get_location_that_needs_happy_hour();
-        },
-        error: function() {
-            alert("Failed to skip location; contact the dev team. Reload page for a new location");
-        }
     });
 });
 
@@ -79,6 +60,32 @@ $(document).on("click", ".submit-button", function() {
     return {
         'deals': dealData
     };
+});
+
+$(document).on("click", ".remove-deal-icon", function(event) {
+    var dealDescriptionElement = $(event.target).parent().parent().find('.seven');
+    var dealDescriptionText = '';
+    dealDescriptionElement.find('div').each(function() {
+        $(this).find('span').each(function() {
+            dealDescriptionText = dealDescriptionText.concat($(this).text().trim() + ' ');
+        });
+        dealDescriptionText = dealDescriptionText.concat('\n');
+    });
+    
+    var confirmation = confirm('Are you sure you want to delete this deal, ' + 
+        $('#first-name').val() + '?\n\n' + dealDescriptionText);
+    
+    if (confirmation) {
+        var dealId = parseInt($(event.target).attr('data-deal-id'), 10);
+        $.ajax({
+            type: "POST",
+            url: "/delete_deal/",
+            data: JSON.stringify({ "id": dealId }),
+            success: function() {
+                $(".remove-deal-icon[data-deal-id=" + dealId + "]").parent().parent().remove();
+            }
+        });
+    }
 });
 
 $(document).on("mousedown", ".day-of-week-buttons button", function() {
@@ -137,20 +144,6 @@ $(document).on("click", ".delete-deal-detail-link", function() {
     if ($(".delete-deal-detail-link").length > 1) {
         $(this).parent().parent().remove();
     }
-})
-
-$(document).on("click", ".add-deal-link", function(event) {
-    $(this).parent().before("<div class='deal-section'>" + dealTemplateHTML + "</div>");
-});
-
-$(document).on("click", ".delete-deal-link", function(event) {
-    if ($(".delete-deal-link").length > 1) {
-        $(this).parent().parent().remove();
-    }
-});
-
-$(document).on("click", "#requires-phone", function(event) {
-    get_location_that_needs_happy_hour();
 });
 
 var getDealInfo = function(dealElement) {
@@ -237,49 +230,15 @@ var getDaysOfWeek = function(daysOfWeekPrimaryButtons) {
     return days;
 };
 
-var get_location_that_needs_happy_hour = function() {
-    $.ajax({
-        type: "GET",
-        data: {
-            "requiresPhone": $('#requires-phone:checked').length > 0
-        },
-        url: "/get_location_that_needs_happy_hour",
-        success: function(data) {
-            locationID = data["location_id"];
-            $("#location-name").html(data["location_name"]);
-            $("#location-website").html(data["location_website"]);
-            $("#location-website").attr("href", data["location_website"]);
-            $("#location-google-link").attr("href", "http://www.google.com/search?q=site:" + data["location_website"] + "+Happy+Hours");
-            $("#location-phone-number").html(data["location_phone_number"]);
-            $("#location-address").html(data["location_address"]);
-
-            var totalCount = data["total_count"];
-            var numberRemaining = data["remaining_count"];
-            var formattedRemaining = (totalCount - numberRemaining) + "/" + totalCount;
-            $(".number-complete").html(formattedRemaining);
-            $(".progress-bar-complete").css("width", (100 - (numberRemaining/totalCount * 100.0)) + "%");
-        },
-        error: function() {
-            alert("Failed to retrieve new location to update");
-        }
-    });
-};
-
 var submit_happy_hour_data = function(data) {
     $.ajax({
         type: "POST",
         url: "/submit_happy_hour_data/",
         data: JSON.stringify(data),
         success: function(data) {
-            clear_inputs();
-            get_location_that_needs_happy_hour();
         },
         error: function() {
             alert("Failed to submit happy hour data");
         }
     });
-};
-
-var clear_inputs = function(data) {
-    $(".happy-hour-entry-container").html(happyHourBodyHTML);
 };
