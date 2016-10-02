@@ -144,16 +144,6 @@ $(document).on("click", ".delete-deal-detail-link", function() {
     if ($(".delete-deal-detail-link").length > 1) {
         $(this).parent().parent().remove();
     }
-})
-
-$(document).on("click", ".add-deal-link", function(event) {
-    $(this).parent().before("<div class='deal-section'>" + dealTemplateHTML + "</div>");
-});
-
-$(document).on("click", ".delete-deal-link", function(event) {
-    if ($(".delete-deal-link").length > 1) {
-        $(this).parent().parent().remove();
-    }
 });
 
 var getDealInfo = function(dealElement) {
