@@ -360,6 +360,10 @@ def location_list_view(request):
         else:
             passed += 1
         
+        lastUpdated = None
+        if (location.dateLastUpdated != None):
+            lastUpdated = location.dateLastUpdated.strftime('%m/%d/%Y')
+        
         location_data = {
             'id': location.id,
             'name': location.name,
@@ -367,7 +371,7 @@ def location_list_view(request):
             'happyHourWebsite': location.happyHourWebsite,
             'mturkNoDealData': location.mturkNoDealData,
             'mturkDataCollectionFailed': location.mturkDataCollectionFailed,
-            'lastUpdated': location.dateLastUpdated.strftime('%m/%d/%Y'),
+            'lastUpdated': lastUpdated,
             'dealCount': len(location.deals.all())
         }
         locations_data.append(location_data)
