@@ -31,7 +31,7 @@ def add_mturk_locations_to_update(conn):
         new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date) \
             .filter(happyHourWebsite__isnull=False).all()
 
-    # Add new Foursquare locations to MTurkLocationInfo
+    # Add new locations to MTurkLocationInfo
     for location in new_locations:
         mturk_location = MTurkLocationInfo(
             location = location,
@@ -139,7 +139,7 @@ def create_hit(conn, mturk_location_info, hit_type):
         hit_type=hit_type[HIT_TYPE_ID],
         question=None,
         hit_layout=hit_type[LAYOUT_ID],
-        lifetime=datetime.timedelta(days=7),
+        lifetime=hit_type[LIFETIME],
         max_assignments=hit_type[MAX_ASSIGNMENTS],
         title=hit_type[TITLE],
         description=hit_type[DESCRIPTION],

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import dj_database_url
 import os
+import datetime
 from viceprice.constants import *
 
 # NOTE: To set OS environment variables on Heroku, use the command
@@ -153,8 +154,9 @@ MTURK_HIT_TYPES = {
         LAYOUT_PARAMETER_NAMES: ['name', 'website'],
         LAYOUT_ID: os.environ.get('HIT_LAYOUT_ID_FIND_HAPPY_HOUR'),
         MAX_ASSIGNMENTS: 3,
-        PRICE: 0.02,
+        PRICE: 0.05,
         BONUS: 0.0,
+        LIFETIME: datetime.timedelta(21),
         DURATION: 3600,
         LOCALE_REQUIRED: 'US'
     }
