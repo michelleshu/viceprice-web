@@ -11,5 +11,4 @@ join "vp_deal_activeHours" dah
 on dah."deal_id" = d.id
 join "vp_activehour" ah
 on dah."activehour_id" = ah.id
-where d."dealSource" = 2
 order by l.id, ah."dayofweek"

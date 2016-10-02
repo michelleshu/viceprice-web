@@ -67,7 +67,7 @@ def update():
                             complete_mturk_stat(mturk_location, True)
                         
                         approve_and_dispose(conn, hit)
-                        mturk_location.location.mturkDateLastUpdated = timezone.now()
+                        mturk_location.location.dateLastUpdated = timezone.now()
                         mturk_location.location.save()
                         mturk_location.delete()
 
@@ -82,7 +82,7 @@ def update():
 
                         approve_and_dispose(conn, hit)
                         mturk_location.location.mturkDataCollectionFailed = True
-                        mturk_location.location.mturkDateLastUpdated = timezone.now()
+                        mturk_location.location.dateLastUpdated = timezone.now()
                         mturk_location.location.save()
                         mturk_location.delete()
 
@@ -93,7 +93,7 @@ def update():
 
                     approve_and_dispose(conn, hit)
                     mturk_location.location.mturkNoDealData = True
-                    mturk_location.location.mturkDateLastUpdated = timezone.now()
+                    mturk_location.location.dateLastUpdated = timezone.now()
                     mturk_location.location.save()
                     mturk_location.delete()
 
@@ -103,7 +103,6 @@ def save_results(location, deals_data, comments):
     for deal_data in deals_data:
         deal = Deal(
             description = "",
-            dealSource = DATA_SOURCES[MTURK],
             comments = comments,
             confirmed = False
         )

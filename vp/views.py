@@ -143,7 +143,7 @@ def fetch_filtered_deals(request):
         ON d.\"id\" = ddd.\"deal_id\" \
         JOIN \"vp_dealdetail\" dd \
         ON dd.\"id\" = ddd.\"dealdetail_id\" \
-        WHERE d.\"dealSource\" = 2 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
+        WHERE l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
 
     if (day != None):
         if (time == None):
@@ -274,9 +274,9 @@ def fetch_location_counts_by_neighborhood(request):
         	ON ah.\"id\" = dah.\"activehour_id\" "
         
         if (time == None):
-            inner_query += "WHERE d.\"dealSource\" = 2 AND ah.\"dayofweek\" = " + str(day)
+            inner_query += "WHERE ah.\"dayofweek\" = " + str(day)
         else:
-            inner_query += "WHERE d.\"dealSource\" = 2 AND ( " + \
+            inner_query += "WHERE (" + \
                 "(ah.\"end\" IS NOT NULL AND ah.\"start\" < ah.\"end\" AND ah.\"dayofweek\" = " + str(day) + \
                 " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\')" + \
                 " OR (ah.\"end\" IS NOT NULL AND ah.\"end\" < ah.\"start\" AND \
@@ -341,8 +341,67 @@ def home(request):
 
 # Manual Happy Hour Entry
 @login_required(login_url='/login/')
-def enter_happy_hour_view(request):
-    context = {}
+def location_list_view(request):
+    locations = Location.objects.prefetch_related('deals').order_by('neighborhood', 'name').all()
+    locations_data = []
+    
+    passed = 0
+    no_deal_data = 0
+    data_collection_failed = 0
+    no_website = 0
+    
+    for location in locations:
+        if (location.happyHourWebsite == None or location.happyHourWebsite == ''):
+            no_website += 1
+        elif (location.mturkNoDealData):
+            no_deal_data += 1
+        elif (location.mturkDataCollectionFailed):
+            data_collection_failed += 1
+        else:
+            passed += 1
+        
+        location_data = {
+            'id': location.id,
+            'name': location.name,
+            'neighborhood': location.neighborhood,
+            'happyHourWebsite': location.happyHourWebsite,
+            'mturkNoDealData': location.mturkNoDealData,
+            'mturkDataCollectionFailed': location.mturkDataCollectionFailed,
+            'lastUpdated': location.dateLastUpdated.strftime('%m/%d/%Y'),
+            'dealCount': len(location.deals.all())
+        }
+        locations_data.append(location_data)
+    
+    context = {
+        'locations': locations_data,
+        'passed': passed,
+        'noDealData': no_deal_data,
+        'dataCollectionFailed': data_collection_failed,
+        'noWebsite': no_website
+    }
+    context.update(csrf(request))
+    
+    return render_to_response('location_list.html', context)
+
+@login_required(login_url='/login/')
+def enter_happy_hour_view(request, id):
+    location = Location.objects.prefetch_related('deals').get(id=id)
+    location_deals = location.deals.filter(confirmed=True).all()
+    
+    deals = []
+    
+    for location_deal in location_deals:
+        deals.append({
+            'id': location_deal.id,
+            'activeHours': location_deal.activeHours.order_by('dayofweek').all(),
+            'dealDetails': location_deal.dealDetails.order_by('drinkCategory').all()
+        })
+    
+    context = {
+        'location': location,
+        'deals': deals,
+        'userFirstName': request.user.first_name
+    }
     context.update(csrf(request))
 
     return render_to_response('enter_happy_hour.html', context)
@@ -441,6 +500,19 @@ def get_deal_that_needs_confirmation(request):
         return JsonResponse(response)
 
     return JsonResponse({ 'deals_count': 0 })
+    
+@csrf_exempt
+def delete_deal(request):
+    data = json.loads(request.body)
+    deal_id = data.get('id')
+    
+    if (deal_id != None):
+        deal = Deal.objects.get(id = deal_id)
+        deal.activeHours.all().delete()
+        deal.dealDetails.all().delete()
+        deal.delete()
+        
+    return HttpResponse("success")
 
 @csrf_exempt
 def delete_deal_detail(request):
@@ -458,11 +530,11 @@ def reject_deals(request):
 
     try:
         location = Location.objects.get(id = location_id)
-        location.deals.filter(dealSource = 2).filter(confirmed = False).delete()
+        location.deals.filter(confirmed = False).delete()
 
         location.mturkDataCollectionFailed = True
         location.mturkDataCollectionAttempts = 0
-        location.mturkDateLastUpdated = datetime.datetime.now() + datetime.timedelta(-31)
+        location.dateLastUpdated = datetime.datetime.now() + datetime.timedelta(-31)
         location.save()
 
     except:
@@ -470,6 +542,25 @@ def reject_deals(request):
 
     return HttpResponse("success")
 
+def add_deal(request):
+    data = json.loads(request.body)
+    
+    DRINK_CATEGORIES = {
+        'beer': 1,
+        'wine': 2,
+        'liquor': 3
+    }
+    
+    DEAL_TYPES = {
+        'price': 1,
+        'percent-off': 2,
+        'price-off': 3
+    }
+    
+    location_id = data.get('location_id')
+    location = Location.objects.get(id=location_id)
+    deal = data.get('deal')
+    
 
 @csrf_exempt
 def submit_happy_hour_data(request):
@@ -530,7 +621,7 @@ def submit_drink_names(request):
 
     # Remove old deals from location if they exist
     location = Location.objects.get(id=location_id)
-    location.deals.filter(dealSource = 2).filter(confirmed = True).delete()
+    location.deals.filter(confirmed = True).delete()
 
     deal = Deal.objects.get(id=deal_id)
 
