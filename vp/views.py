@@ -143,7 +143,7 @@ def fetch_filtered_deals(request):
         ON d.\"id\" = ddd.\"deal_id\" \
         JOIN \"vp_dealdetail\" dd \
         ON dd.\"id\" = ddd.\"dealdetail_id\" \
-        WHERE d.\"dealSource\" = 2 AND l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
+        WHERE l.\"neighborhood\" = \'" + str(neighborhood) + "\'"
 
     if (day != None):
         if (time == None):
@@ -274,9 +274,9 @@ def fetch_location_counts_by_neighborhood(request):
         	ON ah.\"id\" = dah.\"activehour_id\" "
         
         if (time == None):
-            inner_query += "WHERE d.\"dealSource\" = 2 AND ah.\"dayofweek\" = " + str(day)
+            inner_query += "WHERE ah.\"dayofweek\" = " + str(day)
         else:
-            inner_query += "WHERE d.\"dealSource\" = 2 AND ( " + \
+            inner_query += "WHERE (" + \
                 "(ah.\"end\" IS NOT NULL AND ah.\"start\" < ah.\"end\" AND ah.\"dayofweek\" = " + str(day) + \
                 " AND ah.\"start\" <= \'" + str(time) + "\' AND ah.\"end\" > \'" + str(time) + "\')" + \
                 " OR (ah.\"end\" IS NOT NULL AND ah.\"end\" < ah.\"start\" AND \
@@ -367,7 +367,7 @@ def location_list_view(request):
             'happyHourWebsite': location.happyHourWebsite,
             'mturkNoDealData': location.mturkNoDealData,
             'mturkDataCollectionFailed': location.mturkDataCollectionFailed,
-            'lastUpdated': location.mturkDateLastUpdated.strftime('%m/%d/%Y'),
+            'lastUpdated': location.dateLastUpdated.strftime('%m/%d/%Y'),
             'dealCount': len(location.deals.all())
         }
         locations_data.append(location_data)
@@ -530,11 +530,11 @@ def reject_deals(request):
 
     try:
         location = Location.objects.get(id = location_id)
-        location.deals.filter(dealSource = 2).filter(confirmed = False).delete()
+        location.deals.filter(confirmed = False).delete()
 
         location.mturkDataCollectionFailed = True
         location.mturkDataCollectionAttempts = 0
-        location.mturkDateLastUpdated = datetime.datetime.now() + datetime.timedelta(-31)
+        location.dateLastUpdated = datetime.datetime.now() + datetime.timedelta(-31)
         location.save()
 
     except:
@@ -542,6 +542,25 @@ def reject_deals(request):
 
     return HttpResponse("success")
 
+def add_deal(request):
+    data = json.loads(request.body)
+    
+    DRINK_CATEGORIES = {
+        'beer': 1,
+        'wine': 2,
+        'liquor': 3
+    }
+    
+    DEAL_TYPES = {
+        'price': 1,
+        'percent-off': 2,
+        'price-off': 3
+    }
+    
+    location_id = data.get('location_id')
+    location = Location.objects.get(id=location_id)
+    deal = data.get('deal')
+    
 
 @csrf_exempt
 def submit_happy_hour_data(request):
@@ -602,7 +621,7 @@ def submit_drink_names(request):
 
     # Remove old deals from location if they exist
     location = Location.objects.get(id=location_id)
-    location.deals.filter(dealSource = 2).filter(confirmed = True).delete()
+    location.deals.filter(confirmed = True).delete()
 
     deal = Deal.objects.get(id=deal_id)
 
