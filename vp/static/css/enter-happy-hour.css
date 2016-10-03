@@ -43,3 +43,7 @@
 .remove-deal-icon:hover {
     color: #e74c3c;
 }
+
+.mark-updated-button {
+    float: right;
+}

@@ -372,6 +372,7 @@ def location_list_view(request):
             'mturkNoDealData': location.mturkNoDealData,
             'mturkDataCollectionFailed': location.mturkDataCollectionFailed,
             'lastUpdated': lastUpdated,
+            'lastUpdatedBy': location.lastUpdatedBy,
             'dealCount': len(location.deals.all())
         }
         locations_data.append(location_data)
@@ -562,59 +563,52 @@ def add_deal(request):
     }
     
     location_id = data.get('location_id')
-    location = Location.objects.get(id=location_id)
-    deal = data.get('deal')
     
-
-@csrf_exempt
-def submit_happy_hour_data(request):
-    data = json.loads(request.body)
-    DRINK_CATEGORIES = {
-        "beer": 1,
-        "wine": 2,
-        "liquor": 3
-    }
-
-    DEAL_TYPES = {
-        "price": 1,
-        "percent-off": 2,
-        "price-off": 3
-    }
-    location_id = data.get('location_id')
     location = Location.objects.get(id=location_id)
-    deals = data.get('deals')
-    # loop over all the deals posted to the server
-    for deal in deals:
-        # loop over all the time periods for a deal
-        newdeal = Deal()
-        newdeal.save()
-        for day in deal.get('daysOfWeek'):
-            for tp_data in deal.get('timePeriods'):
-                # push the time periods to the time_periods array
-                activeHour = ActiveHour()
-                activeHour.dayofweek = day
-                activeHour.start = tp_data.get("startTime")
-                activeHour.end = tp_data.get("endTime")
-
-                if activeHour.end == "":
-                    activeHour.end = None
-                activeHour.save()
-                newdeal.activeHours.add(activeHour)
-        newdeal.description = ""
-        deal_detail_data = deal.get('dealDetails')
-        for detail in deal_detail_data:
-            drink_names = detail.get("names")
-            category = DRINK_CATEGORIES[detail.get("category")]
-            type = DEAL_TYPES[detail.get("dealType")]
-            dealDetail = DealDetail(drinkName=drink_names, drinkCategory=category, detailType=type, value=detail.get("dealValue"))
-            dealDetail.save()
-            newdeal.dealDetails.add(dealDetail)
-        location.deals.add(newdeal)
-    location.dealDataManuallyReviewed = timezone.now()
+    deal_data = data.get('deal')
+    deal = Deal()
+    deal.save()
+    
+    for day in deal_data.get('daysOfWeek'):        
+        for tp_data in deal_data.get('timePeriods'):
+            # push the time periods to the time_periods array
+            activeHour = ActiveHour()
+            activeHour.dayofweek = day
+            activeHour.start = tp_data.get("startTime")
+            activeHour.end = tp_data.get("endTime")
+            
+            if activeHour.end == "":
+                activeHour.end = None
+                
+            activeHour.save()
+            deal.activeHours.add(activeHour)
+            
+    deal_detail_data = deal_data.get('dealDetails')
+    for detail in deal_detail_data:
+        drink_names = detail.get("names")
+        category = DRINK_CATEGORIES[detail.get("category")]
+        type = DEAL_TYPES[detail.get("dealType")]
+        dealDetail = DealDetail(drinkName=drink_names, drinkCategory=category, detailType=type, value=detail.get("dealValue"))
+        
+        dealDetail.save()
+        deal.dealDetails.add(dealDetail)
+        
+    location.deals.add(deal)
     location.save()
-
-    return HttpResponse("success")
-
+    
+    return HttpResponse('success');
+    
+def mark_location_updated(request):
+    data = json.loads(request.body)
+    location_id = int(data.get('location_id'))
+    updated_by = data.get('updated_by')
+    
+    location = Location.objects.get(id=location_id)
+    location.dateLastUpdated = datetime.datetime.now()
+    location.lastUpdatedBy = updated_by
+    location.save()
+    
+    return HttpResponse('success')
 
 @csrf_exempt
 def submit_drink_names(request):
@@ -625,8 +619,8 @@ def submit_drink_names(request):
 
     # Remove old deals from location if they exist
     location = Location.objects.get(id=location_id)
-    location.deals.filter(confirmed = True).delete()
-
+    date_cutoff = datetime.datetime.now() + datetime.timedelta(-30)
+    location.deals.filter(confirmed=True).filter(confirmedDate__lt=date_cutoff).delete()
     deal = Deal.objects.get(id=deal_id)
 
     for name_selected in names_selected:
@@ -642,6 +636,7 @@ def submit_drink_names(request):
 
     # Confirm the deal
     deal.confirmed = True
+    deal.confirmedDate = datetime.datetime.now()
     deal.save()
 
     return HttpResponse("success")
