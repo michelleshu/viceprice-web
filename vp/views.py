@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Count
-from models import Location, LocationCategory, Deal, DealDetail, ActiveHour
+from models import Location, LocationCategory, Deal, DealDetail, ActiveHour, MTurkLocationInfo
 from viceprice import settings
 from revproxy.views import ProxyView
 import json
@@ -343,15 +343,21 @@ def home(request):
 @login_required(login_url='/login/')
 def location_list_view(request):
     locations = Location.objects.prefetch_related('deals').order_by('neighborhood', 'name').all()
+    mturkLocations = MTurkLocationInfo.objects.values_list('location_id', flat=True).all()
+    
     locations_data = []
     
+    in_progress = 0
     passed = 0
     no_deal_data = 0
     data_collection_failed = 0
     no_website = 0
     
     for location in locations:
-        if (location.happyHourWebsite == None or location.happyHourWebsite == ''):
+        mturkInProgress = location.id in mturkLocations
+        if (mturkInProgress):
+            in_progress += 1
+        elif (location.happyHourWebsite == None or location.happyHourWebsite == ''):
             no_website += 1
         elif (location.mturkNoDealData):
             no_deal_data += 1
@@ -362,15 +368,17 @@ def location_list_view(request):
         
         lastUpdated = None
         if (location.dateLastUpdated != None):
-            lastUpdated = location.dateLastUpdated.strftime('%m/%d/%Y')
+            lastUpdated = location.dateLastUpdated.strftime('%m/%d')
         
         location_data = {
             'id': location.id,
             'name': location.name,
             'neighborhood': location.neighborhood,
             'happyHourWebsite': location.happyHourWebsite,
+            'businessEmail': location.businessEmail,
             'mturkNoDealData': location.mturkNoDealData,
             'mturkDataCollectionFailed': location.mturkDataCollectionFailed,
+            'mturkInProgress': mturkInProgress,
             'lastUpdated': lastUpdated,
             'lastUpdatedBy': location.lastUpdatedBy,
             'dealCount': len(location.deals.all())
@@ -382,7 +390,8 @@ def location_list_view(request):
         'passed': passed,
         'noDealData': no_deal_data,
         'dataCollectionFailed': data_collection_failed,
-        'noWebsite': no_website
+        'noWebsite': no_website,
+        'inProgress': in_progress
     }
     context.update(csrf(request))
     
