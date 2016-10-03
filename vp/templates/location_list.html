@@ -50,7 +50,11 @@
                 <td class="mturk-passed">Passed</td>
             {% endif %}
             <td class="last-updated">{{location.lastUpdated}}</td>
-            <td>MTurk</td>
+            {% if location.lastUpdatedBy %}
+                <td>{{location.lastUpdatedBy}}</td>
+            {% else %}
+                <td>MTurk</td>
+            {% endif %}
             <td>{{location.dealCount}}</td>
             <td>
                 <a href="{% url 'enter_happy_hour' location.id %}">Edit</a>

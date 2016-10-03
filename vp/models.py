@@ -29,11 +29,11 @@ class DealDetail(models.Model):
 
 # Information about a deal at a location
 class Deal(models.Model):
-    description = models.CharField(max_length=2000)
     activeHours = models.ManyToManyField(ActiveHour)
     dealDetails = models.ManyToManyField(DealDetail)
     comments = models.CharField(null=True, max_length=2000)
     confirmed = models.BooleanField(default=True)
+    confirmedDate = models.DateTimeField(null=True)
 
 # Information about a location
 class Location(models.Model):
