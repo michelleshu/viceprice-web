@@ -1,8 +1,6 @@
 var isMouseDown = false;
-var happyHourBodyHTML = "";
 var dealTemplateHTML = "";
 var dealDetailTemplateHTML = "";
-var locationID;
 var csrftoken = Cookies.get('csrftoken');
 
 $.ajaxSetup({
@@ -30,12 +28,8 @@ $.ajaxSetup({
 });
 
 $(document).ready(function() {
-
     dealTemplateHTML = $(".deal-section").html();
     dealDetailTemplateHTML = $(".deal-detail-section").html();
-    happyHourBodyHTML = $(".happy-hour-entry-container").html();
-
-    // Load data for location
 
     // Track mouse up for day of week selection
     $(document)
@@ -46,20 +40,39 @@ $(document).ready(function() {
 
 $(document).on("click", ".submit-button", function() {
     var deals = $(".deal-section");
-    var dealData = [];
+    var dealData = getDealInfo(deals);
 
-    for (var i = 0; i < deals.length; i++) {
-        dealData.push(getDealInfo($(deals[i])));
-    }
-
-    submit_happy_hour_data({
-        'deals': dealData,
-        'location_id': locationID
+    $.ajax({
+        type: "POST",
+        url: "/add_deal/",
+        data: JSON.stringify({
+            'deal': dealData,
+            'location_id': parseInt($('#location-id').val())
+        }),
+        success: function() {
+            document.location.reload(true);
+        },
+        error: function() {
+            alert("Failed to submit deal");
+        }
     });
+});
 
-    return {
-        'deals': dealData
-    };
+$(document).on("click", ".mark-updated-button", function(event) {
+    $.ajax({
+        type: "POST",
+        url: "/mark_location_updated/",
+        data: JSON.stringify({
+            'location_id': parseInt($('#location-id').val()),
+            'updated_by': $('#first-name').val()
+        }),
+        success: function() {
+            alert("Successfully marked as updated!");
+        },
+        error: function() {
+            alert("Failed to mark as updated");
+        }
+    });
 });
 
 $(document).on("click", ".remove-deal-icon", function(event) {
@@ -228,17 +241,4 @@ var getDaysOfWeek = function(daysOfWeekPrimaryButtons) {
         }
     }
     return days;
-};
-
-var submit_happy_hour_data = function(data) {
-    $.ajax({
-        type: "POST",
-        url: "/submit_happy_hour_data/",
-        data: JSON.stringify(data),
-        success: function(data) {
-        },
-        error: function() {
-            alert("Failed to submit happy hour data");
-        }
-    });
 };

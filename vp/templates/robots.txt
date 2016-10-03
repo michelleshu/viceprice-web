@@ -8,7 +8,6 @@ disallow: /logout/
 disallow: /register/
 disallow: /authenticate_user/
 disallow: /get_location_that_needs_happy_hour/
-disallow: /submit_happy_hour_data/
 disallow: /upload_data/
 disallow: /submit_drink_names/
 disallow: /submit_location_to_upload/

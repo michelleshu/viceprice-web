@@ -10,6 +10,7 @@
 
 {% block content %}
     <input type="hidden" id="first-name" value="{{userFirstName}}"/>
+    <input type="hidden" id="location-id" value="{{location.id}}"/>
     <div class="container happy-hour-entry-container">
         <div class="row">
             <strong>Location:</strong> {{location.name}}
@@ -45,6 +46,7 @@
         
         <div class="row">
             <strong>Current Deals:</strong>
+            <button class="button-primary mark-updated-button">Mark As Up To Date</button>
         </div>
         {% for deal in deals %}
         <div class="row current-deal-row">
