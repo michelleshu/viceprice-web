@@ -102,7 +102,6 @@ def save_results(location, deals_data, comments):
 
     for deal_data in deals_data:
         deal = Deal(
-            description = "",
             comments = comments,
             confirmed = False
         )
