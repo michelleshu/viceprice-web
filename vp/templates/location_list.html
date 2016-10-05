@@ -19,15 +19,15 @@
 <div class="location-list-container">
     <table class="location-list-table">
         <thead>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Neighborhood</th>
-            <th>Happy Hour URL</th>
-            <th>Business Email</th>
-            <th style="width: 80px;">MTurk Status</th>
-            <th>Last Updated</th>
+            <th><a href="{% url 'location_list' 'id' %}">ID</a></th>
+            <th><a href="{% url 'location_list' 'name' %}">Name</a></th>
+            <th><a href="{% url 'location_list' 'neighborhood' %}">Neighborhood</a></th>
+            <th><a href="{% url 'location_list' 'happyHourWebsite' %}">Happy Hour URL</a></th>
+            <th><a href="{% url 'location_list' 'businessEmail' %}">Business Email</th>
+            <th style="width: 80px;"><a href="{% url 'location_list' 'status' %}">MTurk Status</a></th>
+            <th><a href="{% url 'location_list' 'dateLastUpdated' %}">Last Updated</a></th>
             <th>Last Update</th>
-            <th>Deals</th>
+            <th><a href="{% url 'location_list' 'deals' %}">Deals</a></th>
             <th></th>
         </thead>
         {% for location in locations %}

@@ -341,8 +341,12 @@ def home(request):
 
 # Manual Happy Hour Entry
 @login_required(login_url='/login/')
-def location_list_view(request):
-    locations = Location.objects.prefetch_related('deals').order_by('neighborhood', 'name').all()
+def location_list_view(request, sort):
+    sort_by = 'neighborhood'
+    if (len(sort) > 0 and sort != 'deals' and sort != 'status'):
+        sort_by = sort
+    
+    locations = Location.objects.prefetch_related('deals').order_by(sort_by).all()
     mturkLocations = MTurkLocationInfo.objects.values_list('location_id', flat=True).all()
     
     locations_data = []
@@ -353,18 +357,24 @@ def location_list_view(request):
     data_collection_failed = 0
     no_website = 0
     
+    status = None
     for location in locations:
         mturkInProgress = location.id in mturkLocations
         if (mturkInProgress):
             in_progress += 1
+            status = 1
         elif (location.happyHourWebsite == None or location.happyHourWebsite == ''):
             no_website += 1
+            status = 5
         elif (location.mturkNoDealData):
             no_deal_data += 1
+            status = 4
         elif (location.mturkDataCollectionFailed):
             data_collection_failed += 1
+            status = 3
         else:
             passed += 1
+            status = 2
         
         lastUpdated = None
         if (location.dateLastUpdated != None):
@@ -381,9 +391,16 @@ def location_list_view(request):
             'mturkInProgress': mturkInProgress,
             'lastUpdated': lastUpdated,
             'lastUpdatedBy': location.lastUpdatedBy,
-            'dealCount': len(location.deals.all())
+            'dealCount': len(location.deals.all()),
+            'status': status
         }
         locations_data.append(location_data)
+    
+    if (sort == 'deals'):
+        locations_data = sorted(locations_data, key=lambda location: location["dealCount"])
+    
+    if (sort == 'status'):
+        locations_data = sorted(locations_data, key=lambda location:location["status"])
     
     context = {
         'locations': locations_data,
