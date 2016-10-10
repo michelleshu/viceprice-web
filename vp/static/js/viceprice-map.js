@@ -3,7 +3,6 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yM
 var map;
 var loadingIndicator;
 var neighborhoodPolygonLayer;
-var clusterLayer;
 var markerLayer;
 var metroLayer;
 var metroLayerData;
@@ -107,16 +106,8 @@ function loadMap() {
         metroLayer = L.mapbox.featureLayer();
         map.addLayer(metroLayer);
 
-		clusterLayer = new L.MarkerClusterGroup({
-			polygonOptions: {
-	    		//set opacity and fill opacity to zero to disable the L.Polygon (highlight)
-	    		opacity: 0,
-	    		fillOpacity: 0
-	    	}
-		});
-
 		markerLayer = L.mapbox.featureLayer();
-		map.addLayer(clusterLayer);
+		map.addLayer(markerLayer);
 
 		// Zoom Event Handler
 		map.on('zoomend', function() {
@@ -363,7 +354,6 @@ function loadSingleNeighborhoodView(neighborhood) {
         markersByNeighborhood[neighborhood][selectedDay][timeValue]) {
 
         var markers = markersByNeighborhood[neighborhood][selectedDay][timeValue];
-        clusterLayer.clearLayers();
         markerLayer.setGeoJSON(markers);
         return;
     }
@@ -380,7 +370,6 @@ function loadSingleNeighborhoodView(neighborhood) {
 	}
 
 	$.get("/fetch_filtered_deals" + queryString, function(data) {
-		clusterLayer.clearLayers();
 		markerLayer.setGeoJSON(JSON.parse(data["result"]));
 
         var timeValue = timeFilterActive ? selectedTime : "none";
@@ -396,8 +385,6 @@ function loadSingleNeighborhoodView(neighborhood) {
 markerLayer.on('layeradd', function(e) {
     var marker = e.layer,
         properties = marker.feature.properties;
-
-	clusterLayer.addLayer(marker);
 
 	if (properties.superCategory == "Bar") {
 		marker.setIcon(barMarker);
@@ -919,7 +906,6 @@ $("#overview-zoom, #mobile-overview-zoom").click(function() {
         reloadData();
         markerLayer.setGeoJSON([]);
         metroLayer.setGeoJSON([]);
-        clusterLayer.clearLayers();
         neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
         $(".neighborhood-label").show();
 
