@@ -907,6 +907,11 @@ $("#overview-zoom, #mobile-overview-zoom").click(function() {
 	$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
 	$(".sliding").animate({ right: "0"} , 700);
+    
+    $("#mobile-item-info").hide();
+    $("#mobile-item-showfull").hide();
+    $("#mobile-item-details").hide();
+    
   if ($(window).width() < mediaScreenWidth) {
 	  map.setView([38.907557, -77.028130],11,{zoom:{animate:true}});
   } else {
