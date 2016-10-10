@@ -573,6 +573,8 @@ markerLayer.on('layeradd', function(e) {
 
   function getDealMobileMarkup(dealDetails) {
     markup = "";
+    
+    dealDetails = dealDetails.sort(sortDealDetail);
 
 	var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
 	var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
