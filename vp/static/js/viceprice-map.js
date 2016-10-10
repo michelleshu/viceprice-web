@@ -614,8 +614,20 @@ markerLayer.on('layeradd', function(e) {
       }
     });
   }
+  
+  function sortDealDetail(a, b) {
+      if (a.detailType !== b.detailType) {
+          return a.detailType - b.detailType;
+      } else if (a.detailType === 1) {
+          return a.value - b.value;
+      } else {
+          return b.value - a.value;
+      }
+  }
 
 	function getDealMarkup(dealDetails) {
+        dealDetails = dealDetails.sort(sortDealDetail);
+        
 		var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
 		var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
 		var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
