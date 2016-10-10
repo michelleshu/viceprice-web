@@ -1,0 +1,64 @@
+.location-list-container {
+    padding: 20px;
+}
+
+.location-list-table th, .location-list-table td {
+    font-size: 14px;
+}
+
+.location-list-table td, .location-list-table td a {
+    max-width: 250px;
+    word-wrap: break-word;
+}
+
+.mturk-no-deal-data {
+    background-color: #9b59b6;
+}
+
+.mturk-data-collection-failed {
+    background-color: #e74c3c;
+}
+
+.mturk-no-website {
+    background-color: #f39c12;
+}
+
+.mturk-passed {
+    background-color: #2ecc71;
+}
+
+.mturk-in-progress {
+    background-color: #3498db;
+}
+
+.failed-text {
+    color: #e74c3c;
+}
+
+.no-data-text {
+    color: #9b59b6;
+}
+
+.passed-text {
+    color: #2ecc71;
+}
+
+.no-website-text {
+    color: #f39c12;
+}
+
+.in-progress-text {
+    color: #3498db;
+}
+
+.summary-statistics {
+    border: 1px solid black;
+    display: inline-block;
+    padding: 1rem;
+    margin: 2rem;
+}
+
+.summary-statistics > div {
+    display: inline-block;
+    margin-right: 2rem;
+}

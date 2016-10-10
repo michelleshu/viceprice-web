@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block resources %}
+<link rel="stylesheet" href="{% static 'css/location-list.css' %}"/>
+<script type="text/javascript"  src="{% static 'js/location-list.js' %}"></script>
+{% endblock resources %}
+
+{% block content %}
+<div class="summary-statistics">
+    <div><strong class="passed-text">Passed:</strong> {{passed}}</div>
+    <div><strong class="in-progress-text">In Progress:</strong>{{inProgress}}</div>
+    <div><strong class="no-data-text">No Data:</strong> {{noDealData}}</div>
+    <div><strong class="failed-text">Failed:</strong> {{dataCollectionFailed}}</div>
+    <div><strong class="no-website-text">No Happy Hour Website:</strong> {{noWebsite}}</div>
+</div>
+
+<div class="location-list-container">
+    <table class="location-list-table">
+        <thead>
+            <th><a href="{% url 'location_list' 'id' %}">ID</a></th>
+            <th><a href="{% url 'location_list' 'name' %}">Name</a></th>
+            <th><a href="{% url 'location_list' 'neighborhood' %}">Neighborhood</a></th>
+            <th><a href="{% url 'location_list' 'happyHourWebsite' %}">Happy Hour URL</a></th>
+            <th><a href="{% url 'location_list' 'businessEmail' %}">Business Email</th>
+            <th style="width: 80px;"><a href="{% url 'location_list' 'status' %}">MTurk Status</a></th>
+            <th><a href="{% url 'location_list' 'dateLastUpdated' %}">Last Updated</a></th>
+            <th>Last Update</th>
+            <th><a href="{% url 'location_list' 'deals' %}">Deals</a></th>
+            <th></th>
+        </thead>
+        {% for location in locations %}
+        <tr>
+            <td>{{location.id}}</td>
+            <td>{{location.name}}</td>
+            <td>{{location.neighborhood}}</td>
+            <td>
+                {% if location.happyHourWebsite %}
+                <a href="{{location.happyHourWebsite}}" target="_blank">
+                    {{location.happyHourWebsite}}
+                </a>
+                {% endif %}
+            </td>
+            <td>
+                {% if location.businessEmail %}
+                {{location.businessEmail}}
+                {% endif %}
+            </td>
+            {% if location.mturkInProgress %}
+                <td class="mturk-in-progress">In Progress</td>
+            {% elif not location.happyHourWebsite %}
+                <td class="mturk-no-website">No HH URL</td>
+            {% elif location.mturkNoDealData %}
+                <td class="mturk-no-deal-data">No Data</td>
+            {% elif location.mturkDataCollectionFailed %}
+                <td class="mturk-data-collection-failed">Failed</td>
+            {% else %}
+                <td class="mturk-passed">Passed</td>
+            {% endif %}
+            <td class="last-updated">{{location.lastUpdated}}</td>
+            {% if location.lastUpdatedBy %}
+                <td>{{location.lastUpdatedBy}}</td>
+            {% elif not location.happyHourWebsite %}
+                <td>None</td>
+            {% else %}
+                <td>MTurk</td>
+            {% endif %}
+            <td>{{location.dealCount}}</td>
+            <td>
+                <a href="{% url 'enter_happy_hour' location.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
