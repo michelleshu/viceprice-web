@@ -3,7 +3,6 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoic2FsbWFuYWVlIiwiYSI6ImNpa2ZsdXdweTAwMXl0d20yM
 var map;
 var loadingIndicator;
 var neighborhoodPolygonLayer;
-var clusterLayer;
 var markerLayer;
 var metroLayer;
 var metroLayerData;
@@ -107,16 +106,8 @@ function loadMap() {
         metroLayer = L.mapbox.featureLayer();
         map.addLayer(metroLayer);
 
-		clusterLayer = new L.MarkerClusterGroup({
-			polygonOptions: {
-	    		//set opacity and fill opacity to zero to disable the L.Polygon (highlight)
-	    		opacity: 0,
-	    		fillOpacity: 0
-	    	}
-		});
-
 		markerLayer = L.mapbox.featureLayer();
-		map.addLayer(clusterLayer);
+		map.addLayer(markerLayer);
 
 		// Zoom Event Handler
 		map.on('zoomend', function() {
@@ -363,7 +354,6 @@ function loadSingleNeighborhoodView(neighborhood) {
         markersByNeighborhood[neighborhood][selectedDay][timeValue]) {
 
         var markers = markersByNeighborhood[neighborhood][selectedDay][timeValue];
-        clusterLayer.clearLayers();
         markerLayer.setGeoJSON(markers);
         return;
     }
@@ -380,7 +370,6 @@ function loadSingleNeighborhoodView(neighborhood) {
 	}
 
 	$.get("/fetch_filtered_deals" + queryString, function(data) {
-		clusterLayer.clearLayers();
 		markerLayer.setGeoJSON(JSON.parse(data["result"]));
 
         var timeValue = timeFilterActive ? selectedTime : "none";
@@ -396,8 +385,6 @@ function loadSingleNeighborhoodView(neighborhood) {
 markerLayer.on('layeradd', function(e) {
     var marker = e.layer,
         properties = marker.feature.properties;
-
-	clusterLayer.addLayer(marker);
 
 	if (properties.superCategory == "Bar") {
 		marker.setIcon(barMarker);
@@ -586,6 +573,8 @@ markerLayer.on('layeradd', function(e) {
 
   function getDealMobileMarkup(dealDetails) {
     markup = "";
+    
+    dealDetails = dealDetails.sort(sortDealDetail);
 
 	var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
 	var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
@@ -627,8 +616,20 @@ markerLayer.on('layeradd', function(e) {
       }
     });
   }
+  
+  function sortDealDetail(a, b) {
+      if (a.detailType !== b.detailType) {
+          return a.detailType - b.detailType;
+      } else if (a.detailType === 1) {
+          return a.value - b.value;
+      } else {
+          return b.value - a.value;
+      }
+  }
 
 	function getDealMarkup(dealDetails) {
+        dealDetails = dealDetails.sort(sortDealDetail);
+        
 		var beers = dealDetails.filter(function(detail) { return detail.drinkCategory == 1; });
 		var wines = dealDetails.filter(function(detail) { return detail.drinkCategory == 2; });
 		var liquors = dealDetails.filter(function(detail) { return detail.drinkCategory == 3; });
@@ -908,6 +909,11 @@ $("#overview-zoom, #mobile-overview-zoom").click(function() {
 	$(".slider-arrow").attr("src", "../static/img/left-arrow.png");
 	$(".right-side-bar").hide("slide", { direction: "right" }, 700);
 	$(".sliding").animate({ right: "0"} , 700);
+    
+    $("#mobile-item-info").hide();
+    $("#mobile-item-showfull").hide();
+    $("#mobile-item-details").hide();
+    
   if ($(window).width() < mediaScreenWidth) {
 	  map.setView([38.907557, -77.028130],11,{zoom:{animate:true}});
   } else {
@@ -919,7 +925,6 @@ $("#overview-zoom, #mobile-overview-zoom").click(function() {
         reloadData();
         markerLayer.setGeoJSON([]);
         metroLayer.setGeoJSON([]);
-        clusterLayer.clearLayers();
         neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
         $(".neighborhood-label").show();
 

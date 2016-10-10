@@ -24,7 +24,7 @@ class Command(BaseCommand):
             name = "Liberty Lounge TEST",
             website = "http://www.justinhinh.com",
             formattedPhoneNumber = "(202)790-4414",
-            mturkDateLastUpdated = timezone.now()
+            dateLastUpdated = timezone.now()
         )
 
         mturk_location_info = MTurkLocationInfo.objects.create(

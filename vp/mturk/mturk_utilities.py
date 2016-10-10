@@ -28,7 +28,7 @@ def add_mturk_locations_to_update(conn):
         # For tests, only evaluate the MTurkLocationInfos added in test. Do not add new ones here.
         # Otherwise, in production mode, this is the query for all locations that are to be added to the MTurk update
         # process.
-        new_locations = Location.objects.filter(mturkDateLastUpdated__lt=earliest_unexpired_date) \
+        new_locations = Location.objects.filter(dateLastUpdated__lt=earliest_unexpired_date) \
             .filter(happyHourWebsite__isnull=False).all()
 
     # Add new locations to MTurkLocationInfo
@@ -45,7 +45,7 @@ def add_mturk_locations_to_update(conn):
         add_mturk_stat(mturk_location)
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
-        location.mturkDateLastUpdated = timezone.now()
+        location.dateLastUpdated = timezone.now()
         location.mturkNoDealData = False
         location.mturkDataCollectionFailed = False
         location.mturkDataCollectionAttempts = 1
@@ -69,7 +69,7 @@ def add_mturk_locations_to_update(conn):
         add_mturk_stat(mturk_location)
 
         # Update mturk date updated to current date to indicate that it is being updated and avoid picking it up again
-        location.mturkDateLastUpdated = timezone.now()
+        location.dateLastUpdated = timezone.now()
         location.mturkDataCollectionFailed = False
         location.mturkDataCollectionAttempts += 1
         location.save()
