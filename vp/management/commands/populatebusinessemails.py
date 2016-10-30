@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     # Write business email data from file
     def update_businessemails(self):
-        with open('vp/management/commands/UpdateEmails.csv', 'rb') as datafile:
+        with open('vp/management/commands/BizEmailsOct10.csv', 'rb') as datafile:
             reader = csv.reader(datafile)
             for row in reader:
                 location_id = row[0]
