@@ -240,7 +240,14 @@ function displayNeighborhoodFeature(feature, layer) {
 	});
 
 	layer.on('click', function(e) {
-		if (selectedNeighborhood != feature.properties.name) {
+		if (selectedNeighborhood != feature.properties.name) {  
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'Neighborhood',
+              eventAction: 'click',
+              eventLabel: feature.properties.name
+            });
+            
 			if (hiddenNeighborhoodLayer) {
 				neighborhoodPolygonLayer.addLayer(hiddenNeighborhoodLayer);
 			}
