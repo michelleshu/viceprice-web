@@ -664,12 +664,21 @@ markerLayer.on('layeradd', function(e) {
 	}
 
     marker.on('click', function(e) {
-		  var properties = this.feature.properties;
-		  // TODO Add capacity to display multiple deals
-		  var deal = properties.deals[0];
+        var properties = this.feature.properties;
 
-		  var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
-		  var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
+        ga('send', {
+          hitType: 'event',
+          eventCategory: 'Venues',
+          eventAction: 'click',
+          eventLabel: properties.name
+        });
+        
+        
+      // TODO Add capacity to display multiple deals
+      var deal = properties.deals[0];
+
+      var start = moment(deal.start,'HH:mm:ss').format('h:mm A');
+      var end = deal.end ? moment(deal.end,'HH:mm:ss').format('h:mm A') : "CLOSE";
 
       if ($(window).width() < mediaScreenWidth) {
         $(".mobile-logo").hide();
